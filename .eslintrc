@@ -1,0 +1,9 @@
+{
+  "parser": "babel-eslint",
+  "extends": [
+    "@xinghunm/eslint-config"
+  ],
+  "rules": {
+    "no-underscore-dangle": "off"
+  }
+}
