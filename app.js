@@ -10,7 +10,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-const adapter = new FileAsync("db.json");
+const adapter = new FileAsync("db/db.json");
 lowdb(adapter)
   .then((db) => {
     app.get("/questions/all", (req, res) => {
@@ -21,7 +21,8 @@ lowdb(adapter)
 
     app.get("/question/:id", (req, res) => {
       const id = req.params && req.params.id;
-      fs.readFile(path.join(`${__dirname}/DataBase/answers/${id}.html`), "utf8", (err, data) => {
+      console.log(id);
+      fs.readFile(path.join(`${__dirname}/db/answers/${id}.html`), "utf8", (err, data) => {
         if (err) {
           res.send({ __html: "略" });
         } else {
