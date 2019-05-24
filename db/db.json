@@ -1,6 +1,7 @@
 {
   "questionsId": [
-    "689ba892-264d-4b42-904a-107ddc59595a"
+    "689ba892-264d-4b42-904a-107ddc59595a",
+    "0ecd1e04-75aa-4e91-9b6b-ef8f8575adba"
   ],
   "questionsObj": {
     "689ba892-264d-4b42-904a-107ddc59595a": {
@@ -14,6 +15,18 @@
       ],
       "type": "SHORT_ANSWER",
       "date": "2017-09-08T18:10:20.000Z"
+    },
+    "0ecd1e04-75aa-4e91-9b6b-ef8f8575adba": {
+      "id": "0ecd1e04-75aa-4e91-9b6b-ef8f8575adba",
+      "title": "简述 domready、DOMContentLoaded、onload 的区别，图片的 onload 和页面 onload 的先后顺序，并简述原因",
+      "exerciseTimes": 0,
+      "passRate": "--",
+      "md5": "94050a050b837c9670da0438eace76ff",
+      "tags": [
+        "html"
+      ],
+      "type": "SHORT_ANSWER",
+      "date": "2017-04-08T18:10:20.000Z"
     }
   }
 }
