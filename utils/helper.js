@@ -1,6 +1,6 @@
 import fs from "fs";
 import v4 from "uuid/v4";
-import showdown from "showdown";
+import marked from "marked";
 import yml from "js-yaml";
 import lowdb from "lowdb";
 import md5 from "spark-md5";
@@ -99,13 +99,12 @@ const generateHtmls = (dist, articles) => {
       fs.mkdirSync(dist);
     }
 
-    const converter = new showdown.Converter();
     for (let i = 0; i < articles.length; i++) {
       const article = articles[i];
       const questionInfo = updateDB(article);
       if (questionInfo) {
         const { content } = article;
-        const html = converter.makeHtml(content);
+        const html = marked(content);
         const fileName = `${dist}/${questionInfo.id}.html`;
         fs.writeFileSync(fileName, html, "utf8");
         qustions.push(questionInfo);
