@@ -1,11 +1,9 @@
 ---
 title: JavaScript`===`和`==`的区别
-tags: [js]
+tags: [JavaScript]
 type: SHORT_ANSWER
 date: 2017-9-08 18:10:20
 ---
-
-**1、** JavaScript`===`和`==`的区别
 
 **`===`**
 即严格相等，它会比较等式两边值的类型和值是否相等，不会进行隐式转换。规则如下:

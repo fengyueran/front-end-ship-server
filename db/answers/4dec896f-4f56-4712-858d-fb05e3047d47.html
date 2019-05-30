@@ -1,0 +1,149 @@
+<p>由于浏览器的同源策略，会对不同域的网页间的交互作出限制。所谓同源必须是协议.  域名.  端口都相同，即使不同域名指向同一个 ip 地址，也不是同源。可以通过以下方法来实现跨域请求。</p>
+<p><strong>1. jsonp</strong></p>
+<p>通常，为了减轻服务器的负载，我们将 css.  img 等静态资源放到另一台独立的域名，html 通过相应的标签可以下载不同域名下的静态资源，因此可以通过建立 script 脚本来实现跨域。</p>
+<ul>
+<li><p>客户端</p>
+<pre><code>  &lt;script&gt;
+    // 后端返回时执行这个在前端定义的回调函数
+    function handleCallback(res) {
+      alert(JSON.stringify(res));
+    }
+    const script = document.createElement(&quot;script&quot;);
+    script.src = &quot;http://localhost:8000/test?callback=handleCallback&quot;;
+    document.head.append(script);
+  &lt;/script&gt;</code></pre></li>
+<li><p>服务端</p>
+<pre><code>app.get(&quot;/test&quot;, (req, res) =&gt; {
+  const { callback } = req.query;
+  const data = { name: &quot;xhm&quot; };
+  const cbStr = `${callback}(${JSON.stringify(data)})`;
+  res.send(cbStr);
+});</code></pre></li>
+</ul>
+<p><strong>2. domain + iframe</strong></p>
+<p>此方案仅限于主域相同，子域不同的情景。</p>
+<ul>
+<li><p>父窗口(<code>http://domain.com/a.html</code>)</p>
+<pre><code>&lt;iframe src=&quot;http://child.domain.com/b.html&quot;&gt;&lt;/iframe&gt;
+&lt;script&gt;
+    var name = &#39;xhm&#39;;
+&lt;/script&gt;</code></pre></li>
+<li><p>子窗口(<code>http://child.domain.com/b.html</code>)</p>
+<pre><code>&lt;script&gt;
+    // 获取父窗口中变量
+    alert(&#39;parent name&#39; + window.parent.name); //xhm
+&lt;/script&gt;</code></pre></li>
+</ul>
+<p><strong>3. postMessage</strong></p>
+<ul>
+<li><p>a.html(<code>http://domain1.com/a.html</code>)</p>
+<pre><code>&lt;iframe id=&quot;iframe&quot; src=&quot;http://domain1.com/a.html&quot;&gt;&lt;/iframe&gt;
+&lt;script&gt;
+    var iframe = document.getElementById(&#39;iframe&#39;);
+    iframe.onload = function() {
+        var data = { name: &#39;xhm&#39; };
+        // 向domain2传送跨域数据
+        iframe.contentWindow.postMessage(JSON.stringify(data), &#39;http://www.domain2.com/b.html&#39;);
+    };
+
+    // 接受domain2返回数据
+    window.addEventListener(&#39;message&#39;, function(e) {
+        alert(&#39;I am domain1, I get data from domain2:&#39; + e.data);
+    }, false);
+&lt;/script&gt;</code></pre></li>
+<li><p>b.html(<code>http://www.domain2.com/b.html</code>)</p>
+<pre><code>&lt;script&gt;
+  // 接收domain1的数据
+  window.addEventListener(&#39;message&#39;, function(e) {
+      alert(&#39;I am domain2, I get data from domain1:&#39; + e.data);
+      var data = &#39;hello&#39;;
+      // 向domain1发送消息
+      window.parent.postMessage(JSON.stringify(data), e.origin);
+  }, false);
+&lt;/script&gt;</code></pre></li>
+</ul>
+<p><strong>4. 跨域资源共享(CORS)</strong></p>
+<p>对于普通的跨域请求，只需要在服务端设置 Access-Control-Allow-Origin 即可(如果设置了请求头也需要设置 Access-Control-Allow-Headers)，前端无须设置，若要带 cookie 请求，则前后端都需要设置。</p>
+<ul>
+<li><p>客户端 Ajax 请求</p>
+<pre><code>var xhr = new XMLHttpRequest();
+// 前端设置是否带cookie
+xhr.withCredentials = true;
+
+xhr.open(&#39;post&#39;, &#39;http://www.domain2.com:8000/test&#39;, true);
+xhr.setRequestHeader(&#39;Content-Type&#39;, &#39;application/json&#39;);
+const data = { name: &#39;xhm&quot;}
+xhr.send(JSON.stringify(data));
+
+xhr.onreadystatechange = function() {
+    if (xhr.readyState == 4 &amp;&amp; xhr.status == 200) {
+        alert(xhr.responseText);
+    }
+};
+</code></pre></li>
+<li><p>node express 后端设置</p>
+<pre><code>const app = express();
+app.all(&quot;*&quot;, (req, res, next) =&gt; {
+  res.header(&quot;Access-Control-Allow-Origin&quot;, &quot;http://www.domain1.com:8000&quot;);
+  res.header(
+    &quot;Access-Control-Allow-Headers&quot;,
+    &quot;Content-Type,Content-Length, Authorization, Accept,X-Requested-With&quot;
+  );
+  //允许前端带认证cookie，设置此项时Access-Control-Allow-Origin的值不能为*
+  res.header(&quot;Access-Control-Allow-Credentials&quot;, &quot;true&quot;);
+  next();
+});</code></pre><p>此外，也可以直接通过 cors 中间件直接进行设置，原理同上面的头部设置一样。</p>
+<pre><code>app.use(cors());</code></pre></li>
+</ul>
+<p><strong>5. WebSocket 协议</strong></p>
+<p>WebSocket protocol 是 HTML5 一种新的协议。它实现了浏览器与服务器全双工通信，同时允许跨域通讯，是 server push 技术的一种很好的实现。
+原生 WebSocket API 使用起来不太方便，我们使用 Socket.io，它很好地封装了 webSocket 接口，提供了更简单.  灵活的接口，也对不支持 webSocket 的浏览器提供了向下兼容。</p>
+<ul>
+<li><p>客户端</p>
+<pre><code>&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+  var socket = io(&#39;http://www.domain2.com:8080&#39;);
+
+  // 连接成功处理
+  socket.on(&#39;connect&#39;, function() {
+      // 监听服务端消息
+      socket.on(&#39;message&#39;, function(msg) {
+          console.log(&#39;data from server:&#39; + msg);
+      });
+
+      // 监听服务端关闭
+      socket.on(&#39;disconnect&#39;, function() {
+          console.log(&#39;Server socket has closed.&#39;);
+      });
+  });
+&lt;/script&gt;</code></pre></li>
+<li><p>服务端</p>
+<pre><code>const http = require(&quot;http&quot;);
+const socket = require(&quot;socket.io&quot;);
+
+// 启http服务
+const server = http.createServer((req, res) =&gt; {
+  res.writeHead(200, {
+    &quot;Content-type&quot;: &quot;text/html&quot;
+  });
+  res.end();
+});
+
+server.listen(&quot;8080&quot;);
+console.log(&quot;Server is running at port 8080...&quot;);
+
+// 监听socket连接
+socket.listen(server).on(&quot;connection&quot;, (client) =&gt; {
+  // 接收信息
+  client.on(&quot;message&quot;, (msg) =&gt; {
+    client.send(`hello：${msg}`);
+    console.log(`data from client: ---&gt; ${msg}`);
+  });
+
+  // 断开处理
+  client.on(&quot;disconnect&quot;, () =&gt; {
+    console.log(&quot;Client socket has closed.&quot;);
+  });
+});
+</code></pre></li>
+</ul>

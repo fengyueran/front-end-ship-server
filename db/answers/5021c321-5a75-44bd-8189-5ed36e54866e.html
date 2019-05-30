@@ -1,0 +1,38 @@
+<p><strong>DOM 文档的加载步骤如下:</strong></p>
+<ul>
+<li><ol>
+<li>解析 html 文档结构</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>加载外部的脚本和样式表文件</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>解析并执行脚本</li>
+</ol>
+</li>
+<li><ol start="4">
+<li>dom 树构建完成(DOMContentLoaded)</li>
+</ol>
+</li>
+<li><ol start="5">
+<li>加载图片等外部文件</li>
+</ol>
+</li>
+<li><ol start="6">
+<li>页面加载完毕</li>
+</ol>
+</li>
+</ul>
+<p><strong>domready:</strong></p>
+<p>也就是 dom 构建完成，它不是一个标准的事件，DOMContentLoaded 后表明 dom ready 了。</p>
+<p><strong>DOMContentLoaded:</strong></p>
+<p>第四步完成后触发，即在 dom 解析完成后执行，无需等待样式表、图像、子框架等的加载，需要注意的是 DOMContentLoaded 事件必须等待所有 script 加载解析完成后才会触发。</p>
+<pre><code>document.addEventListener(&quot;DOMContentLoaded&quot;, () =&gt; alert(&quot;DOMContentLoaded&quot;));</code></pre><p><strong>图片 onload</strong>:</p>
+<p>第五步图片加载完成后触发</p>
+<p><strong>页面 onload</strong>:</p>
+<p>dom，外部图片、javascript 文件、CSS 文件等资源都加载完成后触发，所以一定是在图片的 onload 事件后触发。</p>
+<pre><code>window.onload = () =&gt; {
+    alert(&quot;window onload&quot;);
+};</code></pre>

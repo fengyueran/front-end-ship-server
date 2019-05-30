@@ -5,9 +5,8 @@ type: SHORT_ANSWER
 date: 2017-4-08 18:10:20
 ---
 
-**3、** JS 中加减乘除的规则
-
 **加法**
+
 JS 中的加法要么是数值和数值相加，要么是字符串和字符串相加，所有其他类型都会转换为这两种类型。
 
 - 如果有一个操作数为 NaN，则结果是 NaN;
@@ -32,3 +31,36 @@ JS 中的加法要么是数值和数值相加，要么是字符串和字符串�
    '1' + func //"1function(){}"
     1 + null //"1function(){}"
   ```
+
+**减法**
+
+- 如果两个操作数都是数字，执行常规减法；
+- 如果一个操作数为 NaN，则结果为 NaN；
+- 如果是 Infinity 减 Infinity，则结果是 NaN；
+- 如果是-Infinity 减-Infinity，则结果为 NaN；
+- 如果是+Infinity 减-Infinity，则结果为+Infinity;
+- 如果是-Infinity 减+Infinity，则结果为-Infinity;
+- 如果是+0 减+0，则结果是+0；
+- 如果是-0 减-0，则结果是+0；
+- 如果是-0 减+0，则结果是-0；
+- 如果一个操作数是字符串、布尔值、null、undefined，则先调用 Number 函数将其转换为数值，再根据前面的规则进行计算；
+- 如果一个操作数是对象，则调用对象的 valueof 方法得到其数值，如果没有 valueof 方法，则调用 toString 方法进行转换，然后再根据前面的规则进行计算；
+
+**乘法**
+
+- 如果操作数都是数值，则执行常规的乘法运算，正数乘以正数或负数乘以负数结果都为正数，如果只有一个操作数为负数，则结果为负数，如果乘积超过了 ECMAScript 数值的范围则返回 Infinity 或-Infinity；
+- 如果一个操作数是 NaN，则结果为 NaN；
+- 如果是 Infinity 与 0 相乘，则结果为 NaN；
+- 如果是 Infinity 与非 0 相乘，则结果为 Infinity 或-Infinity，取决于有符号的操作数的符号；
+- 如果是 Infinity 与 Infinity 相乘，则结果为 Infinity；
+- 如果一个操作数不是数值，则调用 Number 方法将其转换为数值，再应用前面的规则进行计算；
+
+**除法**
+
+- 如果操作数都是数值，则执行常规的除法运算，正数除以正数或负数除以负数结果都为正数，如果只有一个操作数为负数，则结果为负数，如果商超过了 ECMAScript 数值的范围则返回 Infinity 或-Infinity；
+- 如果一个操作数是 NaN，则结果为 NaN；
+- 如果是 Infinity 除以 Infinity，则结果为 NaN；
+- 如果 0 除以 0，则结果为 NaN；
+- 如果是非 0 的有限数被 0 除，则结果是 Infinity 或-Infinity，取决于有符号的操作数的符号；
+- 如果是 Infinity 除以任何非 0 值，则结果是 Infinity 或-Infinity，取决于有符号的操作数的符号；
+- 如果一个操作数不是数值，则调用 Number 方法将其转换为数值，再应用前面的规则进行计算；
