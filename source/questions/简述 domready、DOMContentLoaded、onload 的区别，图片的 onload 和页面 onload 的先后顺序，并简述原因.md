@@ -1,6 +1,6 @@
 ---
 title: 简述 domready、DOMContentLoaded、onload 的区别，图片的 onload 和页面 onload 的先后顺序，并简述原因
-tags: [html]
+tags: [HTML]
 type: SHORT_ANSWER
 date: 2017-4-08 18:10:20
 ---
