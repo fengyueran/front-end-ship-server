@@ -50,15 +50,152 @@
     }
   },
   "websites": {
-    "allIds": ["4df46edb-012b-4775-af55-b239e30618f1"],
+    "allIds": [
+      "e6e7cbd3-8d02-489d-8701-aecae792684a",
+      "4df46edb-012b-4775-af55-b239e30618f1",
+      "43eeb1d7-21d5-489d-8926-6661b367e75b",
+      "50b13934-fc93-44f5-80ad-071fa72817a7",
+      "d43a83ac-1ded-47a5-ac37-6f0b163f3bb9",
+      "150183b5-7fa0-4437-8643-114ba024843f",
+      "76277660-6289-48b0-9653-aea7e7ea0e25",
+      "bfa51351-2d6b-4221-bd06-da6b6bd031a9",
+      "b64ac649-1263-472f-9f9f-9b4c3425f0fc",
+      "674623dc-73cc-4a35-a734-409722d1608f",
+      "8ef1315e-f0f2-414b-a818-985399a18a77",
+      "f063041a-5676-4720-9863-cfe1d00b5d70",
+      "82cff1c7-cb6d-45af-ae95-d3b260a8974b",
+      "3ae78393-ec2d-4bdc-b4e2-c3cdb16cf7a9",
+      "a25952ab-3546-4e1d-867f-d6d4673d2aa2",
+      "d41d2af4-153d-47b6-9973-357d35d22f24"
+    ],
     "byId": {
+      "e6e7cbd3-8d02-489d-8701-aecae792684a": {
+        "title": "You-need-to-know-css",
+        "link": "https://lhammer.cn/You-need-to-know-css",
+        "type": "HTML_CSS_JS",
+        "tags": ["CSS"],
+        "thumbnail": "websites/thumbnails/knowcss.jpg",
+        "description": "这个网站有很多有意思的 css 用法。"
+      },
       "4df46edb-012b-4775-af55-b239e30618f1": {
         "title": "W3C",
         "link": "https://www.w3.org/TR/?title=css",
-        "type": "HTML",
+        "type": "TOOL",
         "tags": ["HTML", "CSS"],
         "thumbnail": "websites/thumbnails/w3c.jpg",
         "description": "W3C组织是制定网络标准的一个非赢利组织，像HTML、XHTML、CSS、XML的标准就是由W3C来定制，该网站可以查询到相关的标准。"
+      },
+      "43eeb1d7-21d5-489d-8926-6661b367e75b": {
+        "title": "Caniuse",
+        "link": "https://caniuse.com",
+        "type": "TOOL",
+        "tags": ["HTML", "CSS"],
+        "thumbnail": "websites/thumbnails/caniuse.jpg",
+        "description": "这个网站可以查询各个浏览器对CSS、JS的支持情况。"
+      },
+      "50b13934-fc93-44f5-80ad-071fa72817a7": {
+        "title": "Icons8",
+        "link": "https://icons8.com",
+        "type": "TOOL",
+        "tags": ["UI"],
+        "thumbnail": "websites/thumbnails/icons8.jpg",
+        "description": "这个网站提供免费的平面设计图标为主，总数将近四万，支持分类搜索，并可以选中合适的图标尺寸、格式进行下载。"
+      },
+      "d43a83ac-1ded-47a5-ac37-6f0b163f3bb9": {
+        "title": "Iconfont",
+        "link": "https://www.iconfont.cn",
+        "type": "TOOL",
+        "tags": ["UI"],
+        "thumbnail": "websites/thumbnails/iconfont.jpg",
+        "description": "这个网站是阿里巴巴矢量图标库。"
+      },
+      "150183b5-7fa0-4437-8643-114ba024843f": {
+        "title": "HTML Dog",
+        "link": "https://htmldog.com",
+        "type": "MEDIUM",
+        "tags": ["HTML", "CSS", "JavaScript"],
+        "thumbnail": "websites/thumbnails/htmldog.jpg",
+        "description": "这个网站汇集了html、css以及js大量的教程资源。"
+      },
+      "76277660-6289-48b0-9653-aea7e7ea0e25": {
+        "title": "Medium",
+        "link": "https://medium.com",
+        "type": "MEDIUM",
+        "tags": ["HTML", "CSS", "JavaScript"],
+        "thumbnail": "websites/thumbnails/medium.jpg",
+        "description": "medium 是一个内容平台，里面的文章质量较高，推荐阅读。"
+      },
+      "bfa51351-2d6b-4221-bd06-da6b6bd031a9": {
+        "title": "Frontend Focus",
+        "link": "https://frontendfoc.us",
+        "type": "MEDIUM",
+        "tags": ["HTML", "CSS", "JavaScript"],
+        "thumbnail": "websites/thumbnails/frontendfoc.jpg",
+        "description": "老牌前端周刊，以介绍 HTML/CSS 技术的文章为主，原来叫做 html5 weekly，现在改为 FrontEnd Focus。Rss 订阅地址为https://frontendfoc.us/rss。"
+      },
+      "b64ac649-1263-472f-9f9f-9b4c3425f0fc": {
+        "title": "JavaScript Weekly",
+        "link": "https://javascriptweekly.com",
+        "type": "MEDIUM",
+        "tags": ["JavaScript"],
+        "thumbnail": "websites/thumbnails/javascriptweekly.jpg",
+        "description": "Javascript 相关内容，质量很高。Rss 订阅地址为https://javascriptweekly.com/rss。"
+      },
+      "674623dc-73cc-4a35-a734-409722d1608f": {
+        "title": "CSS Weekly",
+        "link": "https://css-weekly.com",
+        "type": "MEDIUM",
+        "tags": ["CSS"],
+        "thumbnail": "websites/thumbnails/cssweekly.jpg",
+        "description": "老牌 CSS 期刊，主要介绍 CSS 相关内容。也介绍一些不错的工具和开源项目，比较适合于前端新人。"
+      },
+      "8ef1315e-f0f2-414b-a818-985399a18a77": {
+        "title": "Web Design Weekly",
+        "link": "https://web-design-weekly.com",
+        "type": "MEDIUM",
+        "tags": ["UI"],
+        "thumbnail": "websites/thumbnails/designweekly.jpg",
+        "description": "前端开发内容居多，包含设计、技术、技巧、工具等内容。Rss 订阅地址为https://web-design-weekly.com/write-web-design-weekly。"
+      },
+      "f063041a-5676-4720-9863-cfe1d00b5d70": {
+        "title": "Web Tools Weekly",
+        "link": "http://webtoolsweekly.com",
+        "type": "MEDIUM",
+        "tags": ["TOOL"],
+        "thumbnail": "websites/thumbnails/toolweekly.jpg",
+        "description": "主要推送一些工具相关的内容，Rss 订阅地址为http://feeds.feedburner.com/WebToolsWeekly。"
+      },
+      "82cff1c7-cb6d-45af-ae95-d3b260a8974b": {
+        "title": "掘金",
+        "link": "https://juejin.im",
+        "type": "MEDIUM",
+        "tags": ["HTML", "CSS", "JavaScript"],
+        "thumbnail": "websites/thumbnails/juejin.jpg",
+        "description": " 国内还不错的技术分享交流平台，有不少高质量的文章，rss 订阅地址为https://juejin.im/rss。"
+      },
+      "3ae78393-ec2d-4bdc-b4e2-c3cdb16cf7a9": {
+        "title": "众成翻译",
+        "link": "https://www.zcfy.cc",
+        "type": "MEDIUM",
+        "tags": ["HTML", "CSS", "JavaScript"],
+        "thumbnail": "websites/thumbnails/zcfy.jpg",
+        "description": "中国本土的技术翻译社区，翻译了不少高质量的文章。"
+      },
+      "a25952ab-3546-4e1d-867f-d6d4673d2aa2": {
+        "title": "Single Div",
+        "link": "https://a.singlediv.com",
+        "type": "OTHER",
+        "tags": ["CSS"],
+        "thumbnail": "websites/thumbnails/singlediv.jpg",
+        "description": "如其名，这个网站有很多作者用单个div制作的精美的图形，非常有意思。"
+      },
+      "d41d2af4-153d-47b6-9973-357d35d22f24": {
+        "title": "JS 调查报告",
+        "link": "https://2018.stateofjs.com",
+        "type": "OTHER",
+        "tags": ["JavaScript"],
+        "thumbnail": "websites/thumbnails/jsreport.jpg",
+        "description": "State of JavaScript 是为了了解全球 js 发展趋势而创建的，包括前后端、桌面、移动端等的内容。每年都会出一个报告，2018 年的报告网址为: https://2018.stateofjs.com，2019 年的调查报告应该就是https://2019.stateofjs.com了。"
       }
     }
   }
