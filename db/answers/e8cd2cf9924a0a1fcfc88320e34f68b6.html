@@ -1,0 +1,29 @@
+<p>序列化函数如下:</p>
+<pre><code>var serialize = (form) =&gt; {
+  const elements = form.elements;
+  const parts = [];
+  for (let i = 0; i &lt; elements.length; i++) {
+    const field = elements[i];
+    const { type, name, value } = field;
+    if (/select/.test(type)) {
+      const options = field.options;
+      for (let i = 0; i &lt; options.length; i++) {
+        const opt = options[i];
+        if (opt.selected) {
+          const optValue = opt.value || opt.text;
+          const param = `${name}=${encodeURIComponent(optValue)}`;
+          parts.push(param);
+        }
+      }
+    } else if (/checkbox|radio/.test(type)) {
+      if (field.checked) {
+        const param = `${name}=${encodeURIComponent(value)}`;
+        parts.push(param);
+      }
+    } else if (/text|password|textarea|hidden/.test(type)) {
+      const param = `${name}=${encodeURIComponent(value)}`;
+      parts.push(param);
+    }
+  }
+  return parts.join(&quot;&amp;&quot;);
+};</code></pre>

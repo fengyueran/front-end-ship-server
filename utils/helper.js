@@ -69,13 +69,13 @@ const getArticles = (files) => {
 };
 
 const updateQustionCreator = db => (article) => {
-  const { headInfo, answer } = article;
+  const { headInfo, answer, questionDetail } = article;
   let questionInfo = { ...qustionSchema, ...headInfo };
   const questions = db.get("questions").value();
   const byId = questions.byId || {};
   const allIds = questions.allIds || [];
   const found = find(byId, ({ title }) => title === headInfo.title);
-  const hash = md5.hash(answer);
+  const hash = md5.hash(`${answer}${questionDetail}`);
   if (found) {
     if (hash !== found.md5) {
       questionInfo = { ...found, ...headInfo, md5: hash };
@@ -111,8 +111,9 @@ const generateQuestions = (articles) => {
         const fileName = `${answersDir}/${questionInfo.id}.html`;
         fs.writeFileSync(fileName, html, "utf8");
         if (questionDetail) {
+          const questionDetailHtml = marked(questionDetail);
           const questionName = `${qustionsDir}/${questionInfo.id}.html`;
-          fs.writeFileSync(questionName, html, "utf8");
+          fs.writeFileSync(questionName, questionDetailHtml, "utf8");
         }
         qustions.push(questionInfo);
       }

@@ -12,7 +12,18 @@ app.use("websites/thumbnails", express.static(path.join(__dirname, "db/websites/
 app.use(cors());
 app.use(bodyParser.json());
 
+const readFile = file => new Promise((resolve) => {
+  fs.readFile(file, "utf8", (e, data) => {
+    if (e) {
+      console.log(e);
+      resolve(null);
+    }
+    resolve(data);
+  });
+});
+
 const adapter = new FileAsync("db/db.json");
+
 lowdb(adapter)
   .then((db) => {
     app.get("/questions/all", (req, res) => {
@@ -20,15 +31,26 @@ lowdb(adapter)
       res.send(questions);
     });
 
-    app.get("/question/:id", (req, res) => {
+    app.get("/question/:id", async (req, res) => {
       const id = req.params && req.params.id;
-      fs.readFile(path.join(`${__dirname}/db/answers/${id}.html`), "utf8", (err, data) => {
-        if (err) {
-          res.send({ __html: "略" });
-        } else {
-          res.send({ __html: data });
-        }
-      });
+      const filePath = path.join(`${__dirname}/db/questions/${id}.html`);
+      const data = await readFile(filePath);
+      if (data) {
+        res.send({ __html: data });
+      } else {
+        res.send({ __html: "" });
+      }
+    });
+
+    app.get("/answer/:id", async (req, res) => {
+      const id = req.params && req.params.id;
+      const filePath = path.join(`${__dirname}/db/answers/${id}.html`);
+      const data = await readFile(filePath);
+      if (data) {
+        res.send({ __html: data });
+      } else {
+        res.send({ __html: "略" });
+      }
     });
 
     app.get("/websites/all", (req, res) => {
