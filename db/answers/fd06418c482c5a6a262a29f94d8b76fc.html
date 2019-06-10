@@ -1,6 +1,6 @@
-<p>由于浏览器的同源策略，会对不同域的网页间的交互作出限制。所谓同源必须是协议.  域名.  端口都相同，即使不同域名指向同一个 ip 地址，也不是同源。可以通过以下方法来实现跨域请求。</p>
+<p>由于浏览器的同源策略，会对不同域的网页间的交互作出限制。所谓同源必须是协议. 域名. 端口都相同，即使不同域名指向同一个 ip 地址，也不是同源。可以通过以下方法来实现跨域请求。</p>
 <p><strong>1. jsonp</strong></p>
-<p>通常，为了减轻服务器的负载，我们将 css.  img 等静态资源放到另一台独立的域名，html 通过相应的标签可以下载不同域名下的静态资源，因此可以通过建立 script 脚本来实现跨域。</p>
+<p>通常，为了减轻服务器的负载，我们将 css. img 等静态资源放到另一台独立的域名，html 通过相应的标签可以下载不同域名下的静态资源，因此可以通过建立 script 脚本来实现跨域。</p>
 <ul>
 <li><p>客户端</p>
 <pre><code>  &lt;script&gt;
@@ -97,7 +97,7 @@ app.all(&quot;*&quot;, (req, res, next) =&gt; {
 </ul>
 <p><strong>5. WebSocket 协议</strong></p>
 <p>WebSocket protocol 是 HTML5 一种新的协议。它实现了浏览器与服务器全双工通信，同时允许跨域通讯，是 server push 技术的一种很好的实现。
-原生 WebSocket API 使用起来不太方便，我们使用 Socket.io，它很好地封装了 webSocket 接口，提供了更简单.  灵活的接口，也对不支持 webSocket 的浏览器提供了向下兼容。</p>
+原生 WebSocket API 使用起来不太方便，我们使用 Socket.io，它很好地封装了 webSocket 接口，提供了更简单. 灵活的接口，也对不支持 webSocket 的浏览器提供了向下兼容。</p>
 <ul>
 <li><p>客户端</p>
 <pre><code>&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js&quot;&gt;&lt;/script&gt;
@@ -137,7 +137,7 @@ socket.listen(server).on(&quot;connection&quot;, (client) =&gt; {
   // 接收信息
   client.on(&quot;message&quot;, (msg) =&gt; {
     client.send(`hello：${msg}`);
-    console.log(`data from client: ---&gt; ${msg}`);
+    console.log(`data from client: ${msg}`);
   });
 
   // 断开处理
