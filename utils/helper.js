@@ -1,5 +1,4 @@
 import fs from "fs";
-import v4 from "uuid/v4";
 import marked from "marked";
 import yml from "js-yaml";
 import lowdb from "lowdb";
@@ -64,27 +63,25 @@ const getArticles = (files) => {
 const updateDBCreator = db => (article) => {
   const { headInfo, content } = article;
   let questionInfo = { ...qustionSchema, ...headInfo };
-  const questionsObj = db.get("questionsObj").value();
-  const found = find(questionsObj, ({ title }) => title === headInfo.title);
+  const questions = db.get("questions").value();
+  const byId = questions.byId || {};
+  const allIds = questions.allIds || [];
+  const found = find(byId, ({ title }) => title === headInfo.title);
   const hash = md5.hash(content);
   if (found) {
     if (hash !== found.md5) {
       questionInfo = { ...found, ...headInfo, md5: hash };
-      questionsObj[questionInfo.id] = questionInfo;
-      db.set("questionsObj", questionsObj).write();
+      byId[questionInfo.id] = questionInfo;
     } else {
       questionInfo = null;
     }
   } else {
-    questionInfo.id = v4();
+    questionInfo.id = md5.hash(headInfo.title);
     questionInfo.md5 = hash;
-    db.get("questionsId")
-      .push(questionInfo.id)
-      .write();
-    questionsObj[questionInfo.id] = questionInfo;
-    db.set("questionsObj", questionsObj).write();
+    allIds.push(questionInfo.id);
+    byId[questionInfo.id] = questionInfo;
   }
-
+  db.set("questions", { allIds, byId }).write();
   return questionInfo;
 };
 
