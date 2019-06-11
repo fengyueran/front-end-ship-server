@@ -1,0 +1,19 @@
+<p>在 web 页面的开发中，如何判断用户是不是还在与页面交互是一个重要的问题，比如页面最小化了或隐藏在其他标签页后面，这时我们就可以做关闭页面正在播放的音乐或其他什么事情。
+Page Visibility API 由三部分构造:</p>
+<ul>
+<li><p>document.hidden: 表示页面是否隐藏的布尔值</p>
+</li>
+<li><p>document.visibilityState: 有 4 个可能的状态值</p>
+<ul>
+<li>hidden: 页面在后台标签页或浏览器最小化，此时页面对用户不可见</li>
+<li>visible: 页面在前台标签页，此时页面至少有部分是可见的</li>
+<li>prerender: 页面正在进行预渲染处理，文档只能从这个状态开始，不可能由其它状态变为这个状态，此时
+document.hidden 为 true，</li>
+<li>unloaded: 页面从内存中卸载清除</li>
+</ul>
+</li>
+<li><p>visibilitychange 事件: document.visibilityState 状态发生变化时触发</p>
+<pre><code>document.addEventListener(&#39;visibilitychange&#39;, () =&gt; {
+  console.log(document.visibilityState);
+});</code></pre></li>
+</ul>

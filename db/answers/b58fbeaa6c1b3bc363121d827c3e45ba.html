@@ -1,0 +1,67 @@
+<p>如下，inner 和 outer 都绑定单击事件，当点击 inner 时，事件应如何传递呢，是 inner 先触发单击事件，还是 outer 先触发？</p>
+<pre><code>&lt;div id=&quot;outer&quot;&gt;
+  &lt;span id=&quot;inner&quot;&gt;
+    Click
+  &lt;/span&gt;
+&lt;/div&gt;</code></pre><p><strong>事件冒泡和事件捕获</strong></p>
+<ul>
+<li><p>事件冒泡</p>
+<p>IE 的事件机制就是事件冒泡，事件冒泡，如同将石头丢入水底，泡泡会从水底，逐渐向上，直到水面，消失。也就是说事件会从最内层元素触发，并向上传播，直到 document 对象。
+因此，IE 事件机制处理上述的例子中 span 元素的单击事件顺序为: span=&gt;div&gt;body=&gt;html=&gt;document</p>
+</li>
+<li><p>事件捕获</p>
+<p>事件捕获是网景提出来的事件流，它和事件冒泡正好相反，事件会从最外层元素开始触发，直到具体的元素。
+因此，事件捕获机制处理上述的例子中 span 元素的单击事件顺序为: document=&gt;html=&gt;body=&gt;div=&gt;span
+火狐支持事件冒泡和事件捕获。</p>
+</li>
+</ul>
+<p><strong>addEventListener 函数</strong>
+W3C 折中了事件冒泡和事件捕获，制定了先捕获后冒泡的标准，addEventListener 的第三个参数决定了事件是在捕获阶段还是在冒泡阶段触发。</p>
+<pre><code>/*
+  event: 事件名
+  function: 触发事件时执行的函数
+  useCapture: 默认值为false，指定事件是在捕获阶段还是在冒泡阶段触发
+*/
+element.addEventListener(event, function, useCapture)</code></pre><p><strong>实例</strong></p>
+<p>冒泡阶段触发:</p>
+<pre><code>  //点击span，输出innner，再输出outer
+  &lt;div id=&quot;outer&quot;&gt;
+    &lt;span id=&quot;inner&quot;&gt;
+      Click
+    &lt;/span&gt;
+  &lt;/div&gt;
+  &lt;script&gt;
+    const outer = document.getElementById(&quot;outer&quot;);
+    outer.addEventListener(&quot;click&quot;, (e) =&gt; console.log(&quot;outer&quot;));
+    const innner = document.getElementById(&quot;innner&quot;);
+    innner.addEventListener(&quot;click&quot;, (e) =&gt; console.log(&quot;innner&quot;));
+  &lt;/script&gt;</code></pre><p>捕获阶段触发:</p>
+<pre><code>  //点击span，输出outer，再输出innner
+  &lt;div id=&quot;outer&quot;&gt;
+    &lt;span id=&quot;inner&quot;&gt;
+      Click
+    &lt;/span&gt;
+  &lt;/div&gt;
+  &lt;script&gt;
+    const outer = document.getElementById(&quot;outer&quot;);
+    outer.addEventListener(&quot;click&quot;, (e) =&gt; console.log(&quot;outer&quot;), true);
+    const innner = document.getElementById(&quot;innner&quot;);
+    innner.addEventListener(&quot;click&quot;, (e) =&gt; console.log(&quot;innner&quot;)，true);
+  &lt;/script&gt;</code></pre><p>如果元素同时绑定了捕获和冒泡阶段的事件，则先响应捕获阶段的事件，再响应冒泡阶段的事件。</p>
+<p>阻止冒泡:
+通过 e.stopPropagation 函数来阻止事件传播。</p>
+<pre><code>  //点击span，只输出outer，
+  &lt;div id=&quot;outer&quot;&gt;
+    &lt;span id=&quot;inner&quot;&gt;
+      Click
+    &lt;/span&gt;
+  &lt;/div&gt;
+  &lt;script&gt;
+    const outer = document.getElementById(&quot;outer&quot;);
+    outer.addEventListener(&quot;click&quot;, (e) =&gt; {
+      e.stopPropagation();
+      console.log(&quot;outer&quot;), true);
+    }
+    const innner = document.getElementById(&quot;innner&quot;);
+    innner.addEventListener(&quot;click&quot;, (e) =&gt; console.log(&quot;innner&quot;)，true);
+  &lt;/script&gt;</code></pre>

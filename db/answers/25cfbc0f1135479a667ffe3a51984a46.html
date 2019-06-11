@@ -1,0 +1,23 @@
+<ul>
+<li><p>取消 chrome 的自动填充</p>
+<pre><code> &lt;input autoComplete=&quot;new-password&quot; /&gt;</code></pre></li>
+<li><p>设置内阴影来覆盖黄色背景</p>
+<pre><code>&amp;: -webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px white inset;
+  -webkit-text-fill-color: black;
+}</code></pre></li>
+<li><p>设置动画</p>
+<p>通过动画设置其背景永远为透明。</p>
+<pre><code>&amp;:-webkit-autofill {
+  animation: autofill-fix 1s infinite;
+}
+
+@keyframes autofill-fix {
+  from {
+    background-color: transparent;
+  }
+  to {
+    background-color: transparent;
+  }
+}</code></pre></li>
+</ul>

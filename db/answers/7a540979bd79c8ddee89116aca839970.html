@@ -1,0 +1,15 @@
+<pre><code>function Parent(name, age) {
+  this.name = name;
+  this.age = age;
+  function getName() {
+    console.log(this.name);
+  }
+}
+
+function Child(name, age) {
+  Parent.call(this, name, age)
+  this.weight = 120;
+}
+
+const snow = new Child(&#39;snow&#39;, &#39;20&#39;);
+console.log(snow.name)</code></pre>

@@ -1,0 +1,39 @@
+<ul>
+<li><p>方法 1: 利用技巧</p>
+<pre><code>  var a = 5;
+  var b = 6;
+  a = a + b;
+  b = a - b;
+  a = a - b;
+
+  console.log(a); // 6
+  console.log(b); // 5</code></pre></li>
+<li><p>方法 2: 利用位运算</p>
+<p>位运算当且仅当只有一个表达式的某位上为 1 时，结果的该位才为 1。否则结果的该位为 0。</p>
+<pre><code>  var a = 5; // 二进制101
+  var b = 6; // 二进制110
+  a = a^b;
+=&gt;
+  a = 101
+      110
+      ━━━
+      011
+
+  b = a^b;
+
+=&gt;
+  b = 011
+      110
+      ━━━
+      101
+
+  a = a^b;
+=&gt;
+  a = 011
+      101
+      ━━━
+      110
+
+  console.log(a); // 6
+  console.log(b); // 5</code></pre></li>
+</ul>

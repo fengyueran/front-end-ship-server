@@ -1,0 +1,46 @@
+---
+title: js 延迟加载的方式有哪些
+tags: [JavaScript]
+type: SHORT_ANSWER
+date: 2018-2-27 18:10:20
+---
+
+- defer
+
+  在`<script>`元素中设置 defer 属性，相当于告诉浏览器立即下载脚本，但延迟执行。脚本会在页面加载解析完成后，触发 DOMContentLoaded 事件前执行，defer 属性基本能保证脚本按着加载的顺序执行。对内联脚本不起作用。
+
+  ```
+    <script src="bundle.js" defer></script>
+  ```
+
+- async
+
+  使脚本在下载完成后立即执行，async 属性使脚本以乱序执行为主，不一定是在 DOMContentLoaded 前执行。对内联脚本不起作用。
+
+  ```
+    <script src="bundle.js" defer></script>
+  ```
+
+- 动态创建 DOM
+
+  ```
+  function loadJS() {
+      var el = document.createElement('script');
+      el.src = 'http://localhost:8000/package.json';
+      document.body.appendChild(el);
+      //chrome,Firefox不支持onreadystatechange
+      el.onload = el.onreadystatechange = () => {
+          if (!this.readyState ||
+          this.readyState == "loaded" ||
+          this.readyState == "complete")) {
+          console.log('load script success');
+          el.onload = el.onreadystatechange = null;
+          document.body.removeChild(s);
+        }
+      };
+      el.onerror = () => {
+        alert('error');
+      };
+    }
+    window.addEventListener('load', loadJS);
+  ```

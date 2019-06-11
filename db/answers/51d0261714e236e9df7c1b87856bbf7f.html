@@ -1,0 +1,30 @@
+<p>JSON(JavaScript Object Notation)是一种轻量级的数据交换格式，它是 JavaScript 的一个子集。数据格式简单，易于读写，占用宽带小。如{ &quot;name&quot;: &quot;xinghunm&quot;, &quot;age&quot;: 18 }。</p>
+<p>JSON 有两种表示结构: 对象和数组</p>
+<ul>
+<li><p>对象</p>
+<p>对象以左大括号<code>{</code>开始，以右大括号<code>}</code>结束，括号间由 key-value 的键值对组成，键值对间由逗号&#39;,&#39;分割，最后一个键值对可以省略逗号，键值对的 key 为字符串，值可以是字符串、数值、对象、布尔值、数组以及 null。</p>
+<pre><code>  {
+    &quot;name&quot;: &quot;xinghunm&quot;,
+    &quot;age&quot;: 18
+  }</code></pre></li>
+<li><p>数组</p>
+<p>数组以左中括号<code>[</code>开始，以右中括号<code>]</code>结束，中间由逗号分割的多个键值对列表组成。</p>
+<pre><code>  [
+    {
+      &quot;name&quot;: &quot;xinghunm&quot;,
+      &quot;age&quot;: 18
+    },
+    {
+      &quot;name&quot;: &quot;snow&quot;,
+      &quot;age&quot;: 18
+    }
+  ]</code></pre></li>
+</ul>
+<p>JSON 对象提供了字符串、对象相互转换的接口:</p>
+<ul>
+<li>字符串转 json 对象</li>
+</ul>
+<pre><code>  const obj = JSON.parse(str)</code></pre><ul>
+<li>对象转 JSON 字符串</li>
+</ul>
+<pre><code>  const jsonStr = JSON.Stringify(obj)</code></pre>

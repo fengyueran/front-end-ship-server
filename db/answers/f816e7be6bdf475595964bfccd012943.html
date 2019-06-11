@@ -1,0 +1,6 @@
+<p>Polyfill 是英国 Web 开发者<a href="https://remysharp.com/">Remy Sharp</a>想出来的名词，来源于英国的一个家装产品 Polyfilla(刮墙的,在中国称为腻子)，可以磨平墙上的裂缝。Remy Sharp 以此来表达用于实现一些浏览器不支持的原生 API 的代码。比如有些浏览器不支持 Array.isArray 函数，为了让这些浏览器可以支持这个 api，我们就可以实现如下 polyfill:</p>
+<pre><code>if(!Array.isArray) {
+  Array.isArray = function(obj) {
+    return Object.prototype.toString().call(obj) === &quot;[object Array]&quot;;
+  }
+}</code></pre>

@@ -1,0 +1,108 @@
+---
+title: CSS postion 定位有哪几种情况
+tags: [CSS]
+type: SHORT_ANSWER
+date: 2018-3-16 18:10:20
+---
+
+- static
+
+  static 定位是默认的定位方式，元素出现在正常的文档流中，会忽略 left、top、right、bottom 以及 z-index。
+
+- absolute
+
+  absolute 定位即绝对定位，相对于除 static 定位元素的第一个父类元素进行定位，元素的位置通过 left、top、right 以及 bottom 属性进行设置。
+
+- fixed
+
+  fixed 定位即固定定位，类似于绝对定位，但它是相对于浏览器窗口进行定位的，元素的位置通过 left、top、right 以及 bottom 属性进行设置。
+
+- relative
+
+  relative 定位即相对定位，相对的参考位置为元素自身所在文档流的位置(不管这个元素是否脱离正常文档流)，通过 left、top、right 以及 bottom 属性进行设置。相对定位虽然脱离了文档流，但计算其他元素在文档流中的位置时仍会以该元素正常的文档流位置进行计算，就好像元素还在原来的位置。
+
+- sticky
+
+  sticky 定位即粘性定位，可以简单地认为是相对定位和固定定位的混合，元素在跨越特定阈值(top、left、right、bottom 所确定的值)前为相对定位(滚动时位置可变化, 直到达到阈值，margin 也无效)，之后为相对于最近的块级祖先的固定定位。
+  粘性定位的效果如下:
+
+  <center><img src="https://i.imgur.com/o9ibM8U.gif" width="500" /></center>
+  上图中，导航栏设置为粘性定位:
+
+  ```
+    height: 50px;
+    background: deepskyblue;
+    position: sticky;
+    top: 0;
+  ```
+
+  可以看到导航栏距离上边框为 0(阈值)时就不再继续向上滚动，即导航栏在距上边框的距离大于 0 时可以认为此时的 position 为 relative 且 top 的最小值为 0，当导航栏距上边框的达到 0 时，可以认为 position 的值为 fixed 且此时相对于父级元素的 top 为 0。
+  利用 sticky 还能实现层次滚动:
+
+  ```
+  <style>
+    #root {
+      overflow: auto;
+      max-height: 200px;
+      border: 1px solid;
+    }
+    dt {
+      position: sticky;
+      top: -1px;
+      padding: 2px 0 0 12px;
+      background: deepskyblue;
+    }
+
+  dd {
+  margin: 0;
+  padding: 0 0 0 12px;
+  }
+
+  </style>
+  <body>
+    <div id="root">
+      <dl>
+        <dt>A</dt>
+        <dd>A1</dd>
+        <dd>A2</dd>
+        <dd>A3</dd>
+        <dd>A4</dd>
+        <dd>A5</dd>
+        <dd>A6</dd>
+      </dl>
+      <dl>
+        <dt>B</dt>
+        <dd>B1</dd>
+        <dd>B2</dd>
+        <dd>B3</dd>
+        <dd>B4</dd>
+        <dd>B5</dd>
+        <dd>B6</dd>
+      </dl>
+      <dl>
+        <dt>C</dt>
+        <dd>C1</dd>
+        <dd>C2</dd>
+        <dd>C3</dd>
+        <dd>C4</dd>
+        <dd>C5</dd>
+        <dd>C6</dd>
+      </dl>
+    </div>
+  ```
+
+  效果如下:
+
+  <center><img src="https://i.imgur.com/ToJToYb.gif" width="500" /></center>
+
+- initial
+
+  设置默认值，可作用于任何 CSS 样式(IE 不支持该关键字)。
+
+- inherit
+
+  继承父类的 postion 值，不会继承其 left、top、right 及 bottom 值。
+
+- unset
+
+  initial 和 inherit 的结合，当该属性是默认继承属性时等同于 inherit；当该属性是非继承属性时等同于 initial。

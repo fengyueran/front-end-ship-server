@@ -1,0 +1,17 @@
+---
+title: cookie、session 分别用来做什么的，有什么关系
+tags: [HTML]
+type: SHORT_ANSWER
+date: 2018-11-03 18:10:20
+---
+
+由于 http 协议是无状态的，所以我们需要某种机制来存储状态，客户端和服务端可以分别采用 cookie 和 session 来保存状态。在服务端创建会话 session 时，服务端会在 http 协议中告诉客户端，需要在 cookie 里记录一个 Session ID，客户端在请求时每次都会通过 cookie 把这个 Session ID 传送给服务端，服务端通过该 ID 就能得到当前会话的信息了。
+
+区别:
+
+- cookie 用来在客户端储存信息，而 session 用来在服务端存储信息，都可用于跟踪用户状态。
+- session 存储在服务端，相对更安全，用户验证等重要信息一般存放于 session，但 cookie 也也可以加密来提高安全性。
+- cookie 在主动删除前会永久保存，最大一般为 4kb，session 在会话期间保存。
+- session 的实现需要 cookie 的支持，session 依赖于 session ID 实现，而 session ID 存放于 cookie 中，因此，禁用 cookie 之后，session 也失效。但可以使用其他方法实现，比如在 URL 中传递 session ID。
+- session 在服务端可能存储在内存、数据库、文件等。
+- session 支持各种类型的对象，cookie 只保存字符串。

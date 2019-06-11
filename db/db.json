@@ -15,7 +15,48 @@
       "354f9cbc98ab79ebc285d05e693a0c9d",
       "5e3ab1236d7e7afb88da57d02d430709",
       "365f59f4610a5d186baf6750228e0fa5",
-      "f1c05a85cacb59d348baceabe82cf8e0"
+      "f1c05a85cacb59d348baceabe82cf8e0",
+      "86ae8e894af98048f84a602065fbb474",
+      "7a540979bd79c8ddee89116aca839970",
+      "43494e8d96e064a0df1f59a8070850f6",
+      "25cfbc0f1135479a667ffe3a51984a46",
+      "1025b1bc73a009421ff2e622651be958",
+      "57556220699c83174b4255c36f987a82",
+      "436c0dc87ee41d0118362c8a8c2a1c73",
+      "060b79b0c5338b3825f4057b88d202f9",
+      "52b586aa5bf2afafecf84039070b509f",
+      "513e71aaf7f63e730134468419265f81",
+      "d4706501bf354155ec798c0042bbec8b",
+      "bc3b889e96985d5b36f74ecd4d9025b7",
+      "4d090de2cfa11d571e3499860ed1637b",
+      "38ba87d5c12a6bcc695bdb5e31d7c39a",
+      "79e0ec499ea71e37e523fe6830049a06",
+      "42d68bcefdf74f949218815848183b22",
+      "be0ecca1d20a860b65099687d7f2cb34",
+      "c39057ce875cfb4ee75db4c5966aad7e",
+      "ac9cf01a2088f1bcff0c1c2c8f9755e9",
+      "4c990f8415f6e16f0b1c91fcaaeb39e0",
+      "e726817484ea727bfe42e4fc4a5d09bf",
+      "d100ac809645699595aab01b24835e9b",
+      "089e3ce54727ab17f76e20bc94ebba54",
+      "6d4fb956c08446d467d79d5c038d1222",
+      "4da48b7078a101cfbb83bc13dc30b0b1",
+      "992a7e5a348763ac7eeae5aab6bc3d96",
+      "a3c0cf824bb9768ab882b6fbecf1b3f1",
+      "d7819f2e71eecd60145954802171e9dc",
+      "e41ce8424ceaf1bfa901a1b8ca812e90",
+      "e8e31572e0fb144fad651b48163ef425",
+      "c155fbe946e8262299bab54ac5eb56b0",
+      "b58fbeaa6c1b3bc363121d827c3e45ba",
+      "51d0261714e236e9df7c1b87856bbf7f",
+      "f5838f1d65f228e08e8fdb013c7cf0d6",
+      "89d277c6d8be532eb2ba04bd4761eaed",
+      "a3e598bf9aecaf544a7f1105f7d35619",
+      "2874dac83dcbdaba418e17b35c4d7a72",
+      "d1c680f0307d646b4be55258e8b013b0",
+      "e5af72ec0808bb37380ad68a6c5373eb",
+      "f816e7be6bdf475595964bfccd012943",
+      "593d38d84d4c1476e072366266d0f16d"
     ],
     "byId": {
       "8cc30379ba969b0bd04e89034bdb705c": {
@@ -201,6 +242,505 @@
         ],
         "type": "SHORT_ANSWER",
         "date": "2018-08-06T18:10:20.000Z"
+      },
+      "86ae8e894af98048f84a602065fbb474": {
+        "id": "86ae8e894af98048f84a602065fbb474",
+        "title": "主流的浏览器内核有哪些",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "bdffa574d6b510b5f7578c0b3757f900",
+        "tags": [
+          "OTHER"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2019-01-03T18:10:20.000Z"
+      },
+      "7a540979bd79c8ddee89116aca839970": {
+        "id": "7a540979bd79c8ddee89116aca839970",
+        "title": "用 js 写一个继承实例",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "41536abe4b1685398022f90fe150a415",
+        "tags": [
+          "JavaScript"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2018-05-08T18:10:20.000Z"
+      },
+      "43494e8d96e064a0df1f59a8070850f6": {
+        "id": "43494e8d96e064a0df1f59a8070850f6",
+        "title": "link 和@import 的区别",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "c23c682529a735485d03f32b971133db",
+        "tags": [
+          "HTML",
+          "CSS"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2018-05-06T18:10:20.000Z"
+      },
+      "25cfbc0f1135479a667ffe3a51984a46": {
+        "id": "25cfbc0f1135479a667ffe3a51984a46",
+        "title": "修改 chrome 浏览器表单自动填充后的黄色背景",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "0d9f0732f55b0d5d9e1c3d8cb5f3e6cf",
+        "tags": [
+          "HTML",
+          "CSS"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2019-01-06T18:10:20.000Z"
+      },
+      "1025b1bc73a009421ff2e622651be958": {
+        "id": "1025b1bc73a009421ff2e622651be958",
+        "title": "JavaScript 数据类型",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "b413d67e794de56797302c2def8bdb77",
+        "tags": [
+          "JavaScript"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2016-01-24T18:10:20.000Z"
+      },
+      "57556220699c83174b4255c36f987a82": {
+        "id": "57556220699c83174b4255c36f987a82",
+        "title": "js 将一浮点数小数点左边的数字每三位加一个逗号",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "cc38364e883bf5bdf583a3a6d019c626",
+        "tags": [
+          "JavaScript"
+        ],
+        "type": "CODE",
+        "template": "const formatNum = (num) => {\n\n};\nformatNum(12345678.25);",
+        "result": "12,345,678.25",
+        "date": "2018-05-06T18:10:20.000Z"
+      },
+      "436c0dc87ee41d0118362c8a8c2a1c73": {
+        "id": "436c0dc87ee41d0118362c8a8c2a1c73",
+        "title": "HTML 常见的内联元素、块级元素以及空元素有哪些",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "5deed87308853b3654c604a0eab62422",
+        "tags": [
+          "HTML"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2019-01-01T18:10:20.000Z"
+      },
+      "060b79b0c5338b3825f4057b88d202f9": {
+        "id": "060b79b0c5338b3825f4057b88d202f9",
+        "title": "移动开发中使用 rem 的优缺点",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "4d0b49cfd4415b54656923ba8b6ac987",
+        "tags": [
+          "CSS"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2018-03-07T18:10:20.000Z"
+      },
+      "52b586aa5bf2afafecf84039070b509f": {
+        "id": "52b586aa5bf2afafecf84039070b509f",
+        "title": "JS 模块化分哪些阶段",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "7766dd5ca3cf0241ec6b1335720b3d6c",
+        "tags": [
+          "JavaScript"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2018-03-16T18:10:20.000Z"
+      },
+      "513e71aaf7f63e730134468419265f81": {
+        "id": "513e71aaf7f63e730134468419265f81",
+        "title": "不用第三个变量，直接交换两个变量的值",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "a36afb3be6c54c286fefaf1497981176",
+        "tags": [
+          "JavaScript"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2017-01-14T18:10:20.000Z"
+      },
+      "d4706501bf354155ec798c0042bbec8b": {
+        "id": "d4706501bf354155ec798c0042bbec8b",
+        "title": "CSS postion 定位有哪几种情况",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "5bf6893bd395507d373aab12649d9924",
+        "tags": [
+          "CSS"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2018-03-16T18:10:20.000Z"
+      },
+      "bc3b889e96985d5b36f74ecd4d9025b7": {
+        "id": "bc3b889e96985d5b36f74ecd4d9025b7",
+        "title": "内联元素和块级元素的区别",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "8df1c89e5541f0c76cc97a2e2f538f15",
+        "tags": [
+          "HTML",
+          "CSS"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2017-09-16T18:10:20.000Z"
+      },
+      "4d090de2cfa11d571e3499860ed1637b": {
+        "id": "4d090de2cfa11d571e3499860ed1637b",
+        "title": "JavaScript 由哪三部分构成",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "a5978e3202e1f8efed722d058b9c4ff2",
+        "tags": [
+          "JavaScript"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2018-05-06T18:10:20.000Z"
+      },
+      "38ba87d5c12a6bcc695bdb5e31d7c39a": {
+        "id": "38ba87d5c12a6bcc695bdb5e31d7c39a",
+        "title": "sql 的注入原理及防范方法",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "21b27b0047cee7b1296da69d098f76e7",
+        "tags": [
+          "DB"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2018-05-06T18:10:20.000Z"
+      },
+      "79e0ec499ea71e37e523fe6830049a06": {
+        "id": "79e0ec499ea71e37e523fe6830049a06",
+        "title": "JavaScript 的垃圾回收机制",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "1073469ed83fdd3fe84823e82ab7040e",
+        "tags": [
+          "JavaScript"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2017-05-08T18:10:20.000Z"
+      },
+      "42d68bcefdf74f949218815848183b22": {
+        "id": "42d68bcefdf74f949218815848183b22",
+        "title": "JavaScript 中 var 和 let 去区别",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "f2e178369ca1b06c696583bce32fb75f",
+        "tags": [
+          "JavaScript"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2018-01-07T18:10:20.000Z"
+      },
+      "be0ecca1d20a860b65099687d7f2cb34": {
+        "id": "be0ecca1d20a860b65099687d7f2cb34",
+        "title": "简述一下你对 HTML 语义化的理解",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "0395b36b7a82dbe727fb8f2441cebf18",
+        "tags": [
+          "HTML"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2018-02-07T18:10:20.000Z"
+      },
+      "c39057ce875cfb4ee75db4c5966aad7e": {
+        "id": "c39057ce875cfb4ee75db4c5966aad7e",
+        "title": "iframe 有哪些优缺点",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "5eb6d8cdd53bcc4e2fb62282d3195725",
+        "tags": [
+          "HTML"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2018-05-06T18:10:20.000Z"
+      },
+      "ac9cf01a2088f1bcff0c1c2c8f9755e9": {
+        "id": "ac9cf01a2088f1bcff0c1c2c8f9755e9",
+        "title": "label 的作用是什么",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "c8abfccd66c6e306dc0541eaa03c9492",
+        "tags": [
+          "HTML"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2017-01-06T18:10:20.000Z"
+      },
+      "4c990f8415f6e16f0b1c91fcaaeb39e0": {
+        "id": "4c990f8415f6e16f0b1c91fcaaeb39e0",
+        "title": "页面可见性 Page Visibility API 可以有哪些用途",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "772fdba3f362887f5a1cd93f228f27e1",
+        "tags": [
+          "HTML"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2019-01-15T18:10:20.000Z"
+      },
+      "e726817484ea727bfe42e4fc4a5d09bf": {
+        "id": "e726817484ea727bfe42e4fc4a5d09bf",
+        "title": "title 与 h1 的区别、b 与 strong 的区别、i 与 em 的区别",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "684322aa5cd80a83ddd09c450f71cb0a",
+        "tags": [
+          "HTML"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2016-10-06T18:10:20.000Z"
+      },
+      "d100ac809645699595aab01b24835e9b": {
+        "id": "d100ac809645699595aab01b24835e9b",
+        "title": "CSS 选择符有哪些，哪些属性可以继承，哪些属性不可以继承，CSS3 新增伪类有哪些",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "aeea3f36b3033c3f865a2d4dd743bdc9",
+        "tags": [
+          "CSS"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2018-05-06T18:10:20.000Z"
+      },
+      "089e3ce54727ab17f76e20bc94ebba54": {
+        "id": "089e3ce54727ab17f76e20bc94ebba54",
+        "title": "display 有哪些值，说明他们的作用",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "6961c602e2c35c28c1650855882fe0d2",
+        "tags": [
+          "HTML"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2016-05-06T18:10:20.000Z"
+      },
+      "6d4fb956c08446d467d79d5c038d1222": {
+        "id": "6d4fb956c08446d467d79d5c038d1222",
+        "title": "css 多列等高(高度不固定)如何实现",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "4ae90687c3690e460c6cfa83ce094bfd",
+        "tags": [
+          "HTML",
+          "CSS"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2016-03-24T18:10:20.000Z"
+      },
+      "4da48b7078a101cfbb83bc13dc30b0b1": {
+        "id": "4da48b7078a101cfbb83bc13dc30b0b1",
+        "title": "请解释一下为什么需要清除浮动，清除浮动的方式",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "f00463fce72e661fdeaeb64953b48f7c",
+        "tags": [
+          "HTML",
+          "CSS"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2017-03-24T18:10:20.000Z"
+      },
+      "992a7e5a348763ac7eeae5aab6bc3d96": {
+        "id": "992a7e5a348763ac7eeae5aab6bc3d96",
+        "title": "在网页中的应该使用奇数还是偶数的字体，为什么",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "31af059b5b3164a64455d1adedf44d6c",
+        "tags": [
+          "HTML"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2017-11-06T18:10:20.000Z"
+      },
+      "a3c0cf824bb9768ab882b6fbecf1b3f1": {
+        "id": "a3c0cf824bb9768ab882b6fbecf1b3f1",
+        "title": "png、jpg、gif, webp 这些图片格式的区别",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "63034e1555bb470bbc1484d8384f5074",
+        "tags": [
+          "OTHER"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2017-11-06T18:10:20.000Z"
+      },
+      "d7819f2e71eecd60145954802171e9dc": {
+        "id": "d7819f2e71eecd60145954802171e9dc",
+        "title": "什么是 CSS 预处理器、后处理器",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "b2b90e28205b432c3c14a3556f3917d9",
+        "tags": [
+          "CSS"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2016-05-06T18:10:20.000Z"
+      },
+      "e41ce8424ceaf1bfa901a1b8ca812e90": {
+        "id": "e41ce8424ceaf1bfa901a1b8ca812e90",
+        "title": "什么是严格模式",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "e555c31f76324bbfbcea1fde0619f544",
+        "tags": [
+          "JavaScript"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2018-01-07T18:10:20.000Z"
+      },
+      "e8e31572e0fb144fad651b48163ef425": {
+        "id": "e8e31572e0fb144fad651b48163ef425",
+        "title": "CSS3 有哪些新特性",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "3e00256519ebb3b7c3e560c37ffa9126",
+        "tags": [
+          "CSS"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2018-05-06T18:10:20.000Z"
+      },
+      "c155fbe946e8262299bab54ac5eb56b0": {
+        "id": "c155fbe946e8262299bab54ac5eb56b0",
+        "title": "['1', '2', '3'].map(parseInt)答案是多少",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "41b697b74045c7a7fc0d0441433f10b2",
+        "tags": [
+          "JavaScript"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2016-01-07T18:10:20.000Z"
+      },
+      "b58fbeaa6c1b3bc363121d827c3e45ba": {
+        "id": "b58fbeaa6c1b3bc363121d827c3e45ba",
+        "title": "IE 与火狐的事件机制有什么区别？ 如何阻止冒泡",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "6f7de574bd65abec0c3fc6eb58e861a2",
+        "tags": [
+          "OTHER"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2017-08-08T18:10:20.000Z"
+      },
+      "51d0261714e236e9df7c1b87856bbf7f": {
+        "id": "51d0261714e236e9df7c1b87856bbf7f",
+        "title": "JSON 是什么",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "044a112f6d33e06689038b75fffb05c5",
+        "tags": [
+          "OTHER"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2018-03-16T18:10:20.000Z"
+      },
+      "f5838f1d65f228e08e8fdb013c7cf0d6": {
+        "id": "f5838f1d65f228e08e8fdb013c7cf0d6",
+        "title": "js 延迟加载的方式有哪些",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "2d3af574595e07aaff330cc852bf8ed3",
+        "tags": [
+          "JavaScript"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2018-02-27T18:10:20.000Z"
+      },
+      "89d277c6d8be532eb2ba04bd4761eaed": {
+        "id": "89d277c6d8be532eb2ba04bd4761eaed",
+        "title": "requireJS 的核心原理是什么",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "b4267bbcbb5a476c9a1bc18e3dcf11b3",
+        "tags": [
+          "OTHER"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2018-06-06T18:10:20.000Z"
+      },
+      "a3e598bf9aecaf544a7f1105f7d35619": {
+        "id": "a3e598bf9aecaf544a7f1105f7d35619",
+        "title": "DOM 操作相关方法",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "72b66b43bae335160f4ead0404e050de",
+        "tags": [
+          "JavaScript"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2018-04-01T18:10:20.000Z"
+      },
+      "2874dac83dcbdaba418e17b35c4d7a72": {
+        "id": "2874dac83dcbdaba418e17b35c4d7a72",
+        "title": "移动端最小触控区域是多大",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "1f3e79f681628da43404c49431596c7f",
+        "tags": [
+          "OTHER"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2016-11-06T18:10:20.000Z"
+      },
+      "d1c680f0307d646b4be55258e8b013b0": {
+        "id": "d1c680f0307d646b4be55258e8b013b0",
+        "title": "移动端的点击事件的延迟，时间是多久，为什么会有？ 怎么解决这个延时？",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "9b3de6a47d83ad39d09fc0baa40e6e9b",
+        "tags": [
+          "OTHER"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2018-04-01T18:10:20.000Z"
+      },
+      "e5af72ec0808bb37380ad68a6c5373eb": {
+        "id": "e5af72ec0808bb37380ad68a6c5373eb",
+        "title": "移动端的点击事件的延迟，时间是多久，为什么会有？ 怎么解决这个延时",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "9b3de6a47d83ad39d09fc0baa40e6e9b",
+        "tags": [
+          "OTHER"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2018-04-01T18:10:20.000Z"
+      },
+      "f816e7be6bdf475595964bfccd012943": {
+        "id": "f816e7be6bdf475595964bfccd012943",
+        "title": "什么是 Polyfill",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "fecc16882581949cb2e213b938edfc7b",
+        "tags": [
+          "OTHER"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2017-11-06T18:10:20.000Z"
+      },
+      "593d38d84d4c1476e072366266d0f16d": {
+        "id": "593d38d84d4c1476e072366266d0f16d",
+        "title": "cookie、session 分别用来做什么的，有什么关系",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "e607fb09bad2a0c585dc96d8e3820245",
+        "tags": [
+          "HTML"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2018-11-03T18:10:20.000Z"
       }
     }
   },

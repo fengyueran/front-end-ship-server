@@ -1,0 +1,147 @@
+---
+title: DOM 操作相关方法
+tags: [JavaScript]
+type: SHORT_ANSWER
+date: 2018-4-01 18:10:20
+---
+
+- 创建节点
+
+  - createDocumentFragment()
+
+    创建文档片段节点，文档片段不是实际的 DOM 结构，它是一个虚拟的 dom 节点，存在于内存中，所以对片段的更改不会影响文档，也就不会重新渲染文档。
+    DocumentFragment 一个常见的用途是将 dom 子树封装在里面，并通过 appendChild 等方法将该片段插入的 DOM 中，这样片段中的节点就会移动到 DOM 中，而留下空白的 DocumentFragment 文档片段。因为所有的节点被一次性插入 DOM 中，只会触发一次渲染，提高了性能。
+
+    ```
+    var frag = document.createDocumentFragment();
+    for(let i = 0;i < 100;i++) {
+      const el =document.createElement("div");
+      //操作片段的修改不会触发渲染
+      frag.appendChild(el);
+    }
+    document.body.appendChild(frag);
+    ```
+
+  - createElement(tagName)
+
+    创建标签名为 tagName 的节点
+
+    ```
+    var el = document.createElement("div");
+    ```
+
+  - createTextNode(text)
+
+    创建包含文本 text 的文本节点
+
+    ```
+    document.createTextNode("text node");
+    ```
+
+  - createAttribute(name)
+
+    创建属性节点
+
+    ```
+    function setAttr() {
+      var node = document.getElementById('root');
+      var attr = document.createAttribute("属性名");
+      attr.nodeValue = "属性值";
+      node.setAttributeNode(attr);
+    }
+    等同于
+    function setAttr() {
+      var node = document.getElementById('root');
+      node.setAttribute("属性名", "属性值");
+    }
+    ```
+
+- 操纵节点
+
+  - 添加节点
+
+    a) Node.appendChild(element)
+
+    该方法将一个节点添加到指定父节点的子节点列表末尾。
+
+    ```
+    document.body.appendChild(element);
+    ```
+
+    b) Node.insertBefore(newNode, referenceNode)
+
+    该方法在参考节点之前插入一个拥有指定父节点的子节点。
+
+    ```
+    html:
+    <div id="root">
+      <div id="div1">
+    <div>
+
+    const newNode = document.createElement('div');
+    const parentNode = document.getElementById('root');
+    const referenceNode = document.getElementById('div1');
+    parentNode.insertBefore(newNode, referenceNode);
+    ```
+
+  - 删除节点
+
+    Node.removeChild(child)方法从 DOM 中删除一个子节点，并返回删除的节点。
+
+    ```
+    const node = document.getElementById("app");
+    if (node.parentNode) {
+      node.parentNode.removeChild(node);
+    }
+    ```
+
+  - 替换节点
+
+    用指定的节点替换当前节点的一个子节点，并返回被替换掉的节点。
+
+    ```
+    const replacedNode = parentNode.replaceChild(newChild, oldChild);
+    ```
+
+  - 复制节点
+
+    Node.cloneNode() 方法返回调用该方法的节点的一个副本。
+
+    ```
+    /*
+      deep: 可选，是否采用深度克隆(如果为true该节点所有后代节点也会被克隆，如果为false只克隆该节点本身)
+    */
+    const dupNode = node.cloneNode(deep);
+    ```
+
+- 查找节点
+
+  - getElementById(id)
+
+    返回一个匹配特定 ID 的元素。
+
+    ```
+    /*
+    1. 如果当前文档中拥有特定ID的元素不存在则返回null.
+    2. id是大小写敏感的字符串，代表了所要查找的元素的唯一ID.
+    */
+    var element = document.getElementById(id);
+    ```
+
+  - getElementsByTagName(tagName)
+
+    通过标签名查找，返回一个动态的包含所有指定标签名的元素的 HTML 集合 HTMLCollection。
+
+    ```
+    //搜索从element开始。请注意只有element的后代元素会被搜索，不包括元素自己。
+    var elements = element.getElementsByTagName(tagName)
+    ```
+
+  - getElementsByName()
+
+    根据给定的 name 返回一个在(X)HTML document 的节点列表集合。
+
+    ```
+    //name是元素的name属性的值。
+    var elements = document.getElementsByName(name)
+    ```

@@ -1,0 +1,66 @@
+<p>清除浮动是为了清除使用浮动元素带来的影响，浮动的元素高度会塌陷，而高度的塌陷使我们后面的布局不能正常显示。
+清除浮动的方式:</p>
+<ul>
+<li><p>利用 clear 属性</p>
+<p>如下，设置 box 的 clear 的属性为 left 或 both 即可消除兄弟元素浮动的影响，clear 的本质是添加外边距。</p>
+<pre><code>  &lt;style&gt;
+    .float-left {
+      float: left;
+      width: 200px;
+      height: 100px;
+      background: blue;
+    }
+    .box {
+      width: 200px;
+      height: 100px;
+      background: gray;
+      clear: both;
+    }
+  &lt;/style&gt;
+
+  &lt;div&gt;
+    &lt;div class=&quot;float-left&quot; /&gt;
+    &lt;div class=&quot;box&quot; /&gt;
+  &lt;/div&gt;</code></pre></li>
+<li><p>添加空块级元素</p>
+<p>如下，在浮动元素后添加空块级元素 div，并设置其 clear 属性为 both 或 left 即可以清除浮动。</p>
+<pre><code>  &lt;style&gt;
+    .clear {
+      clear: both;
+    }
+  &lt;/style&gt;
+  &lt;div&gt;
+    &lt;div class=&quot;float-left&quot; /&gt;
+    &lt;div class=&quot;clear&quot;/&gt;
+    &lt;div class=&quot;box&quot; /&gt;
+  &lt;/div&gt;</code></pre></li>
+<li><p>伪元素::after 和::before(作用于浮动元素的父类)</p>
+<pre><code>  &lt;style&gt;
+    .float-father {
+      &amp;::after {
+        content: &quot;&quot;;
+        display: block;
+        clear: both;
+      }
+    }
+  &lt;/style&gt;
+  &lt;div&gt;
+    &lt;div class=&quot;float-father&quot;&gt;
+      &lt;div class=&quot;float-left&quot; /&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;box&quot; /&gt;
+  &lt;/div&gt;</code></pre></li>
+<li><p>overflow 的方法(作用于浮动元素的父类)</p>
+<p>设置浮动元素父类的 overflow 为 auto 或 hidden 即可清除浮动，该方法是利用 BFC 的特性达到的效果，这与前述几种方法通过设置 clear 属性的本质是不一样的。</p>
+<pre><code>  &lt;style&gt;
+    .float-father {
+      overflow: auto;
+    }
+  &lt;/style&gt;
+  &lt;div&gt;
+    &lt;div class=&quot;float-father&quot;&gt;
+      &lt;div class=&quot;float-left&quot; /&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;box&quot; /&gt;
+  &lt;/div&gt;</code></pre></li>
+</ul>

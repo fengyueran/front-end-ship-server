@@ -1,0 +1,61 @@
+<p><strong>padding 补偿法</strong></p>
+<p>如下: 父容器(container)的高度是由子元素 div 中高的那一列(叫做 higher)决定的，而子元素的高度由内容、边框、内边距、外边距的高度共同决定的，当设置子元素的底内边距 padding-bottom 和底外边距为相等的正负值后，高度相抵为 0，此时父容器的高度由 higher 的内容和边框决定，当 higher 的高度增加时父容器的高度也跟着增加，子元素中较矮的那列则会用 padding-bottom 来补偿这部分高度差(因为 padding 足够大)，再设置父容器 overflow: hidden 则可以正好截取 higher 的高度进行显示，表面看上去就是两列等高。</p>
+<pre><code>  &lt;style&gt;
+    .container {
+      overflow: hidden;
+    }
+    .div1 {
+      float: left;
+      width: 200px;
+      background: #03A9F4;
+      padding-bottom: 2000px;
+      margin-bottom: -2000px;
+    }
+    .div2 {
+      float: left;
+      width: 200px;
+      background: #A5C3F3;
+      padding-bottom: 2000px;
+      margin-bottom: -2000px;
+    }
+  &lt;/style&gt;
+  &lt;div class=&quot;container&quot;&gt;
+    &lt;div class=&quot;div1&quot;&gt;
+    Most of the discussion was on what needed to be done now as we transitioned from the security issues to the challenging economic issues.
+    &lt;/div&gt;
+    &lt;div class=&quot;div2&quot;&gt;
+    Most of the discussion was on what needed to be done now as we transitioned from the security issues to the challenging economic issues. Most of the discussion was on what needed to be done now as we transitioned from the security issues to the challenging economic issues.
+    &lt;/div&gt;
+  &lt;/div&gt;</code></pre><html>
+  <head>
+    <style>
+      .container {
+        overflow: hidden;
+      }
+      .div1 {
+        float: left;
+        width: 200px;
+        background: #03A9F4;
+        padding-bottom: 2000px;
+        margin-bottom: -2000px;
+      }
+      .div2 {
+        float: left;
+        width: 200px;
+        background: #A5C3F3;
+        padding-bottom: 2000px;
+        margin-bottom: -2000px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="div1">
+      Most of the discussion was on what needed to be done now as we transitioned from the security issues to the challenging economic issues.
+      </div>
+      <div class="div2">
+      Most of the discussion was on what needed to be done now as we transitioned from the security issues to the challenging economic issues. Most of the discussion was on what needed to be done now as we transitioned from the security issues to the challenging economic issues.
+      </div>
+  </div>
+  </body>
+</html>

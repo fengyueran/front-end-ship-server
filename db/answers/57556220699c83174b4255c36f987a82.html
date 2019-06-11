@@ -1,0 +1,25 @@
+<ul>
+<li><p>利用 parseInt 的 toLocaleString 方法</p>
+<pre><code>const formatNum = (num) =&gt; {
+  const formatedNum = num
+    .toString()
+    .replace(/(\d+)(.*)/g, (match, s1, s2) =&gt; `${parseInt(s1, 10).toLocaleString()}${s2}`);
+  return formatedNum;
+};</code></pre></li>
+<li><p>完全用正则替换</p>
+<pre><code>//当一个字符串中某个数字后跟着 n 对三个数字(\d{3})就匹配这个数字
+const formateNum = (num) =&gt; {
+  const numStr = num.toString();
+  //替换小数点左边的数字
+  return numStr.replace(/\d+/, (match) =&gt; {
+    //替换目标数字为`${matchNum},`
+    return match.replace(/(\d)(?=((\d{3})+$))/g, (s1) =&gt; `${s1},`);
+  })
+}
+或
+const formateNum = (num) =&gt; {
+  const numStr = num.toString();
+  //替换非单词边界，当这个边界后面跟着n对三个数字且后边没有数字时
+  return numStr.replace(/\B(?=(\d{3})+(?!\d))/g, &#39;,&#39;);
+}</code></pre></li>
+</ul>

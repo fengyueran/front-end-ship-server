@@ -1,0 +1,21 @@
+---
+title: JavaScript 数据类型
+tags: [JavaScript]
+type: SHORT_ANSWER
+date: 2016-1-24 18:10:20
+---
+
+- 基本数据类型
+  - undefined
+  - Null
+  - Boolean
+  - String
+  - Number
+  - Symbol(new in ES6)
+- 引用数据类型(Object 类型)
+
+  - Object
+  - Array
+  - Date
+  - RegRxp
+  - Function
