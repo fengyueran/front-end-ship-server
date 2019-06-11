@@ -7,7 +7,15 @@
       "29b00818fa4462a34f602485d34b5900",
       "fd06418c482c5a6a262a29f94d8b76fc",
       "57ce0f279ca998d5bd9813aba7840af6",
-      "e8cd2cf9924a0a1fcfc88320e34f68b6"
+      "e8cd2cf9924a0a1fcfc88320e34f68b6",
+      "5a938c87ee747a9ffe5b29782550053b",
+      "b4db9cfadcf885465b2b7f9a91a6095c",
+      "ba888ec8e42447b5380fc28a877ed749",
+      "65087cb87a5ea93b4064d0d5584c3cdf",
+      "354f9cbc98ab79ebc285d05e693a0c9d",
+      "5e3ab1236d7e7afb88da57d02d430709",
+      "365f59f4610a5d186baf6750228e0fa5",
+      "f1c05a85cacb59d348baceabe82cf8e0"
     ],
     "byId": {
       "8cc30379ba969b0bd04e89034bdb705c": {
@@ -15,7 +23,7 @@
         "title": "HTTP2 的新特性",
         "exerciseTimes": 0,
         "passRate": "--",
-        "md5": "e47c71cd9fc526dd81863d9ac4a860b6",
+        "md5": "31370013a49e15c5477e0a28e60d23d4",
         "tags": [
           "HTTP"
         ],
@@ -51,7 +59,7 @@
         "title": "什么是优雅降级和渐进增强",
         "exerciseTimes": 0,
         "passRate": "--",
-        "md5": "06ae6e5ee6327795cefaf08c43f5e331",
+        "md5": "4b61963065ebd4516d8f676dfbe05b29",
         "tags": [
           "JavaScript"
         ],
@@ -87,12 +95,112 @@
         "title": "编写一个函数实现form表单的序列化",
         "exerciseTimes": 0,
         "passRate": "--",
-        "md5": "9cea0bf8acf2a18e7d0d5a504a1e10f2",
+        "md5": "5c0455d00935c7289a4a0065683d661b",
         "tags": [
           "JavaScript"
         ],
         "type": "CODE",
+        "template": "const serialize = (form) => {\n\n};\nconst form = document.getElementById('target');\nserialize(form)",
+        "result": "name=xhm&age=25&password=123456&salery=28888&hobby=football&sex=Male&description=I%20am%20a%20boy",
         "date": "2018-05-06T18:10:20.000Z"
+      },
+      "5a938c87ee747a9ffe5b29782550053b": {
+        "id": "5a938c87ee747a9ffe5b29782550053b",
+        "title": "从浏览器地址栏输入 url 到显示页面的步骤",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "4a8a331d6b48e33629712ebbeeab03b8",
+        "tags": [
+          "HTML"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2016-05-06T18:10:20.000Z"
+      },
+      "b4db9cfadcf885465b2b7f9a91a6095c": {
+        "id": "b4db9cfadcf885465b2b7f9a91a6095c",
+        "title": "js 遍历 li 的内容",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "dff855b1be086dab76a8fc2c216a5ed6",
+        "tags": [
+          "JavaScript"
+        ],
+        "type": "CODE",
+        "result": "12",
+        "template": "const concatLiContent = (ul) => {\n\n};\nconst ul = document.getElementById('ul');\nconcatLiContent(ul);",
+        "date": "2018-03-06T18:10:20.000Z"
+      },
+      "ba888ec8e42447b5380fc28a877ed749": {
+        "id": "ba888ec8e42447b5380fc28a877ed749",
+        "title": "JS 中 null 和 undefined 的区别",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "b451a15456934001e256261b743b12a5",
+        "tags": [
+          "JavaScript"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2016-05-06T18:10:20.000Z"
+      },
+      "65087cb87a5ea93b4064d0d5584c3cdf": {
+        "id": "65087cb87a5ea93b4064d0d5584c3cdf",
+        "title": "常见 http code 及其含义",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "db42ab26485d0158f40c8ed6ec1cca94",
+        "tags": [
+          "HTTP"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2018-07-06T18:10:20.000Z"
+      },
+      "354f9cbc98ab79ebc285d05e693a0c9d": {
+        "id": "354f9cbc98ab79ebc285d05e693a0c9d",
+        "title": "Cookie, SessionStorage 与 LocalStorage 区别",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "22c6b4e544eb52a350c7eee1b2404fc6",
+        "tags": [
+          "HTML"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2017-05-06T18:10:20.000Z"
+      },
+      "5e3ab1236d7e7afb88da57d02d430709": {
+        "id": "5e3ab1236d7e7afb88da57d02d430709",
+        "title": "html 代码中让链接在新窗口中打开的写法",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "475e6f9fc9c35763c4a90a735fc1f7ce",
+        "tags": [
+          "HTML"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2017-03-06T18:10:20.000Z"
+      },
+      "365f59f4610a5d186baf6750228e0fa5": {
+        "id": "365f59f4610a5d186baf6750228e0fa5",
+        "title": "html5 有哪些新特性，移除的元素有哪些",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "39d66053e58dd9cffa8afc6271f37ac2",
+        "tags": [
+          "HTML"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2018-08-06T18:10:20.000Z"
+      },
+      "f1c05a85cacb59d348baceabe82cf8e0": {
+        "id": "f1c05a85cacb59d348baceabe82cf8e0",
+        "title": "谈谈对盒模型的理解",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "8ff9fe84616ec580a5f7827d38e7ba2f",
+        "tags": [
+          "CSS"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2018-08-06T18:10:20.000Z"
       }
     }
   },

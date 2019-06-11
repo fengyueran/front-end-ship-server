@@ -1,0 +1,23 @@
+<p>遍历方法如下:</p>
+<pre><code>  const concatLiContent = (ul) =&gt; {
+    const lis = ul.children;
+    let str=&#39;&#39;;
+    for(let i = 0; i &lt; lis.length; i++) {
+      const li = lis[i];
+      str+=li.innerText;
+    }
+    return str;
+  }
+  或
+  const concatLiContent = (ul) =&gt; {
+    const lis = ul.children;
+    const realArr = [].slice.call(lis);
+    let str=&#39;&#39;;
+    realArr.forEach((li) =&gt; {
+      str+=li.innerText;
+    })
+    return str;
+  }
+  const ul = document.getElementById(&#39;ul&#39;);
+  concatLiContent(ul);
+</code></pre>

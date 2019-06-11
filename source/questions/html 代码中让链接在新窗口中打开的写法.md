@@ -1,0 +1,19 @@
+---
+title: html 代码中让链接在新窗口中打开的写法
+tags: [HTML]
+type: SHORT_ANSWER
+date: 2017-3-06 18:10:20
+---
+
+通过设置 a 标签的 target 属性为\_blank 可以在新窗口打开链接，但是由于新页面与原页面在一个进程上，如果新页面开销极大则会对原页面性能造成影响。此外新页面还可通过 window.openner 访问原页面的窗口对象，并且可以通过 window.opener.location = newURL 将原页面导航至不同的网址。因此需要通过 ref="noopenner"来禁用 window.opener。
+
+```
+  <div>
+    <div>
+      <a href="http://www.xinghunm.com">Welcome -  old window</a>
+    </div>
+    <div>
+        <a href="http://www.xinghunm.com" target="_blank" ref="noopenner">Welcome -  new window</a>
+    </div>
+  </div>
+```

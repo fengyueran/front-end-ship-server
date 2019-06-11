@@ -1,0 +1,9 @@
+<p>通过设置 a 标签的 target 属性为_blank 可以在新窗口打开链接，但是由于新页面与原页面在一个进程上，如果新页面开销极大则会对原页面性能造成影响。此外新页面还可通过 window.openner 访问原页面的窗口对象，并且可以通过 window.opener.location = newURL 将原页面导航至不同的网址。因此需要通过 ref=&quot;noopenner&quot;来禁用 window.opener。</p>
+<pre><code>  &lt;div&gt;
+    &lt;div&gt;
+      &lt;a href=&quot;http://www.xinghunm.com&quot;&gt;Welcome -  old window&lt;/a&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+        &lt;a href=&quot;http://www.xinghunm.com&quot; target=&quot;_blank&quot; ref=&quot;noopenner&quot;&gt;Welcome -  new window&lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</code></pre>

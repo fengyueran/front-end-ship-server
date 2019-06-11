@@ -1,0 +1,11 @@
+<p>浏览器在对文档进行布局时，会根据盒模型(CSS Basic Box model)将所有元素表示成一个矩形盒子，矩形盒子的组成由内容区域、边框、内边距及外边距组成。盒模型分为 W3C 标准盒模型和 IE 盒模型，W3C 标准盒模型的大小由内容区域(content)、边框(border)、内边距(padding)决定，而 IE 盒模型的大小只由内容区域的大小(自定义的 width 和 height)决定。css 可以通过 box-sizing 来切换两种盒模型。</p>
+<p>矩形盒子:</p>
+<ul>
+<li><p>W3C 标准盒模型(box-sizing: content-box)</p>
+<p>size = content + border + padding</p>
+</li>
+<li><p>IE 盒模型(box-sizing: border-box)</p>
+<p>size = content</p>
+</li>
+</ul>
+<p>我们在编写 html 时若不声明 DOCTYPE 类型，IE 浏览器会将盒子模型解释为 IE 盒模型，FireFox 等会将其解释为 W3C 盒子模型，从而渲染出不同的结果。</p>

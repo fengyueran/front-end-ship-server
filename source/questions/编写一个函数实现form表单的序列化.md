@@ -10,21 +10,36 @@ date: 2018-5-06 18:10:20
 表单结构大致如下:
 
 ```
-  <form id="target">
+<form id="target">
+    <input name="name" value="xhm" />
     <select name="age">
       <option value="17" selected>17</option>
       <option value="25" selected>25</option>
     </select>
-    <input name="name" value="xhm" />
     <input type="password" name="password" value="123456" />
     <input type="hidden" name="salery" value="28888" />
-    <textarea name="description">I am a boy.</textarea>
     <input type="checkbox" name="hobby" value="football" checked />Football
     <input type="checkbox" name="hobby" value="basketball" />Basketball
     <input type="radio" name="sex" value="Male" checked />Male
     <input type="radio" name="sex" value="Female" />Female
-  </form>
+    <textarea name="description">I am a boy</textarea>
+</form>
 ```
+
+<form id="target">
+<input name="name" value="xhm" />
+<select name="age">
+    <option value="17" selected>17</option>
+    <option value="25" selected>25</option>
+</select>
+<input type="password" name="password" value="123456" />
+<input type="hidden" name="salery" value="28888" />
+<input type="checkbox" name="hobby" value="football" checked />Football
+<input type="checkbox" name="hobby" value="basketball" />Basketball
+<input type="radio" name="sex" value="Male" checked />Male
+<input type="radio" name="sex" value="Female" />Female
+<textarea name="description">I am a boy</textarea>
+</form>
 
 ---
 

@@ -1,16 +1,30 @@
 <p>即将一个表单中的键值序列化为可提交的字符串。</p>
 <p>表单结构大致如下:</p>
-<pre><code>  &lt;form id=&quot;target&quot;&gt;
+<pre><code>&lt;form id=&quot;target&quot;&gt;
+    &lt;input name=&quot;name&quot; value=&quot;xhm&quot; /&gt;
     &lt;select name=&quot;age&quot;&gt;
       &lt;option value=&quot;17&quot; selected&gt;17&lt;/option&gt;
       &lt;option value=&quot;25&quot; selected&gt;25&lt;/option&gt;
     &lt;/select&gt;
-    &lt;input name=&quot;name&quot; value=&quot;xhm&quot; /&gt;
     &lt;input type=&quot;password&quot; name=&quot;password&quot; value=&quot;123456&quot; /&gt;
     &lt;input type=&quot;hidden&quot; name=&quot;salery&quot; value=&quot;28888&quot; /&gt;
-    &lt;textarea name=&quot;description&quot;&gt;I am a boy.&lt;/textarea&gt;
     &lt;input type=&quot;checkbox&quot; name=&quot;hobby&quot; value=&quot;football&quot; checked /&gt;Football
     &lt;input type=&quot;checkbox&quot; name=&quot;hobby&quot; value=&quot;basketball&quot; /&gt;Basketball
     &lt;input type=&quot;radio&quot; name=&quot;sex&quot; value=&quot;Male&quot; checked /&gt;Male
     &lt;input type=&quot;radio&quot; name=&quot;sex&quot; value=&quot;Female&quot; /&gt;Female
-  &lt;/form&gt;</code></pre>
+    &lt;textarea name=&quot;description&quot;&gt;I am a boy&lt;/textarea&gt;
+&lt;/form&gt;</code></pre><form id="target">
+<input name="name" value="xhm" />
+<select name="age">
+    <option value="17" selected>17</option>
+    <option value="25" selected>25</option>
+</select>
+<input type="password" name="password" value="123456" />
+<input type="hidden" name="salery" value="28888" />
+<input type="checkbox" name="hobby" value="football" checked />Football
+<input type="checkbox" name="hobby" value="basketball" />Basketball
+<input type="radio" name="sex" value="Male" checked />Male
+<input type="radio" name="sex" value="Female" />Female
+<textarea name="description">I am a boy</textarea>
+</form>
+
