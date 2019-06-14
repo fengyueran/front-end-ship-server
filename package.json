@@ -5,6 +5,7 @@
   "scripts": {
     "start": "babel-node app.js",
     "build": "babel app.js --out-file server.js",
+    "pub": "./utils/deploy.sh",
     "gq": "babel-node utils/generate-question.js"
   },
   "devDependencies": {
