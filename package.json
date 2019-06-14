@@ -19,6 +19,7 @@
     "eslint": "^4.19.1"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.4.4",
     "@xinghunm/walk-dir": "^0.0.4",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
