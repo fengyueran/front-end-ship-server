@@ -9,6 +9,7 @@ SCRIPT_NAME="deploy.sh"
 BASE_DIR="/tmp"
 LOCK_FILE="${BASE_DIR}/${APP_NAME}.lock"
 SHELL_LOG="${BASE_DIR}/${APP_NAME}.log"
+REMOTE="root@140.82.48.232"
 
 
 lock(){
@@ -27,7 +28,7 @@ log(){
 deploy(){
   echo "Deploy Server"
   log "Deploy Server"
-  ssh root@140.82.48.232 "cd /root/project/front-end-ship-server && git pull && pm2 stop all && yarn build && pm2 start server.js"
+  ssh ${REMOTE} "cd /root/project/front-end-ship-server && git pull && pm2 stop all && yarn build && pm2 start server.js"
 }
 
 main(){
