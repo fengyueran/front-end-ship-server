@@ -29,7 +29,8 @@ lowdb(adapter)
   .then((db) => {
     app.get("/questions/all", (req, res) => {
       const questions = db.get("questions").value();
-      res.send(questions);
+      const record = db.get("record").value();
+      res.send({ questions, record });
     });
 
     app.get("/question/:id", async (req, res) => {

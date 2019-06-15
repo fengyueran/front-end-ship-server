@@ -65,9 +65,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "31370013a49e15c5477e0a28e60d23d4",
-        "tags": [
-          "HTTP"
-        ],
+        "tags": ["HTTP"],
         "type": "SHORT_ANSWER",
         "date": "2018-05-06T18:10:20.000Z"
       },
@@ -77,9 +75,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "c35ccdc0b7033f44d82f8d2b92e19dfd",
-        "tags": [
-          "JavaScript"
-        ],
+        "tags": ["JavaScript"],
         "type": "SHORT_ANSWER",
         "date": "2017-04-08T18:10:20.000Z"
       },
@@ -89,9 +85,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "bbb7679045a3a8e723ae3b5e040e6ec0",
-        "tags": [
-          "JavaScript"
-        ],
+        "tags": ["JavaScript"],
         "type": "SHORT_ANSWER",
         "date": "2017-09-08T18:10:20.000Z"
       },
@@ -101,9 +95,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "4b61963065ebd4516d8f676dfbe05b29",
-        "tags": [
-          "JavaScript"
-        ],
+        "tags": ["JavaScript"],
         "type": "SHORT_ANSWER",
         "date": "2016-04-08T18:10:20.000Z"
       },
@@ -113,9 +105,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "9f5e47c6fc4ae65913de4fbdb722d29b",
-        "tags": [
-          "HTML"
-        ],
+        "tags": ["HTML"],
         "type": "SHORT_ANSWER",
         "date": "2017-03-08T18:10:20.000Z"
       },
@@ -125,9 +115,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "78a328178c79e70311310739f0681d3b",
-        "tags": [
-          "HTML"
-        ],
+        "tags": ["HTML"],
         "type": "SHORT_ANSWER",
         "date": "2017-04-08T18:10:20.000Z"
       },
@@ -137,9 +125,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "5c0455d00935c7289a4a0065683d661b",
-        "tags": [
-          "JavaScript"
-        ],
+        "tags": ["JavaScript"],
         "type": "CODE",
         "template": "const serialize = (form) => {\n\n};\nconst form = document.getElementById('target');\nserialize(form)",
         "result": "name=xhm&age=25&password=123456&salery=28888&hobby=football&sex=Male&description=I%20am%20a%20boy",
@@ -151,9 +137,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "4a8a331d6b48e33629712ebbeeab03b8",
-        "tags": [
-          "HTML"
-        ],
+        "tags": ["HTML"],
         "type": "SHORT_ANSWER",
         "date": "2016-05-06T18:10:20.000Z"
       },
@@ -163,9 +147,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "dff855b1be086dab76a8fc2c216a5ed6",
-        "tags": [
-          "JavaScript"
-        ],
+        "tags": ["JavaScript"],
         "type": "CODE",
         "result": "12",
         "template": "const concatLiContent = (ul) => {\n\n};\nconst ul = document.getElementById('ul');\nconcatLiContent(ul);",
@@ -177,9 +159,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "b451a15456934001e256261b743b12a5",
-        "tags": [
-          "JavaScript"
-        ],
+        "tags": ["JavaScript"],
         "type": "SHORT_ANSWER",
         "date": "2016-05-06T18:10:20.000Z"
       },
@@ -189,9 +169,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "db42ab26485d0158f40c8ed6ec1cca94",
-        "tags": [
-          "HTTP"
-        ],
+        "tags": ["HTTP"],
         "type": "SHORT_ANSWER",
         "date": "2018-07-06T18:10:20.000Z"
       },
@@ -201,9 +179,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "22c6b4e544eb52a350c7eee1b2404fc6",
-        "tags": [
-          "HTML"
-        ],
+        "tags": ["HTML"],
         "type": "SHORT_ANSWER",
         "date": "2017-05-06T18:10:20.000Z"
       },
@@ -213,9 +189,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "475e6f9fc9c35763c4a90a735fc1f7ce",
-        "tags": [
-          "HTML"
-        ],
+        "tags": ["HTML"],
         "type": "SHORT_ANSWER",
         "date": "2017-03-06T18:10:20.000Z"
       },
@@ -225,9 +199,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "39d66053e58dd9cffa8afc6271f37ac2",
-        "tags": [
-          "HTML"
-        ],
+        "tags": ["HTML"],
         "type": "SHORT_ANSWER",
         "date": "2018-08-06T18:10:20.000Z"
       },
@@ -237,9 +209,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "8ff9fe84616ec580a5f7827d38e7ba2f",
-        "tags": [
-          "CSS"
-        ],
+        "tags": ["CSS"],
         "type": "SHORT_ANSWER",
         "date": "2018-08-06T18:10:20.000Z"
       },
@@ -249,9 +219,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "bdffa574d6b510b5f7578c0b3757f900",
-        "tags": [
-          "OTHER"
-        ],
+        "tags": ["OTHER"],
         "type": "SHORT_ANSWER",
         "date": "2019-01-03T18:10:20.000Z"
       },
@@ -261,9 +229,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "41536abe4b1685398022f90fe150a415",
-        "tags": [
-          "JavaScript"
-        ],
+        "tags": ["JavaScript"],
         "type": "SHORT_ANSWER",
         "date": "2018-05-08T18:10:20.000Z"
       },
@@ -273,10 +239,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "c23c682529a735485d03f32b971133db",
-        "tags": [
-          "HTML",
-          "CSS"
-        ],
+        "tags": ["HTML", "CSS"],
         "type": "SHORT_ANSWER",
         "date": "2018-05-06T18:10:20.000Z"
       },
@@ -286,10 +249,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "0d9f0732f55b0d5d9e1c3d8cb5f3e6cf",
-        "tags": [
-          "HTML",
-          "CSS"
-        ],
+        "tags": ["HTML", "CSS"],
         "type": "SHORT_ANSWER",
         "date": "2019-01-06T18:10:20.000Z"
       },
@@ -299,9 +259,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "b413d67e794de56797302c2def8bdb77",
-        "tags": [
-          "JavaScript"
-        ],
+        "tags": ["JavaScript"],
         "type": "SHORT_ANSWER",
         "date": "2016-01-24T18:10:20.000Z"
       },
@@ -311,9 +269,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "cc38364e883bf5bdf583a3a6d019c626",
-        "tags": [
-          "JavaScript"
-        ],
+        "tags": ["JavaScript"],
         "type": "CODE",
         "template": "const formatNum = (num) => {\n\n};\nformatNum(12345678.25);",
         "result": "12,345,678.25",
@@ -325,9 +281,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "5deed87308853b3654c604a0eab62422",
-        "tags": [
-          "HTML"
-        ],
+        "tags": ["HTML"],
         "type": "SHORT_ANSWER",
         "date": "2019-01-01T18:10:20.000Z"
       },
@@ -337,9 +291,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "4d0b49cfd4415b54656923ba8b6ac987",
-        "tags": [
-          "CSS"
-        ],
+        "tags": ["CSS"],
         "type": "SHORT_ANSWER",
         "date": "2018-03-07T18:10:20.000Z"
       },
@@ -349,9 +301,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "7766dd5ca3cf0241ec6b1335720b3d6c",
-        "tags": [
-          "JavaScript"
-        ],
+        "tags": ["JavaScript"],
         "type": "SHORT_ANSWER",
         "date": "2018-03-16T18:10:20.000Z"
       },
@@ -361,9 +311,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "a36afb3be6c54c286fefaf1497981176",
-        "tags": [
-          "JavaScript"
-        ],
+        "tags": ["JavaScript"],
         "type": "SHORT_ANSWER",
         "date": "2017-01-14T18:10:20.000Z"
       },
@@ -373,9 +321,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "5bf6893bd395507d373aab12649d9924",
-        "tags": [
-          "CSS"
-        ],
+        "tags": ["CSS"],
         "type": "SHORT_ANSWER",
         "date": "2018-03-16T18:10:20.000Z"
       },
@@ -385,10 +331,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "8df1c89e5541f0c76cc97a2e2f538f15",
-        "tags": [
-          "HTML",
-          "CSS"
-        ],
+        "tags": ["HTML", "CSS"],
         "type": "SHORT_ANSWER",
         "date": "2017-09-16T18:10:20.000Z"
       },
@@ -398,9 +341,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "a5978e3202e1f8efed722d058b9c4ff2",
-        "tags": [
-          "JavaScript"
-        ],
+        "tags": ["JavaScript"],
         "type": "SHORT_ANSWER",
         "date": "2018-05-06T18:10:20.000Z"
       },
@@ -410,9 +351,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "21b27b0047cee7b1296da69d098f76e7",
-        "tags": [
-          "DB"
-        ],
+        "tags": ["DB"],
         "type": "SHORT_ANSWER",
         "date": "2018-05-06T18:10:20.000Z"
       },
@@ -422,9 +361,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "1073469ed83fdd3fe84823e82ab7040e",
-        "tags": [
-          "JavaScript"
-        ],
+        "tags": ["JavaScript"],
         "type": "SHORT_ANSWER",
         "date": "2017-05-08T18:10:20.000Z"
       },
@@ -434,9 +371,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "f2e178369ca1b06c696583bce32fb75f",
-        "tags": [
-          "JavaScript"
-        ],
+        "tags": ["JavaScript"],
         "type": "SHORT_ANSWER",
         "date": "2018-01-07T18:10:20.000Z"
       },
@@ -446,9 +381,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "0395b36b7a82dbe727fb8f2441cebf18",
-        "tags": [
-          "HTML"
-        ],
+        "tags": ["HTML"],
         "type": "SHORT_ANSWER",
         "date": "2018-02-07T18:10:20.000Z"
       },
@@ -458,9 +391,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "5eb6d8cdd53bcc4e2fb62282d3195725",
-        "tags": [
-          "HTML"
-        ],
+        "tags": ["HTML"],
         "type": "SHORT_ANSWER",
         "date": "2018-05-06T18:10:20.000Z"
       },
@@ -470,9 +401,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "c8abfccd66c6e306dc0541eaa03c9492",
-        "tags": [
-          "HTML"
-        ],
+        "tags": ["HTML"],
         "type": "SHORT_ANSWER",
         "date": "2017-01-06T18:10:20.000Z"
       },
@@ -482,9 +411,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "772fdba3f362887f5a1cd93f228f27e1",
-        "tags": [
-          "HTML"
-        ],
+        "tags": ["HTML"],
         "type": "SHORT_ANSWER",
         "date": "2019-01-15T18:10:20.000Z"
       },
@@ -494,9 +421,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "684322aa5cd80a83ddd09c450f71cb0a",
-        "tags": [
-          "HTML"
-        ],
+        "tags": ["HTML"],
         "type": "SHORT_ANSWER",
         "date": "2016-10-06T18:10:20.000Z"
       },
@@ -506,9 +431,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "aeea3f36b3033c3f865a2d4dd743bdc9",
-        "tags": [
-          "CSS"
-        ],
+        "tags": ["CSS"],
         "type": "SHORT_ANSWER",
         "date": "2018-05-06T18:10:20.000Z"
       },
@@ -518,9 +441,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "6961c602e2c35c28c1650855882fe0d2",
-        "tags": [
-          "HTML"
-        ],
+        "tags": ["HTML"],
         "type": "SHORT_ANSWER",
         "date": "2016-05-06T18:10:20.000Z"
       },
@@ -530,10 +451,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "4ae90687c3690e460c6cfa83ce094bfd",
-        "tags": [
-          "HTML",
-          "CSS"
-        ],
+        "tags": ["HTML", "CSS"],
         "type": "SHORT_ANSWER",
         "date": "2016-03-24T18:10:20.000Z"
       },
@@ -543,10 +461,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "f00463fce72e661fdeaeb64953b48f7c",
-        "tags": [
-          "HTML",
-          "CSS"
-        ],
+        "tags": ["HTML", "CSS"],
         "type": "SHORT_ANSWER",
         "date": "2017-03-24T18:10:20.000Z"
       },
@@ -556,9 +471,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "31af059b5b3164a64455d1adedf44d6c",
-        "tags": [
-          "HTML"
-        ],
+        "tags": ["HTML"],
         "type": "SHORT_ANSWER",
         "date": "2017-11-06T18:10:20.000Z"
       },
@@ -568,9 +481,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "63034e1555bb470bbc1484d8384f5074",
-        "tags": [
-          "OTHER"
-        ],
+        "tags": ["OTHER"],
         "type": "SHORT_ANSWER",
         "date": "2017-11-06T18:10:20.000Z"
       },
@@ -580,9 +491,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "b2b90e28205b432c3c14a3556f3917d9",
-        "tags": [
-          "CSS"
-        ],
+        "tags": ["CSS"],
         "type": "SHORT_ANSWER",
         "date": "2016-05-06T18:10:20.000Z"
       },
@@ -592,9 +501,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "e555c31f76324bbfbcea1fde0619f544",
-        "tags": [
-          "JavaScript"
-        ],
+        "tags": ["JavaScript"],
         "type": "SHORT_ANSWER",
         "date": "2018-01-07T18:10:20.000Z"
       },
@@ -604,9 +511,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "3e00256519ebb3b7c3e560c37ffa9126",
-        "tags": [
-          "CSS"
-        ],
+        "tags": ["CSS"],
         "type": "SHORT_ANSWER",
         "date": "2018-05-06T18:10:20.000Z"
       },
@@ -616,9 +521,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "41b697b74045c7a7fc0d0441433f10b2",
-        "tags": [
-          "JavaScript"
-        ],
+        "tags": ["JavaScript"],
         "type": "SHORT_ANSWER",
         "date": "2016-01-07T18:10:20.000Z"
       },
@@ -628,9 +531,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "6f7de574bd65abec0c3fc6eb58e861a2",
-        "tags": [
-          "OTHER"
-        ],
+        "tags": ["OTHER"],
         "type": "SHORT_ANSWER",
         "date": "2017-08-08T18:10:20.000Z"
       },
@@ -640,9 +541,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "044a112f6d33e06689038b75fffb05c5",
-        "tags": [
-          "OTHER"
-        ],
+        "tags": ["OTHER"],
         "type": "SHORT_ANSWER",
         "date": "2018-03-16T18:10:20.000Z"
       },
@@ -652,9 +551,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "2d3af574595e07aaff330cc852bf8ed3",
-        "tags": [
-          "JavaScript"
-        ],
+        "tags": ["JavaScript"],
         "type": "SHORT_ANSWER",
         "date": "2018-02-27T18:10:20.000Z"
       },
@@ -664,9 +561,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "b4267bbcbb5a476c9a1bc18e3dcf11b3",
-        "tags": [
-          "OTHER"
-        ],
+        "tags": ["OTHER"],
         "type": "SHORT_ANSWER",
         "date": "2018-06-06T18:10:20.000Z"
       },
@@ -676,9 +571,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "72b66b43bae335160f4ead0404e050de",
-        "tags": [
-          "JavaScript"
-        ],
+        "tags": ["JavaScript"],
         "type": "SHORT_ANSWER",
         "date": "2018-04-01T18:10:20.000Z"
       },
@@ -688,9 +581,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "1f3e79f681628da43404c49431596c7f",
-        "tags": [
-          "OTHER"
-        ],
+        "tags": ["OTHER"],
         "type": "SHORT_ANSWER",
         "date": "2016-11-06T18:10:20.000Z"
       },
@@ -700,9 +591,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "9b3de6a47d83ad39d09fc0baa40e6e9b",
-        "tags": [
-          "OTHER"
-        ],
+        "tags": ["OTHER"],
         "type": "SHORT_ANSWER",
         "date": "2018-04-01T18:10:20.000Z"
       },
@@ -712,9 +601,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "9b3de6a47d83ad39d09fc0baa40e6e9b",
-        "tags": [
-          "OTHER"
-        ],
+        "tags": ["OTHER"],
         "type": "SHORT_ANSWER",
         "date": "2018-04-01T18:10:20.000Z"
       },
@@ -724,9 +611,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "fecc16882581949cb2e213b938edfc7b",
-        "tags": [
-          "OTHER"
-        ],
+        "tags": ["OTHER"],
         "type": "SHORT_ANSWER",
         "date": "2017-11-06T18:10:20.000Z"
       },
@@ -736,9 +621,7 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "e607fb09bad2a0c585dc96d8e3820245",
-        "tags": [
-          "HTML"
-        ],
+        "tags": ["HTML"],
         "type": "SHORT_ANSWER",
         "date": "2018-11-03T18:10:20.000Z"
       }
@@ -768,9 +651,7 @@
         "title": "You-need-to-know-css",
         "link": "https://lhammer.cn/You-need-to-know-css",
         "type": "HTML_CSS_JS",
-        "tags": [
-          "CSS"
-        ],
+        "tags": ["CSS"],
         "thumbnail": "websites/thumbnails/knowcss.jpg",
         "description": "这个网站有很多有意思的 css 用法。"
       },
@@ -778,10 +659,7 @@
         "title": "W3C",
         "link": "https://www.w3.org/TR/?title=css",
         "type": "TOOL",
-        "tags": [
-          "HTML",
-          "CSS"
-        ],
+        "tags": ["HTML", "CSS"],
         "thumbnail": "websites/thumbnails/w3c.jpg",
         "description": "W3C组织是制定网络标准的一个非赢利组织，像HTML、XHTML、CSS、XML的标准就是由W3C来定制，该网站可以查询到相关的标准。"
       },
@@ -789,10 +667,7 @@
         "title": "Caniuse",
         "link": "https://caniuse.com",
         "type": "TOOL",
-        "tags": [
-          "HTML",
-          "CSS"
-        ],
+        "tags": ["HTML", "CSS"],
         "thumbnail": "websites/thumbnails/caniuse.jpg",
         "description": "这个网站可以查询各个浏览器对CSS、JS的支持情况。"
       },
@@ -800,9 +675,7 @@
         "title": "Icons8",
         "link": "https://icons8.com",
         "type": "TOOL",
-        "tags": [
-          "UI"
-        ],
+        "tags": ["UI"],
         "thumbnail": "websites/thumbnails/icons8.jpg",
         "description": "这个网站提供免费的平面设计图标为主，总数将近四万，支持分类搜索，并可以选中合适的图标尺寸、格式进行下载。"
       },
@@ -810,9 +683,7 @@
         "title": "Iconfont",
         "link": "https://www.iconfont.cn",
         "type": "TOOL",
-        "tags": [
-          "UI"
-        ],
+        "tags": ["UI"],
         "thumbnail": "websites/thumbnails/iconfont.jpg",
         "description": "这个网站是阿里巴巴矢量图标库。"
       },
@@ -820,11 +691,7 @@
         "title": "HTML Dog",
         "link": "https://htmldog.com",
         "type": "MEDIUM",
-        "tags": [
-          "HTML",
-          "CSS",
-          "JavaScript"
-        ],
+        "tags": ["HTML", "CSS", "JavaScript"],
         "thumbnail": "websites/thumbnails/htmldog.jpg",
         "description": "这个网站汇集了html、css以及js大量的教程资源。"
       },
@@ -832,11 +699,7 @@
         "title": "Medium",
         "link": "https://medium.com",
         "type": "MEDIUM",
-        "tags": [
-          "HTML",
-          "CSS",
-          "JavaScript"
-        ],
+        "tags": ["HTML", "CSS", "JavaScript"],
         "thumbnail": "websites/thumbnails/medium.jpg",
         "description": "medium 是一个内容平台，里面的文章质量较高，推荐阅读。"
       },
@@ -844,11 +707,7 @@
         "title": "Frontend Focus",
         "link": "https://frontendfoc.us",
         "type": "MEDIUM",
-        "tags": [
-          "HTML",
-          "CSS",
-          "JavaScript"
-        ],
+        "tags": ["HTML", "CSS", "JavaScript"],
         "thumbnail": "websites/thumbnails/frontendfoc.jpg",
         "description": "老牌前端周刊，以介绍 HTML/CSS 技术的文章为主，原来叫做 html5 weekly，现在改为 FrontEnd Focus。Rss 订阅地址为https://frontendfoc.us/rss。"
       },
@@ -856,9 +715,7 @@
         "title": "JavaScript Weekly",
         "link": "https://javascriptweekly.com",
         "type": "MEDIUM",
-        "tags": [
-          "JavaScript"
-        ],
+        "tags": ["JavaScript"],
         "thumbnail": "websites/thumbnails/javascriptweekly.jpg",
         "description": "Javascript 相关内容，质量很高。Rss 订阅地址为https://javascriptweekly.com/rss。"
       },
@@ -866,9 +723,7 @@
         "title": "CSS Weekly",
         "link": "https://css-weekly.com",
         "type": "MEDIUM",
-        "tags": [
-          "CSS"
-        ],
+        "tags": ["CSS"],
         "thumbnail": "websites/thumbnails/cssweekly.jpg",
         "description": "老牌 CSS 期刊，主要介绍 CSS 相关内容。也介绍一些不错的工具和开源项目，比较适合于前端新人。"
       },
@@ -876,9 +731,7 @@
         "title": "Web Design Weekly",
         "link": "https://web-design-weekly.com",
         "type": "MEDIUM",
-        "tags": [
-          "UI"
-        ],
+        "tags": ["UI"],
         "thumbnail": "websites/thumbnails/designweekly.jpg",
         "description": "前端开发内容居多，包含设计、技术、技巧、工具等内容。Rss 订阅地址为https://web-design-weekly.com/write-web-design-weekly。"
       },
@@ -886,9 +739,7 @@
         "title": "Web Tools Weekly",
         "link": "http://webtoolsweekly.com",
         "type": "MEDIUM",
-        "tags": [
-          "TOOL"
-        ],
+        "tags": ["TOOL"],
         "thumbnail": "websites/thumbnails/toolweekly.jpg",
         "description": "主要推送一些工具相关的内容，Rss 订阅地址为http://feeds.feedburner.com/WebToolsWeekly。"
       },
@@ -896,11 +747,7 @@
         "title": "掘金",
         "link": "https://juejin.im",
         "type": "MEDIUM",
-        "tags": [
-          "HTML",
-          "CSS",
-          "JavaScript"
-        ],
+        "tags": ["HTML", "CSS", "JavaScript"],
         "thumbnail": "websites/thumbnails/juejin.jpg",
         "description": " 国内还不错的技术分享交流平台，有不少高质量的文章，rss 订阅地址为https://juejin.im/rss。"
       },
@@ -908,11 +755,7 @@
         "title": "众成翻译",
         "link": "https://www.zcfy.cc",
         "type": "MEDIUM",
-        "tags": [
-          "HTML",
-          "CSS",
-          "JavaScript"
-        ],
+        "tags": ["HTML", "CSS", "JavaScript"],
         "thumbnail": "websites/thumbnails/zcfy.jpg",
         "description": "中国本土的技术翻译社区，翻译了不少高质量的文章。"
       },
@@ -920,9 +763,7 @@
         "title": "Single Div",
         "link": "https://a.singlediv.com",
         "type": "OTHER",
-        "tags": [
-          "CSS"
-        ],
+        "tags": ["CSS"],
         "thumbnail": "websites/thumbnails/singlediv.jpg",
         "description": "如其名，这个网站有很多作者用单个div制作的精美的图形，非常有意思。"
       },
@@ -930,12 +771,14 @@
         "title": "JS 调查报告",
         "link": "https://2018.stateofjs.com",
         "type": "OTHER",
-        "tags": [
-          "JavaScript"
-        ],
+        "tags": ["JavaScript"],
         "thumbnail": "websites/thumbnails/jsreport.jpg",
         "description": "State of JavaScript 是为了了解全球 js 发展趋势而创建的，包括前后端、桌面、移动端等的内容。每年都会出一个报告，2018 年的报告网址为: https://2018.stateofjs.com，2019 年的调查报告应该就是https://2019.stateofjs.com了。"
       }
     }
+  },
+  "record": {
+    "unfinished": [],
+    "finished": []
   }
 }
