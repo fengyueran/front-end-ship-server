@@ -65,9 +65,12 @@ lowdb(adapter)
       if (id) {
         const record = db.get("record").value();
         const finished = record.finished || [];
-        finished.push(id);
-        record.finished = finished;
-        db.set("record", record).write();
+        const index = finished.indexOf(id);
+        if (index < 0) {
+          finished.push(id);
+          record.finished = finished;
+          db.set("record", record).write();
+        }
       }
       res.sendStatus(200);
     });
