@@ -25,6 +25,12 @@ log(){
   echo "$DATE ${SCRIPT_NAME} : ${LOG_INFO}" >> ${SHELL_LOG}
 }
 
+fetchDBJson(){
+  echo "Fetch db.json"
+  log "Fetch db.json"
+  ssh ${REMOTE} "cd /root/project/front-end-ship-server && git add db/db.json && git commit -m "update db.json""
+}
+
 deploy(){
   echo "Deploy Server"
   log "Deploy Server"
@@ -32,13 +38,18 @@ deploy(){
 }
 
 main(){
-  if [ -f "$LOCK_FILE" ];then
-     log "${SCRIPT_NAME} is running"
-     echo "${SCRIPT_NAME} is running" && exit
+  result=`git status --porcelain`
+  if [[ $result ]];then
+     echo "files need to commit" && exit
   fi
-  lock
-  deploy
-  unlock
+  fetchDBJson
+  # if [ -f "$LOCK_FILE" ];then
+  #    log "${SCRIPT_NAME} is running"
+  #    echo "${SCRIPT_NAME} is running" && exit
+  # fi
+  # lock
+  # deploy
+  # unlock
 }
 
 main
