@@ -59,6 +59,18 @@ lowdb(adapter)
       const websites = db.get("websites").value();
       res.send(websites);
     });
+
+    app.post("/questiondone/:id", async (req, res) => {
+      const id = req.params && req.params.id;
+      if (id) {
+        const record = db.get("record").value();
+        const finished = record.finished || [];
+        finished.push(id);
+        record.finished = finished;
+        db.set("record", record).write();
+      }
+      res.sendStatus(200);
+    });
   })
   .then(() => {
     app.listen(8000, () => console.log("listening on port 8000"));
