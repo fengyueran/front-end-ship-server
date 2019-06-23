@@ -29,14 +29,26 @@ null == 0 //false</code></pre></li>
 <p><strong><code>==</code></strong>
 即宽松相等，进行比较前会将等式两边值转换为同一类型(两边都可能被转换)，再进行值的比较，如严格相等则相等。规则如下:</p>
 <ul>
-<li>如果两个值类型相同则进行<code>===</code>比较</li>
-<li>如果两个值类型不同则进行类型转换<ul>
-<li>如果一个是 null，一个是 undefined 则相等</li>
-<li>如果一个是字符串，一个是数值，则把字符串转换为数值再进行比较</li>
-<li>如果任一个是布尔类型，则将其转换为数值类型(true: 1, false: 0)再进行比较</li>
-<li>如果一个是对象，一个是基本类型，则将对象转换为基本类型进行比较
-对象转换为基本类型会调用对象的 valueOf 或 toString 方法，通常 valueOf 先于 toString 调用</li>
-<li>任何其他组合都不相等</li>
+<li><p>如果两个值类型相同则进行<code>===</code>比较</p>
+</li>
+<li><p>如果两个值类型不同则进行类型转换</p>
+<ul>
+<li><p>如果一个是 null，一个是 undefined 则相等</p>
+</li>
+<li><p>如果一个是字符串，一个是数值，则把字符串转换为数值再进行比较</p>
+</li>
+<li><p>如果任一个是布尔类型，则将其转换为数值类型(true: 1, false: 0)再进行比较</p>
+</li>
+<li><p>如果一个是对象，一个是基本类型，则将对象转换为基本类型进行比较
+对象转换为基本类型会调用对象的 valueOf 或 toString 方法，通常 valueOf 先于 toString 调用，当 valueOf 返回类型还是对象时，则继续调用 toString 方法进行转换。</p>
+<pre><code>
+  Number([]); // 0, [].valueOf() =&gt; [], toString()=&gt;&quot;&quot;,  Number(&quot;&quot;)=&gt;0
+  Number({}); // NaN, ({}).toString() =&gt; &quot;[object Object]&quot;, [].toString()=&gt;&quot;&quot;, Number(&quot;[object Object]&quot;)=&gt;NaN
+  console.log(([])?true:false); //true
+  console.log(([]==false?true:false)); //true
+  console.log(({}==false)?true:false) //false</code></pre></li>
+<li><p>任何其他组合都不相等</p>
+</li>
 </ul>
 </li>
 </ul>

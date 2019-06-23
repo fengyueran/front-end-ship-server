@@ -12,10 +12,15 @@ date: 2017-5-06 18:10:20
   - SessionStorage: 一般为 5M
   - LocalStorage: 一般为 5M
 - 生命周期
+
   - Cookie: 默认是关闭浏览器后失效，可以设置失效时间
   - SessionStorage: 仅在当前会话有效，关闭 tab 页即失效
   - LocalStorage: 持久缓存除非主动清除(通过浏览器或 JS)
+
 - 与服务器通信
-  - Cookie: 每次请求都会携带在 http 请求头中，可能带来性能问题
+
+  - 每次请求都会携带在 http 请求头中，可能带来性能问题
   - SessionStorage: 只在客户端起作用
   - LocalStorage: 只在客户端起作用
+
+同域名的 http 和 https 共享 cookie(设置了 Secure 的除外)，但不共享 LocalStorage。

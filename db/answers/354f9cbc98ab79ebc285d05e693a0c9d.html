@@ -1,21 +1,25 @@
 <p><a href="https://github.com/fengyueran/web-cache-demo.git">demo</a></p>
 <ul>
-<li>储存大小<ul>
+<li><p>储存大小</p>
+<ul>
 <li>Cookie: 4kb 左右</li>
 <li>SessionStorage: 一般为 5M</li>
 <li>LocalStorage: 一般为 5M</li>
 </ul>
 </li>
-<li>生命周期<ul>
+<li><p>生命周期</p>
+<ul>
 <li>Cookie: 默认是关闭浏览器后失效，可以设置失效时间</li>
 <li>SessionStorage: 仅在当前会话有效，关闭 tab 页即失效</li>
 <li>LocalStorage: 持久缓存除非主动清除(通过浏览器或 JS)</li>
 </ul>
 </li>
-<li>与服务器通信<ul>
-<li>Cookie: 每次请求都会携带在 http 请求头中，可能带来性能问题</li>
+<li><p>与服务器通信</p>
+<ul>
+<li>每次请求都会携带在 http 请求头中，可能带来性能问题</li>
 <li>SessionStorage: 只在客户端起作用</li>
 <li>LocalStorage: 只在客户端起作用</li>
 </ul>
 </li>
 </ul>
+<p>同域名的 http 和 https 共享 cookie(设置了 Secure 的除外)，但不共享 LocalStorage。</p>
