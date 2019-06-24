@@ -29,20 +29,20 @@ log(){
 pushDBJsonOnRemote(){
   printGreen "Push db.json on remote..."
   log "Push db.json on remote"
-  result=`ssh ${REMOTE} "cd /root/project/front-end-ship-server && ./utils/push.sh"` || unlock
+  result=`ssh ${REMOTE} "cd /root/project/front-end-ship-server && git add . && git commit -m 'update db.json' && git pull --rebase origin master && git push origin master"` || (unlock && unlock)
   echo $result
 }
 
 pushDBJsonOnLocal(){
   printGreen "Push db.json on local..."
   log "Push db.json on local"
-  git push origin master || unlock && exit 1
+  git push origin master || (unlock && exit 1)
 }
 
 updateDBJson(){
   printGreen "Update db.json..."
   log "Update db.json"
-  git pull --rebase || exit 1
+  git pull --rebase || (unlock && exit 1)
 }
 
 deploy(){
@@ -61,10 +61,10 @@ function printRed(){
 
 main(){
   #check files to be commited
-  # result=`git status --porcelain`
-  # if [[ $result ]];then
-  #    printRed "There are files need to commit" && exit
-  # fi
+  result=`git status --porcelain`
+  if [[ $result ]];then
+     printRed "There are files need to commit" && exit
+  fi
 
   if [ -f "$LOCK_FILE" ];then
      log "${SCRIPT_NAME} is running"
@@ -73,8 +73,8 @@ main(){
   lock
   pushDBJsonOnRemote
   updateDBJson
-  # pushDBJsonOnLocal
-  # deploy
+  pushDBJsonOnLocal
+  deploy
   unlock
 }
 
