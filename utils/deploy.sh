@@ -10,6 +10,7 @@ BASE_DIR="/tmp"
 LOCK_FILE="${BASE_DIR}/${APP_NAME}.lock"
 SHELL_LOG="${BASE_DIR}/${APP_NAME}.log"
 REMOTE="root@140.82.48.232"
+SERVER_DIR_ON_REMOTE="/root/project/front-end-ship-server"
 
 
 lock(){
@@ -28,20 +29,20 @@ log(){
 pushDBJsonOnRemote(){
   echo "Push db.json on remote..."
   log "Push db.json on remote"
-  result=`ssh ${REMOTE} "cd /root/project/front-end-ship-server && git add . && git commit -m 'update db.json' && git push origin master"`
+  result=`ssh ${REMOTE} "cd /root/project/front-end-ship-server && ./utils/push.sh"` || unlock
   echo $result
 }
 
 pushDBJsonOnLocal(){
   echo "Push db.json on local..."
   log "Push db.json on local"
-  git push origin master || exit 1
+  git push origin master || unlock && exit 1
 }
 
 updateDBJson(){
   echo "Update db.json..."
   log "Update db.json"
-  git pull --rebase || exit 1
+  git pull --rebase || unlock && exit 1
 }
 
 deploy(){
