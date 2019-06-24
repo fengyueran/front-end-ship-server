@@ -40,9 +40,20 @@ date: 2017-9-08 18:10:20
 
 - 如果两个值类型相同则进行`===`比较
 - 如果两个值类型不同则进行类型转换
+
   - 如果一个是 null，一个是 undefined 则相等
   - 如果一个是字符串，一个是数值，则把字符串转换为数值再进行比较
   - 如果任一个是布尔类型，则将其转换为数值类型(true: 1, false: 0)再进行比较
   - 如果一个是对象，一个是基本类型，则将对象转换为基本类型进行比较
-    对象转换为基本类型会调用对象的 valueOf 或 toString 方法，通常 valueOf 先于 toString 调用
+    对象转换为基本类型会调用对象的 valueOf 或 toString 方法，通常 valueOf 先于 toString 调用，当 valueOf 返回类型还是对象时，则继续调用 toString 方法进行转换。
+
+    ```
+
+      Number([]); // 0, [].valueOf() => [], toString()=>"",  Number("")=>0
+      Number({}); // NaN, ({}).toString() => "[object Object]", [].toString()=>"", Number("[object Object]")=>NaN
+      console.log(([])?true:false); //true
+      console.log(([]==false?true:false)); //true
+      console.log(({}==false)?true:false) //false
+    ```
+
   - 任何其他组合都不相等
