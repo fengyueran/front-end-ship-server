@@ -29,7 +29,7 @@ log(){
 pushDBJsonOnRemote(){
   printGreen "Push db.json on remote..."
   log "Push db.json on remote"
-  result=`ssh ${REMOTE} "cd /root/project/front-end-ship-server && git add . && git commit -m 'update db.json' && git pull --rebase origin master && git push origin master"` || (unlock && unlock)
+  result=`ssh ${REMOTE} "cd $SERVER_DIR_ON_REMOTE && git add . && git commit -m 'update db.json' && git pull --rebase origin master && git push origin master"` || (unlock && unlock)
   echo $result
 }
 
