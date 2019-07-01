@@ -27,9 +27,9 @@ JS 中的加法要么是数值和数值相加，要么是字符串和字符串�
   ```
 - 如果有一个操作数为对象，则调用对象的 toString()方法将其转换为字符串，再应用上面的规则进行计算
   ```
-   var func = function(){};
+    var func = function(){};
    '1' + func //"1function(){}"
-    1 + null //"1function(){}"
+   '1' + null //"1null"
   ```
 
 **减法**

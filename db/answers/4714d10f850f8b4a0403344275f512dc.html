@@ -39,11 +39,11 @@ null == 0 //false</code></pre></li>
 </li>
 <li><p>如果任一个是布尔类型，则将其转换为数值类型(true: 1, false: 0)再进行比较</p>
 </li>
-<li><p>如果一个是对象，一个是基本类型，则将对象转换为基本类型进行比较
-对象转换为基本类型会调用对象的 valueOf 或 toString 方法，通常 valueOf 先于 toString 调用，当 valueOf 返回类型还是对象时，则继续调用 toString 方法进行转换。</p>
+<li><p>如果一个是对象，一个是基本类型，则将对象转换为基本类型进行比较</p>
+<p>对象转换为基本类型会调用对象的 valueOf 或 toString 方法，通常 valueOf 先于 toString 调用，当 valueOf 返回类型还是对象时，则继续调用 toString 方法进行转换。</p>
 <pre><code>
   Number([]); // 0, [].valueOf() =&gt; [], toString()=&gt;&quot;&quot;,  Number(&quot;&quot;)=&gt;0
-  Number({}); // NaN, ({}).toString() =&gt; &quot;[object Object]&quot;, [].toString()=&gt;&quot;&quot;, Number(&quot;[object Object]&quot;)=&gt;NaN
+  Number({}); // NaN, ({}).toString() =&gt; &quot;[object Object]&quot;, Number(&quot;[object Object]&quot;)=&gt;NaN
   console.log(([])?true:false); //true
   console.log(([]==false?true:false)); //true
   console.log(({}==false)?true:false) //false</code></pre></li>

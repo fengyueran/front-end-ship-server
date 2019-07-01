@@ -14,9 +14,9 @@
  1 + null // 1, Number(null) =&gt; 0
 &#39;1&#39; + undefined //&quot;1undefined&quot;
  1 + undefined //NaN, Number(undefined) =&gt; NaN</code></pre></li>
-<li>如果有一个操作数为对象，则调用对象的 toString()方法将其转换为字符串，再应用上面的规则进行计算<pre><code> var func = function(){};
+<li>如果有一个操作数为对象，则调用对象的 toString()方法将其转换为字符串，再应用上面的规则进行计算<pre><code>  var func = function(){};
  &#39;1&#39; + func //&quot;1function(){}&quot;
-  1 + null //&quot;1function(){}&quot;</code></pre></li>
+ &#39;1&#39; + null //&quot;1null&quot;</code></pre></li>
 </ul>
 <p><strong>减法</strong></p>
 <ul>
