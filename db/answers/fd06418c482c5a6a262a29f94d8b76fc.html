@@ -27,10 +27,12 @@
 子域名为</p>
 <pre><code>&lt;iframe src=&quot;http://b.domain.com/b.html&quot;&gt;&lt;/iframe&gt;
 &lt;script&gt;
+    document.domain = &#39;domain.com&#39;;
     var name = &#39;xhm&#39;;
 &lt;/script&gt;</code></pre></li>
 <li><p>B 窗口(<code>http://b.domain.com/b.html</code>)</p>
 <pre><code>&lt;script&gt;
+    document.domain = &#39;domain.com&#39;;
     // 获取父窗口中变量
     alert(&#39;parent name&#39; + window.parent.name); //xhm
 &lt;/script&gt;</code></pre></li>
