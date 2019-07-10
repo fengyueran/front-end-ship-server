@@ -1,9 +1,9 @@
 {
   "parser": "babel-eslint",
-  "extends": [
-    "@xinghunm/eslint-config"
-  ],
+  "extends": ["@xinghunm/eslint-config"],
   "rules": {
-    "no-underscore-dangle": "off"
+    "no-underscore-dangle": "off",
+    "camelcase": "off",
+    "func-names": "off"
   }
 }
