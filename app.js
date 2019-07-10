@@ -33,6 +33,11 @@ lowdb(adapter)
       res.send({ questions, record });
     });
 
+    app.get("/blogs/all", (req, res) => {
+      const blogs = db.get("blogs").value();
+      res.send(blogs);
+    });
+
     app.get("/question/:id", async (req, res) => {
       const id = req.params && req.params.id;
       const filePath = path.join(`${__dirname}/db/questions/${id}.html`);
