@@ -6,7 +6,8 @@
     "start": "babel-node app.js",
     "build": "babel app.js --out-file server.js",
     "pub": "./utils/deploy.sh",
-    "gq": "babel-node utils/generate-question.js"
+    "gq": "babel-node utils/generate-question.js",
+    "gb": "babel-node utils/generate-blog.js"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.4",
@@ -23,6 +24,7 @@
     "@babel/polyfill": "^7.4.4",
     "@xinghunm/walk-dir": "^0.0.4",
     "body-parser": "^1.18.3",
+    "cheerio": "^1.0.0-rc.3",
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "js-yaml": "^3.13.1",

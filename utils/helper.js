@@ -7,7 +7,9 @@ import find from "lodash/find";
 import FileSync from "lowdb/adapters/FileSync";
 import Walker from "@xinghunm/walk-dir";
 
-const qustionSchema = {
+const tocHelper = require("./toc");
+
+const questionSchema = {
   id: "",
   title: "",
   exerciseTimes: 0,
@@ -15,6 +17,20 @@ const qustionSchema = {
   md5: "",
   tags: [],
   type: ""
+};
+
+const blogSchema = {
+  id: "",
+  title: "",
+  date: "",
+  md5: "",
+  tags: [],
+  category: []
+};
+
+const SCHEMA = {
+  questions: questionSchema,
+  blogs: blogSchema
 };
 
 const walkSource = (path) => {
@@ -32,19 +48,20 @@ const getArticleInfo = (articleStr) => {
       if (parts.length === 3) {
         const head = parts[1];
         const headInfo = yml.safeLoad(head);
-        const answer = parts[2];
-        info = { headInfo, answer };
+        const content = parts[2];
+        info = { headInfo, content };
       } else if (parts.length === 4) {
         const head = parts[1];
         const headInfo = yml.safeLoad(head);
         const questionDetail = parts[2];
-        const answer = parts[3];
-        info = { headInfo, answer, questionDetail };
+        const content = parts[3];
+        info = { headInfo, content, questionDetail };
       }
     }
   } catch (e) {
     throw e;
   }
+  console.log("info", info.headInfo);
   return info;
 };
 
@@ -68,36 +85,37 @@ const getArticles = (files) => {
   return articles;
 };
 
-const updateQustionCreator = db => (article) => {
-  const { headInfo, answer, questionDetail } = article;
-  let questionInfo = { ...qustionSchema, ...headInfo };
-  const questions = db.get("questions").value();
-  const byId = questions.byId || {};
-  const allIds = questions.allIds || [];
+const updateStateCreator = (db, type) => (article) => {
+  const { headInfo, content, questionDetail } = article;
+  const schema = SCHEMA[type];
+  let info = { ...schema, ...headInfo };
+  const data = db.get(type).value();
+  const byId = data.byId || {};
+  const allIds = data.allIds || [];
   const found = find(byId, ({ title }) => title === headInfo.title);
-  const hash = md5.hash(`${answer}${questionDetail}`);
+  const hash = md5.hash(`${content}${questionDetail}`);
   if (found) {
     if (hash !== found.md5) {
-      questionInfo = { ...found, ...headInfo, md5: hash };
-      byId[questionInfo.id] = questionInfo;
+      info = { ...found, ...headInfo, md5: hash };
+      byId[info.id] = info;
     } else {
-      questionInfo = null;
+      info = null;
     }
   } else {
-    questionInfo.id = md5.hash(headInfo.title);
-    questionInfo.md5 = hash;
-    allIds.push(questionInfo.id);
-    byId[questionInfo.id] = questionInfo;
+    info.id = md5.hash(headInfo.title);
+    info.md5 = hash;
+    allIds.push(info.id);
+    byId[info.id] = info;
   }
-  db.set("questions", { allIds, byId }).write();
-  return questionInfo;
+  db.set(type, { allIds, byId }).write();
+  return info;
 };
 
 const generateQuestions = (articles) => {
   try {
     const adapter = new FileSync("db/db.json");
     const db = lowdb(adapter);
-    const updateQustion = updateQustionCreator(db);
+    const updateQustion = updateStateCreator(db, "questions");
     const qustionsDir = "./db/questions";
     const answersDir = "./db/answers";
     const qustions = [];
@@ -106,8 +124,8 @@ const generateQuestions = (articles) => {
       const article = articles[i];
       const questionInfo = updateQustion(article);
       if (questionInfo) {
-        const { answer, questionDetail } = article;
-        const html = marked(answer);
+        const { content, questionDetail } = article;
+        const html = marked(content);
         const fileName = `${answersDir}/${questionInfo.id}.html`;
         fs.writeFileSync(fileName, html, "utf8");
         if (questionDetail) {
@@ -125,4 +143,35 @@ const generateQuestions = (articles) => {
   }
 };
 
-export { walkSource, getArticles, generateQuestions };
+const generateBlogs = (articles) => {
+  try {
+    const adapter = new FileSync("db/db.json");
+    const db = lowdb(adapter);
+    const updateBlog = updateStateCreator(db, "blogs");
+    const blogsDir = "./db/blogs";
+    const blogs = [];
+
+    for (let i = 0; i < articles.length; i++) {
+      const article = articles[i];
+      const blogInfo = updateBlog(article);
+      if (blogInfo) {
+        const { content } = article;
+        const html = marked(content);
+        const toc = tocHelper(html);
+        const htmlWithToc = toc + html;
+        const fileName = `${blogsDir}/${blogInfo.id}.html`;
+        fs.writeFileSync(fileName, htmlWithToc, "utf8");
+
+        blogs.push(blogInfo);
+      }
+    }
+    return blogs;
+  } catch (e) {
+    console.log("generateQuestions error", e);
+    throw e;
+  }
+};
+
+export {
+  walkSource, getArticles, generateQuestions, generateBlogs 
+};
