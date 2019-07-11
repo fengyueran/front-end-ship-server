@@ -61,7 +61,6 @@ const getArticleInfo = (articleStr) => {
   } catch (e) {
     throw e;
   }
-  console.log("info", info.headInfo);
   return info;
 };
 
