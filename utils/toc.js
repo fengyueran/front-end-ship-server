@@ -14,7 +14,7 @@ function tocHelper(str, options = {}) {
 
   const className = options.class || "toc";
   const listNumber = list_number || true;
-  let result = `<ol class="${className}">`;
+  let result = `<div class="toc-article"><strong class="toc-title">Contents</strong><ol class="${className}">`;
   const lastNumber = [0, 0, 0, 0, 0, 0];
   let firstLevel = 0;
   let lastLevel = 0;
@@ -64,7 +64,7 @@ function tocHelper(str, options = {}) {
   });
 
   for (i = firstLevel - 1; i < lastLevel; i++) {
-    result += "</li></ol>";
+    result += "</li></ol></div>";
   }
 
   return result;
