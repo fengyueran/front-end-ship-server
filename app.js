@@ -23,6 +23,17 @@ const readFile = file => new Promise((resolve) => {
   });
 });
 
+const handleHtmlRequest = async (req, res, type) => {
+  const id = req.params && req.params.id;
+  const filePath = path.join(`${__dirname}/db/${type}/${id}.html`);
+  const data = await readFile(filePath);
+  if (data) {
+    res.send({ __html: data });
+  } else {
+    res.send({ __html: "" });
+  }
+};
+
 const adapter = new FileAsync("db/db.json");
 
 lowdb(adapter)
@@ -38,26 +49,16 @@ lowdb(adapter)
       res.send(blogs);
     });
 
+    app.get("/blog/:id", async (req, res) => {
+      handleHtmlRequest(req, res, "blogs");
+    });
+
     app.get("/question/:id", async (req, res) => {
-      const id = req.params && req.params.id;
-      const filePath = path.join(`${__dirname}/db/questions/${id}.html`);
-      const data = await readFile(filePath);
-      if (data) {
-        res.send({ __html: data });
-      } else {
-        res.send({ __html: "" });
-      }
+      handleHtmlRequest(req, res, "questions");
     });
 
     app.get("/answer/:id", async (req, res) => {
-      const id = req.params && req.params.id;
-      const filePath = path.join(`${__dirname}/db/answers/${id}.html`);
-      const data = await readFile(filePath);
-      if (data) {
-        res.send({ __html: data });
-      } else {
-        res.send({ __html: "略" });
-      }
+      handleHtmlRequest(req, res, "answers");
     });
 
     app.get("/websites/all", (req, res) => {
