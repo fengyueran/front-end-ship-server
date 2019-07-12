@@ -1,0 +1,219 @@
+<div class="toc-article"><strong class="toc-title">Contents</strong><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#作用域scope"><span class="toc-number">1.</span> <span class="toc-text">作用域(Scope)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#变量对象variable-object-vo"><span class="toc-number">2.</span> <span class="toc-text">变量对象(Variable Object, VO)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#作用域链"><span class="toc-number">3.</span> <span class="toc-text">作用域链</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#延长作用域链"><span class="toc-number">4.</span> <span class="toc-text">延长作用域链</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#结论"><span class="toc-number">5.</span> <span class="toc-text">结论</span></a></li></ol></div><h3 id="作用域scope">作用域(Scope)</h3>
+<p>当我们的代码在执行时，对于特定的代码，我们应该去哪查找变量？我们又该如何查找这些变量？答案就是作用域，也就是说作用域确定了如何在某些位置存储变量以及如何在稍后查找这些变量。在 JS 中采用词法作用域(Lexical Scope)，也就是静态作用域。</p>
+<p><strong>静态作用域</strong></p>
+<p>对于静态作用域，函数的作用域与书写代码的位置直接相关，也就说作用域在在函数定义时就确定了。那是如何确定的呢？就是词法的嵌套结构: 在函数内部的环境引用函数外部的环境，函数外部的环境也可以引用它外部的环境，如此，直到全局环境。像下面的洋葱圈，全局环境是洋葱的最外层，里面的每一层(函数环境)都嵌套其中。</p>
+<img style="display:block; margin: auto; width:400px" alt="作用域示意图" src="https://user-gold-cdn.xitu.io/2019/4/18/16a2f55cd71b035e?w=613&h=328&f=png&s=282657" />
+
+<p>来看下面的例子:</p>
+<pre><code class="language-code">  var name = &#39;lily&#39;;
+
+  function getName() {
+    console.log(&#39;name: &#39;, name);
+  }
+
+  function getMyName() {
+      var name = &#39;lucy&#39;;
+      getName();
+  }
+
+  getMyName();</code></pre>
+<p>输出的结果是什么呢？对于静态作用域，函数 getName 执行时，先在函数内部查找变量，如果没有，则在上层查找，显然它的上层环境在定义时就已经确定，为全局环境，因此找到了 lily，输出<code>name: lily</code>。</p>
+<p><strong>动态作用域</strong></p>
+<p>与静态作用域相对的就是动态作用域，函数的作用域在函数调用时才确定。
+假如采用动态作用域(如 bash)，当函数 getMyName 执行时，变量 name 的值已经变成了 lucy，因此调用 getName 函数时输出<code>name: lucy</code>。如下，执行 <code>bash ./test.sh</code> 就会输出<code>name: lucy</code>。</p>
+<pre><code class="language-code">#test.sh
+name=&#39;lily&#39;;
+
+function getName() {
+  echo name: $name;
+}
+
+function getMyName() {
+  local name=&#39;lucy&#39;;
+  getName;
+}
+
+getMyName;</code></pre>
+<p>前面我们说到作用域确定了如何在某些位置存储变量，这个位置就是变量对象，而如何查找这些变量，就需要作用域链。</p>
+<h3 id="变量对象variable-object-vo">变量对象(Variable Object, VO)</h3>
+<p>我们知道变量对象决定了变量的储存，因此我们需要了解变量对象是如何创建的。过程大致如下:</p>
+<ul>
+<li>创建 arguments 对象，检查当前环境的参数，初始化属性和属性值。</li>
+<li>检查函数声明，当前环境中每发现一个函数就在 VO 中用函数名创建一个属性，以此来引用函数。如果函数名存在，就覆盖这
+个属性。</li>
+<li>检查变量，当前环境中每发现一个变量就在 VO 中用变量名创建一个属性，并初始化其值为 undefined。如果变量名存在，
+则不进行任何处理(注意这是在创建阶段，执行阶段会被赋值)，继续检查。</li>
+</ul>
+<p>进入代码执行阶段，函数环境的变量对象会变成活动对象 AO(Active Object)，变成活动对象前，其内部属性不能被访问。对于全局环境，其变量对象就是 window 对象自身，可以直接访问其内部属性。需要注意的是在 ES5 中变量对象和活动对象的概念被融合到了词法环境(lexical environments)模型(环境记录: Environment Record 和对外部环境的引用: outer reference)中，ES5 后到现在的 ES8 还有一些新的概念(Realms 领域，作业 Job 等)被提出。
+来看下面的例子:</p>
+<pre><code class="language-code">function calcArea(r) {
+  var width = 20;
+  var squareArea = function squareArea() {
+    return width * width;
+  };
+
+  function circleArea() {
+    return 3.14 * r * r;
+  };
+
+  return circleArea() + squareArea();
+}
+
+calcArea(10);</code></pre>
+<p>当调用 calcArea(10)时创建阶段执行环境的快照如下:</p>
+<pre><code class="language-code">calcAreaExecutionContext = {
+  scopeChain: { ... },
+  variableObject: {
+    arguments: {
+      0: 10,
+      length: 1
+    },
+    r: 10,
+    width: undefined,
+    squareArea: undefined,
+    circleArea: pointer to function circleArea()
+  },
+  this: { ... }
+}</code></pre>
+<p>可以看到在创建阶段，只处理定义变量的名字，不为变量赋值，一旦创建完成进入执行阶段就会为变量赋值。创建阶段执行环境的快照如下:</p>
+<pre><code>calcAreaExecutionContext = {
+  scopeChain: { ... },
+  variableObject: {
+    arguments: {
+      0: 10,
+      length: 1
+    },
+    r: 10,
+    width: 20,
+    squareArea: pointer to function squareArea(),
+    circleArea: pointer to function circleArea()
+  },
+  this: { ... }
+}</code></pre><p>由此变量提升就比较容易理解了，来看如下例子</p>
+<pre><code class="language-code">console.log(hello); // [Function: hello]
+function hello() { console.log(&#39;how are u&#39;) }
+var hello = 10;</code></pre>
+<p>可以看到打印输出的值为<code>[Function: hello]</code>，为什么能在变量声明前使用呢？我们来看上述代码的执行流程</p>
+<ul>
+<li>首先进入全局环境创建阶段，检查函数声明，将函数 hello 放入变量对象(全局环境为 window 对象)。</li>
+<li>检查变量声明，发现变量 hello 已经存在，则跳过。</li>
+<li>进入执行阶段，执行代码<code>console.log(hello)</code>时，会在全局环境的变量对象中寻找 hello，找到了函数 hello。</li>
+</ul>
+<p>执行阶段执行环境快照如下:</p>
+<pre><code>globalExecutionContext = {
+  scopeChain: { ... },
+  VO: window,
+  this: window
+}</code></pre><h3 id="作用域链">作用域链</h3>
+<p>当代码在一个环境中执行时，会创建变量对象的一个作用域链，它是由当前环境与上层环境的一系列变量对象组成的，保证了当前执行环境对符合访问权限的变量和函数的有序访问。
+在执行环境中查找变量，如果这个变量不是局部变量(包括局部函数或形参)，这个变量就称为自由变量，要找到自由变量就需要作用域链。</p>
+<p>来看下面的例子:</p>
+<pre><code class="language-code">var firstName = &#39;Michael&#39;;
+function getName() {
+  var middleName = &#39;Jeffrey&#39;;
+  function fullName() {
+    var lastName = &#39;Jordan&#39;;
+    return firstName + middleName + lastName;
+  }
+  return fullName();
+}
+
+getName();</code></pre>
+<p>上面的代码会创建三个执行环境，全局环境、函数 getName 局部环境以及函数 fullName 局部环境，它们的变量对象分别为 VO(global)、VO(getName)以及 VO(fullName)。函数 fullName 的作用域链是如何与这些变量对象关联起来的呢？步骤如下:</p>
+<ul>
+<li><p>函数 fullName 创建时，保存作用域链到内置属性[[scope]]</p>
+<p>fullName 在解析时(getName 调用时)根据静态作用域可以知道它的作用域链包括 VO(global)和 AO(getName)(getName 执行 VO(getName)变为 AO(getName))。</p>
+<pre><code>  fullName.[[scope]] = [
+    AO(getName),
+    VO(global)
+  ];</code></pre></li>
+<li><p>函数 fullName 激活(调用执行)时，创建<a href="https://juejin.im/post/5ca060dde51d4524245d6142">执行上下文</a>压入栈顶</p>
+<pre><code>  ECStack = [
+    fullName EC,
+    getName EC,
+    globalContext
+  ]</code></pre></li>
+<li><p>fullName 函数并不立即执行，开始准备工作，首先复制[[scope]]属性创建作用域链</p>
+<pre><code>fullNameEC = {
+  scopeChain: fullName.[[scope]], // 创建作用域链
+}</code></pre></li>
+<li><p>用 arguments 创建活动对象，并加入形参、变量声明、函数声明</p>
+<pre><code class="language-code">  fullNameExecutionContext = {
+    scopeChain: [AO(getName), VO(global)],
+    activeObject: {
+      arguments: {
+        length: 0
+      },
+      lastName: undefined,
+    },
+    this: { ... }
+  }</code></pre>
+</li>
+<li><p>将活动对象推入 fullName 作用域链的前端</p>
+<pre><code>fullNameEC = {
+  AO: {
+    arguments: {
+      length: 0
+    },
+    lastName: undefined,
+  }
+  scopeChain: [AO(fullName), AO(getName), VO(global)], // 作用域链
+}</code></pre></li>
+<li><p>准备工作完成，开始执行函数，为 AO(fullName)对象的变量赋值</p>
+<pre><code class="language-code">fullNameEC = {
+  AO: {
+    arguments: {
+      length: 0
+    },
+    lastName: &#39;Jordan&#39;,
+  }
+  scopeChain: [AO(fullName), AO(getName), VO(global)], // 作用域链
+}</code></pre>
+</li>
+<li><p>fullName 执行完毕，其上下文弹出执行栈</p>
+<pre><code>  ECStack = [
+    getName EC,
+    globalContext
+  ]</code></pre></li>
+</ul>
+<p>这里，我们用一个数组来表示作用域链，数组的第一个元素即链条的最前端为当前执行环境的活动对象，数组的最后一个元素即链条的最末端为全局执行环境的变量对象。当前执行环境在执行阶段访问变量会先从作用域链的最前端开始查找变量，如果没有则在包含环境中查找，如果包含环境中没有则继续向上查找，如此，直到全局环境中的变量对象，返过来并不成立，也就是说在全局作用域并不能访问函数内部的变量。</p>
+<img style="display:block; margin: auto;" alt="作用域链示意图" src="https://user-gold-cdn.xitu.io/2019/4/3/169e1b94ce0fc256?w=1070&h=372&f=png&s=49703" />
+
+<h3 id="延长作用域链">延长作用域链</h3>
+<p>在 js 中，某些语句可以在作用域链前端临时添加一个变量对象，该变量对象会在代码执行完毕后移除。具体来说当执行流进入到下列两种语句时，作用域就会得到加长：</p>
+<ul>
+<li><p>try-catch 语句的 catch 块</p>
+<p>在执行 catch 语句块时，创建一个包含抛出错误对象声明的变量对象，将其加入作用域链前端。
+如下，在 catch 块中，错误对象 e 被添加到了其作用域链前端，这使得在 catch 块内部能够访问到错误对象。执行完后，catch 块内部的变量对象被销毁，因此在 catch 块外部就不能访问到错误对象 e 了(ie8 可以访问到，ie9 修复了这个问题)。</p>
+<pre><code class="language-code">var test = () =&gt; {
+  try {
+    throw Error(&quot;出错误了&quot;);
+  } catch(e) {
+    console.log(e);  //Error: 出错误了
+  }
+  console.log(e);  //Uncaught ReferenceError: e is not defined
+}
+test();</code></pre>
+</li>
+<li><p>with(obj)语句</p>
+<p>将 obj 对象加入到作用域链前端。
+如下，语句<code>with(persion)</code>将对象 persion 添加到了函数 getName 作用域链的前端，语句<code>var myName = name</code>在查找变量 name 时 会首先在其作用域链前端，即 person 对象中查找，查找到 name 属性为 snow。又因为 with 语句的变量对象是只读的，在本层定义的变量，不能存储到本层，而是存储到它的上一层作用域。这样在函数 getName 的作用域内就能访问到变量 myName 了。</p>
+<pre><code class="language-code">var persion = { name: &#39;snow&#39; };
+var name = &#39;summer&#39;;
+var getName = () =&gt; {
+  with(persion) {
+    var myName = name;
+  }
+  return myName;
+}
+console.log(getName())
+=&gt; snow</code></pre>
+</li>
+</ul>
+<h3 id="结论">结论</h3>
+<ul>
+<li>全局环境没有 arguments 对象。</li>
+<li>我们编写代码时并不能访问函数的变量对象，但解释器在处理数据使其成为活动对象时就可以使用它。</li>
+<li>作用域链的搜索始终是从作用域链的前端开始，然后逐级的向后回溯，直到全局环境，不能反向搜索。</li>
+<li>各个环境间的联系是线性的，有次序的。</li>
+</ul>

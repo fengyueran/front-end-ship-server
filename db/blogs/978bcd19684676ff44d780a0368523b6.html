@@ -1,0 +1,118 @@
+<div class="toc-article"><strong class="toc-title">Contents</strong><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#css-权重的概念"><span class="toc-number">1.</span> <span class="toc-text">css 权重的概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#权重的等级"><span class="toc-number">2.</span> <span class="toc-text">权重的等级</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#权重的计算"><span class="toc-number">3.</span> <span class="toc-text">权重的计算</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#权重的基本规则"><span class="toc-number">4.</span> <span class="toc-text">权重的基本规则</span></a></li></ol></div><h3 id="css-权重的概念">css 权重的概念</h3>
+<p>css 权重即每条 css 在应用时所占据的分量，优先级如何，它决定了浏览器如何将这条规则应用到相应的元素上。每一个选择器都有自己的权重级别，而每一条 css 规则的权重是由这些选择器的权重加权而成，最终，权重高的 css 将会应用到相应的元素上。</p>
+<h3 id="权重的等级">权重的等级</h3>
+<p>在 css 中不同的选择器有不同的权重等级，主要分为以下四个等级:</p>
+<ul>
+<li><p>内联样式
+内联样式(行内样式)即通过 style 属性直接写在元素上的样式，如下</p>
+<pre><code>  &lt;div style={{ color: red }}&gt;</code></pre></li>
+<li><p>id 选择器</p>
+<p>id 是一个元素的标识，id 选择器通过<code>#</code>表示，如下:</p>
+<pre><code class="language-code">// css
+#title {
+  color: red;
+}
+// html
+&lt;div id=&quot;title&quot;&gt;</code></pre>
+</li>
+<li><p>类、伪类、属性选择器</p>
+<p>这三种选择器为同一等级。</p>
+<pre><code class="language-code">  .root {
+    background: red;
+  }
+  .root:hover {
+    background: black;
+  }
+  [title] {
+    background: blue;
+  }
+  &lt;div class=&quot;root&quot; title=&quot;css&quot;&gt;&lt;/div&gt;</code></pre>
+</li>
+<li><p>元素、伪元素选择器</p>
+<p>这两种选择器为同一等级。</p>
+<pre><code class="language-code">  .div {
+    background: red;
+  }
+  .div::selection {
+    background: black;
+  }
+  &lt;div&gt;css&lt;/div&gt;</code></pre>
+<p>关于选择器的知识可以查看<a href="https://juejin.im/post/5c99d0eee51d4510df61601a">CSS 选择器</a>一文。</p>
+</li>
+</ul>
+<h3 id="权重的计算">权重的计算</h3>
+<p>定性来说，css 权重大小顺序如下<code>!important &gt; 内联样式 &gt; ID &gt; 类、伪类、属性 &gt; 元素、伪元素 &gt; 继承 &gt; 通配符</code>，为了方便计算，有聪明的 boy 给每个等级定义了一个基数，即</p>
+<ul>
+<li>!important: 无穷大</li>
+<li>内联样式: 1000</li>
+<li>ID: 100</li>
+<li>类、伪类、属性: 10</li>
+<li>元素、伪元素: 1</li>
+<li>通配符: 0</li>
+</ul>
+<p>权重计算时，每遇到一个选择器就加上相应的基数，总和大的认为权重更高。如下:</p>
+<pre><code class="language-code">style=&quot;&quot;                    =&gt; 1000(一个行内样式)
+#title{}                    =&gt; 100(一个ID选择器)
+.root                       =&gt; 10(一个类)
+[title]                     =&gt; 10(一个属性)
+div                         =&gt; 1(一个元素)
+*{}                         =&gt; 0(通配符)
+div span {}                 =&gt; 1+1=2(两个元素)
+div h1+span {}              =&gt; 1+1+1=2(三个元素)
+div:first-child             =&gt; 1+10=11(一个元素，一个伪类)
+div [title]                 =&gt; 1+10=11(一个元素，一个属性选择器)
+body #title .root p {}      =&gt; 112(1+100+10+1，两个元素，一个Id选择器，一个类)</code></pre>
+<p>需要注意的是，这种计算方式只是为了便于理解而使用的方法，它并不一定准确。</p>
+<h3 id="权重的基本规则">权重的基本规则</h3>
+<ul>
+<li><ol>
+<li>权重大的 css 生效</li>
+</ol>
+<p>如下，由于 body div 的权重(2)大于 div 的权重(1)，因此 div 的背景色为蓝色。</p>
+<pre><code class="language-code">  &lt;style type=&quot;text/css&quot;&gt;
+    body div {
+      background: blue;
+    }
+    div {
+      height: 100px;
+      width: 100px;
+      background: red;
+    }
+  &lt;/style&gt;
+  &lt;body&gt;
+    &lt;div&gt;css&lt;/div&gt;
+  &lt;/body&gt;</code></pre>
+</li>
+<li><ol start="2">
+<li>相同的权重，后面的规则覆盖前面的规则</li>
+</ol>
+<p>如下，div 背景色红色在蓝色后，因此 div 最终为红色。</p>
+<pre><code class="language-code">  &lt;style type=&quot;text/css&quot;&gt;
+    div {
+      background: blue;
+    }
+    div {
+      background: red;
+      height: 100px;
+      width: 100px;
+    }
+  &lt;/style&gt;
+  &lt;div&gt;css&lt;/div&gt;</code></pre>
+</li>
+<li><ol start="3">
+<li>拥有更高权重等级的 css 权重更高</li>
+</ol>
+<p>也就说对于不同等级的选择器，即使低等级的选择器再多，其权重仍小于只有一个高等级选择器的 css。例如 11 个 class 和一个 id，利用前述的计算方法 11 个 class 的权重为 110，id 权重为 100，class 权重值更大，但是这并不成立，这种情况下之前的计算方法不再适用。如下，由于 id 比 class 高一个等级，因此，id 选择器权重更高，div 最终为红色背景</p>
+<pre><code class="language-code">  &lt;style type=&quot;text/css&quot;&gt;
+    .root1 .root2 .root3 .root4 .root5 .root6 .root7 .root8 .root9 .root10 .root11 {
+      background: blue;
+    }
+    #root {
+      background: red;
+      height: 100px;
+      width: 100px;
+    }
+  &lt;/style&gt;
+  &lt;div id=&quot;root&quot; class=&quot;root1&quot;   class=&quot;root2&quot; class=&quot;root3&quot;  class=&quot;root4&quot;  class=&quot;root5&quot;  class=&quot;root6&quot;  class=&quot;root7&quot;  class=&quot;root8&quot;  class=&quot;root9&quot;  class=&quot;root10&quot;  class=&quot;root11&quot; &gt;&lt;/div&gt;</code></pre>
+</li>
+</ul>

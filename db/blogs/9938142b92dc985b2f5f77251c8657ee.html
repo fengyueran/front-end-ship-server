@@ -1,0 +1,166 @@
+<div class="toc-article"><strong class="toc-title">Contents</strong><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#引入-css"><span class="toc-number">1.</span> <span class="toc-text">引入 css</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#初始化-state"><span class="toc-number">2.</span> <span class="toc-text">初始化 State</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#proptypes-书写顺序"><span class="toc-number">3.</span> <span class="toc-text">propTypes 书写顺序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#用箭头函数绑定-this"><span class="toc-number">4.</span> <span class="toc-text">用箭头函数绑定 this</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#setstate-接受函数参数"><span class="toc-number">5.</span> <span class="toc-text">setState 接受函数参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用-getset-访问器属性来做数据处理"><span class="toc-number">6.</span> <span class="toc-text">使用 Get/Set 访问器属性来做数据处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#避免传递新的闭包给子组件"><span class="toc-number">7.</span> <span class="toc-text">避免传递新的闭包给子组件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#尽量使用函数式组件"><span class="toc-number">8.</span> <span class="toc-text">尽量使用函数式组件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#布尔类型判断是否渲染的书写"><span class="toc-number">9.</span> <span class="toc-text">布尔类型判断是否渲染的书写</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#必要的时候用高阶组件"><span class="toc-number">10.</span> <span class="toc-text">必要的时候用高阶组件</span></a></li></ol></div><h3 id="引入-css"><strong>引入 css</strong></h3>
+<p>直接引入组件对应的 css 以便于修改</p>
+<pre><code>//before
+build到一个main.css, 在主html引入
+
+//recommend
+import React from &#39;react&#39;;
+import PropTypes from &#39;prop-types&#39;;
+import styles from &#39;./infocard.css&#39;;</code></pre><h3 id="初始化-state"><strong>初始化 State</strong></h3>
+<p>es7 语法定义 state 更简洁</p>
+<pre><code>//before
+class Main extends React.Component {
+  constructor() {
+    super();
+    this.state = {};
+  }
+  render() {
+
+  }
+}
+
+// recommend
+class Main extends React.Component {
+  state = { step: 0 }
+  render() {
+
+  }
+}
+</code></pre><h3 id="proptypes-书写顺序"><strong>propTypes 书写顺序</strong></h3>
+<pre><code>//before
+class Main extends React.Component {
+  render() {
+
+  }
+}
+Main.propTypes = {
+}
+Main.defaultTypes = {
+}
+
+//recommend
+//class组件
+class Main extends React.Component {
+  static propTypes = {
+
+  }
+  static defaultTypes = {
+
+  }
+  render() {
+
+  }
+}
+
+//函数式组件
+const mainProps = {};
+const Main = () =&gt; {
+  return() {
+
+  }
+}
+Main.propTypes = mainProps;</code></pre><h3 id="用箭头函数绑定-this"><strong>用箭头函数绑定 this</strong></h3>
+<p>React.Component 创建组件时，类中的方法并不会绑定 this 而需要显示绑定，如下，用箭头函数可以自动绑定(es6 语法糖)this。</p>
+<pre><code>//before
+constructor() {
+  this.handleClick = this.handleClick.bind(this);
+}
+&lt;div onClick={this.handleClick.bind(this)}&gt;
+
+//recommend
+const handleClick = () =&gt; {}
+</code></pre><h3 id="setstate-接受函数参数"><strong>setState 接受函数参数</strong></h3>
+<p>react 设计时为了性能上的优化，采取了批次的思想，每次更改 state 并不直接更新，而是收到一波 state 合并后才更新，是一个异步的过程，所以当需要前一个 state 做后续运算时应该传一个函数而不是对象，如下就可以避免这一问题。</p>
+<pre><code>//before
+this.setState({ num: 1 })
+console.log(this.state.num) //undefined
+
+//recommend
+this.setState((preState, props) =&gt; ({ num: 1 }));
+this.setState((preState, props) =&gt; ({ num: preState.num + 1 }));
+最后this.state.num为2</code></pre><h3 id="使用-getset-访问器属性来做数据处理"><strong>使用 Get/Set 访问器属性来做数据处理</strong></h3>
+<p>如果需要在组件内做数据处理尽量使用 Get/Set</p>
+<pre><code>  // recommend
+  getSpeed () {
+    return `${this.props.speed} m/s`;
+  }
+
+  // re
+  get speed () {
+    return `${this.props.firstName} m/s`;
+  }</code></pre><h3 id="避免传递新的闭包给子组件"><strong>避免传递新的闭包给子组件</strong></h3>
+<p>这里的闭包指通过这种形式(() =&gt; { alert(&#39;hit my heart&#39;);})创建的函数，每次父组件 render 时都会生成新的闭包，给子组件传递一个新的闭包 prop，从而导致子组件重绘，即使子组件其他 props 并未更新。</p>
+<pre><code>//before
+class Main extends React.Component {
+  render() {
+     &lt;ViewHeart
+      onClick={() =&gt; {
+        alert(&#39;hit my heart&#39;);
+      }} /&gt;
+  }
+}
+
+//recommend
+class Main extends React.Component {
+  hitMyHeart = () =&gt; {
+    alert(&#39;hit my heart&#39;);
+  }
+  render() {
+     &lt;ViewHeart
+      onClick={this.hitMyHeart} /&gt;
+  }
+}</code></pre><h3 id="尽量使用函数式组件"><strong>尽量使用函数式组件</strong></h3>
+<p>函数式组件没有生命周期管理或状态管理，易于调试，不需要分配特定的内存。此外函数式组件尽量不用箭头函数，因其为匿名函数，错误很可能以&lt;&lt; anonymous &gt;&gt;的方式呈现，难以调试。</p>
+<pre><code>//before
+class Main extends React.Component {
+  render() {
+
+  }
+}
+
+//bad
+const Main = () =&gt; {
+  return {
+
+  }
+}
+
+// recommend
+function Main() {
+  return {
+
+  }
+}</code></pre><h3 id="布尔类型判断是否渲染的书写"><strong>布尔类型判断是否渲染的书写</strong></h3>
+<p>如下当用一个布尔判断是否渲染时不需要用三目运算符，&amp;&amp;更简洁。</p>
+<pre><code>//before
+{
+  isActive ? &lt;Active /&gt; : null
+}
+
+//recommend
+{
+  isActive &amp;&amp; &lt;Active /&gt;
+}</code></pre><h3 id="必要的时候用高阶组件"><strong>必要的时候用高阶组件</strong></h3>
+<p>无状态函数组件与高阶组件结合能使代码层次更加清晰，分工明确，调试更加容易。如下通过函数 withMain 将无状态组件 WrappedComponent 包裹了一层，这一层负责管理 state 或生命周期 WrappedComponent 只负责显示。</p>
+<pre><code>const withMain = (mapPropsToData, WrappedComponent) =&gt; {
+  class MainWrapper extends React.Component {
+    componentDidMount() {}
+
+    componentWillUnmount() {}
+
+    shouldComponentUpdate(nextProps) {
+      return nextProps !== this.props;
+    }
+    render() {
+      return &lt;WrappedComponent {...this.props} /&gt;;
+    }
+  }
+}
+
+@withMain({ title: &#39;高阶组件&#39; })
+class Main extends React.Component {
+  render() {
+
+  }
+}
+</code></pre>

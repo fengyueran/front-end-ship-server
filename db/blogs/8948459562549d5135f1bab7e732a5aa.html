@@ -1,0 +1,302 @@
+<div class="toc-article"><strong class="toc-title">Contents</strong><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本概念"><span class="toc-number">1.</span> <span class="toc-text">基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#树相关的术语"><span class="toc-number">2.</span> <span class="toc-text">树相关的术语</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#操作树"><span class="toc-number">3.</span> <span class="toc-text">操作树</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#节点"><span class="toc-number">3.1.</span> <span class="toc-text">节点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#树"><span class="toc-number">3.2.</span> <span class="toc-text">树</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#tree的方法"><span class="toc-number">3.3.</span> <span class="toc-text">Tree的方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#树的完整实现"><span class="toc-number">3.4.</span> <span class="toc-text">树的完整实现</span></a></li></ol></div></li></ol></div><h3 id="基本概念"><strong>基本概念</strong></h3>
+<p>树是一种数据结构，之所以称之为树是因为其结构类似于倒置的🌲，它的根在上，枝叶在下。树中一个最基本的数据称为节点(Node)，对应于🌲中的每一个分叉。树具有一个根节点(root)，根节点之下可能具有多个节点，节点间通过边(edge)相连，表示它们之间的关系。这种结构类似于Html文档，公司的组织结构...</p>
+<center>![树的结构示意图](https://i.imgur.com/C9MVN2F.png)</center>
+<center>图1. 树的结构示意图 </center>
+
+<h3 id="树相关的术语"><strong>树相关的术语</strong></h3>
+<ul>
+<li>根结点: 树最顶层结点，也是树中唯一一个没有父节点的节点，如图1中的节点1。</li>
+<li>边: 两个结点之间的连接。</li>
+<li>父结点: 一个节点有子节点则称这个节点是其子结点的父节点。</li>
+<li>兄弟结点: 具有相同父节点的节点互为兄弟节点，如图中的7、8、9。</li>
+<li>叶子结点: 树中没有子结点的结点(树得末端)，如图1中的6、7、8、9、10。</li>
+<li>层次: 节点的层次从根开始定义，根为第一层，根的子节点为第二层，依次类推</li>
+<li>深度: 树中结点的最大层次称为树的深度</li>
+</ul>
+<h3 id="操作树"><strong>操作树</strong></h3>
+<p>在计算机科学中树是一种用来模拟分层数据的数据结构，树由多个节点构成，而每个节点都有自身的数据(data)及指向其他节点(parent、children)的指针，如下定义了节点和树。</p>
+<h4 id="节点">节点</h4>
+<ul>
+<li>data: 节点的数据</li>
+<li>parent: 节点的父亲</li>
+<li>children: 节点的子节点</li>
+</ul>
+<pre><code>class Node {
+  constructor(data) {
+    this.data = data;
+    this.parent = null;
+    this.children = [];
+  }
+}</code></pre><h4 id="树">树</h4>
+<p>树有一个根节点root</p>
+<pre><code>class Tree {
+  constructor(data) {
+    this._root = new Node(data);
+  }
+}</code></pre><p>构造图1中的树</p>
+<pre><code>  const tree = new Tree({ id: 1, value: 1 });
+  const node2 = new Node({ id: 2, value: 2 });
+  node2.parent = tree._root;
+  tree._root.children.push(node2);
+
+  const node3 = new Node({ id: 3, value: 3 });
+  node3.parent = tree._root;
+  tree._root.children.push(node3);
+
+  const node4 = new Node({ id: 4, value: 4 })
+  node4.parent = node2;
+  node2.children.push(node4);
+
+  const node5 = new Node({ id: 5, value: 5 })
+  node5.parent = node3;
+  node3.children.push(node5);
+
+  const node6 = new Node({ id: 6, value: 6 })
+  node6.parent = node3;
+  node3.children.push(node6);
+
+  const node7 = new Node({ id: 7, value: 7 })
+  node7.parent = node4;
+  node4.children.push(node7);
+  const node8 = new Node({ id: 8, value: 8 })
+  node8.parent = node4;
+  node4.children.push(node8);
+  const node9 = new Node({ id: 9, value: 9 })
+  node9.parent = node4;
+  node4.children.push(node9);
+
+  const node10 = new Node({ id: 10, value: 10 })
+  node10.parent = node5;
+  node5.children.push(node10);</code></pre><h4 id="tree的方法">Tree的方法</h4>
+<p>接下来我们将要创建以下五种方法。</p>
+<ul>
+<li><p>traverseDF(callback)</p>
+</li>
+<li><p>traverseBF(callback)</p>
+</li>
+<li><p>contains(callback, traversalType)</p>
+</li>
+<li><p>add(data, toId, traversalType)</p>
+</li>
+<li><p>remove(node, parent)</p>
+</li>
+</ul>
+<p><strong>方法1/5: traverseDF(callback)</strong>
+这种方法以深度优先遍历树，即尽可能深的遍历树的分支，再进行回溯。在这里通过递归和非递归的方式来实现。</p>
+<ul>
+<li><p>递归方法
+树本来就是一个递归结构，所以很容易想到用递归的方式来遍历树。对于图1中的树来说通过如下递归方法深度优先遍历的结果是: 7、8、9、4、2、10、5、6、3、1。当然，深度优先并不一定是这个顺序，深度优先，重在深度，在进行深度优先遍历的时候，如果一个节点还有子节点，会优先向更深的子节点进行搜索，而不是搜索同层的兄弟节点。</p>
+<pre><code>  traverseDF(callback) {
+    const recuseNode = (node) =&gt; {
+      for (let i = 0; i &lt; node.children.length; i++) {
+        recuseNode(node.children[i]);
+      }
+      callback(node);
+    };
+    recuseNode(this._root);
+  }
+
+  tree.traverseDF((node) =&gt; {
+    console.log(node.data.id); // 7 8 9 4 2 10 5 6 3 1
+  });</code></pre></li>
+</ul>
+<ul>
+<li><p>非递归方法
+非递归方法主要是利用栈的特性来实现。对于图1中的树来说通过如下方法深度优先遍历的结果是: 1、2、4、7、8、9、3、5、10、6。</p>
+<pre><code>  traverseDFWithOutRecuse(callback) {
+    let currentTree = this._root;
+    let stack = [currentTree];
+    while (stack.length) {
+      currentTree = stack.pop();
+      callback(currentTree);
+      for (let i = currentTree.children.length - 1; i &gt;= 0; i--) {
+        stack.push(currentTree.children[i]);
+      }
+    }
+  }
+
+  tree.traverseDFWithOutRecuse((node) =&gt; {
+    console.log(node.data.id); // 1 2 4 7 8 9 3 5 10 6
+  });</code></pre></li>
+</ul>
+<p><strong>方法2/5: traverseBF(callback)</strong></p>
+<p>这种方法以广度优先遍历树: 从根节点出发，对每一层节点依次访问，访问一层进入下一层，而且每个节点只能访问一次。对于图1中的树来说通过广度优先遍历的结果是: 1、2、3、4、5、6、7、8、9、10。</p>
+<pre><code>  class Queue {
+    constructor() {
+        this.dataStore = [];
+    }
+
+    add(element) {
+        this.dataStore.push(element);
+    }
+
+    pop() {
+        return this.dataStore.shift();
+    }
+  }
+
+  traverseBF(callback) {
+    let currentTree = this._root;
+    const queue = new Queue();
+    while (currentTree) {
+      for (let i = 0; i &lt; currentTree.children.length; i++) {
+        queue.add(currentTree.children[i]);
+      }
+      callback(currentTree);
+      currentTree = queue.pop();
+    }
+  }</code></pre><p><strong>方法3/5: contains(callback, traversalType)</strong>
+contains方法用于在树中搜索特定的值，它有两个参数，第一个为回调函数，每遍历到一个节点就会以该节点为回调参数回调，第二个为遍历的类型(深度遍历或广度遍历)</p>
+<pre><code> contains(callback, traversalType) {
+    const traverse = this[traversalType];
+    traverse.call(this, callback);
+  }
+</code></pre><p>搜索特定id的节点就可以这样写：</p>
+<pre><code>tree.contains((node) =&gt; {
+  if (node.id === &#39;5&#39;) {
+    console.log(node);
+  }
+}, &#39;traverseDF&#39;);</code></pre><p><strong>方法4/5: add(data, toId, traversalType)</strong></p>
+<p>该方法用于在指定节点添加节点。</p>
+<pre><code>  add(data, toId, traversalType) {
+    let parent = null;
+    //遍历是否有目标节点
+    this.contains((node) =&gt; {
+      if (node.data === toId) {
+        parent = node.parent;
+      }
+    }, traversalType);
+    //有目标节点则添加节点
+    if (parent) {
+      const newNode = new Node(data);
+      newNode.parent = parent;
+      parent.children.push(newNode);
+    } else {
+      throw new Error(`can&#39;t find the target node`);
+    }
+  }</code></pre><p><strong>方法5/5: remove(fromId, traversalType)</strong></p>
+<p>该方法用于在指定节点下的节点。</p>
+<pre><code>  remove(fromId, traversalType) {
+    let parent = null;
+    let deleteNode = null;
+    //遍历是否有目标节点
+    this.contains((node) =&gt; {
+      if (node.id === fromId) {
+        parent = node.parent;
+        deleteNode = node;
+      }
+    }, traversalType);
+
+    //有目标节点则遍历目标节点的子节点是否有要删除的节点，有则删除
+    if (parent) {
+      const findIndex = parent.children.findIndex(node =&gt; deleteNode.id === node.id);
+      if (findIndex &gt;= 0) {
+        parent.children.splice(findIndex, 1);
+      }
+    } else {
+      throw new Error(`can&#39;t find the target node`);
+    }
+  }</code></pre><h4 id="树的完整实现">树的完整实现</h4>
+<pre><code>class Queue {
+  constructor() {
+    this.dataStore = [];
+  }
+
+  add(element) {
+    this.dataStore.push(element);
+  }
+
+  pop() {
+    return this.dataStore.shift();
+  }
+}
+
+
+class Node {
+  constructor(data) {
+    this.data = data;
+    this.parent = null;
+    this.children = [];
+  }
+}
+
+class Tree {
+  constructor(data) {
+    this._root = new Node(data);
+  }
+
+  traverseDF(callback) {
+    const recuseNode = (node) =&gt; {
+      for (let i = 0; i &lt; node.children.length; i++) {
+        recuseNode(node.children[i]);
+      }
+      callback(node);
+    };
+    recuseNode(this._root);
+  }
+
+  traverseDFWithOutRecuse(callback) {
+    let currentTree = this._root;
+    let stack = [currentTree];
+    while (stack.length) {
+      currentTree = stack.pop();
+      callback(currentTree);
+      for (let i = currentTree.children.length - 1; i &gt;= 0; i--) {
+        stack.push(currentTree.children[i]);
+      }
+    }
+  }
+
+  traverseBF(callback) {
+    let currentTree = this._root;
+    const queue = new Queue();
+    while (currentTree) {
+      for (let i = 0; i &lt; currentTree.children.length; i++) {
+        queue.add(currentTree.children[i]);
+      }
+      callback(currentTree);
+      currentTree = queue.pop();
+    }
+  }
+
+  contains(callback, traversalType) {
+    const traverse = this[traversalType];
+    traverse.call(this, callback);
+  }
+
+  add(data, toId, traversalType) {
+    let parent = null;
+    this.contains((node) =&gt; {
+      if (node.data === toId) {
+        parent = node.parent;
+      }
+    }, traversalType);
+    if (parent) {
+      const newNode = new Node(data);
+      newNode.parent = parent;
+      parent.children.push(newNode);
+    } else {
+      throw new Error(`can&#39;t find the target node`);
+    }
+  }
+
+  remove(fromId, traversalType) {
+    let parent = null;
+    let deleteNode = null;
+    this.contains((node) =&gt; {
+      if (node.id === fromId) {
+        parent = node.parent;
+        deleteNode = node;
+      }
+    }, traversalType);
+
+    if (parent) {
+      const findIndex = parent.children.findIndex(node =&gt; deleteNode.data === node.data);
+      if (findIndex &gt;= 0) {
+        parent.children.splice(findIndex, 1);
+      }
+    } else {
+      throw new Error(`can&#39;t find the target node`);
+    }
+  }
+}</code></pre>

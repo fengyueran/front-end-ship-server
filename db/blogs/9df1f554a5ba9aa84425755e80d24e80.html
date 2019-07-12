@@ -1,0 +1,44 @@
+<div class="toc-article"><strong class="toc-title">Contents</strong><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#伪类pseudo-classes"><span class="toc-number">1.</span> <span class="toc-text">伪类(pseudo-classes)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#伪元素pseudo-elements"><span class="toc-number">2.</span> <span class="toc-text">伪元素(Pseudo-elements)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#伪类与伪元素的区别"><span class="toc-number">3.</span> <span class="toc-text">伪类与伪元素的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#结论"><span class="toc-number">4.</span> <span class="toc-text">结论</span></a></li></ol></div><h3 id="伪类pseudo-classes"><strong>伪类(pseudo-classes)</strong></h3>
+<p>官方定义:</p>
+<blockquote>
+<p>The pseudo-class concept is introduced to <font color=red>permit selection</font> based on information that lies <font color=red>outside of the document</font> tree or that cannot be expressed using the other <font color=red>simple selectors</font>.</p>
+</blockquote>
+<p>其核心就是用来选择那些<font color=red>不能够被普通选择器选择</font>的文档之外的元素，比如:hover。</p>
+<h3 id="伪元素pseudo-elements"><strong>伪元素(Pseudo-elements)</strong></h3>
+<p>官方定义:</p>
+<blockquote>
+<p>Pseudo-elements <font color=red>create abstractions</font> about the document tree beyond those specified by the document language. For instance, document languages do not offer mechanisms to access the first letter or first line of an element’s content. Pseudo-elements allow authors to refer to this otherwise inaccessible information. Pseudo-elements may also provide authors a way to refer to content that does not exist in the source document.</p>
+</blockquote>
+<p>其核心就是需要<font color=red>创建</font>通常不存在于文档中的元素，比如::before。</p>
+<p>看了它们的定义应该对它们之间的异同有所了解了吧，呵呵 🙃🙃🙃...</p>
+<h3 id="伪类与伪元素的区别"><strong>伪类与伪元素的区别</strong></h3>
+<ul>
+<li><p>表示方法</p>
+<p>CSS2 中伪类、伪元素都是以单冒号<code>:</code>表示，CSS2.1 后规定伪类用单冒号表示，伪元素用双冒号<code>::</code>表示，浏览器同样接受 CSS2 时代已经存在的伪元素(:before, :after, :first-line, :first-letter 等)的单冒号写法。对于 CSS2 之后所有新增的伪元素(如::selection)，应该采用双冒号的写法。但是因为兼容性问题，大部分还是用的单冒号。</p>
+</li>
+<li><p>定义不同</p>
+<p>伪类即假的类，通常可以添加类来达到效果，伪元素即假元素，需要通过添加元素才能达到效果。来看下面的例子</p>
+<p><strong>例 1:将一行字符串的首字母变成红色</strong></p>
+<p>现在不用伪元素应该如何实现？用 CSS slector 选择？想了一晚上也没想出来，既然没法选择也就没法添加一个类来改变首字母的颜色。</p>
+<pre><code>&lt;p&gt;I am snow&lt;/p&gt;</code></pre><p>添加元素试试，如下，创建一个元素 span 将首字母包裹起来，进而改变其颜色，成功了。这里，关键点在于我们创建了新的元素达到了<code>::first-letter</code>的作用，且不能通过添加其他类来实现这一效果，因此将<code>::first-letter</code>叫做伪元素而不是伪类。</p>
+<pre><code>  &lt;p&gt;&lt;span style={{ color: red }}&gt;I&lt;span/&gt; am snow&lt;/p&gt;</code></pre><p><strong>例 2: 如下要将 I am snow 这句话变为红色</strong></p>
+<p>很简单用<code>:first-child</code>，同样添加一个类试试，显然很容易达到同样效果，我们并没有创建新的元素只是添加了一个类<code>.red-line</code>，因此将<code>:first-child</code>叫做伪类而不是伪元素，尽管它和<code>::first-letter</code>在语义上十分相似。</p>
+<pre><code>div:first-child {
+ color: red;
+}
+或
+.red-line {
+   color: red;
+}
+
+&lt;div class=&#39;red-line&#39;&gt;
+ &lt;p&gt;I am snow&lt;/p&gt;
+&lt;div&gt;</code></pre></li>
+</ul>
+<h3 id="结论"><strong>结论</strong></h3>
+<ul>
+<li>伪类和伪元素都是用来表示文档树以外的&quot;元素&quot;。</li>
+<li>伪类和伪元素分别用单冒号<code>:</code>和双冒号<code>::</code>来表示。</li>
+<li>伪类和伪元素的区别，最关键的点在于如果没有伪元素(或伪类)，是否需要添加元素才能达到目的，如果是则是伪元素，反之则是伪类。</li>
+</ul>
+<p>关于常用的伪类与伪元素选择器可参见<a href="https://juejin.im/post/5c99d0eee51d4510df61601a">CSS 选择器</a>一文。</p>

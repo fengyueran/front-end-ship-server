@@ -1,0 +1,160 @@
+<div class="toc-article"><strong class="toc-title">Contents</strong><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#js-的阻塞行为"><span class="toc-number">1.</span> <span class="toc-text">JS 的阻塞行为</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#css-的阻塞行为"><span class="toc-number">2.</span> <span class="toc-text">CSS 的阻塞行为</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#结论"><span class="toc-number">3.</span> <span class="toc-text">结论</span></a></li></ol></div><p>在探讨 CSS、JS 对阻塞行为前，先建立如下的 html，后续的探讨都在这个 html 的基础上进行。</p>
+<p>html 文件如下:</p>
+<pre><code class="language-code">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+  &lt;head&gt;
+    &lt;style&gt;
+      div {
+        width: 100px;
+        height: 100px;
+        background: blue;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div /&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>可以预见的是 html 加载完毕后页面会呈现一个蓝色的正方形。</p>
+<p><a href="https://github.com/fengyueran/file-block-html-load">demo 地址</a></p>
+<h3 id="js-的阻塞行为">JS 的阻塞行为</h3>
+<ul>
+<li><p><code>&lt;script src=&quot;script.js&quot;&gt;&lt;/script&gt;</code></p>
+<p>对于没有 async 和 defer 属性的 script，当浏览器解析到 script 标签时会立即加载并执行脚本，这会阻止 dom 的解析，也就说在 script 加载执行完成前 script 标签后的 dom 都不会解析。</p>
+<p><strong>加载脚本阻止 dom 解析</strong></p>
+<p>如下，head 内添加了一个内联脚本，一个外部脚本(sleep.js，为一个空文件)，外部脚本将在服务端延迟 5 秒后返回。当 document.readyState 变为 interactive 可交互时，表明文档已解析完成，接近于 DOMContentLoaded 事件的触发。</p>
+<pre><code class="language-code">&lt;head&gt;
+  &lt;script&gt;
+    console.log(&#39;start&#39;);
+    document.onreadystatechange = function () {
+      if (document.readyState === &quot;interactive&quot;) {
+        console.log(&#39;DOMContentLoaded&#39;, document.body.children);
+      }
+    }
+  &lt;/script&gt;
+  &lt;script src=&quot;/sleep.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;</code></pre>
+<p>效果如下:</p>
+<img style="display:block; margin: auto;" alt="css不阻止DOM解析效果图" src="https://user-gold-cdn.xitu.io/2019/5/28/16afdca4ed503ab5?w=619&h=205&f=gif&s=51642"  />
+
+<p>可以看到，页面刷新，start 首先执行，5 秒后 DOMContentLoaded 才执行，也就是说 js 的加载会阻止 dom 的解析。事实上多数浏览器在 js 加载执行时都会停止解析文档，因为 js 可能操作 dom。</p>
+<p><strong>执行脚本阻止 dom 解析</strong></p>
+<p>如下，head 内添加了两个内联脚本，第二个内联脚本将执行至少 5 秒钟。</p>
+<pre><code class="language-code">&lt;head&gt;
+  &lt;script&gt;
+    console.log(&#39;start&#39;);
+    document.onreadystatechange = function () {
+      if (document.readyState === &quot;interactive&quot;) {
+        console.log(&#39;DOMContentLoaded&#39;, document.body.children);
+      }
+    }
+  &lt;/script&gt;
+  &lt;script&gt;
+    var now = Date.now();
+    var isRun = true;
+    while(isRun) {
+      var time = Date.now();
+      if (time - now &gt; 5000) {
+        isRun = false;
+      }
+    }
+    console.log(&#39;body&#39;, document.body);
+    console.log(&#39;end&#39;);
+  &lt;/script&gt;
+&lt;/head&gt;</code></pre>
+<p>效果如下:</p>
+<img style="display:block; margin: auto;" alt="css不阻止DOM解析效果图" src="https://user-gold-cdn.xitu.io/2019/5/28/16afdca4ebe8c304?w=619&h=205&f=gif&s=49224"  />
+可以看到，页面刷新，start 首先执行，5 秒后 DOMContentLoaded 才执行，脚本执行完毕前 body 为 null，也就是说 js 的执行会阻止 dom 的解析。
+</li>
+<li><p><code>&lt;script async src=&quot;script.js&quot;&gt;&lt;/script&gt;</code></p>
+<p>async 属性会使脚本后续文档的加载渲染和脚本的加载执行并行进行。async 脚本在下载完成后立即执行，所以不能保证脚本的执行顺序，以乱序执行为主。此外，async 不支持内联脚本。</p>
+<p><strong>加载 async 脚本不阻止 dom 解析</strong></p>
+<p>如下，将&quot;加载脚本阻止 dom 解析&quot;例子中的脚本改成 async。</p>
+<pre><code class="language-code">  &lt;script async src=&quot;/sleep.js&quot;&gt;&lt;/script&gt;</code></pre>
+<p>页面刷新，可以看到 DOMContentLoaded 立即打印了，也就说带有 async 属性的脚本加载时不会阻塞 dom 的解析。</p>
+<p><strong>执行 async 脚本不阻止 dom 解析</strong></p>
+<p>添加如下代码到 sleep.js</p>
+<pre><code class="language-code">var now = Date.now();
+var isRun = true;
+while(isRun) {
+  var time = Date.now();
+  if (time - now &gt; 5000) {
+    isRun = false;
+  }
+}
+console.log(&#39;body&#39;, document.body);
+console.log(&#39;end&#39;);</code></pre>
+<p>如下: 以 async 的方式加载 sleep.js，服务端立即返回 sleep.js。</p>
+<pre><code class="language-code">&lt;head&gt;
+  &lt;script&gt;
+    console.log(&#39;start&#39;);
+    document.onreadystatechange = function () {
+      if (document.readyState === &quot;interactive&quot;) {
+        console.log(&#39;DOMContentLoaded&#39;, document.body.children);
+      }
+    }
+  &lt;/script&gt;
+  &lt;script async src=&quot;/sleep.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;</code></pre>
+<p>页面刷新，可以看到 DOMContentLoaded 立即打印了，也就说带有 async 属性的脚本执行时不会阻塞 dom 的解析。</p>
+</li>
+<li><p><code>&lt;script defer src=&quot;script.js&quot;&gt;&lt;/script&gt;</code></p>
+<p>defer 会使脚本后续文档的加载渲染和脚本的加载并行进行，但 defer 脚本的执行要在所有元素解析完成之后 DOMContentLoaded 事件触发前完成，它是按着脚本加载顺序进行执行。</p>
+<p><strong>加载 defer 脚本不阻止 dom 解析</strong></p>
+<p>将 &quot;加载 async 脚本不阻止 dom 解析例子&quot; 中 async 换成 defer</p>
+<pre><code class="language-code"> &lt;script defer src=&quot;/sleep.js&quot;&gt;&lt;/script&gt;</code></pre>
+<p>页面刷新，可以看到 DOMContentLoaded 立即打印了，也就说带有 defer 属性的脚本加载时不会阻塞 dom 的解析。</p>
+<p><strong>执行 defer 脚本不阻止 dom 解析</strong></p>
+<p>将 &quot;执行 async 脚本不阻止 dom 解析例子&quot; 中 async 换成 defer。</p>
+<pre><code class="language-code">  &lt;script&gt;
+    console.log(&#39;start&#39;);
+    document.onreadystatechange = function () {
+      if (document.readyState === &quot;interactive&quot;) {
+        console.log(&#39;DOMContentLoaded&#39;, document.body.children);
+      }
+    }
+  &lt;/script&gt;
+ &lt;script defer src=&quot;/sleep.js&quot;&gt;&lt;/script&gt;</code></pre>
+<p>页面刷新，可以看到 DOMContentLoaded 立即打印了，也就说带有 defer 属性的脚本执行时不会阻塞 dom 的解析。</p>
+</li>
+</ul>
+<h3 id="css-的阻塞行为">CSS 的阻塞行为</h3>
+<p>在 html 的 head 标签内加上 script 标签和 css 的 link，main.css 在服务器端延迟 5 秒后返回。</p>
+<pre><code class="language-code">&lt;head&gt;
+  &lt;script&gt;
+    document.onreadystatechange = function () {
+      if (document.readyState === &quot;interactive&quot;) {
+        console.log(&#39;DOMContentLoaded&#39;, document.body.children);
+      }
+    }
+  &lt;/script&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;/main.css&quot; /&gt;
+&lt;/head&gt;</code></pre>
+<p>main.css 文件如下:</p>
+<pre><code>div {
+  background: red;
+}</code></pre><p>效果如下:</p>
+<img style="display:block; margin: auto;" alt="css不阻止DOM解析效果图" src="https://user-gold-cdn.xitu.io/2019/5/28/16afdca4eba8206e?w=624&h=253&f=gif&s=72295"  />
+
+<p>可以看到，页面刷新时，立即打印出了 DOMContentLoaded，尽管 main.css 是在延迟 5 秒后返回的，也就是说在 css 加载完成之前 dom 就已经解析完成了，css 的加载并不会阻止 dom 的解析。此外，我们并没有看到蓝色的正方形，而一直是一个红色的正方形，这意味着浏览器在 css 加载解析完成前没有渲染它后面的 dom(如果不是，则先看到蓝色的正方形，再看到红色的正方形)，而是在 css 加载解析后再进行渲染，也就是说 css 会阻塞页面的渲染。这种策略是能够说得通的，试想如果先呈现出一个样子，一会又变一下，体验会比较差，而且多次渲染也浪费性能。</p>
+<p>另一方面，在最初的测试时 script 是 放在 link 后边的，如下:</p>
+<pre><code class="language-code">&lt;head&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;/main.css&quot; /&gt;
+  &lt;script&gt;
+    document.onreadystatechange = function () {
+      if (document.readyState === &quot;interactive&quot;) {
+        console.log(&#39;DOMContentLoaded&#39;, document.body.children);
+      }
+    }
+  &lt;/script&gt;
+&lt;/head&gt;</code></pre>
+<p>结果是，等到 main.css 加载完成后才打印了 DOMContentLoaded，这似乎和 css 不阻止 dom 解析相悖。事实上，由于 script 可能去获取 style 信息，如果 css 没有加载完成，显然不能够获取正确的信息，因此部分浏览器会直接阻止后续 script 的执行。</p>
+<h3 id="结论">结论</h3>
+<ul>
+<li>没有 async 和 defer 属性的 script 加载或执行都会阻塞 dom 的解析。</li>
+<li>带有 async 或 defer 属性的 script 加载或执行都不会阻塞 dom 的解析。</li>
+<li>async 的脚本加载完毕后立即执行，不保证执行顺序，而 defer 脚本在 dom 解析完毕后才执行，基本能保证按着脚本加载顺序执行。</li>
+<li>css 的加载解析会阻塞后续的 script 执行，但不会阻塞 dom 解析。</li>
+<li>css 的加载解析会阻塞 dom 的渲染。</li>
+</ul>
+<p>需要说明的是以上所有结论在不同浏览器不同的版本，所采取的策略并不完全一致，比如脚本加载执行时，chrome(v:74)会继续下载 link 指定的文件，而 safari(v:12.0.2)link 文件 的下载会被阻塞。</p>

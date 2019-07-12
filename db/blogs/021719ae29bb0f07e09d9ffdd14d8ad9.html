@@ -1,0 +1,76 @@
+<div class="toc-article"><strong class="toc-title">Contents</strong><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#遇到的问题"><span class="toc-number">1.</span> <span class="toc-text">遇到的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是-submodule"><span class="toc-number">2.</span> <span class="toc-text">什么是 submodule</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加-submodule"><span class="toc-number">3.</span> <span class="toc-text">添加 submodule</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#克隆带有-submodule-的项目"><span class="toc-number">4.</span> <span class="toc-text">克隆带有 submodule 的项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改更新-submodule"><span class="toc-number">5.</span> <span class="toc-text">修改更新 submodule</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除-submodule"><span class="toc-number">6.</span> <span class="toc-text">删除 submodule</span></a></li></ol></div><h3 id="遇到的问题"><strong>遇到的问题</strong></h3>
+<p>最近在做一个上传的客户端，上传的部分由后端同学以 SDK 的方式提供，因此该 SDK 是在一个独立的仓库，那么对于客户端该如何方便的集成该 SDK 呢？每次 SDK 更新把代码拷贝到客户端仓库？把 SDK 发布到 npm？都不是太好，这就可以考虑用 git 的 submodule。</p>
+<h3 id="什么是-submodule"><strong>什么是 submodule</strong></h3>
+<p>submodule 是一个多项目管理工具，它允许将子项目以独立的 git 项目添加到主项目，而主项目以 submodule 的形式拥有子项目。子项目拥有自己的 commit、push、pull，而与主项目互不干扰。主项目只需要记录子项目的地址和所需要的 commit id，通过地址和 commit id 就能够得到对应的子项目。</p>
+<h3 id="添加-submodule"><strong>添加 submodule</strong></h3>
+<p>通常情况下，我们都有一个主项目(MainProject)，在 MainProject 文件夹下执行如下命令，即可添加 submodule。</p>
+<pre><code>/*
+  url: 子项目远程地址或本地地址
+  path: 子项目路径，可省略
+*/
+$ git submodule add [url] [path]
+例: git add submodule git@github.com:fengyueran/UploaderSDK.git ./src/UploaderSDK</code></pre><p>git status 可以看到如下信息</p>
+<pre><code> On branch master
+    Changes to be committed:
+
+        new file:   .gitmodules
+        new file:   UploaderSDK</code></pre><p>可以看到多了两个文件: .gitmodules 和 UploaderSDK。
+cat .gitmodules 看到.gitmodules 储存了 submodule 的路径及远程地址。</p>
+<pre><code>[submodule &quot;src/uploaderSDK&quot;]
+    path = src/uploaderSDK
+    url = git@github.com:fengyueran/UploaderSDK.git</code></pre><p>UploaderSDK 的内容为 submodule 的 commit id。</p>
+<pre><code>Subproject commit 6b53e1840b27ca1587b96c1eb9dd5f4ff0866089</code></pre><p>不难想象通过.gitmodules 和 UploaderSDK 的信息就可以拿到 submodule 的内容了，因此我们需要提交这个两个文件。</p>
+<pre><code>git add .
+git commit -m &quot;add submodule&quot;</code></pre><h3 id="克隆带有-submodule-的项目"><strong>克隆带有 submodule 的项目</strong></h3>
+<p>主要有两个方式</p>
+<p><strong>1. 采用先克隆后更新的方式</strong></p>
+<p>和想象中的不一样，直接 clone 主项目，submodule 并不会跟着 clone 下来，而只有包含 submodule 名的空文件夹。</p>
+<pre><code>1）$ git clone git@github.com:fengyueran/MainProject.git</code></pre><p>需再执行如下命令</p>
+<pre><code>2）$ git submodule init</code></pre><p>输出如下，可以看到该命令给子项目注册了路径，即在主项目中的位置。此时，uploaderSDK 文件夹仍未空。</p>
+<pre><code>
+    Submodule &#39;src/uploaderSDK&#39; (git@github.com:fengyueran/UploaderSDK.git) registered for path &#39;src/uploaderSDK&#39;</code></pre><p> 再执行</p>
+<pre><code>//该命令并不是直接更新到最新的submodule commit，而是更新至主项目所存储存的commit(有可能是较旧的commit)。
+3）$ git submodule update</code></pre><p>输出如下，可以看到 sumodule 得到更新，更新到主项目存储的 submodule commit，是一个游离的 git header。</p>
+<pre><code>Cloning into &#39;/Work/test/MainProject/tmp/MainProject/src/uploaderSDK&#39;...
+
+Submodule path &#39;src/uploaderSDK&#39;: checked out &#39;6b53e1840b27ca1587b96c1eb9dd5f4ff0866089&#39;</code></pre><p><strong>2. 采用递归参数--recursive</strong></p>
+<pre><code>git clone git@github.com:fengyueran/MainProject.git --recursive</code></pre><p>输出如下，可以看到主项目包括 submodule 都被 clone 下来了。</p>
+<pre><code>Cloning into &#39;MainProject&#39;...
+remote: Counting objects: 7, done.
+remote: Compressing objects: 100% (4/4), done.
+Receiving objects: 100% (7/7), done.
+remote: Total 7 (delta 0), reused 4 (delta 0), pack-reused 0
+Submodule &#39;src/uploaderSDK&#39; (git@github.com:fengyueran/UploaderSDK.git) registered for path &#39;src/uploaderSDK&#39;
+Cloning into &#39;/Work/test/MainProject/tmp/MainProject/tmp/MainProject/src/uploaderSDK&#39;...
+Submodule path &#39;src/uploaderSDK&#39;: checked out &#39;6b53e1840b27ca1587b96c1eb9dd5f4ff0866089&#39;</code></pre><h3 id="修改更新-submodule"><strong>修改更新 submodule</strong></h3>
+<p>主要有两种情况</p>
+<p><strong>1. 直接在主项目中的 submodule 下修改</strong></p>
+<p>如上例，直接在 MainProject 下的 src/uploaderSDK 中修改，uploaderSDK 切换到工作分支，修改并提交后，可以 checkout 到最新的 commit，也可以不切，反正都在当前最新的 commit 上(如果想测试其他 commit 也可以切换到相应 commit 上)，此时 MainProject 中我们可以看到 src/uploaderSDK 的 commit 有如下变化</p>
+<pre><code>-Subproject commit 6b53e1840b27ca1587b96c1eb9dd5f4ff0866089
++Subproject commit a4d6dc0457673a275b1f6cbeda6f8ff23293b9de</code></pre><p>a4d6 为修改的提交，需要注意的地方是此时 submodule 已经在最新的 commit 上了，不要再在 MainProject 中 git submodule update 进行更新了，如果进行此操作 submodule 又会回到原来的 commit(带有减号的 commit)，只需要在 MainProject 提交，并在必要的时候 push 到远程仓库。这种方法，非 submodule 的开发人员就不用关心 submodule 是否更新了，只需要在 MainProject 下 pull 代码发现 submodule 有更改时执行 git submodule update(更新为带减号 commit)进行更新，前提是其他开发人员提交了正确的 submodule commit。</p>
+<p><strong>2. 在 submodule 自己独立的仓库进行修改</strong></p>
+<p>在工作目录克隆下 submodule 的仓库，切换到工作分支进行修改提交并 push 到远程仓库。这种方法需要 submodule 开发人员告诉 MainProject 的开发人员 submodule 有更新或主动查看是否有更新，有更新时就在 MainProject 的 src/uploaderSDK 下 pull 远程代码(需要知道 submodule 的工作分支)，快速合并后，uploaderSDK 的 commit 有如下变化，此时同 1 不要 git submodule update，而只是在 MainProject 下提交这个更改。</p>
+<pre><code>-Subproject commit f4573cc1bb50000779202c7f56a640b1ffc075cb
++Subproject commit 64ae6d149c0f6e3b06b8cea262c6126a7bc0887f
+</code></pre><h3 id="删除-submodule"><strong>删除 submodule</strong></h3>
+<p>执行如下命令</p>
+<ol>
+<li>$ git submodule deinit</li>
+</ol>
+<pre><code>逆初始化模块，submodule为子模块目录，执行后可发现子模块目录被清空
+$ git submodule deinit [submodule_name]
+-&gt; Cleared directory &#39;test2sub&#39;
+Submodule &#39;test2sub&#39; (git@github.com:fengyueran/test2sub.git) unregistered for path &#39;test2sub&#39;
+
+//执行如下命令还能看到子项目信息
+$ git submodule
+-&gt; -dab52c62f52353d9967619625c28e28dc4320aef test2sub</code></pre><ol start="2">
+<li>$ git rm <code>--</code>cached [submodule_name]</li>
+</ol>
+<pre><code>// 删除.gitmodules中记录的模块信息（--cached选项清除.git/modules中的缓存）
+git rm --cached test2sub
+//执行如下命令已看看不到删除的子项目信息了
+$ git submodule</code></pre><ol start="3">
+<li>$ git commit</li>
+</ol>
+<pre><code>git commit -m &quot;remove submodule&quot;</code></pre>

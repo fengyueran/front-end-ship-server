@@ -1,0 +1,1793 @@
+<p><strong>1、** JavaScript<code>===</code>和<code>==</code>的区别</strong></p>
+<p><strong><code>===</code></strong>
+即严格相等，它会比较等式两边值的类型和值是否相等，不会进行隐式转换。规则如下:</p>
+<ul>
+<li><p>如果类型不同则不相等</p>
+</li>
+<li><p>如果都是数值，并且为同一个值则相等(NaN 除外)
+NaN 不等于任何值包括它自己(如正无穷不应该等于负无穷)，+0 等于(<code>==</code>或<code>===</code>)-0(对于 0 而言没有正负之分)。</p>
+</li>
+<li><p>如果是字符串，每个位置的字符都一样则相等</p>
+</li>
+<li><p>如果是布尔值，两个都是 true 或两个都是 false 则相等</p>
+</li>
+<li><p>如果两个值为对象(Object、Function 等)，并且引用地址相等则相等
+对于引用类型的变量，<code>==</code>和<code>===</code>都只会判断引用地址是否相等，而不会判断对象具体里的属性以及值是否相等。判断两个对象是否相等，一个简单的方法就是将他们转换为字符串再进行比较。</p>
+<pre><code>var obj1Str = Json.stringify(obj1);
+var obj2Str = Json.stringify(obj2);
+console.log(obj1Str === obj2Str);</code></pre></li>
+<li><p>如果两个都是 null 或都是 undefined，则相等
+比较 null 和 undefined 时不能将其转换为其他类型，typeof(null): object, typeof(undefined): undefined。</p>
+<pre><code>null === null  //true
+undefined === undefined  //true
+//不同类型
+undefined === null  //false
+undefined == null  //true
+//不能转换
+undefined == 0 //false
+null == 0 //false</code></pre></li>
+</ul>
+<p><strong><code>==</code></strong>
+即宽松相等，进行比较前会将等式两边值转换为同一类型(两边都可能被转换)，再进行值的比较，如严格相等则相等。规则如下:</p>
+<ul>
+<li><p>如果两个值类型相同则进行<code>===</code>比较</p>
+</li>
+<li><p>如果两个值类型不同则进行类型转换</p>
+<ul>
+<li><p>如果一个是 null，一个是 undefined 则相等</p>
+</li>
+<li><p>如果一个是字符串，一个是数值，则把字符串转换为数值再进行比较</p>
+</li>
+<li><p>如果任一个是布尔类型，则将其转换为数值类型(true: 1, false: 0)再进行比较</p>
+</li>
+<li><p>如果一个是对象，一个是基本类型，则将对象转换为基本类型进行比较</p>
+<p>对象转换为基本类型会调用对象的 valueOf 或 toString 方法，通常 valueOf 先于 toString 调用，当 valueOf 返回类型还是对象时，则继续调用 toString 方法进行转换。</p>
+<pre><code>  Number([]); // 0, [].valueOf() =&gt; [], toString()=&gt;&quot;&quot;,  Number(&quot;&quot;)=&gt;0
+  Number({}); // NaN, ({}).toString() =&gt; &quot;[object Object]&quot;, Number(&quot;[object Object]&quot;)=&gt;NaN
+  console.log(([])?true:false); //true
+  console.log(([]==false?true:false)); //true
+  console.log(({}==false)?true:false) //false</code></pre></li>
+<li><p>任何其他组合都不相等</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>2、 简述 domready、DOMContentLoaded、onload 的区别，图片的 onload 和页面 onload 的先后顺序，并简述原因。</strong></p>
+<p><strong>DOM 文档的加载步骤如下:</strong></p>
+<ul>
+<li><ol>
+<li>解析 html 文档结构</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>加载外部的脚本和样式表文件</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>解析并执行脚本</li>
+</ol>
+</li>
+<li><ol start="4">
+<li>dom 树构建完成(DOMContentLoaded)</li>
+</ol>
+</li>
+<li><ol start="5">
+<li>加载图片等外部文件</li>
+</ol>
+</li>
+<li><ol start="6">
+<li>页面加载完毕</li>
+</ol>
+</li>
+</ul>
+<p><strong>domready:</strong></p>
+<p>也就是 dom 构建完成，它不是一个标准的事件，DOMContentLoaded 后表明 dom ready 了。</p>
+<p><strong>DOMContentLoaded:</strong></p>
+<p>第四步完成后触发，即在 dom 解析完成后执行，无需等待样式表、图像、子框架等的加载，需要注意的是 DOMContentLoaded 事件必须等待所有 script 加载解析完成后才会触发。</p>
+<pre><code>document.addEventListener(&quot;DOMContentLoaded&quot;, () =&gt; alert(&quot;DOMContentLoaded&quot;));</code></pre><p><strong>图片 onload</strong>:</p>
+<p>第五步图片加载完成后触发</p>
+<p><strong>页面 onload</strong>:</p>
+<p>dom，外部图片、javascript 文件、CSS 文件等资源都加载完成后触发，所以一定是在图片的 onload 事件后触发。</p>
+<pre><code>window.onload = () =&gt; {
+    alert(&quot;window onload&quot;);
+};</code></pre><p><strong>3、</strong> JS 中加减乘除的规则</p>
+<p><strong>加法</strong></p>
+<p>JS 中的加法要么是数值和数值相加，要么是字符串和字符串相加，所有其他类型都会转换为这两种类型。</p>
+<ul>
+<li>如果有一个操作数为 NaN，则结果是 NaN;</li>
+<li>如果 Infinity 加 Infinity，结果为 Infinity;</li>
+<li>如果-Infinity 加-Infinity，结果为-Infinity;</li>
+<li>如果 Infinity 加-Infinity，结果为 NaN;</li>
+<li>如果+0 加+0，结果是+0;</li>
+<li>如果-0 加-0，结果为-0;</li>
+<li>如果+0 加-0，结果为+0;</li>
+<li>如果两个操作数为字符串，则将两个数拼接起来;</li>
+<li>如果只有一个操作数为字符串，则将另一个操作数转换为字符串，然后再将两个字符串拼接起来;</li>
+<li>如果只有一个操作数为数值，另一个操作数为 null 或 undefined，则将 null 和 undefined 转换为数值，再将两个数值进行相加;<pre><code>&#39;1&#39; + null //&quot;1null&quot;
+ 1 + null // 1, Number(null) =&gt; 0
+&#39;1&#39; + undefined //&quot;1undefined&quot;
+ 1 + undefined //NaN, Number(undefined) =&gt; NaN</code></pre></li>
+<li>如果有一个操作数为对象，则调用对象的 toString()方法将其转换为字符串，再应用上面的规则进行计算<pre><code>  var func = function(){};
+ &#39;1&#39; + func //&quot;1function(){}&quot;
+ &#39;1&#39; + null //&quot;1null&quot;</code></pre></li>
+</ul>
+<p><strong>减法</strong></p>
+<ul>
+<li>如果两个操作数都是数字，执行常规减法；</li>
+<li>如果一个操作数为 NaN，则结果为 NaN；</li>
+<li>如果是 Infinity 减 Infinity，则结果是 NaN；</li>
+<li>如果是-Infinity 减-Infinity，则结果为 NaN；</li>
+<li>如果是+Infinity 减-Infinity，则结果为+Infinity;</li>
+<li>如果是-Infinity 减+Infinity，则结果为-Infinity;</li>
+<li>如果是+0 减+0，则结果是+0；</li>
+<li>如果是-0 减-0，则结果是+0；</li>
+<li>如果是-0 减+0，则结果是-0；</li>
+<li>如果一个操作数是字符串、布尔值、null、undefined，则先调用 Number 函数将其转换为数值，再根据前面的规则进行计算；</li>
+<li>如果一个操作数是对象，则调用对象的 valueof 方法得到其数值，如果没有 valueof 方法，则调用 toString 方法进行转换，然后再根据前面的规则进行计算；</li>
+</ul>
+<p><strong>乘法</strong></p>
+<ul>
+<li>如果操作数都是数值，则执行常规的乘法运算，正数乘以正数或负数乘以负数结果都为正数，如果只有一个操作数为负数，则结果为负数，如果乘积超过了 ECMAScript 数值的范围则返回 Infinity 或-Infinity；</li>
+<li>如果一个操作数是 NaN，则结果为 NaN；</li>
+<li>如果是 Infinity 与 0 相乘，则结果为 NaN；</li>
+<li>如果是 Infinity 与非 0 相乘，则结果为 Infinity 或-Infinity，取决于有符号的操作数的符号；</li>
+<li>如果是 Infinity 与 Infinity 相乘，则结果为 Infinity；</li>
+<li>如果一个操作数不是数值，则调用 Number 方法将其转换为数值，再应用前面的规则进行计算；</li>
+</ul>
+<p><strong>除法</strong></p>
+<ul>
+<li>如果操作数都是数值，则执行常规的除法运算，正数除以正数或负数除以负数结果都为正数，如果只有一个操作数为负数，则结果为负数，如果商超过了 ECMAScript 数值的范围则返回 Infinity 或-Infinity；</li>
+<li>如果一个操作数是 NaN，则结果为 NaN；</li>
+<li>如果是 Infinity 除以 Infinity，则结果为 NaN；</li>
+<li>如果 0 除以 0，则结果为 NaN；</li>
+<li>如果是非 0 的有限数被 0 除，则结果是 Infinity 或-Infinity，取决于有符号的操作数的符号；</li>
+<li>如果是 Infinity 除以任何非 0 值，则结果是 Infinity 或-Infinity，取决于有符号的操作数的符号；</li>
+<li>如果一个操作数不是数值，则调用 Number 方法将其转换为数值，再应用前面的规则进行计算；</li>
+</ul>
+<p><strong>4、常用的跨域解决方案</strong></p>
+<p>由于浏览器的同源策略，会对不同域的网页间的交互作出限制。所谓同源必须是协议、域名、端口都相同，即使不同域名指向同一个 ip 地址，也不是同源。可以通过以下方法来实现跨域请求。</p>
+<p><strong>1) jsonp</strong></p>
+<p>通常，为了减轻服务器的负载，我们将 css、img 等静态资源放到另一台独立的域名，html 通过相应的标签可以下载不同域名下的静态资源，因此可以通过建立 script 脚本来实现跨域。</p>
+<ul>
+<li><p>客户端</p>
+<pre><code>  &lt;script&gt;
+    // 后端返回时执行这个在前端定义的回调函数
+    function handleCallback(res) {
+      alert(JSON.stringify(res));
+    }
+    const script = document.createElement(&quot;script&quot;);
+    script.src = &quot;http://localhost:8000/test?callback=handleCallback&quot;;
+    document.head.append(script);
+  &lt;/script&gt;</code></pre></li>
+<li><p>服务端</p>
+<pre><code>app.get(&quot;/test&quot;, (req, res) =&gt; {
+  const { callback } = req.query;
+  const data = { name: &quot;xhm&quot; };
+  const cbStr = `${callback}(${JSON.stringify(data)})`;
+  res.send(cbStr);
+});</code></pre></li>
+</ul>
+<p><strong>2) domain + iframe</strong></p>
+<p>此方案仅限于主域相同，子域不同的情景。如下，A 页面的 document.domain 为 a.domain.com、B 页面的 document.domain 为 b.domain.com，我们可以通过将 A、B 页面的 domain 设置为相同(一级域名必须一致才能设置)来实现跨域。</p>
+<ul>
+<li><p>A 窗口(<code>http://a.domain.com/a.html</code>)</p>
+<pre><code>&lt;iframe src=&quot;http://b.domain.com/b.html&quot;&gt;&lt;/iframe&gt;
+&lt;script&gt;
+    document.domain = &#39;domain.com&#39;;
+    var name = &#39;xhm&#39;;
+&lt;/script&gt;</code></pre></li>
+<li><p>B 窗口(<code>http://b.domain.com/b.html</code>)</p>
+<pre><code>&lt;script&gt;
+    document.domain = &#39;domain.com&#39;;
+    // 获取父窗口中变量
+    alert(&#39;parent name&#39; + window.parent.name); //xhm
+&lt;/script&gt;</code></pre></li>
+</ul>
+<p><strong>3) postMessage</strong></p>
+<ul>
+<li><p>a.html(<code>http://domain1.com/a.html</code>)</p>
+<pre><code>&lt;iframe id=&quot;iframe&quot; src=&quot;http://domain1.com/a.html&quot;&gt;&lt;/iframe&gt;
+&lt;script&gt;
+    var iframe = document.getElementById(&#39;iframe&#39;);
+    iframe.onload = function() {
+        var data = { name: &#39;xhm&#39; };
+        // 向domain2传送跨域数据
+        iframe.contentWindow.postMessage(JSON.stringify(data), &#39;http://www.domain2.com/b.html&#39;);
+    };
+
+    // 接受domain2返回数据
+    window.addEventListener(&#39;message&#39;, function(e) {
+        alert(&#39;I am domain1, I get data from domain2:&#39; + e.data);
+    }, false);
+&lt;/script&gt;</code></pre></li>
+<li><p>b.html(<code>http://www.domain2.com/b.html</code>)</p>
+<pre><code>&lt;script&gt;
+  // 接收domain1的数据
+  window.addEventListener(&#39;message&#39;, function(e) {
+      alert(&#39;I am domain2, I get data from domain1:&#39; + e.data);
+      var data = &#39;hello&#39;;
+      // 向domain1发送消息
+      window.parent.postMessage(JSON.stringify(data), e.origin);
+  }, false);
+&lt;/script&gt;</code></pre></li>
+</ul>
+<p><strong>4) 跨域资源共享(CORS)</strong></p>
+<p>对于普通的跨域请求，只需要在服务端设置 Access-Control-Allow-Origin 即可(如果设置了请求头也需要设置 Access-Control-Allow-Headers)，前端无须设置，若要带 cookie 请求，则前后端都需要设置。</p>
+<ul>
+<li><p>客户端 Ajax 请求</p>
+<pre><code>var xhr = new XMLHttpRequest();
+// 前端设置是否带cookie
+xhr.withCredentials = true;
+
+xhr.open(&#39;post&#39;, &#39;http://www.domain2.com:8000/test&#39;, true);
+xhr.setRequestHeader(&#39;Content-Type&#39;, &#39;application/json&#39;);
+const data = { name: &#39;xhm&quot;}
+xhr.send(JSON.stringify(data));
+
+xhr.onreadystatechange = function() {
+    if (xhr.readyState == 4 &amp;&amp; xhr.status == 200) {
+        alert(xhr.responseText);
+    }
+};
+</code></pre></li>
+<li><p>node express 后端设置</p>
+<pre><code>const app = express();
+app.all(&quot;*&quot;, (req, res, next) =&gt; {
+  res.header(&quot;Access-Control-Allow-Origin&quot;, &quot;http://www.domain1.com:8000&quot;);
+  res.header(
+    &quot;Access-Control-Allow-Headers&quot;,
+    &quot;Content-Type,Content-Length, Authorization, Accept,X-Requested-With&quot;
+  );
+  //允许前端带认证cookie，设置此项时Access-Control-Allow-Origin的值不能为*
+  res.header(&quot;Access-Control-Allow-Credentials&quot;, &quot;true&quot;);
+  next();
+});</code></pre><p>此外，也可以直接通过 cors 中间件直接进行设置，原理同上面的头部设置一样。</p>
+<pre><code>app.use(cors());</code></pre></li>
+</ul>
+<p><strong>5) WebSocket 协议</strong></p>
+<p>WebSocket protocol 是 HTML5 一种新的协议。它实现了浏览器与服务器全双工通信，同时允许跨域通讯，是 server push 技术的一种很好的实现。
+原生 WebSocket API 使用起来不太方便，我们使用 Socket.io，它很好地封装了 webSocket 接口，提供了更简单、灵活的接口，也对不支持 webSocket 的浏览器提供了向下兼容。</p>
+<ul>
+<li><p>客户端</p>
+<pre><code>&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+  var socket = io(&#39;http://www.domain2.com:8080&#39;);
+
+  // 连接成功处理
+  socket.on(&#39;connect&#39;, function() {
+      // 监听服务端消息
+      socket.on(&#39;message&#39;, function(msg) {
+          console.log(&#39;data from server:&#39; + msg);
+      });
+
+      // 监听服务端关闭
+      socket.on(&#39;disconnect&#39;, function() {
+          console.log(&#39;Server socket has closed.&#39;);
+      });
+  });
+&lt;/script&gt;</code></pre></li>
+<li><p>服务端</p>
+<pre><code>const http = require(&quot;http&quot;);
+const socket = require(&quot;socket.io&quot;);
+
+// 启http服务
+const server = http.createServer((req, res) =&gt; {
+  res.writeHead(200, {
+    &quot;Content-type&quot;: &quot;text/html&quot;
+  });
+  res.end();
+});
+
+server.listen(&quot;8080&quot;);
+console.log(&quot;Server is running at port 8080...&quot;);
+
+// 监听socket连接
+socket.listen(server).on(&quot;connection&quot;, (client) =&gt; {
+  // 接收信息
+  client.on(&quot;message&quot;, (msg) =&gt; {
+    client.send(`hello：${msg}`);
+    console.log(`data from client: ${msg}`);
+  });
+
+  // 断开处理
+  client.on(&quot;disconnect&quot;, () =&gt; {
+    console.log(&quot;Client socket has closed.&quot;);
+  });
+});
+</code></pre></li>
+</ul>
+<p><strong>5、什么是优雅降级和渐进增强？</strong></p>
+<ul>
+<li><p>渐进增强(progressive enhancement)</p>
+<p>针对低版本的浏览器构建页面，保证最基本的功能，然后再对高级浏览器进行功能的扩充，包括效果、交互、新功能等，从而达到更好的用户体验。</p>
+</li>
+<li><p>优雅降级(graceful degradation)</p>
+<p>一开始就构建完整的功能，然后针对低版本进行进行兼容。</p>
+</li>
+</ul>
+<p>区别: 优雅降级是从复杂的现状开始，并试图减少用户体验的供给，而渐进增强是从一个非常基础的能够起作用的版本开始，并不断扩从，以适应未来环境的需要。降级(功能衰减)意味着往回看，而增强意味着朝前看，同时保证其根基处于安全地带。</p>
+<p><strong>6、HTTP2 的新特性？</strong></p>
+<p>HTTP/2 的主要设计思想都是源自 Google 的 SPDY 协议，是互联网工程任务组(IETF)对谷歌提出的 SPDY 协议进行标准化才有了现在的 HTTP/2。</p>
+<ul>
+<li><p>单一长链接</p>
+<p>在 HTTP/2 中，客户端向某个域名的服务器请求页面的过程中，只会创建一条 TCP 连接，即使这个页面有可能包含上百个资源。而 HTTP/1.x 一般会创建 6-8 条 TCP 连接来请求这 100 多个资源。单一的长连接，避免了创建多个 TCP 连接的开销，提高了吞吐量。</p>
+</li>
+<li><p>多路复用</p>
+<p>HTTP/1.x 在一条 TCP 连接上，多个请求只能串行执行，而 HTTP/2 可以一次请求。此外 HTTP/2 还能指定优先级，可以优先下载重要的资源。</p>
+</li>
+<li><p>头部压缩和二进制格式</p>
+<p>HTTP/1.x 一直都是 plain text，HTTP/2 使用 HPACK 压缩来压缩头部。</p>
+</li>
+<li><p>服务端推送</p>
+<p>这个功能通常被称作缓存推送，服务端可以主动向客户端推送资源。当然这需要客户端显式地允许服务端提供该功能，即使如此，客户端也可以自主选择是否需要中断该推送。</p>
+</li>
+</ul>
+<p><strong>7、编写一个函数实现 form 表单的序列化(即将一个表单中的键值序列化为可提交的字符串)?</strong></p>
+<p>表单结构大致如下:</p>
+<pre><code>  &lt;form id=&quot;target&quot;&gt;
+    &lt;select name=&quot;age&quot;&gt;
+      &lt;option value=&quot;17&quot; selected&gt;17&lt;/option&gt;
+      &lt;option value=&quot;25&quot; selected&gt;25&lt;/option&gt;
+    &lt;/select&gt;
+    &lt;input name=&quot;name&quot; value=&quot;xhm&quot; /&gt;
+    &lt;input type=&quot;password&quot; name=&quot;password&quot; value=&quot;123456&quot; /&gt;
+    &lt;input type=&quot;hidden&quot; name=&quot;salery&quot; value=&quot;28888&quot; /&gt;
+    &lt;textarea name=&quot;description&quot;&gt;I am a boy.&lt;/textarea&gt;
+    &lt;input type=&quot;checkbox&quot; name=&quot;hobby&quot; value=&quot;football&quot; checked /&gt;Football
+    &lt;input type=&quot;checkbox&quot; name=&quot;hobby&quot; value=&quot;basketball&quot; /&gt;Basketball
+    &lt;input type=&quot;radio&quot; name=&quot;sex&quot; value=&quot;Male&quot; checked /&gt;Male
+    &lt;input type=&quot;radio&quot; name=&quot;sex&quot; value=&quot;Female&quot; /&gt;Female
+  &lt;/form&gt;</code></pre><p>序列化函数如下:</p>
+<pre><code>var serialize = (form) =&gt; {
+  const elements = form.elements;
+  const parts = [];
+  for (let i = 0; i &lt; elements.length; i++) {
+    const field = elements[i];
+    const { type, name, value } = field;
+    if (/select/.test(type)) {
+      const options = field.options;
+      for (let i = 0; i &lt; options.length; i++) {
+        const opt = options[i];
+        if (opt.selected) {
+          const optValue = opt.value || opt.text;
+          const param = `${name}=${encodeURIComponent(optValue)}`;
+          parts.push(param);
+        }
+      }
+    } else if (/checkbox|radio/.test(type)) {
+      if (field.checked) {
+        const param = `${name}=${encodeURIComponent(value)}`;
+        parts.push(param);
+      }
+    } else if (/text|password|textarea|hidden/.test(type)) {
+      const param = `${name}=${encodeURIComponent(value)}`;
+      parts.push(param);
+    }
+  }
+  return parts.join(&quot;&amp;&quot;);
+};</code></pre><p><strong>8、</strong> html 代码中让链接在新窗口中打开的写法</p>
+<p>通过设置 a 标签的 target 属性为_blank 可以在新窗口打开链接，但是由于新页面与原页面在一个进程上，如果新页面开销极大则会对原页面性能造成影响。此外新页面还可通过 window.openner 访问原页面的窗口对象，并且可以通过 window.opener.location = newURL 将原页面导航至不同的网址。因此需要通过 ref=&quot;noopenner&quot;来禁用 window.opener。</p>
+<pre><code>  &lt;div&gt;
+    &lt;div&gt;
+      &lt;a href=&quot;http://www.xinghunm.com&quot;&gt;Welcome -  old window&lt;/a&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+        &lt;a href=&quot;http://www.xinghunm.com&quot; target=&quot;_blank&quot; ref=&quot;noopenner&quot;&gt;Welcome -  new window&lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</code></pre><p><strong>9、</strong> html5 有哪些新特性，移除的元素有哪些？</p>
+<p>html5 现在已经不是标准通用标记语言 SGML 的子集了，主要是关于图像、位置、存储、多任务功能的增加。
+新增:</p>
+<ul>
+<li>WebSocket</li>
+<li>Webworker</li>
+<li>SharedWorker</li>
+<li>用于绘画的 canvas 元素</li>
+<li>用于媒介回放的 vedio 和 audio 元素</li>
+<li>新增 sessionStorage 和 localStorage 对离线缓存更好的支持</li>
+<li>新的特殊内容元素，如 article、header、footer、nav、section</li>
+<li>新的表单控件，如 calendar、date、time、email、url、search
+移除:</li>
+<li>basefont</li>
+<li>big</li>
+<li>center</li>
+<li>dir</li>
+<li>font</li>
+<li>frame</li>
+<li>frameset</li>
+<li>noframes</li>
+<li>strike</li>
+<li>tt</li>
+</ul>
+<p><strong>10、</strong> 谈谈对盒模型的理解</p>
+<p>浏览器在对文档进行布局时，会根据盒模型(CSS Basic Box model)将所有元素表示成一个矩形盒子，矩形盒子的组成由内容区域、边框、内边距及外边距组成。如下盒模型分为 W3C 标准盒模型和 IE 盒模型，W3C 标准盒模型的大小由内容区域(content)、边框(border)、内边距(padding)决定，而 IE 盒模型的大小只由内容区域的大小(自定义的 width 和 height)决定。css 可以通过 box-sizing 来切换两种盒模型。
+矩形盒子</p>
+<ul>
+<li>W3C 标准盒模型(box-sizing: content-box)
+size = content + border + padding</li>
+<li>IE 盒模型(box-sizing: border-box)
+size = content</li>
+</ul>
+<p>我们在编写 html 时若不声明 DOCTYPE 类型，IE 浏览器会将盒子模型解释为 IE 盒模型，FireFox 等会将其解释为 W3C 盒子模型，从而渲染出不同的结果。</p>
+<p><strong>11、</strong> 主流的浏览器内核有哪些</p>
+<ul>
+<li>Trident
+Trident 为在早期的 IE 内核，没有使用 W3C 标准，国内多数浏览器(360、腾讯、搜狗等)都采用过该内核。</li>
+<li>Gecko
+Gecko(火狐内核)，代码开源，也是一个跨平台内核。</li>
+<li>Presto
+Presto(Opera 前内核)，渲染速度快兼容性差，现已废弃而采用 Google Chrome 的 Blink 内核。</li>
+<li>Webkit
+Webkit(Safari 内核)，主要由渲染引擎 WebCore 和 javascript 解释引擎 JSCore 组成，代码开源。</li>
+<li>Chromium/Blink
+2008 年谷歌发布了 chrome 浏览器，其内核被命名为 chromium，chromium 代码 fork 自开源引擎 webkit 并对其进行重新梳理。
+2013 年谷歌决定从 WebKit 衍生出自己的 Blink(WebKit 的分支)引擎，后由 Google 和 Opera Software 共同研发。</li>
+</ul>
+<p><strong>12、</strong> 前端页面分层</p>
+<ul>
+<li>结构层
+由 HTML 或 XHTML 创建，通过语义化的标签来描述页面的局部结构(不包含如何显示这些标签的内容)，从而构建出整个页面的结构。</li>
+<li>表示层
+由 CSS 创建，CSS 对如何显示这些标签内容进行了回答。</li>
+<li>行为层
+行为层回答了内容应该如何对事件作出反应</li>
+</ul>
+<p><strong>13、</strong> 以下输出的内容</p>
+<p>函数作用域内 var 声明是局部变量</p>
+<pre><code>var a = 1;
+function func(){console.log(a);var a = &quot;in&quot;;}
+func();
+=&gt; undefined</code></pre><p><strong>14、</strong> 以下输出的内容</p>
+<pre><code>(
+  function func() {
+    var a = b =&#39;res&#39;;
+  }
+)();
+
+//b前面没有跟着var相当于全局变量，所有输出res
+console.log(b);//res
+//a前面没有跟着var所以a是局部变量，所有输出undefined
+console.log(a);</code></pre><p><strong>15、</strong> 用 js 写一个继承实例</p>
+<pre><code>function Parent(name, age) {
+  this.name = name;
+  this.age = age;
+  function getName() {
+    console.log(this.name);
+  }
+}
+
+function Child(name, age) {
+  Parent.call(this, name, age)
+  this.weight = 120;
+}
+
+const snow = new Child(&#39;snow&#39;, &#39;20&#39;);
+console.log(snow.name)</code></pre><p><strong>16、</strong> 匹配文档中的关键字</p>
+<pre><code>  const colorKeyWords = (node, targetValue) =&gt; {
+    const HIGHLIGHT_COLOR = &quot;orange&quot;;
+    const highlightTag = &quot;&lt;span style=&#39;background-color: &quot;+HIGHLIGHT_COLOR+&quot;;&#39;&gt;&quot; + targetValue + &quot;&lt;/span&gt;&quot;;
+    let htmlStr = node.innerHTML;
+
+    const targetReg = new RegExp(targetValue, &quot;ig&quot;);
+    htmlStr = htmlStr.replace(targetReg, highlightTag);
+    node.innerHTML = htmlStr;
+  }</code></pre><p><strong>17、</strong> 单击以下 node 时获取 node 的属性 title 和内容<code>&lt;div id=&quot;xhm&quot; title=&quot;blog&quot;&gt;my blog&lt;/div&gt;</code></p>
+<pre><code>const node = document.getElementById(&quot;xhm&quot;);
+node.addEventListener(&#39;click&#39;, ()=&gt; {
+  console.log(node.innerText); // my blog
+  console.log(node.getAttribute(&#39;title&#39;)); // blog
+})</code></pre><p><strong>18、</strong> link 和@import 的区别</p>
+<ul>
+<li><p>从属关系不同
+link 属于 XHTML 提供的标签，除了加载 CSS 外还可以做其他事情，比如定义 RSS、定义 rel 连接属性等，而@import 只能用于加载 CSS。</p>
+</li>
+<li><p>加载时机不同
+link 引用 CSS 时，在页面加载的同时加载，而@import 引用的 CSS 要在页面加载完后再加载。</p>
+</li>
+<li><p>兼容性不同
+link 属于 XHTML 标签，无兼容性问题。而@import 是在 CSS2.1 提出的，低版本浏览器不支持。</p>
+</li>
+<li><p>DOM 可控性的不同
+link 支持使用 JavaScript 控制 DOM 去改变样式，而@import 不支持。</p>
+</li>
+</ul>
+<p><strong>19、</strong> 修改 chrome 浏览器表单自动填充后的黄色背景</p>
+<ul>
+<li><p>取消 chrome 的自动填充</p>
+<pre><code> &lt;input autoComplete=&quot;new-password&quot; /&gt;</code></pre></li>
+<li><p>设置内阴影来覆盖黄色背景</p>
+<pre><code>  &amp;: -webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px white inset;
+    -webkit-text-fill-color: black;
+  }</code></pre></li>
+<li><p>设置动画</p>
+<p>通过动画设置其背景永远为透明。</p>
+<pre><code>   &amp;:-webkit-autofill {
+      animation: autofill-fix 1s infinite;
+    }
+
+   @keyframes autofill-fix {
+     from {
+       background-color: transparent;
+     }
+     to {
+        background-color: transparent;
+     }
+   }</code></pre></li>
+</ul>
+<p><strong>20、</strong> JavaScript 数据类型</p>
+<ul>
+<li><p>基本数据类型</p>
+<ul>
+<li>undefined</li>
+<li>Null</li>
+<li>Boolean</li>
+<li>String</li>
+<li>Number</li>
+<li>Symbol(new in ES6)</li>
+</ul>
+</li>
+<li><p>引用数据类型(Object 类型)</p>
+<ul>
+<li>Object</li>
+<li>Array</li>
+<li>Date</li>
+<li>RegRxp</li>
+<li>Function</li>
+</ul>
+</li>
+</ul>
+<p><strong>21、</strong> js 将一浮点数小数点左边的数字每三位加一个逗号</p>
+<ul>
+<li><p>利用 parseInt 的 toLocaleString 方法</p>
+<pre><code>const formatNum = (num) =&gt; num.toString().replace(/(\d+)(.*)/g,
+match, s1, s2) =&gt; `${parseInt(s1).toLocaleString()}${s2}`)
+
+formatNum(15234555.55)
+=&gt; &quot;15,234,555.55&quot;</code></pre></li>
+<li><p>完全用正则替换</p>
+<pre><code>  //当一个字符串中某个数字后跟着n对三个数字(\d{3})就匹配这个数字
+  const formateNum = (num) =&gt; {
+    const numStr = num.toString();
+    //替换小数点左边的数字
+    return numStr.replace(/\d+/, (match) =&gt; {
+      //替换目标数字为`${matchNum},`
+      return match.replace(/(\d)(?=(\d{3}+$))/, (s1) =&gt; `${s1},`);
+    })
+  }
+  formateNum(435345.656)
+  =&gt; &quot;435,345.656&quot;</code></pre></li>
+</ul>
+<p><strong>22、</strong> HTML 常见的内联元素、块级元素以及空元素有哪些？</p>
+<ul>
+<li><p>内联元素</p>
+<ul>
+<li>a</li>
+<li>img</li>
+<li>input</li>
+<li>label</li>
+<li>span</li>
+<li>br</li>
+<li>select</li>
+<li>strong</li>
+<li>textarea</li>
+</ul>
+</li>
+<li><p>块级元素</p>
+<ul>
+<li>div</li>
+<li>h1-h6</li>
+<li>form</li>
+<li>hr</li>
+<li>p</li>
+<li>ul</li>
+<li>table</li>
+<li>option</li>
+<li>li</li>
+</ul>
+</li>
+<li><p>空元素</p>
+<ul>
+<li><code>&lt;br&gt;</code></li>
+<li><code>&lt;hr&gt;</code></li>
+<li><code>&lt;img&gt;</code></li>
+<li><code>&lt;input&gt;</code></li>
+<li><code>&lt;link&gt;</code></li>
+<li><code>&lt;meta&gt;</code></li>
+</ul>
+</li>
+</ul>
+<p><strong>23、</strong> 移动开发中使用 rem 的优缺点</p>
+<p>rem 是 CSS3 新增的一个单位即 root em，它与 em 的区别在于 em 是相对父元素的 font-size，而 rem 相对的是 HTML 根元素。这个单位可谓集相对大小和绝对大小的优点于一身，通过它既可以做到只修改根元素就成比例地调整所有字体大小，又可以避免字体大小逐层复合的连锁反应。因此对于移动开发而言，只要通过媒体查询来根据不同的屏幕宽度设置<code>&lt;html&gt;</code>元素的字体大小，就可以适配不同的屏幕。rem 布局需要计算大小，相对麻烦，此外在引用第三方库时也适配也比较麻烦。</p>
+<p><strong>24、</strong> js 模块化分哪些阶段</p>
+<ul>
+<li><p>无模块化</p>
+<p>js 最初的作用只是进行表单验证或添加一些简单的动画，js 文件通过<code>script</code>标签进行引用，没有模块化一说，随着前端复杂度提高想要引入更多的 js 文件就把多个<code>script</code>标签放在一起。</p>
+<pre><code>  &lt;script src=&quot;script1.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;script2.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;script3.js&quot;&gt;&lt;/script&gt;</code></pre><ul>
+<li>优点
+相对于把所有逻辑放入一个文件，这种引入多个 js 文件实现简单模块化的思想是进步的。</li>
+<li>缺点
+污染全局作用域，文件间依赖关系不明显。</li>
+</ul>
+</li>
+<li><p>CommonJS 规范
+CommonJS 是一个 JavaScript 模块化规范，最初用于服务端的 node。根据这个规范一个文件就是一个模块，其内部定义的变量函数只属于这个模块而不对外暴露。CommonJS 通过 exports 或 module.exports 来导出需要对外提供的接口，通过 require 方法来同步加载所要依赖的模块。</p>
+<ul>
+<li><p>模块定义</p>
+<pre><code>// util.js
+var x = 0;
+var add = function (value) {
+  return value + x;
+};
+exports.x = x;
+module.exports.add = add;</code></pre></li>
+<li><p>模块使用</p>
+<pre><code> var util = require(./util.js);
+ console.log(util.x); // 0
+ console.log(util.add(1)); // 1</code></pre></li>
+<li><p>优点
+解决了全局污染及模块间依赖的问题</p>
+</li>
+<li><p>缺点
+CommonJS 为同步加载，在服务端因其文件都在本地，同步加载没有问题，但在浏览器端文件需要异步加载 CommonJS 就不再适用了。</p>
+</li>
+</ul>
+</li>
+<li><p>AMD 规范
+AMD(Asynchronous Module Definition)规范为异步加载模块，并允许指定回调函数，实现 AMD 规范的加载器 JS 主要有两个 require.js 和 curl.js，AMD 推崇依赖前置。
+AMD 标准中定义了两个 API，define 和 require:</p>
+<ul>
+<li><p>模块定义: define(id, [depends], callback)</p>
+<pre><code>//math.js，定义了一个math模块
+define(function () {
+  var add = function (x, y) {
+    return x + y;
+  }
+  return {
+    add: add,
+  };
+});</code></pre></li>
+<li><p>模块使用: require([module], callback)</p>
+<pre><code>  require([&#39;math&#39;], function (math){
+    console.log(math.add(1,1));
+  });</code></pre></li>
+<li><p>优点
+适合在浏览器环境中异步加载模块，并可以并行加载多个模块。</p>
+</li>
+<li><p>缺点
+提高了开发成本，且不能按需加载，而是必须提前加载所有的依赖。</p>
+</li>
+</ul>
+</li>
+<li><p>CMD 规范
+CMD(Common Module Definition)规范是 seajs 推崇的规范，与 requirejs 类似，其不同点在于其加载模式为按需加载，CMD 推崇依赖就近。</p>
+<pre><code>define(function(require, exports, module) {
+  var a = require(&#39;pdf.js&#39;);
+  a.doSomething();
+  // 依赖就近书写，什么时候用到什么时候引入
+  var b = require(&#39;./b&#39;);
+  b.doSomething();
+});</code></pre><ul>
+<li>优点
+实现了异步加载模块，并可以按需加载。</li>
+<li>缺点
+依赖 SPM 打包，模块的加载逻辑偏重。</li>
+</ul>
+</li>
+<li><p>ES6 模块化
+前面的模块化方法都是社区自己实现的，而 ES6 的模块化方案是真正的规范。在 ES6 中通过 import 关键字引入模块，export 关键字导出模块，目前浏览器尚不支持 ES6 因此需要用 babel 将代码转换为广泛支持的 require。</p>
+<pre><code>  import React, { Component } from &#39;react&#39;;
+  import Counter from &#39;../counter&#39;;
+
+  class Home extends Component {
+    render() {
+      return (
+        &lt;div&gt;
+          &lt;Counter /&gt;
+        &lt;/div&gt;
+      );
+    }
+  }
+
+  export default Home;</code></pre></li>
+</ul>
+<p><strong>25、</strong> 不用第三个变量，直接交换两个变量的值</p>
+<ul>
+<li><p>方法 1: 利用技巧</p>
+<pre><code>  var a = 5;
+  var b = 6;
+  a = a + b;
+  b = a - b;
+  a = a - b;
+
+  console.log(a); // 6
+  console.log(b); // 5</code></pre></li>
+<li><p>方法 2: 利用位运算
+位运算当且仅当只有一个表达式的某位上为 1 时，结果的该位才为 1。否则结果的该位为 0。</p>
+<pre><code>  var a = 5; // 二进制101
+  var b = 6; // 二进制110
+  a = a^b;
+=&gt;
+  a = 101
+      110
+      ━━━
+      011
+
+  b = a^b;
+
+=&gt;
+  b = 011
+      110
+      ━━━
+      101
+
+  a = a^b;
+=&gt;
+  a = 011
+      101
+      ━━━
+      110
+
+  console.log(a); // 6
+  console.log(b); // 5</code></pre></li>
+</ul>
+<p><strong>26、</strong> CSS 创建平移动画</p>
+<pre><code>  {
+    width: 100px;
+    height: 30px;
+    position: absolute;
+    background: blue;
+    left: 0;
+    top: 0;
+    animation: move 3s ease infinite;
+
+    @keyframes move {
+      50% {
+        left: 100px;
+        top: 100px;
+      }
+    }
+    // 或
+    @keyframes move {
+      50% {
+        transform: translate(100px, 100px);
+      }
+    }
+  }</code></pre><p><strong>27、</strong> js 选择 select 下的 option</p>
+<pre><code>&lt;select&gt;
+  &lt;option value=&quot;option1&quot;&gt;1&lt;/option&gt;
+  &lt;option value=&quot;option2&quot;&gt;2&lt;/option&gt;
+&lt;/select&gt;
+
+const selectNode = document.querySelector(&#39;select&#39;);
+// 1.设置value的值等于option的value来选中option
+selectNode.value = option2;
+
+// 2.设置selectedIndex来选中option
+selectNode.selectedIndex = 1;
+</code></pre><p><strong>28、</strong> CSS 实现超出部分内容显示<code>...</code></p>
+<pre><code>{
+  //需限制其宽度
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}</code></pre><p><strong>29、</strong> CSS postion 定位有哪几种情况</p>
+<ul>
+<li><p>static</p>
+<p>static 定位是默认的定位方式，元素出现在正常的文档流中，会忽略 left、top、right、bottom 以及 z-index。</p>
+</li>
+<li><p>absolute</p>
+<p>absolute 定位即绝对定位，相对于除 static 定位元素的第一个父类元素进行定位，元素的位置通过 left、top、right 以及 bottom 属性进行设置。</p>
+</li>
+<li><p>fixed</p>
+<p>fixed 定位即固定定位，类似于绝对定位，但它是相对于浏览器窗口进行定位的，元素的位置通过 left、top、right 以及 bottom 属性进行设置。</p>
+</li>
+<li><p>relative</p>
+<p>relative 定位即相对定位，相对的参考位置为元素自身所在文档流的位置(不管这个元素是否脱离正常文档流)，通过 left、top、right 以及 bottom 属性进行设置。相对定位虽然脱离了文档流，但计算其他元素在文档流中的位置时仍会以该元素正常的文档流位置进行计算，就好像元素还在原来的位置。</p>
+</li>
+<li><p>sticky</p>
+<p>sticky 定位即粘性定位，可以简单地认为是相对定位和固定定位的混合，元素在跨越特定阈值(top、left、right、bottom 所确定的值)前为相对定位(滚动时位置可变化, 直到达到阈值，margin 也无效)，之后为相对于最近的块级祖先的固定定位。
+粘性定位的效果如下:</p>
+<center><img src="/images/1-29-1-sticky.gif" width="500" /></center>
+
+<p>上图中，导航栏设置为粘性定位:</p>
+<pre><code>  height: 50px;
+  background: deepskyblue;
+  position: sticky;
+  top: 0;</code></pre><p>可以看到导航栏距离上边框为 0(阈值)时就不再继续向上滚动，即导航栏在距上边框的距离大于 0 时可以认为此时的 position 为 relative 且 top 的最小值为 0，当导航栏距上边框的达到 0 时，可以认为 position 的值为 fixed 且此时相对于父级元素的 top 为 0。
+利用 sticky 还能实现层次滚动:</p>
+<pre><code>&lt;style&gt;
+  #root {
+    overflow: auto;
+    max-height: 200px;
+    border: 1px solid;
+  }
+  dt {
+    position: sticky;
+    top: -1px;
+    padding: 2px 0 0 12px;
+    background: deepskyblue;
+  }
+
+dd {
+margin: 0;
+padding: 0 0 0 12px;
+}
+
+&lt;/style&gt;
+&lt;body&gt;
+  &lt;div id=&quot;root&quot;&gt;
+    &lt;dl&gt;
+      &lt;dt&gt;A&lt;/dt&gt;
+      &lt;dd&gt;A1&lt;/dd&gt;
+      &lt;dd&gt;A2&lt;/dd&gt;
+      &lt;dd&gt;A3&lt;/dd&gt;
+      &lt;dd&gt;A4&lt;/dd&gt;
+      &lt;dd&gt;A5&lt;/dd&gt;
+      &lt;dd&gt;A6&lt;/dd&gt;
+    &lt;/dl&gt;
+    &lt;dl&gt;
+      &lt;dt&gt;B&lt;/dt&gt;
+      &lt;dd&gt;B1&lt;/dd&gt;
+      &lt;dd&gt;B2&lt;/dd&gt;
+      &lt;dd&gt;B3&lt;/dd&gt;
+      &lt;dd&gt;B4&lt;/dd&gt;
+      &lt;dd&gt;B5&lt;/dd&gt;
+      &lt;dd&gt;B6&lt;/dd&gt;
+    &lt;/dl&gt;
+    &lt;dl&gt;
+      &lt;dt&gt;C&lt;/dt&gt;
+      &lt;dd&gt;C1&lt;/dd&gt;
+      &lt;dd&gt;C2&lt;/dd&gt;
+      &lt;dd&gt;C3&lt;/dd&gt;
+      &lt;dd&gt;C4&lt;/dd&gt;
+      &lt;dd&gt;C5&lt;/dd&gt;
+      &lt;dd&gt;C6&lt;/dd&gt;
+    &lt;/dl&gt;
+  &lt;/div&gt;</code></pre><p>效果如下:</p>
+<center><img src="/images/1-29-2-sticky.gif" width="500" /></center>
+</li>
+<li><p>initial
+设置默认值，可作用于任何 CSS 样式(IE 不支持该关键字)。</p>
+</li>
+<li><p>inherit
+继承父类的 postion 值，不会继承其 left、top、right 及 bottom 值。</p>
+</li>
+<li><p>unset
+initial 和 inherit 的结合，当该属性是默认继承属性时等同于 inherit；当该属性是非继承属性时等同于 initial。</p>
+</li>
+</ul>
+<p><strong>30、</strong> 内联元素和块级元素的区别</p>
+<p><strong>内联元素</strong></p>
+<ul>
+<li>和相邻的内联元素在同一行</li>
+<li>设置 width 和 height 无效</li>
+<li>margin 上下无效，padding 上下虽然可以设置，但并不会挤压其他元素的空间，在其他元素看来好像没有设置一样</li>
+</ul>
+<p><strong>块级元素</strong></p>
+<ul>
+<li>块级元素总是各占一行，垂直排列</li>
+<li>宽度(width)、高度(height)、内边距(padding)和外边距(margin)都可设置</li>
+</ul>
+<p>内联元素可以通过该变 display 属性进行转换，</p>
+<ul>
+<li><code>display:block</code>: 表现形式如块级元素</li>
+<li><code>display:inline</code>: 表现形式如内联元素</li>
+<li><code>display:inline-block</code>: 表现形式如内联元素和块级元素，具有 block 元素可以设置宽高的特性，同时又具有内联元素的不换行等特性</li>
+</ul>
+<p><strong>31、</strong> js 判断一个变量是否是数组</p>
+<pre><code>fuction isArray(obj) {
+  Object.prototype.toString().call(obj) === &quot;[object Array]&quot;;
+}
+现代浏览器
+Array.isArray(obj)</code></pre><p><strong>32、</strong> JavaScript 由哪三部分构成</p>
+<ul>
+<li>核心(ECMAScript)
+ECMAScript 仅仅是一个描述，定义了脚本语言所有的属性、方法和对象，其他语言可以实现 ECMAScript 来作为功能的基准</li>
+<li>文档对模型(DOM)
+它是 HTML 和 XML 的应用程序接口，DOM 将整个页面规划成由节点层级构成的文档，HTML 或 XML 页面的每个部分都是一个节点的衍生物</li>
+<li>浏览器对象模型(BOM)
+它提供了一种特性，可以对浏览器窗口进行访问和操作，使用 BOM 开发者可以移动窗口、改变状态栏中的文本以及执行其他与页面内容不直接相关的动作。</li>
+</ul>
+<p><strong>33、</strong> sql 的注入原理及防范方法</p>
+<p>通常服务器端都会根据客户端的请求来动态构建 sql 执行语句，sql 注入是通过将恶意的 sql 语句添加到应用的输入参数中，从而在 sql 服务器后台解析执行。
+防范方法:</p>
+<ul>
+<li>sql 语句预编译和绑定变量
+sql 执行命令必须先通过语法分析，生成执行计划，预编译后不管注入的参数是什么都不会再执行，而是当作字符串字面值进行处理。</li>
+<li>严格检查参数
+只执行规定格式的参数可以避免部分的 sql 注入</li>
+<li>使用安全函数
+安全函数将参数的特殊字符进行编码，这样 sql 引擎就不会将参数当成 sql 语句进行解析了。</li>
+</ul>
+<p><strong>34、</strong> JavaScript 的垃圾回收机制</p>
+<p>JavaScript 有自动垃圾回收机制，当然这并不意味着你不需要关心内存管理。
+内存的生命周期大致分为内存的分配、内存的使用以及不需要时内存的释放。因此只要追踪内存的生命周期就能自动的对内存进行分配回收了，但是这并不容易，尤其要确定某块内存是否真的不需要了。因此，垃圾回收只能有限制的解决一般问题，主要有两种方法，引用计数和标记清除算法。</p>
+<ul>
+<li>引用计数法
+在内存管理环境中，如果一个对象(包括函数作用域、全局词法作用域等)有访问另一个对象的权限，叫做一个对象引用另一个对象。当对象被引用的次数为 0 时就被回收。<pre><code>var a = { v: 1 }; // 对象{ v: 1 }被变量a引用一次，引用计数为1
+var b = a; // 同样，对象{ v: 1 }被变量b引用一次，引用计数为2
+a = null; // 对象引用次数减1
+b = null;// 对象引用次数减1，此时引用计数为0，对象可以被释放</code></pre>引用计数有一个潜在的问题，就是无法解决循环引用的问题。
+如下，a、b 互相引用，引用计数一直为 1，导致不能自动回收。<pre><code>  function f() {
+    var a = {};
+    var b = {};
+    a.value = b;
+    b.value = a;
+  }
+  f();</code></pre></li>
+<li>标记清除算法</li>
+</ul>
+<p>这个算法假定有一个叫跟(root)的对象(js 中为 window， node js 为 global)，垃圾回收器定期从根开始，找所有从根开始引用的对象，然后找这些引用对象引用的对象...将这些对象标记为 active，其他的不能被根引用或间接引用的将被标记为 garbage，最终将这些垃圾清除。
+循环引用将不再是问题，上例中函数 f 执行完后，全局 window 就无法访问到对象 a 和 b 了，因此对象 a、b 将会被回收。</p>
+ <center>![标记清除意图]](/images/mark_sweep.gif)</center>
+ <center>标记清除意图 </center>
+
+<p><strong>35、</strong> JavaScript 中 var 和 let 去区别</p>
+<p>let 为 ES6 新增的命令，用来声明变量，用法与 var 类似，其区别如下:</p>
+<ul>
+<li><p>有效范围
+在 ES6 之前，JS 函数只有函数作用域和全局作用域，没有块级作用域，所以<code>{}</code>不能限制 var 所声明的变量的访问范围，而 let 声明的变量只在 let 声明时的代码块内有效。</p>
+<pre><code>{
+  let a = 1;
+  var b = 2;
+}
+
+a // ReferenceError: a is not defined.
+b // 2</code></pre></li>
+<li><p>变量提升
+let 不存在变量提升，var 存在变量提升</p>
+<pre><code>  console.log(a); // undefined
+  var a = 1;
+
+  console.log(b); // Uncaught ReferenceError
+  let b = 2;</code></pre></li>
+<li><p>重复声明
+let 不能重复声明，var 可以重复声明</p>
+<pre><code>  var a = 1;
+  var a = 2;
+
+  let b = 1;
+  let b = 2; //Identifier &#39;b&#39; has already been declared</code></pre></li>
+<li><p>暂时性死区
+let 有暂时性死区约束，如下在全局声明了变量 a，又在块级作用域用 let 声明了 a，ES6 明确规定，如果块级作用域内存在 let 或 const 命令，这个区块对这些命令声明的变量，从一开始就形成了封闭区域。凡是在声明之前使用这些变量，就会报错，这在语法上称为暂时性死区。</p>
+<pre><code>var a = 1;
+if (true) {
+  a = 2;// ReferenceError
+  let a;
+}</code></pre></li>
+</ul>
+<p><strong>36、</strong> Doctype 作用？标准模式与兼容模式各有什么区别?</p>
+<ul>
+<li>作用
+<code>&lt;!DOCTYPE&gt;</code>声明位于 HTML 文档的第一行，处于<code>&lt;html&gt;</code>标签之前。用于告诉浏览器以什么文档标准来解析这个文档，DOCTYPE 不存在或格式错误会导致浏览器用兼容模式来解析文档。</li>
+<li>区别
+标准模式是以浏览器支持的最高标准来运行，兼容模式中页面以宽松的向后兼容的模式进行显示，以防止老式浏览器无法正常工作。</li>
+</ul>
+<p><strong>37、</strong> HTML5 为什么只需要写<code>&lt;!DOCTYPE HTML&gt;</code>？</p>
+<p>HTML5 不是基于标准通用标记语言 SGML(Standard Generalized Markup Language)的，因此不需要对文档类型定义 DTD(Document Type Definition)进行引用，但是需要 Doctype 来规范浏览器的行为(让浏览器按照他们应该的方式来运行)。HTML4.01 是基于 SGML 的，因此需要对 DTD 进行引用，才能告知浏览器所使用的文档类型。</p>
+<p><strong>38、</strong> 介绍一下你对浏览器内核的理解。</p>
+<p>主要分为两部分，渲染引擎和 JS 引擎。</p>
+<ul>
+<li>渲染引擎
+主要负责获取网页内容(HTML、XML、图像等)、整理信息(CSS 等)以及计算网页的显示方式，然后输出至显示器或打印机。不同的浏览器内核对网页的解释不同，所渲染出的网页效果也就不一样。</li>
+<li>JS 引擎
+解析和执行 javascript 来实现网页的动态效果。
+最初渲染引擎和 JS 引擎并没有区分地很明确，后来 JS 引擎越来越独立，内核就倾向于指渲染引擎。</li>
+</ul>
+<p><strong>39、</strong> 简述一下你对 HTML 语义化的理解。</p>
+<p>用正确的标签做正确的事情。</p>
+<ul>
+<li>html 语义化使页面结构更加清晰，便于对浏览器搜索引擎解析。</li>
+<li>在没有 CSS 的情况下也以一种文档格式显示。</li>
+<li>搜索引擎的爬虫也依赖于 HTML 的标签来确定上下文和各个关键字的权重，利于 SEO。</li>
+<li>有利于阅读代码的人理解网站的分块。</li>
+</ul>
+<p><strong>40、</strong> iframe 有哪些优缺点？
+优点:</p>
+<ul>
+<li>用来实现长连接，在 websocket 不可用的时候作为一种替代。</li>
+<li>跨域通信。</li>
+<li>无刷新上传文件，在 FormData 不可用时作为替代方案。</li>
+<li>创建一个全新的独立的宿主环境。</li>
+</ul>
+<p>缺点:</p>
+<ul>
+<li>搜索引擎的爬虫还不能很好的处理 iframe 的内容，不利于 SEO。</li>
+<li>iframe 会阻塞页面的加载，onload 事件不能及时触发(动态的给 iframe 添加 src 值可
+解决) 。</li>
+<li>iframe 和主页面共享连接池，而浏览器对同域的连接有限制，所以会影响页面的并行
+加载(动态的给 iframe 添加 src 值可解决)。</li>
+<li>样式和脚本需要额外链入，增加服务器的 http 请求。</li>
+<li>多数小型的移动设备无法完全显示框架。</li>
+<li>浏览器的后退按钮无效。</li>
+</ul>
+<p><strong>41、</strong> label 的作用是什么？是怎么用的？
+label 标签用来定义表单控制间的关系，当用户选择该标签时，浏览器会自动将焦点转移到和该标签相关联的表单控件上。
+如下: 通过将 label 标签的属性 for 的值设置为 input 的 id 就可以将 label 和 input 关联起来，点击 label 时就可以选中 radio 类型的表单了。</p>
+<pre><code>  &lt;div&gt;
+    &lt;label for=&quot;Name&quot;&gt;Number:&lt;/label&gt;
+    &lt;input type=&quot;radio&quot; id=&quot;Name&quot;/&gt;
+  &lt;/div&gt;</code></pre><p><strong>42、</strong> 如何实现浏览器内多个标签页之间的通信? (阿里)</p>
+<ul>
+<li>WebSocket</li>
+<li>SharedWorker</li>
+<li>localstorage、cookies 等本地存储方式</li>
+</ul>
+<p><strong>43、</strong> webSocket 如何兼容低浏览器？(阿里)</p>
+<ul>
+<li>Adobe Flash Socket</li>
+<li>ActiveX HTMLFile(IE)</li>
+<li>基于 mutipart 编码发送 XHR</li>
+<li>基于长轮询的 XHR</li>
+</ul>
+<p><strong>44、</strong> 页面可见性 Page Visibility API 可以有哪些用途？</p>
+<p>在 web 页面的开发中，如何判断用户是不是还在与页面交互是一个重要的问题，比如页面最小化了或隐藏在其他标签页后面，这时我们就可以做关闭页面正在播放的音乐或其他什么事情。
+Page Visibility API 由三部分构造:</p>
+<ul>
+<li>document.hidden: 表示页面是否隐藏的布尔值</li>
+<li>document.visibilityState: 有 4 个可能的状态值<ul>
+<li>hidden: 页面在后台标签页或浏览器最小化，此时页面对用户不可见</li>
+<li>visible: 页面在前台标签页，此时页面至少有部分是可见的</li>
+<li>prerender: 页面正在进行预渲染处理，文档只能从这个状态开始，不可能由其它状态变为这个状态，此时
+document.hidden 为 true，</li>
+<li>unloaded: 页面从内存中卸载清除</li>
+</ul>
+</li>
+<li>visibilitychange 事件: document.visibilityState 状态发生变化时触发</li>
+</ul>
+<pre><code>  document.addEventListener(&#39;visibilitychange&#39;, () =&gt; {
+    console.log(document.visibilityState);
+  })</code></pre><p><strong>45、</strong> 网页验证码是干嘛的，是为了解决什么安全问题。</p>
+<p>为了区分用户是机器还是人，验证码对于人而言很容易识别，对于计算机则难以识别，这可以防止恶意的破解密码、刷票、论坛灌水或者利用特定的程序暴力破解方式进行不断的登录尝试。</p>
+<p><strong>46、</strong> title 与 h1 的区别、b 与 strong 的区别、i 与 em 的区别？</p>
+<ul>
+<li><p>title vs h1
+title 是关于元素的额外信息，当鼠标移动元素上时显示一段提示文本，而 h1 表示层次明确的标题，对页面信息的抓取也有很大影响。</p>
+</li>
+<li><p>b vs strong
+b 表示粗体文本，并没有明确的语义，而 strong 表示强调，有语气加强的含义，使用阅读设备阅读时<code>&lt;strong&gt;</code>会重读。</p>
+</li>
+<li><p>i vs em
+i 表示斜体，em 表示强调的内容。</p>
+</li>
+</ul>
+<p>以上主要是自然样式标签和语义样式标签的差别，应该多用语义样式标签，但不能滥用。</p>
+<ul>
+<li>自然样式标签<pre><code>b, i, u, s, pre</code></pre></li>
+<li>语义样式标签<pre><code>strong, em, ins, del, code</code></pre></li>
+</ul>
+<p><strong>47、</strong> CSS 选择符有哪些？哪些属性可以继承？哪些属性不可以继承？CSS3 新增伪类有哪些？</p>
+<p><strong>CSS 选择符</strong></p>
+<ul>
+<li>id 选中器(# id)</li>
+<li>类选择器(. class)</li>
+<li>标签选择器(div、p)</li>
+<li>相邻元素选择器(E + F)</li>
+<li>子元素选择器(E &gt; F)</li>
+<li>后代元素选择器(E F)</li>
+<li>属性选择器([attribute])</li>
+<li>伪类选择器(E:)</li>
+<li>通配符选择器(*)</li>
+</ul>
+<p><strong>可继承属性</strong></p>
+<ul>
+<li>color</li>
+<li>text-align、text-indent、text-transform</li>
+<li>font、font-family、font-size、font-style、font-weight</li>
+<li>line-height</li>
+<li>cursor</li>
+<li>visibility</li>
+<li>word-spacing
+...</li>
+</ul>
+<p><strong>不可继承属性</strong></p>
+<ul>
+<li>display</li>
+<li>margin</li>
+<li>padding</li>
+<li>border</li>
+<li>position</li>
+<li>z-index</li>
+<li>background-color</li>
+<li>height、min-height、max-height</li>
+<li>width、min-width、max-width</li>
+<li>left、top、right、bottom
+...</li>
+</ul>
+<p><strong>新增伪类</strong></p>
+<ul>
+<li>:enabled</li>
+<li>:disabled</li>
+<li>:checked</li>
+<li>:only-child</li>
+<li>:nth-child(n)</li>
+<li>:first-of-type</li>
+<li>:last-of-type
+...</li>
+</ul>
+<p><strong>48、</strong> display 有哪些值？说明他们的作用。</p>
+<ul>
+<li>none: 元素不显示，并从文档流中移除</li>
+<li>inline: 显示为行内元素类型，同行显示，宽高不能设置</li>
+<li>block: 显示为块级元素类型，换行显示，可设置宽高，默认宽度为父元素宽度</li>
+<li>inline-block: 显示为行内块级元素类型，同行显示，可以设置宽高</li>
+<li>list-item: 像块级元素一样显示并添加列表标记</li>
+<li>table: 像 table 一样显示</li>
+<li>inherit: 从父元素继承 display 属性值</li>
+</ul>
+<p><strong>49、</strong> css 多列等高(高度不固定)如何实现？
+<strong>padding 补偿法</strong>
+如下: 父容器(container)的高度是由子元素 div 中高的那一列(叫做 higher)决定的，而子元素的高度由内容、边框、内边距、外边距的高度共同决定的，当设置子元素的底内边距 padding-bottom 和底外边距为相等的正负值后，高度相抵为 0，此时父容器的高度由 higher 的内容和边框决定，当 higher 的高度增加时父容器的高度也跟着增加，子元素中较矮的那列则会用 padding-bottom 来补偿这部分高度差(因为 padding 足够大)，再设置父容器 overflow: hidden 则可以正好截取 higher 的高度进行显示，表面看上去就是两列等高。</p>
+<pre><code>  &lt;style&gt;
+    .container {
+      overflow: hidden;
+    }
+    .div1 {
+      float: left;
+      width: 200px;
+      background: blue;
+      padding-bottom: 2000px;
+      margin-bottom: -2000px;
+    }
+    .div2 {
+      float: left;
+      width: 200px;
+      background: red;
+      padding-bottom: 2000px;
+      margin-bottom: -2000px;
+    }
+  &lt;/style&gt;
+  &lt;div class=&quot;container&quot;&gt;
+    &lt;div1 class=&quot;div1&quot;&gt;
+    Most of the discussion was on what needed to be done now as we transitioned from the security issues to the challenging economic issues.
+    &lt;/div1&gt;
+    &lt;div2 class=&quot;div2&quot;&gt;
+    Most of the discussion was on what needed to be done now as we transitioned from the security issues to the challenging economic issues. Most of the discussion was on what needed to be done now as we transitioned from the security issues to the challenging economic issues.
+    &lt;/div2&gt;
+  &lt;/Box&gt;</code></pre><p><strong>50、</strong> li 与 li 之间有看不见的空白间隔是什么原因引起的？有什么解决办法？</p>
+<p>由于浏览器默认会把行内元素间的空白字符(空格、换行、tab)渲染为一个空格，因此 li 之间就产生了空白间隔。
+解决方法是书写 li 时写为一行或设置 font-size 为 0。</p>
+<p><strong>51、</strong> 为什么要初始化 CSS 样式。</p>
+<p>因为浏览器兼容问题，不同的浏览器对有些标签的默认值是不一致的，如果没有初始化可能导致浏览器渲染的结果差异，但是初始化样式对 SEO 有一定影响，力求影响最小的情况下初始化。</p>
+<p><strong>52、</strong> CSS 里的 visibility 属性有个 collapse 属性值是干嘛用的？在不同浏览器下以后什么区别？</p>
+<p>对普通元素设置 visibility: collapse 后这个元素会完全隐藏，但会占据局部空间，与 visibility: hidden 的效果一样，相当于此元素透明，如果元素为 table，collapse 会让 table 会隐藏但不会占据局部空间。
+不同浏览器不同版本的表现并不一致，不建议使用。</p>
+<p><strong>53、</strong> 请解释一下为什么需要清除浮动，清除浮动的方式？</p>
+<p>清除浮动是为了清除使用浮动元素带来的影响，浮动的元素高度会塌陷，而高度的塌陷使我们后面的布局不能正常显示。
+清除浮动的方式:</p>
+<ul>
+<li><p>利用 clear 属性</p>
+<p>如下，设置 box 的 clear 的属性为 left 或 both 即可消除兄弟元素浮动的影响，clear 的本质是添加外边距。</p>
+<pre><code>  &lt;style&gt;
+    .float-left {
+      float: left;
+      width: 200px;
+      height: 100px;
+      background: blue;
+    }
+    .box {
+      width: 200px;
+      height: 100px;
+      background: gray;
+      clear: both;
+    }
+  &lt;/style&gt;
+
+  &lt;div&gt;
+    &lt;div class=&quot;float-left&quot; /&gt;
+    &lt;div class=&quot;box&quot; /&gt;
+  &lt;/div&gt;</code></pre></li>
+<li><p>添加空块级元素
+如下，在浮动元素后添加空块级元素 div，并设置其 clear 属性为 both 或 left 即可以清除浮动。</p>
+<pre><code>  &lt;style&gt;
+    .clear {
+      clear: both;
+    }
+  &lt;/style&gt;
+  &lt;div&gt;
+    &lt;div class=&quot;float-left&quot; /&gt;
+    &lt;div class=&quot;clear&quot;/&gt;
+    &lt;div class=&quot;box&quot; /&gt;
+  &lt;/div&gt;</code></pre></li>
+<li><p>伪元素::after 和::before(作用于浮动元素的父类)</p>
+<pre><code>  &lt;style&gt;
+    .float-father {
+      &amp;::after {
+        content: &quot;&quot;;
+        display: block;
+        clear: both;
+      }
+    }
+  &lt;/style&gt;
+  &lt;div&gt;
+    &lt;div class=&quot;float-father&quot;&gt;
+      &lt;div class=&quot;float-left&quot; /&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;box&quot; /&gt;
+  &lt;/div&gt;</code></pre></li>
+<li><p>overflow 的方法(作用于浮动元素的父类)
+设置浮动元素父类的 overflow 为 auto 或 hidden 即可清除浮动，该方法是利用 BFC 的特性达到的效果，这与前述几种方法通过设置 clear 属性的本质是不一样的。</p>
+<pre><code>  &lt;style&gt;
+    .float-father {
+      overflow: auto;
+    }
+  &lt;/style&gt;
+  &lt;div&gt;
+    &lt;div class=&quot;float-father&quot;&gt;
+      &lt;div class=&quot;float-left&quot; /&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;box&quot; /&gt;
+  &lt;/div&gt;</code></pre></li>
+</ul>
+<p><strong>53、</strong> 浏览器是怎样解析 CSS 选择器的？</p>
+<p>样式系统从关键选择器开始匹配，然后从右向左查找选择器的的祖先祖先元素，如果匹配，则继续左移查询父元素，不匹配则放弃查找，相比从左到右的正向查找效率大大提高。</p>
+<p><strong>54、</strong> 在网页中的应该使用奇数还是偶数的字体，为什么呢？
+使用偶数字体更好，主要原因如下:</p>
+<ul>
+<li>比例关系
+相对来说偶数字号容易和 web 页面的其他部分构成比例关系，如使用 14 号为正文字号，使用 14 _ 0.5 = 7px 作为 margin，14 _ 1.5 = 21px 作为标题。</li>
+<li>ie6 中会把 13px 的字号渲染为 14px</li>
+<li>汉字更均衡
+比如 14 号的汉字，会去掉 1px 的间距，字体的实际宽度就是 13px，这样汉字的中竖线正好平分汉字，使汉字显得更加均衡。</li>
+</ul>
+<p><strong>55、</strong> 元素竖向的百分比设定是相对于容器的高度吗？</p>
+<p>高度是相对于父容器高度，padding-top,padding-bottom,margin-top,margin-bottom 是相对于父容器宽度。</p>
+<p><strong>56、</strong> 什么是响应式设计？响应式设计的基本原理是什么？如何兼容低版本的 IE？</p>
+<p>响应式设计就是根据设备环境(系统平台、屏幕尺寸)来进行相应的响应和调整。其主要原理就是通过媒体查询来适配不同环境下的 UI，对于低版本 IE 来说不能使用媒体查询，则可以通过监听 window resize 事件添加新的类来实现 PC 端的响应式布局，此外还可以通过 Respond.js 来实现媒体查询。</p>
+<p><strong>57、</strong> 如果需要手动写动画，你认为最小时间间隔是多久，为什么？（阿里）</p>
+<p>多数显示器的默认频率是 60Hz，即一秒钟刷新 60 次，因此理论上动画最小时间间隔是 1 / 60 * 1000ms = 16.7ms。</p>
+<p><strong>58、</strong> overflow: scroll 时不能平滑滚动的问题怎么处理</p>
+<p>开启硬件加速，-webkit-overflow-scrolling: touch</p>
+<p><strong>59、</strong> png、jpg、gif 这些图片格式解释一下，分别什么时候用。有没有了解过 webp？</p>
+<ul>
+<li><p>png(Portable Network Graphics)
+直译就是便携式网络图片，简称 PNG，是一种无损压缩的位图图形格式，支持索引、灰度、RGB 三种颜色方案以及 Alpha 通道等特性。PNG 的开发目标是改善并取代 GIF 作为适合网络传输的格式而不需要专利许可。
+特性</p>
+<ul>
+<li>支持 256 色调色板技术以产生小体积文件</li>
+<li>支持最高 24 位真彩色图像以及 8 位灰度图像</li>
+<li>支持 Alpha 通道的透明/与半透明特性</li>
+<li>支持无损压缩</li>
+<li>支持存储附加信息，以保留图像名称、作者等信息</li>
+<li>支持图像亮度的 Gamma 校准信息</li>
+<li>渐进显示和流式读写，适合在网络传输中快速显示预览效果后再展示全貌
+...</li>
+</ul>
+</li>
+<li><p>jpg(Joint Photographic Experts Group)
+jpg 即 jpeg，由于早期的 DOS、Windows95 只支持最长 3 字符的扩展名，为了兼容采用了.jpg，一直沿用到今天，JPEG 是一种针对照片视频而广泛使用的有损压缩标准方法。支持 24 位真彩色，颜色丰富并且适合那些允许轻微失真的像素色彩丰富的图片(相片)不支持动画，不支持透明色，不适合 logo 和线条。</p>
+</li>
+<li><p>gif(Graphics Interchange Format)
+是一种位图图形文件格式，它采用无损压缩技术，以 8 位色(即 2556 种颜色)重现真彩色的图像，它既可以减少文件的大小，又保持成像质量。GIF 图片可以动并且拥有透明度(透明或不透明，并没有 alpha 通道)。适合 logo、线条图。</p>
+</li>
+<li><p>webp
+是一种同时提供了有损压缩和无损压缩(可逆压缩)的图片文件格式。它的优势在于拥有更优的图像数据压缩算法，能带来更小的图片体积，而且拥有肉眼识别无差异的图像质量，此外它还具备 Alpha 透明以及动画特性。</p>
+</li>
+</ul>
+<p><strong>60、</strong> style 标签写在 body 后与 body 前有什么区别？</p>
+<p>写在 body 前有利于浏览器逐步渲染(resources download=&gt;CSSOM+DOM=&gt;RenderTree=&gt;Layout=&gt;Paint)，写在 body 标签后由于浏览器逐行方式对 html 文档进行解析，当解析到写在尾部的样式表时会导致浏览器停止之前的渲染，等待加载且解析样式表完成后重新渲染，在 windows 的 IE 下可能会出现 FOUC 现象(即样式失效导致的页面闪烁问题)。</p>
+<p><strong>61、</strong> 什么是 CSS 预处理器 / 后处理器？</p>
+<ul>
+<li><p>预处理器
+CSS 预处理器定义了一种新的语言，其基本思想是，用一种专门的编程语言，为 CSS 增加一些编程的特性，并将 CSS 作为目标生成文件。比如 LESS、Sass、Stylus 等用来预编译 CSS，他们具有层级、mixin、变量、循环、函数等特性，极大的提高了 UI 开发效率。</p>
+</li>
+<li><p>后处理器
+对 CSS 进行处理，属于广义上的 CSS 预处理器，我们很久以前就在用预处理器了，最典型的例子就是 CSS 压缩工具 clean-css，目前最常用的后处理器就是 PostCSS，用来在完成的样式表中根据 CSS 规范处理 CSS，如给 CSS 属性添加浏览器私有前缀，实现各个浏览器的兼容。</p>
+</li>
+</ul>
+<p><strong>62、</strong> 什么是 Cookie 隔离？</p>
+<p>cookie 隔离就是在 http 请求的时候不带 cookie，如果静态文件都放在主域名下，那么在静态文件请求时都会把带有 cookie 的请求提交给 server，非常浪费资源，所以不如隔离开。
+因为 cookie 有域的限制，因此不能跨域请求，因此使用非主域名的时候，请求头中就不会带有 cookie，这样就可以降低请求头的大小，降低请求时间，从而达到降低整体请求延时的目的。</p>
+<p><strong>63、</strong> 什么是严格模式？</p>
+<p>严格模式是 ES5 中添加的一种运行模式，这种模式使 Javascript 在更严格的条件下运行。不支持严格模式与支持严格模式的浏览器在执行严格模式代码时会采用不同的行为。</p>
+<p>严格模式对正常的 JS 语义作了一些修改。</p>
+<ul>
+<li>严格模式通过抛出错误来消除一些原有的静默错误。</li>
+<li>严格模式修复了一些导致 JS 引擎难以优化的缺陷：有时候，相同的代码，严格模式可以比非严格模式下运行得更快。</li>
+<li>严格模式禁用了 ECMAScript 的未来版本可能定义的一些语法。
+严格模式通过在语句前添加&#39;use strict&#39;来开启。</li>
+</ul>
+<p><strong>64、</strong> CSS3 有哪些新特性？</p>
+<ul>
+<li>新增多种选择器</li>
+<li>圆角(border-radius)</li>
+<li>多列布局(multi-column layout)</li>
+<li>文字特效(text-shadow)</li>
+<li>线性渐变(gradient)</li>
+<li>2D 转换(translate、rotate、scale、skew)</li>
+<li>过渡(transition)
+...</li>
+</ul>
+<p><strong>65、</strong> [&quot;1&quot;, &quot;2&quot;, &quot;3&quot;].map(parseInt) 答案是多少？
+parseInt 函数解析一个字符串参数，并返回一个指定基数的十进制整数或 NaN。</p>
+<pre><code>/*
+  string: 要被解析的字值，如果不是字符串则转换为字符串，字符串开头的空白符将会被忽略
+  radix: 一个介于2-36的整数(或0)，表示一个参数string的基数。比如radix为2，表示第一个参数string为2进制数，当未指定基数或基
+         数为0时，会根据string来判断数字的基数(0x开头基数为16，0开头基数为8或10，具体由浏览器决定，其他的默认值为10，因此最好显示给定基数)。
+  返回值: 返回解析后的10进制整数值，解析错误则返回NaN。主要包含以下三种情况：
+         1. 被解析参数的第一个字符无法被转化成数值类型
+         2. 被解析的参数不是radix进制下的合法数字
+         3. radix不在[2, 36]范围内，或者不等于0
+*/
+parseInt(string, radix);</code></pre><p>[&quot;1&quot;, &quot;2&quot;, &quot;3&quot;].map(parseInt)等价于[&quot;1&quot;, &quot;2&quot;, &quot;3&quot;].map((v, index)=&gt; parseInt(v, index))，即</p>
+<pre><code>  =&gt; parseInt(&quot;1&quot;, 0) //默认基数为10，因此返回1
+  =&gt; parseInt(&quot;2&quot;, 1) //不在[2, 36]范围内，返回NaN
+  =&gt; parseInt(&quot;3&quot;, 2) //基数为2，则任务&quot;3&quot;是2进制数，不合法，返回NaN</code></pre><p><strong>65、</strong> IE 与火狐的事件机制有什么区别？ 如何阻止冒泡？
+如下，inner 和 outer 都绑定单击事件，当点击 inner 时，事件应如何传递呢，是 inner 先触发单击事件，还是 outer 先触发？</p>
+<pre><code>&lt;div id=&quot;outer&quot;&gt;
+  &lt;span id=&quot;inner&quot;&gt;
+    Click
+  &lt;/span&gt;
+&lt;/div&gt;</code></pre><p><strong>事件冒泡和事件捕获</strong></p>
+<ul>
+<li>事件冒泡
+IE 的事件机制就是事件冒泡，事件冒泡，如同将石头丢入水底，泡泡会从水底，逐渐向上，直到水面，消失。也就是说事件会从最内层元素触发，并向上传播，直到 document 对象。
+因此，IE 事件机制处理上述的例子中 span 元素的单击事件顺序为: span=&gt;div&gt;body=&gt;html=&gt;document</li>
+<li>事件捕获
+事件捕获是网景提出来的事件流，它和事件冒泡正好相反，事件会从最外层元素开始触发，直到具体的元素。
+因此，事件捕获机制处理上述的例子中 span 元素的单击事件顺序为: document=&gt;html=&gt;body=&gt;div=&gt;span
+火狐支持事件冒泡和事件捕获。</li>
+</ul>
+<p><strong>addEventListener 函数</strong>
+W3C 折中了事件冒泡和事件捕获，制定了先捕获后冒泡的标准，addEventListener 的第三个参数决定了事件是在捕获阶段还是在冒泡阶段触发。</p>
+<pre><code>/*
+  event: 事件名
+  function: 触发事件时执行的函数
+  useCapture: 默认值为false，指定事件是在捕获阶段还是在冒泡阶段触发
+*/
+element.addEventListener(event, function, useCapture)</code></pre><p><strong>实例</strong></p>
+<p>冒泡阶段触发:</p>
+<pre><code>  //点击span，输出innner，再输出outer
+  &lt;div id=&quot;outer&quot;&gt;
+    &lt;span id=&quot;inner&quot;&gt;
+      Click
+    &lt;/span&gt;
+  &lt;/div&gt;
+  &lt;script&gt;
+    const outer = document.getElementById(&quot;outer&quot;);
+    outer.addEventListener(&quot;click&quot;, (e) =&gt; console.log(&quot;outer&quot;));
+    const innner = document.getElementById(&quot;innner&quot;);
+    innner.addEventListener(&quot;click&quot;, (e) =&gt; console.log(&quot;innner&quot;));
+  &lt;/script&gt;</code></pre><p>捕获阶段触发:</p>
+<pre><code>  //点击span，输出outer，再输出innner
+  &lt;div id=&quot;outer&quot;&gt;
+    &lt;span id=&quot;inner&quot;&gt;
+      Click
+    &lt;/span&gt;
+  &lt;/div&gt;
+  &lt;script&gt;
+    const outer = document.getElementById(&quot;outer&quot;);
+    outer.addEventListener(&quot;click&quot;, (e) =&gt; console.log(&quot;outer&quot;), true);
+    const innner = document.getElementById(&quot;innner&quot;);
+    innner.addEventListener(&quot;click&quot;, (e) =&gt; console.log(&quot;innner&quot;)，true);
+  &lt;/script&gt;</code></pre><p>如果元素同时绑定了捕获和冒泡阶段的事件，则先响应捕获阶段的事件，再响应冒泡阶段的事件。</p>
+<p>阻止冒泡:
+通过 e.stopPropagation 函数来阻止事件传播。</p>
+<pre><code>  //点击span，只输出outer，
+  &lt;div id=&quot;outer&quot;&gt;
+    &lt;span id=&quot;inner&quot;&gt;
+      Click
+    &lt;/span&gt;
+  &lt;/div&gt;
+  &lt;script&gt;
+    const outer = document.getElementById(&quot;outer&quot;);
+    outer.addEventListener(&quot;click&quot;, (e) =&gt; {
+      e.stopPropagation();
+      console.log(&quot;outer&quot;), true);
+    }
+    const innner = document.getElementById(&quot;innner&quot;);
+    innner.addEventListener(&quot;click&quot;, (e) =&gt; console.log(&quot;innner&quot;)，true);
+  &lt;/script&gt;</code></pre><p><strong>66、</strong> Javascript 中，有一个函数，执行时对象查找时，永远不会去查找原型，这个函数是？</p>
+<p>hasOwnProperty，返回一个对象是否具有指定名称的属性。使用方法如下</p>
+<pre><code>/*
+  proName: 属性名
+  返回值: bool值
+*/
+object.hasOwnProperty(proName)</code></pre><p><strong>67、</strong> JSON 的了解？
+JSON(JavaScript Object Notation)是一种轻量级的数据交换格式，它是 JavaScript 的一个子集。数据格式简单，易于读写，占用宽带小。如{ &quot;name&quot;: &quot;xinghunm&quot;, &quot;age&quot;: 18 }。</p>
+<p>JSON 有两种表示结构对象和数组</p>
+<ul>
+<li><p>对象
+对象以左大括号<code>{</code>开始，以右大括号<code>}</code>结束，括号间由 key-value 的键值对组成，键值对间由逗号&#39;,&#39;分割，最后一个键值对可以省略逗号，键值对的 key 为字符串，值可以是字符串、数值、对象、布尔值、数组以及 null。</p>
+<pre><code>  {
+    &quot;name&quot;: &quot;xinghunm&quot;,
+    &quot;age&quot;: 18
+  }</code></pre></li>
+<li><p>数组
+数组以左中括号<code>[</code>开始，以右中括号<code>]</code>结束，中间由逗号分割的多个键值对列表组成。</p>
+<pre><code>  [
+    {
+      &quot;name&quot;: &quot;xinghunm&quot;,
+      &quot;age&quot;: 18
+    },
+    {
+      &quot;name&quot;: &quot;snow&quot;,
+      &quot;age&quot;: 18
+    }
+  ]</code></pre></li>
+</ul>
+<p>JSON 对象提供了字符串、对象相互转换的接口</p>
+<ul>
+<li>字符串转 json 对象</li>
+</ul>
+<pre><code>  const obj = JSON.parse(str)</code></pre><ul>
+<li>对象转 JSON 字符串</li>
+</ul>
+<pre><code>  const jsonStr = JSON.Stringify(obj)</code></pre><p><strong>68、</strong> js 延迟加载的方式有哪些？</p>
+<ul>
+<li><p>defer
+在<code>&lt;script&gt;</code>元素中设置 defer 属性，相当于告诉浏览器立即下载脚本，但延迟执行。脚本会在页面加载解析完成后，触发 DOMContentLoaded 事件前执行，defer 属性基本能保证脚本按着加载的顺序执行。对内联脚本不起作用。</p>
+<pre><code>  &lt;script src=&quot;bundle.js&quot; defer&gt;&lt;/script&gt;</code></pre></li>
+<li><p>async
+使脚本在下载完成后立即执行，async 属性使脚本以乱序执行为主，不一定是在 DOMContentLoaded 前执行。对内联脚本不起作用。</p>
+<pre><code>  &lt;script src=&quot;bundle.js&quot; defer&gt;&lt;/script&gt;</code></pre></li>
+<li><p>动态创建 DOM</p>
+<pre><code>function loadJS() {
+    var el = document.createElement(&#39;script&#39;);
+    el.src = &#39;http://localhost:8000/package.json&#39;;
+    document.body.appendChild(el);
+    //chrome,Firefox不支持onreadystatechange
+    el.onload = el.onreadystatechange = () =&gt; {
+        if (!this.readyState ||
+        this.readyState == &quot;loaded&quot; ||
+        this.readyState == &quot;complete&quot;)) {
+        console.log(&#39;load script success&#39;);
+        el.onload = el.onreadystatechange = null;
+        document.body.removeChild(s);
+      }
+    };
+    el.onerror = () =&gt; {
+      alert(&#39;error&#39;);
+    };
+  }
+  window.addEventListener(&#39;load&#39;, loadJS);</code></pre></li>
+</ul>
+<p><strong>69、</strong> requireJS 的核心原理是什么？</p>
+<p>requireJS 是基于 AMD 模块加载规范，使用回调函数来解决模块加载的问题。</p>
+<ul>
+<li>核心原理
+通过创建 script 标签，给标签设置 src 属性来实现模块加载的。</li>
+<li>避免二次加载
+模块定义了一个 function，这个 function 实际是一个 factory(工厂模式)，这个 factory 在需要(require(&quot;xxx&quot;))的时候才有可能被调用，如果检查到已经调用过，生成了模块实例，则直接返回实例而不再调用工厂方法。</li>
+<li>缓存<ul>
+<li>第一次加载模块时，会缓存该模块，以后再加载该模块，就直接从缓存中取出该模块的 module.exports 属性(不会再次执行该模块)。</li>
+<li>如果需要多次执行模块中的代码，一般可以让模块暴露函数</li>
+<li>模块的缓存可以通过 require.cache 拿到，同样也可以删除</li>
+</ul>
+</li>
+</ul>
+<p><strong>70、</strong> document.write 和 innerHTML 的区别？</p>
+<p>document.write 是直接写入到页面的内容流，如果在写之前没有调用 document.open，浏览器会自动调用 open。每次写完毕之后重新调用该函数，会导致页面被重写。
+innerHTML 则是 DOM 页面元素的一个属性，代表该元素的 html 内容。可以对一个具体的元素进行修改，而不用刷新页面。</p>
+<p><strong>71、</strong> DOM 操作——怎样添加、移除、移动、复制、创建和查找节点?</p>
+<ul>
+<li><p>创建节点</p>
+<ul>
+<li>createDocumentFragment()
+创建文档片段节点，文档片段不是实际的 DOM 结构，它是一个虚拟的 dom 节点，存在于内存中，所以对片段的更改不会影响文档，也就不会重新渲染文档。
+DocumentFragment 一个常见的用途是将 dom 子树封装在里面，并通过 appendChild 等方法将该片段插入的 DOM 中，这样片段中的节点就会移动到 DOM 中，而留下空白的 DocumentFragment 文档片段。因为所有的节点被一次性插入 DOM 中，只会触发一次渲染，提高了性能。<pre><code>  var frag = document.createDocumentFragment();
+  for(let i = 0;i &lt; 100;i++) {
+    const el =document.createElement(&quot;div&quot;);
+    //操作片段的修改不会触发渲染
+    frag.appendChild(el);
+  }
+  document.body.appendChild(frag);</code></pre></li>
+<li>createElement(tagName)
+创建标签名为 tagName 的节点<pre><code>  var el = document.createElement(&quot;div&quot;);</code></pre></li>
+<li>createTextNode(text)
+创建包含文本 text 的文本节点<pre><code>  document.createTextNode(&quot;text node&quot;);</code></pre></li>
+<li>createAttribute(name)
+创建属性节点<pre><code>  function setAttr() {
+    var node = document.getElementById(&#39;root&#39;);
+    var attr = document.createAttribute(&quot;属性名&quot;);
+    attr.nodeValue = &quot;属性值&quot;;
+    node.setAttributeNode(attr);
+  }
+  等同于
+  function setAttr() {
+    var node = document.getElementById(&#39;root&#39;);
+    node.setAttribute(&quot;属性名&quot;, &quot;属性值&quot;);
+  }</code></pre></li>
+</ul>
+</li>
+<li><p>操纵节点</p>
+<ul>
+<li><p>添加节点</p>
+<ol>
+<li>Node.appendChild(element)
+该方法将一个节点添加到指定父节点的子节点列表末尾。</li>
+</ol>
+<pre><code>  document.body.appendChild(element);</code></pre><ol>
+<li>Node.insertBefore(newNode, referenceNode)
+该方法在参考节点之前插入一个拥有指定父节点的子节点。</li>
+</ol>
+<pre><code>  html:
+  &lt;div id=&quot;root&quot;&gt;
+    &lt;div id=&quot;div1&quot;&gt;
+  &lt;div&gt;
+
+  const newNode = document.createElement(&#39;div&#39;);
+  const parentNode = document.getElementById(&#39;root&#39;);
+  const referenceNode = document.getElementById(&#39;div1&#39;);
+  parentNode.insertBefore(newNode, referenceNode);</code></pre></li>
+<li><p>删除节点
+Node.removeChild(child)方法从 DOM 中删除一个子节点，并返回删除的节点。</p>
+<pre><code>const node = document.getElementById(&quot;app&quot;);
+if (node.parentNode) {
+  node.parentNode.removeChild(node);
+}</code></pre></li>
+<li><p>替换节点
+用指定的节点替换当前节点的一个子节点，并返回被替换掉的节点。</p>
+<pre><code>  const replacedNode = parentNode.replaceChild(newChild, oldChild);</code></pre></li>
+<li><p>复制节点
+Node.cloneNode() 方法返回调用该方法的节点的一个副本。</p>
+<pre><code>  /*
+    deep: 可选，是否采用深度克隆(如果为true该节点所有后代节点也会被克隆，如果为false只克隆该节点本身)
+  */
+  const dupNode = node.cloneNode(deep);</code></pre></li>
+</ul>
+</li>
+<li><p>查找节点</p>
+<ul>
+<li>getElementById(id)
+返回一个匹配特定 ID 的元素。<pre><code>  /*
+  1. 如果当前文档中拥有特定ID的元素不存在则返回null.
+  2. id是大小写敏感的字符串，代表了所要查找的元素的唯一ID.
+  */
+  var element = document.getElementById(id);</code></pre></li>
+<li>getElementsByTagName(tagName)
+通过标签名查找，返回一个动态的包含所有指定标签名的元素的 HTML 集合 HTMLCollection。<pre><code>  //搜索从element开始。请注意只有element的后代元素会被搜索，不包括元素自己。
+  var elements = element.getElementsByTagName(tagName)</code></pre></li>
+<li>getElementsByName()
+根据给定的 name 返回一个在(X)HTML document 的节点列表集合。<pre><code>  //name是元素的name属性的值。
+  var elements = document.getElementsByName(name)</code></pre></li>
+</ul>
+</li>
+</ul>
+<p><strong>72、</strong> 移动端最小触控区域是多大?</p>
+<p>苹果最初把 44x44 像素定为触控控件最小的尺寸，原因是在 iphone3 的分辨率下，44x44pixels 对应人类食指指尖的平均大小--7x7 毫米(拇指为 9 毫米)，但是随着分辨率的提高，44x44pixels 已经达不到 7 毫米了，当然可以通过换算得到目标设备的最小触控像素。</p>
+<p><strong>73、</strong> 移动端的点击事件的延迟，时间是多久，为什么会有？ 怎么解决这个延时？</p>
+<p>点击延迟有 300ms，这个延迟是由历史原因造成的，最初在 iOS 自带的浏览器 safari 上有双击缩放的功能，为了判断用户是否是双击事件
+(点击到链接，如果立即响应则会错误跳转)而设置了 Safari 等待 300ms。后来鉴于 iPhone 的成功，各家浏览器也实现了这个功能。
+解决方案</p>
+<ul>
+<li>CSS touch-action
+这个属性指定了相应元素上能够触发的用户代理，也就是浏览器的默认行为。如果将该属性值设置为 none，则表示在该元素上的操作不会触发用户代理的任何默认行为，也就无需进行 300ms 的延迟判断。</li>
+<li>FastClick
+FastClick 是一个是 FT Labs 专门为解决移动端浏览器 300 毫秒点击延迟问题所开发的一个轻量级的库。FastClick 的实现原理是在检测到 touchend 事件的时通过 DOM 自定义事件立即触发一个模拟的 click 事件，并把浏览器在 300ms 之后的 click 事件阻止掉。</li>
+</ul>
+<p><strong>74、</strong> 什么是 Polyfill？</p>
+<p>Polyfill 是英国 Web 开发者<a href="https://remysharp.com/">Remy Sharp</a>想出来的名词，来源于英国的一个家装产品 Polyfilla(刮墙的,在中国称为腻子)，可以磨平墙上的裂缝。Remy Sharp 以此来表达用于实现一些浏览器不支持的原生 API 的代码。比如有些浏览器不支持 Array.isArray 函数，为了让这些浏览器可以支持这个 api，我们就可以实现如下 polyfill:</p>
+<pre><code>  if(!Array.isArray) {
+    Array.isArray = function(obj) {
+      return Object.prototype.toString().call(obj) === &quot;[object Array]&quot;;
+    }
+  }</code></pre><p><strong>75、</strong> 实现一个模块加载器</p>
+<pre><code>var MyModules = (function Manager() {
+    var modules = {};
+
+    function define(name, deps, impl) {
+        for (var i=0; i&lt;deps.length; i++) {
+            deps[i] = modules[deps[i]];
+        }
+        modules[name] = impl.apply( impl, deps );
+    }
+
+    function get(name) {
+        return modules[name];
+    }
+
+    return {
+        define: define,
+        get: get
+    };
+})();</code></pre><p>这段代码的关键是 <code>modules[name] = impl.apply(impl, deps)</code>。调用<code>impl.apply(impl, deps)</code>使得在 impl 函数内部能够访问到这些依赖 deps，因而 impl 函数内部返回的对象(通过<code>modules[name] = xxx</code>赋值给了特定的 module)同样能够访问到这些依赖，形成了闭包，最终对于特定的某块就可以访问到它们所有的依赖。</p>
+<p>定义一个模块:</p>
+<pre><code>MyModules.define( &quot;person&quot;, [], function(){
+    function getName(name) {
+        return &quot;I am&quot; + name;
+    }
+
+    return {
+        getName
+    };
+} );
+
+MyModules.define( &quot;girl&quot;, [&quot;person&quot;], function(person){
+    var name = &quot;lily&quot;;
+
+    function getMyName() {
+        console.log(person.getName(name));
+    }
+
+    return {
+        getMyName
+    };
+});
+
+var p = MyModules.get( &quot;person&quot; );
+var girl = MyModules.get( &quot;girl&quot; );
+
+p.getName(&quot;lucy&quot;); // I am lucy
+girl.getMyName(); // I am lily</code></pre><p><strong>76、 移动浏览器中，触摸一下屏幕会依次触发哪些事件？</strong></p>
+<ul>
+<li>touchstart
+手指触摸到屏幕时触发</li>
+<li>touchmove
+手指在屏幕上移动时触发</li>
+<li>touchend
+手指离开屏幕时触发</li>
+<li>touchcancel
+由系统触发，比如弹框</li>
+</ul>
+<p><strong>77、cookie、session 分别用来做什么的，有什么关系</strong></p>
+<p>由于 http 协议是无状态的，所以我们需要某种机制来存储状态，客户端和服务端可以分别采用 cookie 和 session 来保存状态。在服务端创建会话 session 时，服务端会在 http 协议中告诉客户端，需要在 cookie 里记录一个 Session ID，客户端在请求时每次都会通过 cookie 把这个 Session ID 传送给服务端，服务端通过该 ID 就能得到当前会话的信息了。
+区别:</p>
+<ul>
+<li>cookie 用来在客户端储存信息，而 session 用来在服务端存储信息，都可用于跟踪用户状态。</li>
+<li>session 存储在服务端，相对更安全，用户验证等重要信息一般存放于 session，但 cookie 也也可以加密来提高安全性。</li>
+<li>cookie 在主动删除前会永久保存，最大一般为 4kb，session 在会话期间保存。</li>
+<li>session 的实现需要 cookie 的支持，session 依赖于 session ID 实现，而 session ID 存放于 cookie 中，因此，禁用 cookie 之后，session 也失效。但可以使用其他方法实现，比如在 URL 中传递 session ID。</li>
+<li>session 在服务端可能存储在内存、数据库、文件等。</li>
+<li>session 支持各种类型的对象，cookie 只保存字符串。</li>
+</ul>
+<p><strong>78、TCP 中的三次握手和四次挥手</strong></p>
+<p><strong>三次握手</strong>
+TCP 提供面向有连接的通信传输，面向有连接是指数据通信开始之前先做好两端的准备工作。所谓三次握手是指建立一个 TCP 连接时需要客户端和服务端总共发送三个包以确认连接的建立。在 socket 编程中，这一过程由客户端执行 connect 来触发。</p>
+<p>流程图如下:</p>
+ <center><img src="https://i.imgur.com/xWQoYgX.jpg" /></center>
+
+<ul>
+<li><p>第一次握手</p>
+<p>客户端将标志位 SYN(Synchronize Sequence Numbers,同步序列编号)置为 1，随机产生一个序列号 seq=J，并将该数据包发送给服务端，客户端进入 SYN_SENT 状态，等待服务器确认。</p>
+</li>
+<li><p>第二次握手</p>
+<p>服务端收到数据包后，通过标志位 SYN=1 知道客户端请求建立连接，服务端将标志位 SYN 和 ACK(ACKnowledge Character 确认字符)都置为 1，ack=J+1，随机生成一个序列号 seq=K，并将该数据包发送给客户端以确认连接请求，服务端进入 SYN_RCVD 状态。</p>
+</li>
+<li><p>第三次握手</p>
+<p>客户端收到确认后，检查 ack 是否为 J+1，ACK 是否为 1，如果正确则将标志位 ACK 置为 1，ack=K+1，并将该数据包发送给服务端，服务端检查 ack 是否为 K+1，ACK 是否为 1，如果正确则连接建立成功，客户端和服务端进入 ESTABLISHED 状态，完成三次握手，随后客户端和服务端之间就可以开始传输数据了。</p>
+</li>
+</ul>
+<p><strong>四次挥手</strong></p>
+<p>四次挥手即终止 TCP 连接，断开一个 TCP 连接时需要客户端和服务端总共发送四个包以确认连接的断开。在 socket 编程中，这一过程通过任意一方执行 close 来触发。由于 TCP 连接是全双工的，因此，每个方向都必须单独进行关闭，这一原则是当一方完成数据发送任务后，发送一个 FIN(finish,结束)来终止这一方向的连接，收到一个 FIN 只是意味着这一方向上没有数据流动了，即不会再收到数据了，但是在这个 TCP 连接上扔能够发送数据，直到这一方向也发送了 FIN。首先进行关闭的一方将执行主动关闭，而另一方则执行被动关闭。</p>
+<p>中断连接端可以是客户端，也可以是服务端。</p>
+<p>流程图如下:</p>
+ <center><img src="https://i.imgur.com/OFyEn8x.jpg" /></center>
+
+<ul>
+<li><p>第一次挥手</p>
+<p>客户端发送一个 FIN=M，用来关闭客户端到到服务端的数据传送，客户端进入 FIN_WAIT_1 状态。意思是说“我客户端没有数据要发给你了”，但是如果你服务端还有数据没有发送完成，则不必急着关闭连接，可以继续发送数据。</p>
+</li>
+<li><p>第二次挥手</p>
+<p>服务端收到 FIN 后，先发送 ack=M+1，告诉客户端，你的请求我收到了，但是我还没准备好，请继续等我的消息。这个时候客户端就进入 FIN_WAIT_2 状态，继续等待服务端的 FIN 报文。</p>
+</li>
+<li><p>第三次挥手</p>
+<p>当服务端确定数据发送完成后，则向客户端发送 FIN=N 的报文，告诉客户端，好了，我这边的数据发送完了，准备好关闭连接了，服务端进入 LAST_ACK 状态。</p>
+</li>
+<li><p>第四次挥手</p>
+<p>客户端收到 FIN=N 报文后，就知道可以关闭连接了，但是他还是不相信网络，怕服务器不知道要关闭了，所以发送 ACK=1，ack=N+1 后进入 TIME_WAIT 状态，如果服务端没有收到 ACK 则可以重传。服务端收到 ACK 后，就知道可以断开连接了。客户端等待了 2MSL(Maximum Segment Lifetime,报文最大生存时间，一般为 30s)后依然没有收到回复，则证明服务端已经正常关闭，那好，我客户端也可以关闭了。最终完成了四次挥手。</p>
+</li>
+</ul>
+<p><strong>79、__dirname, __filename, process.cwd()</strong></p>
+<ul>
+<li><p>__dirname</p>
+<p>当前执行文件所在目录的完整目录名。</p>
+</li>
+<li><p>__filename</p>
+<p>当前执行文件带有完整绝对路径的文件名。</p>
+</li>
+<li><p>process.cwd()</p>
+<p>获取执行 node 命令时所在的目录名。</p>
+</li>
+</ul>
+<p>如下，目录结构为:</p>
+<pre><code>node-app/
+    - src/
+      - test.js</code></pre><p>test.js</p>
+<pre><code>console.log(&quot;__dirname:&quot;, __dirname);
+console.log(&quot;__filename:&quot;, __filename);
+console.log(&quot;process.cwd:&quot;, process.cwd());</code></pre><p>在 node-app 目录下执行<code>node src/test.js</code>，输出如下:</p>
+<pre><code>__dirname: /Users/xinghunmeng/MyHouse/test/node-app/src
+__filename: /Users/xinghunmeng/MyHouse/test/node-app/src/test.js
+process.cwd: /Users/xinghunmeng/MyHouse/test/node-app</code></pre><p><strong>80、</strong> 从浏览器地址栏输入 url 到显示页面的步骤</p>
+<ul>
+<li>浏览器根据请求的 url，交给 DNS 解析域名找到真实的 Ip，向服务器请求数据。</li>
+<li>服务器处理完成返回数据，浏览器接收数据(Html、js、css、image 等)</li>
+<li>浏览器对请求回的资源进行语法分析，建立相应的内部数据结构(Dom 等)</li>
+<li>载入解析到的资源文件，渲染页面、完成。</li>
+</ul>
+<p><strong>81、</strong>js 遍历 li 的内容</p>
+<pre><code>&lt;ul&gt;
+  &lt;li&gt;1&lt;/li&gt;
+  &lt;li&gt;2&lt;/li&gt;
+&lt;/ul&gt;</code></pre><p>=&gt;</p>
+<pre><code>  const u = document.querySelector(&#39;ul&#39;);
+  const lis = u.children;
+  for(let i = 0; i &lt; lis.length; i++) {
+    const li = lis[i];
+    console.log(li.innerText);
+  }
+  或
+  const realArr = [].slice.call(lis);
+  realArr.forEach((li) =&gt; {
+    console.log(li.innerText)
+  })
+</code></pre><p><strong>82、</strong> <code>&lt;img&gt;</code>的 title 和 alt 有什么区别</p>
+<ul>
+<li>title 是鼠标移动到元素显示的值</li>
+<li>alt 是<code>&lt;img&gt;</code>特有的属性，是图片内容的等价描述，用于图片无法加载时显示、读屏器阅读图片。可提高图片的可访问性，除了纯装饰图片都应设置有意义的值，搜索引擎会重点分析。</li>
+</ul>
+<p><strong>83、</strong> JavaScript 中 null 和 undefined 的区别
+由于历史原因 JavaScript 中有 null 和 undefined 两个表示无的值，其区别很小，主要在于：</p>
+<ul>
+<li>null 的类型为 Object，undefined 的类型为 undefined</li>
+<li>Number(null)为 0，Number(undefined)为 NaN</li>
+<li>null 表示没有对象，此处不该有值，undefined 表示此处应该有值暂时缺少这个值</li>
+</ul>
+<p><strong>84、</strong> 常见 http code 及其含义</p>
+<ul>
+<li>信息响应(1xx)
+表示服务器收到请求，需要请求者继续执行操作<ul>
+<li>100 Continue: 客户端应继续其请求。</li>
+</ul>
+</li>
+<li>成功(2xx)
+表示服务器成功接收请求并处理返回<ul>
+<li>200 Ok: 请求正常处理完毕。一般用于 GET 与 POST 请求</li>
+<li>202 Accepted: 服务器已经接受到消息，但尚未处理</li>
+<li>204 No Content: 服务器成功处理了请求但未返回任何内容</li>
+<li>206 Partial Content: 服务器成功处理了部分 get 请求</li>
+</ul>
+</li>
+<li>重定向(3xx)
+表示需要客户端进一步操作才能完成请求<ul>
+<li>301 Moved Permanently: 永久重定向，请求的资源已永久移动到新 URI</li>
+<li>302 Found: 临时重定向，资源临时移动到新的位置</li>
+<li>304 Not Modified: 表示资源在由请求头中的 If-Modified-Since 或 If-None-Match 参数指定的这一版本之后没有被修改，客户端仍能够拿到该资源的缓存无需再次传送。</li>
+<li>307 Temporary Redirect: 临时重定向，不允许更改请求方法</li>
+</ul>
+</li>
+<li>客户端错误(4xx)
+表示客户端可能发生了错误<ul>
+<li>400 Bad Request: 由于明显的客户端错误(格式错误，太大的大小等)，服务器无法理解</li>
+<li>401 Unauthorized: 要求身份验证</li>
+<li>403 Forbidden: 服务器理解请求但拒绝执行</li>
+<li>404 Not Found: 服务器没有找到资源</li>
+</ul>
+</li>
+<li>服务器错误(5xx)
+表示服务器无法完成请求<ul>
+<li>500 Internal Server Error: 服务器遇到未知问题，无法处理请求</li>
+<li>503 Service Unavailable: 由于过载或临时的服务器维护导致的服务器暂时无法处理请求</li>
+</ul>
+</li>
+</ul>
+<p><strong>85、</strong> Cookie, SessionStorage 与 LocalStorage 区别</p>
+<p><a href="https://github.com/fengyueran/web-cache-demo.git">demo</a></p>
+<ul>
+<li><p>储存大小</p>
+<ul>
+<li>Cookie: 4kb 左右</li>
+<li>SessionStorage: 一般为 5M</li>
+<li>LocalStorage: 一般为 5M</li>
+</ul>
+</li>
+<li><p>生命周期</p>
+<ul>
+<li>Cookie: 默认是关闭浏览器后失效，可以设置失效时间</li>
+<li>SessionStorage: 仅在当前会话有效，关闭 tab 页即失效</li>
+<li>LocalStorage: 持久缓存除非主动清除(通过浏览器或 JS)</li>
+</ul>
+</li>
+<li><p>与服务器通信</p>
+<ul>
+<li>每次请求都会携带在 http 请求头中，可能带来性能问题</li>
+<li>SessionStorage: 只在客户端起作用</li>
+<li>LocalStorage: 只在客户端起作用</li>
+</ul>
+</li>
+</ul>
+<p>同域名的 http 和 https 共享 cookie(设置了 Secure 的除外)，但不共享 LocalStorage。</p>

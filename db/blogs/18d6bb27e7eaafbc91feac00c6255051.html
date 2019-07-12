@@ -1,0 +1,168 @@
+<div class="toc-article"><strong class="toc-title">Contents</strong><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#圣杯布局"><span class="toc-number">1.</span> <span class="toc-text">圣杯布局</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#双飞翼布局"><span class="toc-number">2.</span> <span class="toc-text">双飞翼布局</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#圣杯布局与双飞翼布局的异同"><span class="toc-number">3.</span> <span class="toc-text">圣杯布局与双飞翼布局的异同</span></a></li></ol></div><p>圣杯布局与双飞翼布局在效果上并没有区别，都是指三列布局，两边定宽，中间自适应的布局。之所以叫不同的名字是因为他们的出处、实现方式不同，作者给他们取了他们认为合适的名字而流传于江湖。</p>
+<p>大致瞄了眼圣杯布局的方式，好像很复杂的样子，闭目一想，不就是两边等宽中间自适应的布局吗，只需要把中间的宽度用calc计算出来不就好了。</p>
+<pre><code>  &lt;style&gt;
+    .box-left {
+      width: 200px;
+      height: 100px;
+      background: gray;
+      float: left;
+    }
+    .box-center {
+      width: calc(100% - 200px - 250px);
+      height: 100px;
+      background: blue;
+      float: left;
+    }
+    .box-right {
+      width: 100px;
+      height: 100px;
+      background: #2196F3;
+      float: left;
+    }
+  &lt;/style&gt;
+  &lt;div&gt;
+    &lt;div class=&quot;box-left&quot; /&gt;
+    &lt;div class=&quot;box-center&quot; /&gt;
+    &lt;div class=&quot;box-right&quot; /&gt;
+  &lt;/div&gt;</code></pre><p>如下图，中间自适应得很好嘛，而且CSS也很简单，就一个calc便能实现自适应布局，那为什么还要讨论复杂的圣杯双飞翼，原因是时代不同了，现在有calc，有flex，那个年代可没有，只能通过那些奇淫技巧来实现。</p>
+<center><img src="/images/18-1-three-column.gif" width="500" /><center>
+还是来看看正题吧，圣杯&&双飞翼！！！
+
+<h3 id="圣杯布局">圣杯布局</h3>
+<p>圣杯布局最早来源于Matthew Levine 2006年的一篇文章<a href="https://alistapart.com/article/holygrail">In Search of the Holy Grail</a>，圣杯是西方表达渴求之物的意思，不是对页面的形象表达，作者称之为圣杯也是对这种广泛而简单布局的认同。
+下面来看作者是如何实现圣杯布局的(本节的静态图都来自原文)。</p>
+<ul>
+<li><p>1) 建立框架
+如下，先建立header、container、footer的基本结构，并通过设置container的padding来预留三列布局两边的宽度。</p>
+<pre><code>  &lt;style&gt;
+    #container {
+      padding-left: 200px;   /* Left Column width */
+      padding-right: 150px;  /* Right Column width */
+    }
+  &lt;/style&gt;
+  &lt;div&gt;
+    &lt;div id=&quot;header&quot; /&gt;
+    &lt;div id=&quot;container&quot; /&gt;
+    &lt;div id=&quot;footer&quot; /&gt;
+  &lt;/div&gt;</code></pre><p>现在的布局看起来应该是下图的样子:</p>
+<center><img src="/images/18-2-holygrail.gif" width="500" /><center>
+</li>
+<li><p>2) 添加左中右三列
+先在container中添加左中右三列，接着给他们添加合适的宽高并设为浮动。此外还需清除footer上下的浮动以保证footer能够正确布局。</p>
+<pre><code>  &lt;style&gt;
+    #container .column {
+        float: left;
+        height: 200px;
+      }
+    #center {
+      width: 100%;
+      background: gray;
+    }
+    #left {
+      width: 200px;  /* LC width */
+      background: #77BBDD;
+    }
+    #right {
+      width: 150px;  /* RC width */
+      background: #FF6633;
+    }
+    #footer {
+      clear: both;
+    }
+  &lt;/style&gt;
+  &lt;div&gt;
+    &lt;div id=&quot;header&quot; /&gt;
+    &lt;div id=&quot;container&quot;&gt;
+      &lt;div id=&quot;center&quot; class=&quot;column&quot; /&gt;
+      &lt;div id=&quot;left&quot; class=&quot;column&quot; /&gt;
+      &lt;div id=&quot;right&quot; class=&quot;column&quot; /&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;footer&quot; /&gt;
+  &lt;/div&gt;</code></pre><p>现在的布局看起来应该是下图的样子，可以看到center由于宽度为100%，导致其兄弟元素left和right被挤到了它的下面。</p>
+<center><img src="/images/18-3-holygrail.gif" width="500" /><center>
+
+<ul>
+<li><p>3) 将左列放到container的左侧
+分两步进行，首先将left的margin-left设置为-100%，我们知道当margin-left设置为负值时元素会向左移动，又由于left是因为center的100%的宽度而被挤了下来，所以left向左移动时相当于紧贴着center的水平右侧开始向左移动父元素100%的宽度，正好移动到container的内容框左侧，其效果如下图所示。</p>
+<pre><code>  #left {
+    width: 200px; 
+    background: #77BBDD;
+    margin-left: -100%;
+  }</code></pre><center><img src="/images/18-4-holygrail.gif" width="500" /><center>
+
+<p>此时left距离container内边距框左侧正好是container的左内边距的长度，因此left向左移动左内边距的长度就好了。显然，通过relative很容易办到，将left的position设置relative，并设置其right为container左内边距的长度200px，这样left就正确的挪到了container的边框的左侧，达到了预期效果。</p>
+<pre><code>  #left {
+    width: 200px; 
+    background: #77BBDD;
+    margin-left: -100%;
+    position: relative;
+    right: 200px;
+  }</code></pre><center><img src="/images/18-5-holygrail.gif" width="500" /><center>
+
+<ul>
+<li>4) 将右列放到container的右侧
+left搞定了，就该轮到right了，怎么把它挪到container右侧呢？如下，将right的右外边距设置为container的右内边距长度的负值它就上去了。<pre><code>#right {
+  width: 150px;
+  float: left;
+  background: #FF6633;
+  height: 200px;
+  margin-right: -150px;
+}</code></pre>这是什么骚操作，仔细想想，我们知道当元素的右外边距为负时，它右边的兄弟元素会向左移，像是左边的元素被抠掉了一部分，而这一部分的长度正好等于该元素负右边距的长度。所以当right的margin-right为负，且长度为right的长度时，相当于整个right都被抠掉了，right长度为0，此时，由于浮动right就可以浮动到container右侧了(因为right已经足够小)。</li>
+</ul>
+<center><img src="/images/18-6-holygrail.gif" width="500" /><center>
+
+<p>至此，我们完成了圣杯布局，不过圣杯布局有个缺点，就是当窗口太小，小到container的宽度比它的左内边距(即left的宽度)还小时(container空间太小，left外边距设置为-100%已不再能让left挪到container左侧)，布局就会乱掉。</p>
+<center><img src="/images/18-7-holygrail.gif" width="500" /><center>
+
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="双飞翼布局">双飞翼布局</h3>
+<p>双飞翼布局来源于淘宝UED，传说是玉伯提出来的，双飞翼是对这种布局的一种形象表达，其实现方式和圣杯布局有所区别，它是通过在带有margin的center上包裹一个宽度为100%div，并设置左右两列的margin为负值来实现的。双飞翼布局实现如下:</p>
+<pre><code>  &lt;style&gt;
+    #container {
+      float: left;
+      width: 100%;
+    }
+    #center {
+      background: gray;
+      margin-left: 200px;
+      margin-right: 150px;
+      height: 200px;
+    }
+    #left {
+      width: 200px; 
+      float: left;
+      background: #77BBDD;
+      height: 200px;
+      margin-left: -100%;
+    }
+    #right {
+      width: 150px;  
+      float: left;
+      background: #FF6633;
+      height: 200px;
+      margin-left: -150px;
+    }
+  &lt;/style&gt;
+  &lt;div&gt;
+    &lt;div id=&quot;container&quot;&gt;
+      &lt;div id=&quot;center&quot; class=&quot;column&quot; /&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;left&quot; class=&quot;column&quot; /&gt;
+    &lt;div id=&quot;right&quot; class=&quot;column&quot; /&gt;
+  &lt;/div&gt;</code></pre><h3 id="圣杯布局与双飞翼布局的异同">圣杯布局与双飞翼布局的异同</h3>
+<p>相同点:</p>
+<ul>
+<li>达到的效果相同。</li>
+<li>本质上都是利用了负margin来实现。</li>
+<li>都采用了先中间后两边的加载方式。</li>
+</ul>
+<p>不同点:</p>
+<ul>
+<li>圣杯布局利用父容器的左右padding来定位，而双飞翼是通过center父容器的margin进行定位，虽然多了一个div，但少了相对定
+位的代码。</li>
+<li>圣杯布局会因为窗口太小而造成布局混乱，而双飞翼布局不会。</li>
+</ul>
+<p>圣杯布局和双飞翼布局在现在看来都显得太过复杂，感谢好时代！！！</p>
