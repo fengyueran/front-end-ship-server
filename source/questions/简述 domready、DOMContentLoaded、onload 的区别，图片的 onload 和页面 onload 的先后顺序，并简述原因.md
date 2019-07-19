@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => alert("DOMContentLoaded"));
 
 **页面 onload**:
 
-dom，外部图片、javascript 文件、CSS 文件等资源都加载完成后触发，所以一定是在图片的 onload 事件后触发。
+dom，外部图片、javascript 文件、CSS 文件等资源都加载完成后(包括脚本里通过创建 dom 动态添加的资源)触发，所以一定是在图片的 onload 事件后触发。
 
 ```
 window.onload = () => {

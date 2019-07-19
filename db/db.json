@@ -124,7 +124,7 @@
         "title": "简述 domready、DOMContentLoaded、onload 的区别，图片的 onload 和页面 onload 的先后顺序，并简述原因",
         "exerciseTimes": 0,
         "passRate": "--",
-        "md5": "78a328178c79e70311310739f0681d3b",
+        "md5": "a7070481d2dfcc44454efaf46bf8e0cb",
         "tags": [
           "HTML"
         ],
@@ -348,7 +348,7 @@
         "title": "JS 模块化分哪些阶段",
         "exerciseTimes": 0,
         "passRate": "--",
-        "md5": "7766dd5ca3cf0241ec6b1335720b3d6c",
+        "md5": "31b0715ecddf77d1b9e801534d46048d",
         "tags": [
           "JavaScript"
         ],
@@ -783,7 +783,7 @@
         "id": "c160eb5149ef727dcf5b15a4d1c75f40",
         "title": "每日一题",
         "date": "2017-01-04T21:36:05.000Z",
-        "md5": "b76b9bfbc9d3e93119bee5aae9ea9cc4",
+        "md5": "17876aa13618bc8e5484a34c276d782a",
         "tags": [
           "subject"
         ],
@@ -1186,6 +1186,7 @@
   },
   "websites": {
     "allIds": [
+      "01ad6d70-a95c-4303-9c85-5331f793888a",
       "e6e7cbd3-8d02-489d-8701-aecae792684a",
       "4df46edb-012b-4775-af55-b239e30618f1",
       "43eeb1d7-21d5-489d-8926-6661b367e75b",
@@ -1204,6 +1205,17 @@
       "d41d2af4-153d-47b6-9973-357d35d22f24"
     ],
     "byId": {
+      "01ad6d70-a95c-4303-9c85-5331f793888a": {
+        "title": "web-dev",
+        "link": "https://web.dev",
+        "type": "TOOL",
+        "tags": [
+          "HTML",
+          "CSS"
+        ],
+        "thumbnail": "websites/thumbnails/webdev.png",
+        "description": "Google推出的一个网站监测工具，可以测试网站的SEO、性能、最佳实践等，还有不少相关的博客。"
+      },
       "e6e7cbd3-8d02-489d-8701-aecae792684a": {
         "title": "You-need-to-know-css",
         "link": "https://lhammer.cn/You-need-to-know-css",

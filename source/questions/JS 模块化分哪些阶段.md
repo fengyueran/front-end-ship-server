@@ -57,7 +57,7 @@ date: 2018-3-16 18:10:20
 
 - AMD 规范
 
-  AMD(Asynchronous Module Definition)规范为异步加载模块，并允许指定回调函数，实现 AMD 规范的加载器 JS 主要有两个 require.js 和 curl.js，AMD 推崇依赖前置。
+  AMD(Asynchronous Module Definition)规范为异步加载模块，并允许指定回调函数，实现 AMD 规范的加载器 JS 主要有两个 require.js(与 Node 中的 require 是不一样的内容) 和 curl.js，AMD 推崇依赖前置。
   AMD 标准中定义了两个 API，define 和 require:
 
   - 模块定义: define(id, [depends], callback)
