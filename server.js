@@ -41,6 +41,48 @@ var readFile = function readFile(file) {
   });
 };
 
+var handleHtmlRequest =
+/*#__PURE__*/
+function () {
+  var _ref = _asyncToGenerator(
+  /*#__PURE__*/
+  regeneratorRuntime.mark(function _callee(req, res, type) {
+    var id, filePath, data;
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            id = req.params && req.params.id;
+            filePath = _path["default"].join("".concat(__dirname, "/db/").concat(type, "/").concat(id, ".html"));
+            _context.next = 4;
+            return readFile(filePath);
+
+          case 4:
+            data = _context.sent;
+
+            if (data) {
+              res.send({
+                __html: data
+              });
+            } else {
+              res.send({
+                __html: ""
+              });
+            }
+
+          case 6:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
+
+  return function handleHtmlRequest(_x, _x2, _x3) {
+    return _ref.apply(this, arguments);
+  };
+}();
+
 var adapter = new _FileAsync["default"]("db/db.json");
 (0, _lowdb["default"])(adapter).then(function (db) {
   app.get("/questions/all", function (req, res) {
@@ -51,77 +93,23 @@ var adapter = new _FileAsync["default"]("db/db.json");
       record: record
     });
   });
-  app.get("/question/:id",
-  /*#__PURE__*/
-  function () {
-    var _ref = _asyncToGenerator(
-    /*#__PURE__*/
-    regeneratorRuntime.mark(function _callee(req, res) {
-      var id, filePath, data;
-      return regeneratorRuntime.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              id = req.params && req.params.id;
-              filePath = _path["default"].join("".concat(__dirname, "/db/questions/").concat(id, ".html"));
-              _context.next = 4;
-              return readFile(filePath);
-
-            case 4:
-              data = _context.sent;
-
-              if (data) {
-                res.send({
-                  __html: data
-                });
-              } else {
-                res.send({
-                  __html: ""
-                });
-              }
-
-            case 6:
-            case "end":
-              return _context.stop();
-          }
-        }
-      }, _callee);
-    }));
-
-    return function (_x, _x2) {
-      return _ref.apply(this, arguments);
-    };
-  }());
-  app.get("/answer/:id",
+  app.get("/blogs/all", function (req, res) {
+    var blogs = db.get("blogs").value();
+    res.send(blogs);
+  });
+  app.get("/blog/:id",
   /*#__PURE__*/
   function () {
     var _ref2 = _asyncToGenerator(
     /*#__PURE__*/
     regeneratorRuntime.mark(function _callee2(req, res) {
-      var id, filePath, data;
       return regeneratorRuntime.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              id = req.params && req.params.id;
-              filePath = _path["default"].join("".concat(__dirname, "/db/answers/").concat(id, ".html"));
-              _context2.next = 4;
-              return readFile(filePath);
+              handleHtmlRequest(req, res, "blogs");
 
-            case 4:
-              data = _context2.sent;
-
-              if (data) {
-                res.send({
-                  __html: data
-                });
-              } else {
-                res.send({
-                  __html: "略"
-                });
-              }
-
-            case 6:
+            case 1:
             case "end":
               return _context2.stop();
           }
@@ -129,8 +117,56 @@ var adapter = new _FileAsync["default"]("db/db.json");
       }, _callee2);
     }));
 
-    return function (_x3, _x4) {
+    return function (_x4, _x5) {
       return _ref2.apply(this, arguments);
+    };
+  }());
+  app.get("/question/:id",
+  /*#__PURE__*/
+  function () {
+    var _ref3 = _asyncToGenerator(
+    /*#__PURE__*/
+    regeneratorRuntime.mark(function _callee3(req, res) {
+      return regeneratorRuntime.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              handleHtmlRequest(req, res, "questions");
+
+            case 1:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3);
+    }));
+
+    return function (_x6, _x7) {
+      return _ref3.apply(this, arguments);
+    };
+  }());
+  app.get("/answer/:id",
+  /*#__PURE__*/
+  function () {
+    var _ref4 = _asyncToGenerator(
+    /*#__PURE__*/
+    regeneratorRuntime.mark(function _callee4(req, res) {
+      return regeneratorRuntime.wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              handleHtmlRequest(req, res, "answers");
+
+            case 1:
+            case "end":
+              return _context4.stop();
+          }
+        }
+      }, _callee4);
+    }));
+
+    return function (_x8, _x9) {
+      return _ref4.apply(this, arguments);
     };
   }());
   app.get("/websites/all", function (req, res) {
@@ -140,13 +176,13 @@ var adapter = new _FileAsync["default"]("db/db.json");
   app.post("/questiondone/:id",
   /*#__PURE__*/
   function () {
-    var _ref3 = _asyncToGenerator(
+    var _ref5 = _asyncToGenerator(
     /*#__PURE__*/
-    regeneratorRuntime.mark(function _callee3(req, res) {
+    regeneratorRuntime.mark(function _callee5(req, res) {
       var id, record, finished, index;
-      return regeneratorRuntime.wrap(function _callee3$(_context3) {
+      return regeneratorRuntime.wrap(function _callee5$(_context5) {
         while (1) {
-          switch (_context3.prev = _context3.next) {
+          switch (_context5.prev = _context5.next) {
             case 0:
               id = req.params && req.params.id;
 
@@ -166,14 +202,14 @@ var adapter = new _FileAsync["default"]("db/db.json");
 
             case 3:
             case "end":
-              return _context3.stop();
+              return _context5.stop();
           }
         }
-      }, _callee3);
+      }, _callee5);
     }));
 
-    return function (_x5, _x6) {
-      return _ref3.apply(this, arguments);
+    return function (_x10, _x11) {
+      return _ref5.apply(this, arguments);
     };
   }());
 }).then(function () {
