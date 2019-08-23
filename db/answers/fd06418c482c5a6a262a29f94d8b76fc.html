@@ -23,8 +23,7 @@
 <p><strong>2、domain + iframe</strong></p>
 <p>此方案仅限于主域相同，子域不同的情景。如下，A 页面的 document.domain 为 a.domain.com、B 页面的 document.domain 为 b.domain.com，我们可以通过将 A、B 页面的 domain 设置为相同(一级域名必须一致才能设置)来实现跨域。</p>
 <ul>
-<li><p>A 窗口(<code>http://a.domain.com/a.html</code>)
-子域名为</p>
+<li><p>A 窗口(<code>http://a.domain.com/a.html</code>)</p>
 <pre><code>&lt;iframe src=&quot;http://b.domain.com/b.html&quot;&gt;&lt;/iframe&gt;
 &lt;script&gt;
     document.domain = &#39;domain.com&#39;;

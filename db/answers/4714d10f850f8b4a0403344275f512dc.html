@@ -3,20 +3,20 @@
 <ul>
 <li><p>如果类型不同则不相等</p>
 </li>
-<li><p>如果都是数值，并且为同一个值则相等(NaN 除外)
-NaN 不等于任何值包括它自己(如正无穷不应该等于负无穷)，+0 等于(<code>==</code>或<code>===</code>)-0(对于 0 而言没有正负之分)。</p>
+<li><p>如果都是数值，并且为同一个值则相等(NaN 除外)</p>
+<p>NaN 不等于任何值包括它自己(如正无穷不应该等于负无穷)，+0 等于(<code>==</code>或<code>===</code>)-0(对于 0 而言没有正负之分)。</p>
 </li>
 <li><p>如果是字符串，每个位置的字符都一样则相等</p>
 </li>
 <li><p>如果是布尔值，两个都是 true 或两个都是 false 则相等</p>
 </li>
-<li><p>如果两个值为对象(Object、Function 等)，并且引用地址相等则相等
-对于引用类型的变量，<code>==</code>和<code>===</code>都只会判断引用地址是否相等，而不会判断对象具体里的属性以及值是否相等。判断两个对象是否相等，一个简单的方法就是将他们转换为字符串再进行比较。</p>
+<li><p>如果两个值为对象(Object、Function 等)，并且引用地址相等则相等</p>
+<p>对于引用类型的变量，<code>==</code>和<code>===</code>都只会判断引用地址是否相等，而不会判断对象具体里的属性以及值是否相等。判断两个对象是否相等，一个简单的方法就是将他们转换为字符串再进行比较。</p>
 <pre><code>var obj1Str = Json.stringify(obj1);
 var obj2Str = Json.stringify(obj2);
 console.log(obj1Str === obj2Str);</code></pre></li>
-<li><p>如果两个都是 null 或都是 undefined，则相等
-比较 null 和 undefined 时不能将其转换为其他类型，typeof(null): object, typeof(undefined): undefined。</p>
+<li><p>如果两个都是 null 或都是 undefined，则相等</p>
+<p>比较 null 和 undefined 时不能将其转换为其他类型，typeof(null): object, typeof(undefined): undefined。</p>
 <pre><code>null === null  //true
 undefined === undefined  //true
 //不同类型

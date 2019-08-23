@@ -39,36 +39,4 @@ date: 2016-3-24 18:10:20
   </div>
 ```
 
-<html>
-  <head>
-    <style>
-      .container {
-        overflow: hidden;
-      }
-      .div1 {
-        float: left;
-        width: 200px;
-        background: #03A9F4;
-        padding-bottom: 2000px;
-        margin-bottom: -2000px;
-      }
-      .div2 {
-        float: left;
-        width: 200px;
-        background: #A5C3F3;
-        padding-bottom: 2000px;
-        margin-bottom: -2000px;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <div class="div1">
-      Most of the discussion was on what needed to be done now as we transitioned from the security issues to the challenging economic issues.
-      </div>
-      <div class="div2">
-      Most of the discussion was on what needed to be done now as we transitioned from the security issues to the challenging economic issues. Most of the discussion was on what needed to be done now as we transitioned from the security issues to the challenging economic issues.
-      </div>
-  </div>
-  </body>
-</html>
+ <center><img src="https://i.imgur.com/TjtJBLS.png" /></center>
