@@ -9,7 +9,7 @@ SCRIPT_NAME="deploy.sh"
 BASE_DIR="/tmp"
 LOCK_FILE="$BASE_DIR/$APP_NAME.lock"
 SHELL_LOG="$BASE_DIR/$APP_NAME.log"
-REMOTE="root@45.32.122.8"
+REMOTE="root@139.180.215.117"
 SERVER_DIR_ON_REMOTE="/root/server/front-end-ship-server"
 
 
