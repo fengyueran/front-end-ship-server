@@ -38,9 +38,11 @@ const adapter = new FileAsync("db/db.json");
 
 lowdb(adapter)
   .then((db) => {
-    app.get("/dzdp/whitelist", async (req, res) => {
+    app.get("/dzdp/authority/:phone", async (req, res) => {
+      const phone = req.params && req.params.phone;
       const dzdpWhitelist = db.get("dzdpWhitelist").value();
-      res.send(dzdpWhitelist);
+      const hasAuthority = dzdpWhitelist.indexOf(phone) >= 0;
+      res.send(hasAuthority);
     });
 
     app.get("/questions/all", (req, res) => {
