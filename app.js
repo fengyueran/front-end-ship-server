@@ -38,6 +38,11 @@ const adapter = new FileAsync("db/db.json");
 
 lowdb(adapter)
   .then((db) => {
+    app.get("/dzdp/whitelist", async (req, res) => {
+      const dzdpWhitelist = db.get("dzdpWhitelist").value();
+      res.send(dzdpWhitelist);
+    });
+
     app.get("/questions/all", (req, res) => {
       const questions = db.get("questions").value();
       const record = db.get("record").value();

@@ -4,20 +4,20 @@
 <ul>
 <li><p>如果类型不同则不相等</p>
 </li>
-<li><p>如果都是数值，并且为同一个值则相等(NaN 除外)
-NaN 不等于任何值包括它自己(如正无穷不应该等于负无穷)，+0 等于(<code>==</code>或<code>===</code>)-0(对于 0 而言没有正负之分)。</p>
+<li><p>如果都是数值，并且为同一个值则相等(NaN 除外)</p>
+<p>NaN 不等于任何值包括它自己(如正无穷不应该等于负无穷)，+0 等于(<code>==</code>或<code>===</code>)-0(对于 0 而言没有正负之分)。</p>
 </li>
 <li><p>如果是字符串，每个位置的字符都一样则相等</p>
 </li>
 <li><p>如果是布尔值，两个都是 true 或两个都是 false 则相等</p>
 </li>
-<li><p>如果两个值为对象(Object、Function 等)，并且引用地址相等则相等
-对于引用类型的变量，<code>==</code>和<code>===</code>都只会判断引用地址是否相等，而不会判断对象具体里的属性以及值是否相等。判断两个对象是否相等，一个简单的方法就是将他们转换为字符串再进行比较。</p>
+<li><p>如果两个值为对象(Object、Function 等)，并且引用地址相等则相等</p>
+<p>对于引用类型的变量，<code>==</code>和<code>===</code>都只会判断引用地址是否相等，而不会判断对象具体里的属性以及值是否相等。判断两个对象是否相等，一个简单的方法就是将他们转换为字符串再进行比较。</p>
 <pre><code>var obj1Str = Json.stringify(obj1);
 var obj2Str = Json.stringify(obj2);
 console.log(obj1Str === obj2Str);</code></pre></li>
-<li><p>如果两个都是 null 或都是 undefined，则相等
-比较 null 和 undefined 时不能将其转换为其他类型，typeof(null): object, typeof(undefined): undefined。</p>
+<li><p>如果两个都是 null 或都是 undefined，则相等</p>
+<p>比较 null 和 undefined 时不能将其转换为其他类型，typeof(null): object, typeof(undefined): undefined。</p>
 <pre><code>null === null  //true
 undefined === undefined  //true
 //不同类型
@@ -302,7 +302,7 @@ socket.listen(server).on(&quot;connection&quot;, (client) =&gt; {
 <p>针对低版本的浏览器构建页面，保证最基本的功能，然后再对高级浏览器进行功能的扩充，包括效果、交互、新功能等，从而达到更好的用户体验。</p>
 </li>
 <li><p>优雅降级(graceful degradation)</p>
-<p>一开始就构建完整的功能，然后针对低版本进行进行兼容。</p>
+<p>一开始就构建完整的功能，然后针对低版本进行兼容。</p>
 </li>
 </ul>
 <p>区别: 优雅降级是从复杂的现状开始，并试图减少用户体验的供给，而渐进增强是从一个非常基础的能够起作用的版本开始，并不断扩从，以适应未来环境的需要。降级(功能衰减)意味着往回看，而增强意味着朝前看，同时保证其根基处于安全地带。</p>
@@ -790,7 +790,7 @@ selectNode.selectedIndex = 1;
 <li><p>sticky</p>
 <p>sticky 定位即粘性定位，可以简单地认为是相对定位和固定定位的混合，元素在跨越特定阈值(top、left、right、bottom 所确定的值)前为相对定位(滚动时位置可变化, 直到达到阈值，margin 也无效)，之后为相对于最近的块级祖先的固定定位。
 粘性定位的效果如下:</p>
-<center><img src="/images/1-29-1-sticky.gif" width="500" /></center>
+  <center><img src="https://i.imgur.com/o9ibM8U.gif" width="500" /></center>
 
 <p>上图中，导航栏设置为粘性定位:</p>
 <pre><code>  height: 50px;
@@ -847,7 +847,7 @@ padding: 0 0 0 12px;
       &lt;dd&gt;C6&lt;/dd&gt;
     &lt;/dl&gt;
   &lt;/div&gt;</code></pre><p>效果如下:</p>
-<center><img src="/images/1-29-2-sticky.gif" width="500" /></center>
+<center><img src="https://i.imgur.com/ToJToYb.gif" width="500" /></center>
 </li>
 <li><p>initial
 设置默认值，可作用于任何 CSS 样式(IE 不支持该关键字)。</p>
@@ -906,25 +906,27 @@ sql 执行命令必须先通过语法分析，生成执行计划，预编译后�
 <p>JavaScript 有自动垃圾回收机制，当然这并不意味着你不需要关心内存管理。
 内存的生命周期大致分为内存的分配、内存的使用以及不需要时内存的释放。因此只要追踪内存的生命周期就能自动的对内存进行分配回收了，但是这并不容易，尤其要确定某块内存是否真的不需要了。因此，垃圾回收只能有限制的解决一般问题，主要有两种方法，引用计数和标记清除算法。</p>
 <ul>
-<li>引用计数法
-在内存管理环境中，如果一个对象(包括函数作用域、全局词法作用域等)有访问另一个对象的权限，叫做一个对象引用另一个对象。当对象被引用的次数为 0 时就被回收。<pre><code>var a = { v: 1 }; // 对象{ v: 1 }被变量a引用一次，引用计数为1
+<li><p>引用计数法
+在内存管理环境中，如果一个对象(包括函数作用域、全局词法作用域等)有访问另一个对象的权限，叫做一个对象引用另一个对象。当对象被引用的次数为 0 时就被回收。</p>
+<pre><code>var a = { v: 1 }; // 对象{ v: 1 }被变量a引用一次，引用计数为1
 var b = a; // 同样，对象{ v: 1 }被变量b引用一次，引用计数为2
 a = null; // 对象引用次数减1
-b = null;// 对象引用次数减1，此时引用计数为0，对象可以被释放</code></pre>引用计数有一个潜在的问题，就是无法解决循环引用的问题。
-如下，a、b 互相引用，引用计数一直为 1，导致不能自动回收。<pre><code>  function f() {
+b = null;// 对象引用次数减1，此时引用计数为0，对象可以被释放</code></pre><p>引用计数有一个潜在的问题，就是无法解决循环引用的问题。
+如下，a、b 互相引用，引用计数一直为 1，导致不能自动回收。</p>
+<pre><code>  function f() {
     var a = {};
     var b = {};
     a.value = b;
     b.value = a;
   }
   f();</code></pre></li>
-<li>标记清除算法</li>
-</ul>
-<p>这个算法假定有一个叫跟(root)的对象(js 中为 window， node js 为 global)，垃圾回收器定期从根开始，找所有从根开始引用的对象，然后找这些引用对象引用的对象...将这些对象标记为 active，其他的不能被根引用或间接引用的将被标记为 garbage，最终将这些垃圾清除。
-循环引用将不再是问题，上例中函数 f 执行完后，全局 window 就无法访问到对象 a 和 b 了，因此对象 a、b 将会被回收。</p>
- <center>![标记清除意图]](/images/mark_sweep.gif)</center>
- <center>标记清除意图 </center>
+<li><p>标记清除算法</p>
+<p>这个算法假定有一个叫跟(root)的对象(js 中为 window， node js 为 global)，垃圾回收器定期从根开始，寻找所有从根开始引用的对象，然后找这些引用对象引用的对象...将这些对象标记为 active，其他的不能被根引用或间接引用的将被标记为 garbage，最终将这些垃圾清除。
+循环引用将不再是问题，上例中函数 f 执行完后，对象 a 和 b 从全局对象出发就无法访问到了(执行栈弹出，与全局对象的链接断开)，因此对象 a、b 将会被回收。</p>
+<center><img alt="标记清除意图" src="https://i.imgur.com/N9bb66Q.gif" width="500" /></center>
 
+</li>
+</ul>
 <p><strong>35、</strong> JavaScript 中 var 和 let 去区别</p>
 <p>let 为 ES6 新增的命令，用来声明变量，用法与 var 类似，其区别如下:</p>
 <ul>
@@ -988,7 +990,7 @@ if (true) {
 <p><strong>40、</strong> iframe 有哪些优缺点？
 优点:</p>
 <ul>
-<li>用来实现长连接，在 websocket 不可用的时候作为一种替代。</li>
+<li>用来实现长连接(轮询隐藏的 iframe 得到数据)，在 websocket 不可用的时候作为一种替代。</li>
 <li>跨域通信。</li>
 <li>无刷新上传文件，在 FormData 不可用时作为替代方案。</li>
 <li>创建一个全新的独立的宿主环境。</li>
@@ -1147,7 +1149,9 @@ i 表示斜体，em 表示强调的内容。</p>
     &lt;div2 class=&quot;div2&quot;&gt;
     Most of the discussion was on what needed to be done now as we transitioned from the security issues to the challenging economic issues. Most of the discussion was on what needed to be done now as we transitioned from the security issues to the challenging economic issues.
     &lt;/div2&gt;
-  &lt;/Box&gt;</code></pre><p><strong>50、</strong> li 与 li 之间有看不见的空白间隔是什么原因引起的？有什么解决办法？</p>
+  &lt;/Box&gt;</code></pre> <center><img src="https://i.imgur.com/TjtJBLS.png" /></center>
+
+<p><strong>50、</strong> li 与 li 之间有看不见的空白间隔是什么原因引起的？有什么解决办法？</p>
 <p>由于浏览器默认会把行内元素间的空白字符(空格、换行、tab)渲染为一个空格，因此 li 之间就产生了空白间隔。
 解决方法是书写 li 时写为一行或设置 font-size 为 0。</p>
 <p><strong>51、</strong> 为什么要初始化 CSS 样式。</p>
@@ -1671,28 +1675,30 @@ TCP 提供面向有连接的通信传输，面向有连接是指数据通信开�
 <p>客户端收到 FIN=N 报文后，就知道可以关闭连接了，但是他还是不相信网络，怕服务器不知道要关闭了，所以发送 ACK=1，ack=N+1 后进入 TIME_WAIT 状态，如果服务端没有收到 ACK 则可以重传。服务端收到 ACK 后，就知道可以断开连接了。客户端等待了 2MSL(Maximum Segment Lifetime,报文最大生存时间，一般为 30s)后依然没有收到回复，则证明服务端已经正常关闭，那好，我客户端也可以关闭了。最终完成了四次挥手。</p>
 </li>
 </ul>
-<p><strong>79、__dirname, __filename, process.cwd()</strong></p>
-<ul>
-<li><p>__dirname</p>
-<p>当前执行文件所在目录的完整目录名。</p>
-</li>
-<li><p>__filename</p>
-<p>当前执行文件带有完整绝对路径的文件名。</p>
-</li>
-<li><p>process.cwd()</p>
-<p>获取执行 node 命令时所在的目录名。</p>
-</li>
-</ul>
-<p>如下，目录结构为:</p>
-<pre><code>node-app/
-    - src/
-      - test.js</code></pre><p>test.js</p>
-<pre><code>console.log(&quot;__dirname:&quot;, __dirname);
-console.log(&quot;__filename:&quot;, __filename);
-console.log(&quot;process.cwd:&quot;, process.cwd());</code></pre><p>在 node-app 目录下执行<code>node src/test.js</code>，输出如下:</p>
-<pre><code>__dirname: /Users/xinghunmeng/MyHouse/test/node-app/src
-__filename: /Users/xinghunmeng/MyHouse/test/node-app/src/test.js
-process.cwd: /Users/xinghunmeng/MyHouse/test/node-app</code></pre><p><strong>80、</strong> 从浏览器地址栏输入 url 到显示页面的步骤</p>
+<p><strong>79、给出一个上传文件时不用刷新页面的方案，写出关键部分的 js 代码。</strong></p>
+<pre><code> &lt;script&gt;
+  window.onload = () =&gt; {
+    const btn = document.getElementById(&quot;upload&quot;);
+    const input = document.getElementById(&quot;file&quot;);
+    btn.onclick = () =&gt; {
+      const file = input.files[0];
+      const formData = new FormData();
+      formData.append(&quot;file&quot;, file);
+      fetch({
+        url: &quot;http://localhost:8000/&quot;,
+        method: &quot;POST&quot;,
+        body: formData
+      }).then(data =&gt; {
+        console.log(&quot;result is&quot;, data);
+        alert(&quot;upload sucess!&quot;);
+      });
+    };
+  };
+&lt;/script&gt;
+&lt;body&gt;
+  &lt;input id=&quot;file&quot; type=&quot;file&quot; /&gt;
+  &lt;button id=&quot;upload&quot;&gt;upload&lt;/button&gt;
+&lt;/body&gt;</code></pre><p><strong>80、</strong> 从浏览器地址栏输入 url 到显示页面的步骤</p>
 <ul>
 <li>浏览器根据请求的 url，交给 DNS 解析域名找到真实的 Ip，向服务器请求数据。</li>
 <li>服务器处理完成返回数据，浏览器接收数据(Html、js、css、image 等)</li>
@@ -1791,3 +1797,55 @@ process.cwd: /Users/xinghunmeng/MyHouse/test/node-app</code></pre><p><strong>80�
 </li>
 </ul>
 <p>同域名的 http 和 https 共享 cookie(设置了 Secure 的除外)，但不共享 LocalStorage。</p>
+<p><strong>86、__dirname, __filename, process.cwd()</strong></p>
+<ul>
+<li><p>__dirname</p>
+<p>当前执行文件所在目录的完整目录名。</p>
+</li>
+<li><p>__filename</p>
+<p>当前执行文件带有完整绝对路径的文件名。</p>
+</li>
+<li><p>process.cwd()</p>
+<p>获取执行 node 命令时所在的目录名。</p>
+</li>
+</ul>
+<p>如下，目录结构为:</p>
+<pre><code>node-app/
+    - src/
+      - test.js</code></pre><p>在 node-app 目录下执行<code>node src/test.js</code>，输出如下:</p>
+<pre><code>__dirname: /Users/xinghunmeng/MyHouse/test/node-app/src
+__filename: /Users/xinghunmeng/MyHouse/test/node-app/src/test.js
+process.cwd: /Users/xinghunmeng/MyHouse/test/node-app</code></pre><p><strong>87、</strong> clientHeight、offsetHeight、scrollHeight、offsetTop、scrollTop 的区别？</p>
+<p>clientHeight 和 offsetHeight 属性和元素的滚动、位置没有关系它代表元素的高度。</p>
+<ul>
+<li><p>clientHeight</p>
+<p>包括 padding 但不包括 border、水平滚动条、margin 的元素的高度。对于 inline 的元素这个属性一直是 0，单位 px，只读。</p>
+ <center><img src="https://i.imgur.com/xtvrCA7.png" /></center>
+</li>
+<li><p>offsetHeight</p>
+<p>包括 padding、border、水平滚动条，但不包括 margin 的元素的高度。对于 inline 的元素这个属性一直是 0，单位 px，只读。</p>
+ <center><img src="https://i.imgur.com/yoGBzK3.png" /></center>
+</li>
+<li><p>scrollHeight</p>
+<p>当本元素的子元素比本元素高且 overflow=scroll 时，父元素不想被子元素撑的一样高就显示出了滚动条，在滚动的过程中本元素有部分被隐藏了，对于父元素而言，scrollHeight(包括子元素的 margin) 代表包括当前不可见部分的元素的高度和可见元素高度。而可见部分的高度其实就是 clientHeight，也就是 scrollHeight&gt;=clientHeight 恒成立。在有滚动条时讨论 scrollHeight 才有意义，在没有滚动条时 scrollHeight==clientHeight 恒成立。单位 px，只读。</p>
+<center><img src="https://i.imgur.com/TOFola6.png" /></center>
+</li>
+<li><p>scrollTop</p>
+<p>代表在有滚动条时，滚动条向下滚动的距离也就是元素顶部被遮住部分的高度。在没有滚动条时 scrollTop==0 恒成立。单位 px，可读可设置。</p>
+ <center><img src="https://i.imgur.com/CASHgQv.png" /></center>
+</li>
+<li><p>offsetTop</p>
+<p>当前元素(border 外边缘算起)顶部距离最近父元素顶部(border 外边缘)的距离,和有没有滚动条没有关系。单位 px，只读元素。</p>
+ <center><img src="https://i.imgur.com/GGA4yJ0.png" /></center>
+
+</li>
+</ul>
+<p><strong>88、</strong> webpack 中 loader 和 plugin 的区别？</p>
+<ul>
+<li><p>loader</p>
+<p>loader 处理单独的文件并且作用于生成包(bundle)的过程中或之前。</p>
+</li>
+<li><p>plugin</p>
+<p>plugin 处理包或块(chunk)并且通常作用于 bundle 生成的最后阶段。它可以解决 loader 无法解决的问题，因为 plugin 可以在任何阶段调用，能够跨 loader 进一步加工 loader 的输出，执行预先注册的回调，使用 compilation 对象做一些更底层的事情。</p>
+</li>
+</ul>

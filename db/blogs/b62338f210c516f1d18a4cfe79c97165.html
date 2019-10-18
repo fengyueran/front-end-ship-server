@@ -1,0 +1,126 @@
+<div class="toc-article"><strong class="toc-title">Contents</strong><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#购买境外-vps-服务器"><span class="toc-number">1.</span> <span class="toc-text">购买境外 VPS 服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#登录并进入充值界面进行充值"><span class="toc-number">2.</span> <span class="toc-text">登录并进入充值界面进行充值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建服务器"><span class="toc-number">3.</span> <span class="toc-text">创建服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看服务器"><span class="toc-number">4.</span> <span class="toc-text">查看服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#检测服务器-ip"><span class="toc-number">5.</span> <span class="toc-text">检测服务器 IP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#登录服务器"><span class="toc-number">6.</span> <span class="toc-text">登录服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#搭建-v2ray"><span class="toc-number">7.</span> <span class="toc-text">搭建 V2ray</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#客户端使用"><span class="toc-number">8.</span> <span class="toc-text">客户端使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#备份-vps"><span class="toc-number">9.</span> <span class="toc-text">备份 VPS</span></a></li></ol></div><h3 id="购买境外-vps-服务器">购买境外 VPS 服务器</h3>
+<p>登录<a href="https://www.vultr.com/">Vultr 官网</a>进行注册(也可选择其他 VPS 服务商)。
+<img style="display:block; margin: auto;" alt="Vultr注册示意图" src="https://i.imgur.com/l8sRrJ9.png" /></p>
+<h3 id="登录并进入充值界面进行充值">登录并进入充值界面进行充值</h3>
+<p>支持支付宝、微信等。
+<img style="display:block; margin: auto;" alt="充值示意图" src="https://i.imgur.com/1yKBAE7.png" /></p>
+<h3 id="创建服务器">创建服务器</h3>
+<ul>
+<li><p>点击<code>+</code>号创建服务器</p>
+<img style="display:block; margin: auto; border: 1px solid" alt="创建服务器" src="https://i.imgur.com/dhHyH2V.png" />
+</li>
+<li><p>选择服务器</p>
+<p>不同的服务器适应不同的场景，搭建 V2ray 选择第一个云计算就可以了。</p>
+<img style="display:block; margin: auto;border: 1px solid" alt="选择服务器" src="https://i.imgur.com/R3r5NBv.png" />
+</li>
+<li><p>选择服务器位置</p>
+<p>推荐选择亚洲的服务器，物理位置近延迟少，但是很多 IP 都被墙了，需要耐心选择。</p>
+<img style="display:block; margin: auto;border: 1px solid" alt="选择服务器" src="https://i.imgur.com/bV21Br7.png" />
+</li>
+<li><p>选择服务器类型</p>
+<p>推荐使用 Debian，较为稳定。</p>
+<img style="display:block; margin: auto;border: 1px solid" alt="选择服务器类型" src="https://i.imgur.com/ev4jC57.png" />
+</li>
+<li><p>选择服务器大小</p>
+<p>选择最便宜的就够用了，现在最便宜的一个月都要 5 美元了。</p>
+<img style="display:block; margin: auto;border: 1px solid" alt="选择服务器大小" src="https://i.imgur.com/No3vlbS.png" />
+
+</li>
+</ul>
+<p>选择完后就可以点击 Deploy Now 开始创建服务器了。</p>
+<h3 id="查看服务器">查看服务器</h3>
+<p>服务器创建完毕就可以在 Product 中看到新建的 server 实例了。</p>
+<img style="display:block; margin: auto;border: 1px solid" alt="查看服务器" src="https://i.imgur.com/lYAgkEG.png" />
+
+<p>通过<code>···</code>中的 Server Details 可以查看 server 详情。</p>
+<img style="display:block; margin: auto;border: 1px solid" alt="查看服务器详情" src="https://i.imgur.com/W3SAGJY.png" />
+
+<h3 id="检测服务器-ip">检测服务器 IP</h3>
+<p>很多 IP 都被墙掉了，需要检测当前服务器 IP 是否可用，移步<a href="https://tools.IPIP.net/ping.php">检测网址</a>。
+如下，当国内 ping 的丢包率基本都为 100%，而港澳台基本为 0 的时候说明 IP 被墙了，需要删除当前实例重新创建服务器实例来更换 IP。
+<img style="display:block; margin: auto;border: 1px solid" alt="检测服务器 IP" src="https://i.imgur.com/zmhYGzW.png" /></p>
+<h3 id="登录服务器">登录服务器</h3>
+<ul>
+<li><p>通过 Products 实例<code>···</code>中的 View Console 输入账户密码进行登录</p>
+</li>
+<li><p>直接通过 terminal 控制台输入账户密码进行登录</p>
+<pre><code>ssh root@40.82.48.232</code></pre></li>
+<li><p>通过 ssh 进行登录</p>
+<p>1）生成秘钥</p>
+<p>在 mac 或 linux 上直接通过 ssh-keygen 来生成。</p>
+<ul>
+<li><p>在 terminal 中输入 ssh-keygen</p>
+</li>
+<li><p>确认秘钥位置</p>
+</li>
+<li><p>然后它会让你重复一个密码两次，如果不想在使用公钥的时候输入密码，可以留空</p>
+</li>
+<li><p>查看秘钥
+id_rsa 为私钥，id_rsa.pub 为公钥。</p>
+<pre><code>$ ls ~/.ssh
+ =&gt; id_rsa      id_rsa.pub  known_hosts</code></pre></li>
+</ul>
+<p>2）配置 Vultr</p>
+<ul>
+<li><p>在 root 目录下创建.ssh 文件夹</p>
+</li>
+<li><p>将公钥拷贝到 vps 的/root/.ssh 目录下， 并改名为 authorized_keys</p>
+<pre><code>scp id_rsa.pub root@40.82.48.232:/root/.ssh/</code></pre></li>
+<li><p>修改 sshd_config 配置文件 vi /etc/ssh/sshd_config</p>
+<pre><code>RSAAuthentication yes #RSA认证
+PubkeyAuthentication yes #开启公钥验证
+AuthorizedKeysFile .ssh/authorized_keys #验证文件路径</code></pre></li>
+<li><p>重启 SSH 服务，centos7, ubuntu，debian 使用命令 systemctl restart sshd，centos6 使用命令/etc/init.d/sshd restart</p>
+<p>现在就可以直接通过 ssh 连接而不用输入密码了。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="搭建-v2ray">搭建 V2ray</h3>
+<ul>
+<li><p>脚本安装 V2ray</p>
+<p>登录 VPS，输入如下代码，回车</p>
+<pre><code>bash &lt;(curl -s -L https://git.io/v2ray.sh)</code></pre><p>根据步骤提示选择安装:</p>
+<ul>
+<li>选择安装</li>
+<li>选择默认 TCP 协议(回车)</li>
+<li>输入端口号，1 到 65535 之间随意填写，我这里输入 1989</li>
+<li>是否启用广告拦截，开启会消耗服务器资源，我这里选择开启</li>
+<li>是否配置 Shadowsocks，不配置，走 v2ray 的 Vmess 协议</li>
+<li>回车，等待安装完成</li>
+</ul>
+</li>
+<li><p>开启 BBR</p>
+<p>1）如果使用的是 Debian9 系统，BBR 是自动开启的。
+2）<a href="https://www.noobyy.com/1245.html">Ubuntu 18.04/18.10</a>开启 BBR 加速。
+3）<a href="https://www.noobyy.com/863.html">CentOS 7</a> 开启 BBR 加速。</p>
+</li>
+</ul>
+<h3 id="客户端使用">客户端使用</h3>
+<ul>
+<li><p>ios</p>
+<p>1）下载 shadowrocket</p>
+<p>国内已被强，需要通过美国区账号下载。</p>
+<blockquote>
+<p>美区 apple id 账号：<a href="mailto:shareapid@gmail.com">shareapid@gmail.com</a>
+美区 apple id 密码：Share1100
+可以下载 shadowrocket 小火箭软件，请使用完毕务必退出账号，不然会导致自己 icloud 被锁，无法解开，手机变砖！</p>
+</blockquote>
+<p>2）生成配置的二维码</p>
+<p>通过在安装了 v2ray 的 VPS 主机中运行 v2ray qr 来生成二维码链接,v2ray uri 可查看帮助信息。</p>
+<pre><code>root@vultr:~# v2ray qr
+
+V2Ray 二维码链接 适用于 V2RayNG v0.4.1+ / Kitsunebi
+https://233boy.github.io/tools/qr.html#vmess://ewoidiI6ICIyIiwKInBzIjogIjIzM3YyLmNvbV80NS4zMi4xMjIuOCIsC</code></pre><p>3）配置 shadowrocket</p>
+<p>打开 shadowrocket 扫描第二步生成的二维码，自动配置成功，可以愉快的爬墙了。</p>
+</li>
+<li><p>mac</p>
+<p><a href="https://github.com/Cenmrev/V2RayX/releases">mac 客户端下载</a>，安装完毕后进行配置。</p>
+<p>如下图，点击 config 进行配置，配置完重启电脑，点击 Load core 启动。</p>
+<img style="display:block; margin: auto;border: 1px solid" alt="v2ray配置" src="https://i.imgur.com/joWFHkR.png" />
+
+</li>
+</ul>
+<h3 id="备份-vps">备份 VPS</h3>
+<p>vultr 提供了备份工具 snapshot，备份步骤如下图所示，在新建服务器实例时可以通过备份还原。
+<img style="display:block; margin: auto;border: 1px solid" alt="v2ray配置" src="https://i.imgur.com/2KqaUMP.png" /></p>

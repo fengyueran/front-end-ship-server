@@ -1,0 +1,145 @@
+<div class="toc-article"><strong class="toc-title">Contents</strong><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本概念"><span class="toc-number">1.</span> <span class="toc-text">基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常用排序算法"><span class="toc-number">2.</span> <span class="toc-text">常用排序算法</span></a></li></ol></div><h3 id="基本概念">基本概念</h3>
+<ul>
+<li><p>时间复杂度</p>
+<p>为一个函数，用来描述算法总的运行时间，反应了当数据规模 n 变化时运行时间的变化情况。为了计算时间复杂度，我们通常会估计算法的操作次数，每次操作的运行时间相同，也就能够通过操作次数来表示运行时间。</p>
+</li>
+<li><p>空间复杂度</p>
+<p>同样，也是数据规模 n 的函数，反应了算法执行时所需的存储空间。</p>
+</li>
+<li><p>稳定与不稳定</p>
+<p>如果两个操作数排序前的顺序为 a、b，排序后如果还是 a、b 则改算法是稳定的，反之则认为该算法是不稳定的。</p>
+</li>
+</ul>
+<h3 id="常用排序算法">常用排序算法</h3>
+<p>常见算法复杂度如下:</p>
+ <center><img src="https://i.imgur.com/Pb2Z1uG.png" /></center>
+
+<p>注: 该图引自<a href="https://www.cnblogs.com/onepixel/p/7674659.html">onepixel</a></p>
+<ul>
+<li><p>冒泡排序法</p>
+<p>基本思想: 两个数比较，较小的数冒泡起来，较大的数下沉</p>
+<p>过程:</p>
+<ul>
+<li>比较相邻的两个数，如果第二个数小，就交换位置</li>
+<li>从后往前两两比较，直到最前面两个数，此时最小的数被排到了前面</li>
+<li>重复上述过程，依次将第 2，3...n 个最小的数排好位置</li>
+</ul>
+<pre><code>var bubbleSort = arr =&gt; {
+  let tmp;
+  let flag = false;
+  for (let i = 0; i &lt; arr.length - 1; i++) { //表示排序次数
+    for (let j = arr.length - 1; j &gt; i; j--) {
+      if (a[j] &lt; a[j - 1]) {
+        tmp = a[j];
+        a[j] = a[j - 1];
+        a[j - 1] = tmp;
+        flag = true;
+      }
+    }
+    if (!flag) break; //flag为false表明没有位置交换，也就是说数组已经是有序的了
+  }
+};</code></pre><p><strong>时间复杂度计算:</strong></p>
+<p>如下: 冒泡排序的时间复杂度为 O(n^2)</p>
+<pre><code>假设数组长度为n，算法执行次数为T(n)，时间复杂度为O(T(n))
+T(n) = (n - 1) + (n - 2) + (n - 3) + ... + n - (n - 1)
+     = ((n - 1) + 1) * (n - 2) / 2
+     = 0.5 * n^2 - n
+O(T(n)) = O(n^2)</code></pre><p><strong>空间复杂度计算:</strong></p>
+<p>可以看到，冒泡排序并没有循环分配空间，只有变量 tmp、flag、i、j 分配了空间且与数组长度无关，因此冒泡排序的空间复杂度为 O(1)。</p>
+</li>
+<li><p>快速排序法</p>
+<p>基本思想:</p>
+<ul>
+<li>先从数列中选出一个数作为参照值</li>
+<li>将比这个参照值小的放到左边，大于或等于这个值的放到右边</li>
+<li>对左右两列数重复上一步，直至各个区间只有一个数</li>
+</ul>
+<pre><code>var quickSort = arr =&gt; {
+  if (arr.length &lt;= 1) return arr;
+  const pivotIndex = Math.floor(arr.length / 2);
+  const pivot = arr.splice(pivotIndex, 1)[0];
+  const left = [];
+  const right = [];
+  for (let i = 0; i &lt; arr.length; i++) {
+    const v = arr[i];
+    if (v &lt; pivot) {
+      left.push(v);
+    } else {
+      right.push(v);
+    }
+  }
+  return quickSort(left).concat(pivot, quickSort(right));
+};</code></pre><p><strong>时间复杂度计算:</strong></p>
+<p>如下: 快速排序的时间复杂度为 O(nlogn)</p>
+<pre><code>假设数组长度为n，算法执行次数为T(n), 每进行一次快速排序的时间为一个单独快速排序O(n)的工作和两个n/2大小数列的递归调用T(n/2)，时间复杂度为O(T(n))
+T(1) = 1;
+T(n) = O(n) + 2T(n/2);
+     = O(n) + 2(O(n/2) + 2T(n/4));
+     = O(n) + 2O(n/2) + 4T(n/4);
+     = 2O(n) + 4T(n/4);
+     = 2O(n) + 4(O(n/4) + 2T(n/8));
+     = 3O(n) + 8T(n/8)
+     = ...
+     = kO(n) + 2^kT(n/2^k);
+     = kO(n) + nT(1);//n==2^k =&gt; k = log2n，2为底数
+     = log2n * n + n;
+
+O(T(n)) = O(nlogn)</code></pre></li>
+<li><p>归并排序法
+归并排序是建立在归并操作上的一种有效的排序方法，该算法是采用分治法的一个非常典型的应用。
+基本思想:</p>
+<ul>
+<li>将长度为 n 的数列分为两个长度为 n/2 的子列表</li>
+<li>将子列表继续分为长度为 n/4 的子列表，如此继续，直到列表长度为 1 为止</li>
+<li>对子列表进行两两比较，只比较它们的第一个数，哪个列表的数小就取出这个数，并从原数组中删除，如果一个数列为空，则依次取出另一个数组中的元素，这样得到的是有序数列。</li>
+<li>将这些有序数列进行合并</li>
+</ul>
+<pre><code>var merge = (left, right) =&gt; {
+  console.log(&quot;left&quot;, left);
+  console.log(&quot;right&quot;, right);
+  const result = [];
+  while (left.length &gt; 0 &amp;&amp; right.length &gt; 0) {
+    if (left[0] &lt; right[0]) {
+      result.push(left.shift());
+    } else {
+      result.push(right.shift());
+    }
+  }
+  return result.concat(left, right);
+};
+
+var mergeSort = arr =&gt; {
+  if (arr.length &lt;= 1) return arr;
+  const pivotIndex = Math.floor(arr.length / 2);
+
+  const left = arr.slice(0, pivotIndex);
+  const right = arr.slice(pivotIndex);
+  return merge(mergeSort(left), mergeSort(right));
+};</code></pre><p><strong>时间复杂度计算:</strong></p>
+<p>可以看到归并排序把一个规模为 n 的问题分解成了一个 merge 操作和两个规模为 n/2 的问题，merge 耗时为 O(n)，则</p>
+<pre><code>T(n) = O(n) + 2T(n/2);</code></pre><p>因此，同快速排序一样归并排序的时间复杂度为 O(nlogn)。</p>
+</li>
+<li><p>选择排序算法</p>
+<p>基本思想:</p>
+<ul>
+<li>在无序数列中寻找最小或最大的数，将其存放到排序数列的起始位置。</li>
+<li>继续在未排序的数列中查找最大(或最小)的元素，存放到已排序数列的末尾，也就是查找的起始位置</li>
+<li>如此往复直到排序完毕</li>
+</ul>
+<pre><code>var selectionSort = arr =&gt; {
+  let tmp;
+  const len = arr.length;
+  for (let i = 0; i &lt; len - 1; i++) {
+    let minIndex = i;
+    for (let j = i + 1; j &lt; len; j++) {
+      if (arr[j] &lt; arr[minIndex]) {
+        minIndex = j;
+      }
+    }
+    tmp = arr[i];
+    arr[i] = arr[minIndex];
+    arr[minIndex] = tmp;
+  }
+  return arr;
+};</code></pre></li>
+</ul>

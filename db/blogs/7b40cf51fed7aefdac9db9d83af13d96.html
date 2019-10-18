@@ -51,7 +51,7 @@ http {
 
 # 静态资源一般放在nginx所在主机
    server {
-       listen 8080; #监听HTTP端口
+       listen 80; #监听HTTP端口，nginx 默认使用80端口
        server_name www.xinghunm.com 149.28.211.15; #监听地址
        keepalive_requests 120; #单连接请求上限次数
        root /root/www;
