@@ -33,14 +33,14 @@ const SCHEMA = {
   blogs: blogSchema
 };
 
-const walkSource = (path) => {
+const walkSource = path => {
   const walker = new Walker();
   walker.workSync(path);
   const files = walker.getFilesPath();
   return files;
 };
 
-const getArticleInfo = (articleStr) => {
+const getArticleInfo = articleStr => {
   const parts = articleStr.split("---");
   let info;
   try {
@@ -64,7 +64,7 @@ const getArticleInfo = (articleStr) => {
   return info;
 };
 
-const getArticles = (files) => {
+const getArticles = files => {
   const articles = [];
   try {
     for (let i = 0; i < files.length; i++) {
@@ -84,7 +84,7 @@ const getArticles = (files) => {
   return articles;
 };
 
-const updateStateCreator = (db, type) => (article) => {
+const updateStateCreator = (db, type) => article => {
   const { headInfo, content, questionDetail } = article;
   const schema = SCHEMA[type];
   let info = { ...schema, ...headInfo };
@@ -110,7 +110,7 @@ const updateStateCreator = (db, type) => (article) => {
   return info;
 };
 
-const generateQuestions = (articles) => {
+const generateQuestions = articles => {
   try {
     const adapter = new FileSync("db/db.json");
     const db = lowdb(adapter);
@@ -142,7 +142,7 @@ const generateQuestions = (articles) => {
   }
 };
 
-const generateBlogs = (articles) => {
+const generateBlogs = articles => {
   try {
     const adapter = new FileSync("db/db.json");
     const db = lowdb(adapter);
@@ -171,6 +171,4 @@ const generateBlogs = (articles) => {
   }
 };
 
-export {
-  walkSource, getArticles, generateQuestions, generateBlogs 
-};
+export { walkSource, getArticles, generateQuestions, generateBlogs };
