@@ -23,7 +23,7 @@ date: 2018-5-06 18:10:20
 - 完全用正则替换
   ```
   //当一个字符串中某个数字后跟着 n 对三个数字(\d{3})就匹配这个数字
-  const formateNum = (num) => {
+  const formatNum = (num) => {
     const numStr = num.toString();
     //替换小数点左边的数字
     return numStr.replace(/\d+/, (match) => {
@@ -32,7 +32,7 @@ date: 2018-5-06 18:10:20
     })
   }
   或
-  const formateNum = (num) => {
+  const formatNum = (num) => {
     const numStr = num.toString();
     //替换非单词边界，当这个边界后面跟着n对三个数字且后边没有数字时
     return numStr.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
