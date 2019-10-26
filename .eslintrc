@@ -1,6 +1,6 @@
 {
   "parser": "babel-eslint",
-  "extends": ["@xinghunm/eslint-config"],
+  "extends": ["plugin:prettier/recommended", "@xinghunm/eslint-config"],
   "rules": {
     "no-underscore-dangle": "off",
     "camelcase": "off",
