@@ -56,7 +56,8 @@
       "e5af72ec0808bb37380ad68a6c5373eb",
       "f816e7be6bdf475595964bfccd012943",
       "593d38d84d4c1476e072366266d0f16d",
-      "e64d2dae55c9fa535134f0207806ef99"
+      "e64d2dae55c9fa535134f0207806ef99",
+      "68298ec60e43c9d2136c7f9b8c1d7529"
     ],
     "byId": {
       "8cc30379ba969b0bd04e89034bdb705c": {
@@ -626,6 +627,20 @@
         ],
         "type": "CODE",
         "template": "const bubbleSort = (arr) => {\n\n};\nbubbleSort([13,4,9,25, 10, 8, 11])",
+        "result": "[4,8,9,10,11,13,25]",
+        "date": "2018-01-15T18:10:20.000Z"
+      },
+      "68298ec60e43c9d2136c7f9b8c1d7529": {
+        "id": "68298ec60e43c9d2136c7f9b8c1d7529",
+        "title": "用快速排序法排序",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "d4eaef9667caf04500d53ea75dc840af",
+        "tags": [
+          "HTML"
+        ],
+        "type": "CODE",
+        "template": "const quickSort = (arr) => {\n\n};\nquickSort([13,4,9,25, 10, 8, 11])",
         "result": "[4,8,9,10,11,13,25]",
         "date": "2018-01-15T18:10:20.000Z"
       }

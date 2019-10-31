@@ -1,0 +1,43 @@
+<ul>
+<li><p>快速排序法</p>
+<p>基本思想:</p>
+<ul>
+<li>先从数列中选出一个数作为参照值</li>
+<li>将比这个参照值小的放到左边，大于或等于这个值的放到右边</li>
+<li>对左右两列数重复上一步，直至各个区间只有一个数</li>
+</ul>
+<pre><code>var quickSort = arr =&gt; {
+  if (arr.length &lt;= 1) return arr;
+  const pivotIndex = Math.floor(arr.length / 2);
+  const pivot = arr.splice(pivotIndex, 1)[0];
+  const left = [];
+  const right = [];
+  for (let i = 0; i &lt; arr.length; i++) {
+    const v = arr[i];
+    if (v &lt; pivot) {
+      left.push(v);
+    } else {
+      right.push(v);
+    }
+  }
+  return quickSort(left).concat(pivot, quickSort(right));
+};</code></pre><p><strong>时间复杂度计算:</strong></p>
+<p>如下: 快速排序的时间复杂度为 O(nlogn)</p>
+<pre><code>假设数组长度为n，算法执行次数为T(n), 每进行一次快速排序的时间为一个单独快速排序O(n)的工作和两个n/2大小数列的递归调用T(n/2)，时间复杂度为O(T(n))
+T(1) = 1;
+T(n) = O(n) + 2T(n/2);
+    = O(n) + 2(O(n/2) + 2T(n/4));
+    = O(n) + 2O(n/2) + 4T(n/4);
+    = 2O(n) + 4T(n/4);
+    = 2O(n) + 4(O(n/4) + 2T(n/8));
+    = 3O(n) + 8T(n/8)
+    = ...
+    = kO(n) + 2^kT(n/2^k);
+    = kO(n) + nT(1);//n==2^k =&gt; k = log2n，2为底数
+    = log2n * n + n;
+
+O(T(n)) = O(nlogn)</code></pre><p>快速排序只是使用数组原本的空间进行排序，所以所占用的空间应该是常量级的，但是由于每次划分之后是递归调用，所以递归调用在运行的过程中会消耗一定的空间，在一般情况下的空间复杂度为 O(logn)，在最差的情况下，若每次只完成了一个元素，那么空间复杂度为 O(n)。所以我们一般认为快速排序的空间复杂度为 O(logn)。</p>
+<p>快速排序是一个不稳定的算法，在经过排序之后，可能会对相同值的元素的相对位置造成改变。</p>
+<p>快速排序基本上被认为是相同数量级的所有排序算法中，平均性能最好的。</p>
+</li>
+</ul>
