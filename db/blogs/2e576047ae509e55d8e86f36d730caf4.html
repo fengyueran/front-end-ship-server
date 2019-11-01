@@ -14,7 +14,7 @@ iphone*x，可以匹配 iphonx、iphonex、iphoneeex 等。
 <p>在正则表达式中，可以使用括号()将模式中的子字符串括起来，以形成一个子模式。将子模式视为一个整体时，那么它就相当于一个单个字符。</p>
 </li>
 <li><p><strong>贪婪与非贪婪匹配</strong>
-贪婪模式在整个表达式匹配成功的前提下尽可能多的匹配，而非贪婪模式咋匹配成功的前提下尽可能少的匹配。在 js 的正则中，默认为贪婪模式，可以通过在正则表达式后添加?来变成非贪婪模式。</p>
+贪婪模式在整个表达式匹配成功的前提下尽可能多的匹配，而非贪婪模式咋匹配成功的前提下尽可能少的匹配。在 js 的正则中，默认为贪婪模式，可通过在代表数量的标示符后放置 ? 来开启非贪婪模式，如 ? 、+? 甚至是 ??。</p>
 <pre><code>&#39;aaaaa&#39;.match(&#39;a+&#39;);//贪婪模式，匹配aaaaa
 &#39;aaaaa&#39;.match(&#39;a+?&#39;);//非贪婪模式，匹配a
 </code></pre></li>
@@ -143,7 +143,7 @@ console.log(str.match(patt)) =&gt; baa</code></pre><p>通配符: 句点星号模
 </li>
 <li><p><code>?</code> 匹配零个或一个前面的字符，可以理解为&quot;前面的那项是可选的&quot;。</p>
 <p>例如, colou?r 可以匹配 color 和 colour, 因为 &quot;u&quot; 是可选的, abcd(efg)?hij 可以匹配 abcdhij 和 abcdefghij。
-此外，将?放到正则的最后表示非贪婪匹配</p>
+此外，将?放到表示数量的标识符后边表示非贪婪匹配。</p>
 </li>
 <li><p><code>()</code> 标记一个子表达式(分组)的开始和结束位置</p>
 <p>每一个子表达式会自动拥有一个组号，规则是：从左向右，以分组的左括号为标志，第一个出现的分组的组号为 1，第二个为 2，以此类推
@@ -276,6 +276,8 @@ console.log(str.match(patt));
 </ul>
 <pre><code>var patt = /\/(?#匹配斜杠/)/;</code></pre><h3 id="实例"><strong>实例</strong></h3>
 <ul>
+<li><p>匹配任意字符</p>
+<pre><code>  ([\s\S]*)</code></pre></li>
 <li><p>匹配斜杠/</p>
 <pre><code>
 var str = &quot;/public/image/a.png&quot;;

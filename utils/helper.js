@@ -41,27 +41,24 @@ const walkSource = path => {
 };
 
 const getArticleInfo = articleStr => {
-  const parts = articleStr.split("---");
-  let info;
   try {
-    if (parts && parts.length >= 3) {
-      if (parts.length === 3) {
-        const head = parts[1];
-        const headInfo = yml.safeLoad(head);
-        const content = parts[2];
-        info = { headInfo, content };
-      } else if (parts.length === 4) {
-        const head = parts[1];
-        const headInfo = yml.safeLoad(head);
-        const questionDetail = parts[2];
-        const content = parts[3];
-        info = { headInfo, content, questionDetail };
+    const matchHeadInfoRes = articleStr.match(/---([\s\S]*?)---([\s\S]*)/m);
+    const isMatchedHeadInfo = matchHeadInfoRes && matchHeadInfoRes.length === 3;
+    if (isMatchedHeadInfo) {
+      const headInfo = yml.safeLoad(matchHeadInfoRes[1]);
+      let content = matchHeadInfoRes[2];
+      const articleInfo = { headInfo, content };
+      const matchQuestionRes = content.match(/([\s\S]*?)---问题([\s\S]*)/m);
+      if (matchQuestionRes) {
+        articleInfo.questionDetail = matchQuestionRes[1];
+        articleInfo.content = matchQuestionRes[2];
       }
+      return articleInfo;
     }
+    throw new Error("Get article head info error");
   } catch (e) {
     throw e;
   }
-  return info;
 };
 
 const getArticles = files => {
