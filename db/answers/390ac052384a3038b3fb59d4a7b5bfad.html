@@ -1,0 +1,25 @@
+<ul>
+<li><p>选择排序算法</p>
+<p>基本思想:</p>
+<ul>
+<li>在无序数列中寻找最小或最大的数，将其存放到排序数列的起始位置。</li>
+<li>继续在未排序的数列中查找最大(或最小)的元素，存放到已排序数列的末尾，也就是查找的起始位置</li>
+<li>如此往复直到排序完毕</li>
+</ul>
+<pre><code>var selectionSort = arr =&gt; {
+  let tmp;
+  const len = arr.length;
+  for (let i = 0; i &lt; len - 1; i++) {
+    let minIndex = i;
+    for (let j = i + 1; j &lt; len; j++) {
+      if (arr[j] &lt; arr[minIndex]) {
+        minIndex = j;
+      }
+    }
+    tmp = arr[i];
+    arr[i] = arr[minIndex];
+    arr[minIndex] = tmp;
+  }
+  return arr;
+};</code></pre></li>
+</ul>
