@@ -59,7 +59,8 @@
       "4da48b7078a101cfbb83bc13dc30b0b1",
       "f1c05a85cacb59d348baceabe82cf8e0",
       "390ac052384a3038b3fb59d4a7b5bfad",
-      "4c990f8415f6e16f0b1c91fcaaeb39e0"
+      "4c990f8415f6e16f0b1c91fcaaeb39e0",
+      "6faddc6617f924f102b36f5835f247ce"
     ],
     "byId": {
       "f5838f1d65f228e08e8fdb013c7cf0d6": {
@@ -777,6 +778,18 @@
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "772fdba3f362887f5a1cd93f228f27e1",
+        "tags": [
+          "HTML"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2019-01-15T18:10:20.000Z"
+      },
+      "6faddc6617f924f102b36f5835f247ce": {
+        "id": "6faddc6617f924f102b36f5835f247ce",
+        "title": "谈谈React的diff算法",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "966e0a24aae3d586444fdb0a8e5e1897",
         "tags": [
           "HTML"
         ],
