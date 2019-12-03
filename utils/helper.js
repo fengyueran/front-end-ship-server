@@ -168,4 +168,18 @@ const generateBlogs = articles => {
   }
 };
 
-export { walkSource, getArticles, generateQuestions, generateBlogs };
+const getArticleNum = file => {
+  const match = file.match(/(\d+)\./);
+  if (match) {
+    return match[0];
+  }
+  throw new Error(`The file: ${file} has not number`);
+};
+
+export {
+  walkSource,
+  getArticles,
+  generateQuestions,
+  generateBlogs,
+  getArticleNum
+};
