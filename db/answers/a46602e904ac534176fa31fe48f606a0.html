@@ -1,0 +1,60 @@
+<p>react 中 key 的作用与 react 的 diff 算法有关。</p>
+<p><strong>element diff</strong></p>
+<p>当节点处于同一层级时，React diff 提供了三种节点操作，分别为：INSERT_MARKUP（插入）、MOVE_EXISTING（移动）和 REMOVE_NODE（删除）。</p>
+<p>如下图，老集合中包含节点：A、B、C、D，更新后的新集合中包含节点：B、A、D、C，此时新老集合进行 diff 差异化对比，发现 B != A，则创建并插入 B 至新集合，删除老集合 A；以此类推，创建并插入 A、D 和 C，删除 B、C 和 D。</p>
+ <center><img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/React%E4%B8%ADkey%E7%9A%84%E4%BD%9C%E7%94%A8/element%20diff%E7%A4%BA%E6%84%8F%E5%9B%BE.png" /></center>
+ <center>element diff示意图</center>
+
+<p>React 发现这类操作繁琐冗余，因为这些都是相同的节点，但由于位置发生变化，导致需要进行繁杂低效的删除、创建操作，其实只要对这些节点进行位置移动即可。</p>
+<p>针对这一现象，React 提出优化策略：允许开发者对同一层级的同组子节点，添加唯一 key 进行区分。</p>
+<p>新老集合所包含的节点，如下图所示，新老集合进行 diff 差异化对比，通过 key 发现新老集合中的节点都是相同的节点，因此无需进行节点删除和创建，只需要将老集合中节点的位置进行移动，更新为新集合中节点的位置，此时 React 给出的 diff 结果为：B、D 不做任何操作，A、C 进行移动操作，即可。</p>
+ <center><img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/React%E4%B8%ADkey%E7%9A%84%E4%BD%9C%E7%94%A8/element%20diff%E4%BC%98%E5%8C%96%E7%A4%BA%E6%84%8F%E5%9B%BE.png" /></center>
+ <center>element diff优化示意图</center>
+
+<p>从上面的情形可以看到添加 key 可以减少 dom 的删除创建，从而提高性能。但是添加 key 就一定能提高性能吗？来看下面的例子：</p>
+<p>如下的 dom 节点数组</p>
+<pre><code>  var data = [1,2,3,4,5];
+
+  [
+    &#39;&lt;div&gt;1&lt;/div&gt;&#39;, // id: A
+    &#39;&lt;div&gt;2&lt;/div&gt;&#39;, // id: B
+    &#39;&lt;div&gt;3&lt;/div&gt;&#39;, // id: C
+    &#39;&lt;div&gt;4&lt;/div&gt;&#39;, // id: D
+    &#39;&lt;div&gt;5&lt;/div&gt;&#39;  // id: E
+  ]</code></pre><p><strong>对 dom 节点位置进行改变</strong>
+更新数据，如下：</p>
+<pre><code>  var data = [4,2,3,5,1];</code></pre><p>对于没有 key 的情况下，节点的位置不用改变，而是直接修改节点的内容 innerText，如下：</p>
+<pre><code>  [
+    &#39;&lt;div&gt;4&lt;/div&gt;&#39;, // id: A
+    &#39;&lt;div&gt;2&lt;/div&gt;&#39;, // id: B
+    &#39;&lt;div&gt;3&lt;/div&gt;&#39;, // id: C
+    &#39;&lt;div&gt;5&lt;/div&gt;&#39;  // id: D
+    &#39;&lt;div&gt;1&lt;/div&gt;&#39;, // id: E
+  ]</code></pre><p>对于带 key 的情况，移动了 dom 节点的位置，但是没有更新内容，如下：</p>
+<pre><code>  [
+    &#39;&lt;div&gt;4&lt;/div&gt;&#39;, // id: D
+    &#39;&lt;div&gt;2&lt;/div&gt;&#39;, // id: B
+    &#39;&lt;div&gt;3&lt;/div&gt;&#39;, // id: C
+    &#39;&lt;div&gt;5&lt;/div&gt;&#39;  // id: E
+    &#39;&lt;div&gt;1&lt;/div&gt;&#39;, // id: A
+  ]</code></pre><p><strong>增删节点</strong>
+更新数据，如下：</p>
+<pre><code>  var data = [1,2,3,6,7];</code></pre><p>对于没有 key 的情况下，节点的位置不用改变直接更新节点内容，如下：</p>
+<pre><code>
+
+  [
+    &#39;&lt;div&gt;1&lt;/div&gt;&#39;, // id: A
+    &#39;&lt;div&gt;2&lt;/div&gt;&#39;, // id: B
+    &#39;&lt;div&gt;3&lt;/div&gt;&#39;, // id: C
+    &#39;&lt;div&gt;6&lt;/div&gt;&#39;, // id: D
+    &#39;&lt;div&gt;7&lt;/div&gt;&#39;  // id: E
+  ]</code></pre><p>对于有 key 的情况下，删除了 D、E 节点，添加了 F、G 节点，如下：</p>
+<pre><code>  var data = [4,2,3,5,1];
+  [
+    &#39;&lt;div&gt;1&lt;/div&gt;&#39;, // id: A
+    &#39;&lt;div&gt;2&lt;/div&gt;&#39;, // id: B
+    &#39;&lt;div&gt;3&lt;/div&gt;&#39;, // id: C
+    &#39;&lt;div&gt;6&lt;/div&gt;&#39;  // id: F
+    &#39;&lt;div&gt;7&lt;/div&gt;&#39;, // id: G
+  ]</code></pre><p>可以看到，不带 key 且使用简单模板，可以就地复用节点而不用增删节点，性能更高。但是这种模式有一定的副作用，比如可能不会产生过渡效果，或者某些节点绑定的数据错乱。举个例子，有个食物列表，可以通过 tab 来切换是蔬菜列表还是肉类列表。不带 key 的情况下，在肉类列表下选中第一项，切换到蔬菜列表，蔬菜列表的第一项也会是高亮状态(虽然可以在蔬菜列表组件里重置 style，但作为新的列表项并不知道应该重置哪些 style)。
+这只是一个简单的例子，实际应用会复杂得多。带上唯一 key 虽然会增加开销，但是对于用户来说基本感受不到差距，而且能保证组件状态正确，这应该就是为什么推荐使用唯一 id 作为 key 的原因。</p>

@@ -6,7 +6,7 @@
 user root;
 #允许生成的进程数，默认为1
 worker_processes 2;
-#制定错误日志路径(文件夹需存在，如log)，级别。这个设置可以放入全局块，http块，server块，级别依次为：debug|info|notice|warn|error|crit|alert|emerg
+#制定错误日志路径(文件夹需存在，如log)。这个设置可以放入全局块，http块，server块，级别依次为：debug|info|notice|warn|error|crit|alert|emerg
 error_log log/error.log debug;
 
 events {

@@ -140,7 +140,7 @@ chrome dvtool Performance 模块</p>
 </li>
 <li><p>验证首页资源应小于 14kb</p>
 <p>前面的测试表明减少 http 请求数的必要性，而通过内联资源到首页的 html 则可以减少请求数，那么内联多大的资源比较合适呢？</p>
-<p>理论上，为了防止网络拥堵和丢包 <a href="https://hpbn.co/building-blocks-of-tcp/#slow-start">TCP</a> 会采取慢启动、拥塞避免等策略，使得任何一次往返可传输的最大数据量是 <a href="https://github.com/879479119/879479119.github.io/issues/7">14kb</a>，无论 HTML、CSS 和脚本都是如此。因此如果一次请求中，HTML 或者任何累积的资源超过了 14kb(1453b 左右)，那么就需要多次往返，加载时间就应该增大，于是进行如下测试：</p>
+<p>理论上，为了防止网络拥堵和丢包 <a href="https://hpbn.co/building-blocks-of-tcp/#slow-start">TCP</a> 会采取慢启动、拥塞避免等策略，使得第一次往返可传输的最大数据量是 <a href="https://github.com/879479119/879479119.github.io/issues/7">14kb</a>，无论 HTML、CSS 和脚本都是如此。因此如果一次请求中，HTML 或者任何累积的资源超过了 14kb(1453b 左右)，那么就需要多次往返，加载时间就应该增大，于是进行如下测试：</p>
 <p>1）测试环境
 在<a href="https://github.com/WPO-Foundation/webpagetest/blob/master/www/settings/connectivity.ini.sample">fast 3g</a>条件下进行测试，下行速度大概 204kb/s。</p>
 <pre><code>[3GFast]
