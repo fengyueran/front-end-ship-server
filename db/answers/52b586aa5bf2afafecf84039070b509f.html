@@ -36,13 +36,33 @@ module.exports.add = add;</code></pre></li>
 </ul>
 </li>
 <li><p>AMD 规范</p>
-<p>AMD(Asynchronous Module Definition)规范为异步加载模块，并允许指定回调函数，实现 AMD 规范的加载器 JS 主要有两个 require.js(与 Node 中的 require 是不一样的内容) 和 curl.js，AMD 推崇依赖前置。
-AMD 标准中定义了两个 API，define 和 require:</p>
+<p>AMD(Asynchronous Module Definition)规范为异步加载模块，并允许指定回调函数，实现 AMD 规范的加载器 JS 主要有两个: require.js(与 Node 中的 require 是不一样的内容) 和 curl.js，AMD 推崇依赖前置。</p>
+<p>使用 AMD 前我们先引入 require.js 文件和一个入口文件 main.js。main.js 中配置 require.config()并规定项目中用到的基础模块。</p>
+<pre><code>/** 网页中引入require.js及main.js **/
+&lt;script src=&quot;js/require.js&quot; data-main=&quot;js/main&quot;&gt;&lt;/script&gt;
+
+/** main.js 入口文件/主模块 **/
+// 首先用config()指定各模块路径和引用名
+require.config({
+  baseUrl: &quot;js/lib&quot;,
+  paths: {
+    &quot;jquery&quot;: &quot;jquery.min&quot;,  //实际路径为js/lib/jquery.min.js
+    &quot;lodash&quot;: &quot;lodash.min&quot;,
+  }
+});
+// 执行基本操作
+require([&quot;jquery&quot;,&quot;lodash&quot;],function($,_){
+  // some code here
+});</code></pre></li>
+</ul>
+<p>AMD 标准中定义了两个 API，define 和 require:</p>
 <ul>
-<li><p>模块定义: define(id, [depends], callback)</p>
-<pre><code>//math.js，定义了一个math模块
+<li><p>模块定义: define(id, [depends], callback)
+id 是模块名字，可选，[depends]是依赖的外部模块，可选。</p>
+<pre><code>
+//math.js，定义了一个 math 模块
 define(function () {
-  var add = function (x, y) {
+var add = function (x, y) {
     return x + y;
   }
   return {
@@ -50,39 +70,57 @@ define(function () {
   };
 });</code></pre></li>
 <li><p>模块使用: require([module], callback)</p>
-<pre><code>  require([&#39;math&#39;], function (math){
-    console.log(math.add(1,1));
-  });</code></pre></li>
+<pre><code>
+require([&#39;math&#39;], function (math){
+  console.log(math.add(1,1));
+});
+</code></pre></li>
 <li><p>优点</p>
-<p>适合在浏览器环境中异步加载模块，并可以并行加载多个模块。</p>
-</li>
-<li><p>缺点</p>
-<p>提高了开发成本，且不能按需加载，而是必须提前加载所有的依赖。</p>
 </li>
 </ul>
-</li>
-<li><p>CMD 规范</p>
+<p>适合在浏览器环境中异步加载模块，并可以并行加载多个模块。</p>
+<ul>
+<li>缺点</li>
+</ul>
+<p>提高了开发成本，且不能按需加载，而是必须提前加载所有的依赖。</p>
+<ul>
+<li>CMD 规范</li>
+</ul>
 <p>CMD(Common Module Definition)规范是 seajs 推崇的规范，与 requirejs 类似，其不同点在于其加载模式为按需加载，CMD 推崇依赖就近。</p>
-<pre><code>define(function(require, exports, module) {
+<pre><code>
+define(function(require, exports, module) {
   var a = require(&#39;pdf.js&#39;);
   a.doSomething();
   // 依赖就近书写，什么时候用到什么时候引入
   var b = require(&#39;./b&#39;);
   b.doSomething();
-});</code></pre><ul>
+});
+</code></pre><ul>
 <li><p>优点</p>
 <p>实现了异步加载模块，并可以按需加载。</p>
 </li>
 <li><p>缺点</p>
 <p>依赖 SPM 打包，模块的加载逻辑偏重。</p>
 </li>
-</ul>
-</li>
 <li><p>ES6 模块化</p>
-<p>前面的模块化方法都是社区自己实现的，而 ES6 的模块化方案是真正的规范。在 ES6 中通过 import 关键字引入模块，export 关键字导出模块，目前浏览器尚不支持 ES6 因此需要用 babel 将代码转换为广泛支持的 require。</p>
-<pre><code>  import React from &#39;react&#39;;
-
-  const Home = (&lt;div&gt;hello&lt;/div&gt;);
-
-  export default Home;</code></pre></li>
+</li>
 </ul>
+<p>前面的模块化方法都是社区自己实现的，而 ES6 的模块化方案是真正的规范。在 ES6 中通过 import 关键字引入模块，export 关键字导出模块，目前浏览器尚不支持 ES6 因此需要用 babel 将代码转换为广泛支持的 require。</p>
+<pre><code>
+    import React from &#39;react&#39;;
+
+    const Home = (&lt;div&gt;hello&lt;/div&gt;);
+
+    export default Home;
+</code></pre><h3 id="es6-模块与-commonjs-模块的差异">ES6 模块与 CommonJS 模块的差异</h3>
+<ul>
+<li>CommonJS 模块输出的是一个值的拷贝，ES6 模块输出的是值的引用。</li>
+</ul>
+<p>CommonJS 模块输出的是值的拷贝，也就是说，一旦输出一个值，模块内部的变化就影响不到这个值。
+ES6 模块的运行机制与 CommonJS 不一样。JS 引擎对脚本静态分析的时候，遇到模块加载命令 import，就会生成一个只读引用。等到脚本真正执行时，再根据这个只读引用，到被加载的那个模块里面去取值。换句话说，ES6 的 import 有点像 Unix 系统的“符号连接”，原始值变了，import 加载的值也会跟着变。因此，ES6 模块是动态引用，并且不会缓存值，模块里面的变量绑定其所在的模块。</p>
+<ul>
+<li>CommonJS 模块是运行时加载，ES6 模块是编译时输出接口。</li>
+</ul>
+<p>运行时加载: CommonJS 模块就是对象；即在输入时是先加载整个模块，生成一个对象，然后再从这个对象上面读取方法，这种加载称为“运行时加载”。</p>
+<p>编译时加载: ES6 模块不是对象，而是通过 export 命令显式指定输出的代码，import 时采用静态命令的形式。即在 import 时可以指定加载某个输出值，而不是加载整个模块，这种加载称为“编译时加载”。</p>
+<p>CommonJS 加载的是一个对象（即 module.exports 属性），该对象只有在脚本运行完才会生成。而 ES6 模块不是对象，它的对外接口只是一种静态定义，在代码静态解析阶段就会生成。</p>
