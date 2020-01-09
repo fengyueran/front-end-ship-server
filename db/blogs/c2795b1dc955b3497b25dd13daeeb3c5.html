@@ -1,4 +1,4 @@
-<div class="toc-article"><strong class="toc-title">Contents</strong><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#prototype"><span class="toc-number">1.</span> <span class="toc-text">[[prototype]]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#__proto__"><span class="toc-number">2.</span> <span class="toc-text">__proto__</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#prototype-1"><span class="toc-number">3.</span> <span class="toc-text">prototype</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#通过不同的方法来创建对象和生成原型链"><span class="toc-number">4.</span> <span class="toc-text">通过不同的方法来创建对象和生成原型链</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li></ol></div><p>对于原型我们通过<code>[[prototype]]</code>、proto 以及 prototype 这三个概念理解其实现继承的思路。</p>
+<h1>JS中的继承与原型链</h1><div class="toc-article"><strong class="toc-title">Contents</strong><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#prototype"><span class="toc-number">1.</span> <span class="toc-text">[[prototype]]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#__proto__"><span class="toc-number">2.</span> <span class="toc-text">__proto__</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#prototype-1"><span class="toc-number">3.</span> <span class="toc-text">prototype</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#通过不同的方法来创建对象和生成原型链"><span class="toc-number">4.</span> <span class="toc-text">通过不同的方法来创建对象和生成原型链</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li></ol></div><p>对于原型我们通过<code>[[prototype]]</code>、proto 以及 prototype 这三个概念理解其实现继承的思路。</p>
 <h3 id="prototype"><strong>[[prototype]]</strong></h3>
 <p>在 ECMAScript 标准中规定每个对象都有一个内置的属性<code>[[prototype]]</code>，它指向一个对象的原型对象。当查找一个对象的属性或方法时，如果在当前对象找不到，则在其原型对象上寻找，如果原型对象上也没有，则在原型对象的原型对象上寻找，如此继续直到一个对象的原型对象为 null(null 没有原型)。可以看到，这样一种层层向上的查找是一种链式查找，在每一层上的对象都有一个指向其原型对象的链接(<code>[[prototype]]</code>)，由这些链接组成的整个链条就叫做原型链。</p>
 <p>如图 1 所示，原型链查找的思路大致为:</p>
@@ -8,7 +8,7 @@
 <li>直到 Object 对象的 prototype，此时 Object 对象的<code>__proto__</code>为 null，则不再查找。</li>
 </ul>
 <br />
-<img style="display:block; margin: auto;" alt="链式查找示意图" src="https://user-gold-cdn.xitu.io/2019/4/9/16a0187cf530d872?w=621&h=108&f=png&s=13041" />
+<img style="display:block; margin: auto;" alt="链式查找示意图" src="http://blog-bed.oss-cn-beijing.aliyuncs.com/JS%E4%B8%AD%E7%9A%84%E7%BB%A7%E6%89%BF%E4%B8%8E%E5%8E%9F%E5%9E%8B%E9%93%BE/%E5%8E%9F%E5%9E%8B%E9%93%BE%E7%A4%BA%E6%84%8F%E5%9B%BE.png" />
 <center>图1. 原型链查找示意图 </center>
 
 <p>说明: 图中 builts-in 为构建内置函数比如 toString()、valueOf 等。</p>
@@ -17,7 +17,7 @@
 另一方面，设置<code>[[Prototype]]</code>是一个缓慢的操作，影响性能，因此使用 <code>__proto__</code> 是有争议的，更推荐使用 Object.getPrototypeOf 和 Object.setPrototypeOf 来访问原型对象(尽管如此，如果性能是个问题，也应尽量避免使用)。</p>
 <h3 id="prototype-1"><strong>prototype</strong></h3>
 <p>prototype 是构造函数(一个拥有 <code>[[Construct]]</code> 内部方法的对象)才有的属性，比如函数(非箭头函数)，实例对象是没有这个属性的。这个所谓的 prototype，其实可以认为是构造函数内部一个普通的对象(或者说指向一个普通对象)，只是很不幸地也叫做 prototype(原型对象)而已，当构造函数执行时，会自动将构造函数的 prototype 赋值给 <code>__proto__</code>(构造函数内部没有显示返回对象的情况下)，这样在新的实例上通过原型链就可以共享构造函数 prototype 及其原型链上的属性了。prototype 和前述的<code>__proto__</code>、<code>[[Prototype]]</code>是完全不同的概念，我们通常的混淆，主要就来自于用原型对象一词来指代了不同的它们。</p>
-<img style="display:block; margin: auto;" alt="__proto__与prototype关系示意图" src="https://user-gold-cdn.xitu.io/2019/4/9/16a0187cf4759bed?w=367&h=105&f=png&s=7759" />
+<img style="display:block; margin: auto;" alt="__proto__与prototype关系示意图" src="http://blog-bed.oss-cn-beijing.aliyuncs.com/JS%E4%B8%AD%E7%9A%84%E7%BB%A7%E6%89%BF%E4%B8%8E%E5%8E%9F%E5%9E%8B%E9%93%BE/__proto__%E4%B8%8Eprototype%E5%85%B3%E7%B3%BB%E7%A4%BA%E6%84%8F%E5%9B%BE.png" />
 <center>图2. __proto__与prototype关系示意图 </center>
 
 <p>来看下面的例子:
@@ -35,7 +35,7 @@ console.log(panda.eat()); // panda eat meat
 console.log(dog.eat()); // dog eat meat
 console.log(panda.__proto__=== Animal.prototype); // true</code></pre>
 <p>如下图所示，实例对象 panda 和 dog 之所以能够访问 Animal 原型上的 food 和 eat 属性是因为在调用构造函数时 Animal 的 prototype 对象赋值给了实例对象的 <code>__proto__</code> 属性，实例对象在访问自己的方法(panda.eat)时，如果没有找到，则在<code>__proto__</code>对象中寻找，而这个对象正好是 Animal 的 prototype 对象，它拥有 eat 方法，所以可以成功访问 eat 方法。</p>
-<img style="display:block; margin: auto;" alt="prototype继承示意图" src="https://user-gold-cdn.xitu.io/2019/4/8/169fcc66d8bdcfaa?w=1402&h=832&f=png&s=106469" />
+<img style="display:block; margin: auto;" alt="prototype继承示意图" src="http://blog-bed.oss-cn-beijing.aliyuncs.com/JS%E4%B8%AD%E7%9A%84%E7%BB%A7%E6%89%BF%E4%B8%8E%E5%8E%9F%E5%9E%8B%E9%93%BE/prototype%E7%BB%A7%E6%89%BF%E7%A4%BA%E6%84%8F%E5%9B%BE.png" />
 <center>图3. panda/dog实例继承示意图 </center>
 
 <p>来看另一个例子:

@@ -1,4 +1,4 @@
-<div class="toc-article"><strong class="toc-title">Contents</strong><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#typeof"><span class="toc-number">1.</span> <span class="toc-text">typeof</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#instanceof"><span class="toc-number">2.</span> <span class="toc-text">instanceof</span></a></li></ol></div><h3 id="typeof">typeof</h3>
+<h1>typeof和instanceof实现原理</h1><div class="toc-article"><strong class="toc-title">Contents</strong><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#typeof"><span class="toc-number">1.</span> <span class="toc-text">typeof</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#instanceof"><span class="toc-number">2.</span> <span class="toc-text">instanceof</span></a></li></ol></div><h3 id="typeof">typeof</h3>
 <p>不同的对象底层都表示为二进制，其低位的 1-3 位用来存储类型信息，typeof 就是通过判断前三位的机器码来判定类型。判定规则如下:</p>
 <ul>
 <li>000: 对象</li>

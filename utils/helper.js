@@ -154,7 +154,8 @@ const generateBlogs = articles => {
         const { content } = article;
         const html = marked(content);
         const toc = tocHelper(html);
-        const htmlWithToc = toc + html;
+        const titleTag = `<h1>${blogInfo.title}</h1>`;
+        const htmlWithToc = titleTag + toc + html;
         const fileName = `${blogsDir}/${blogInfo.id}.html`;
         fs.writeFileSync(fileName, htmlWithToc, "utf8");
 
