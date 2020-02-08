@@ -3,7 +3,7 @@
 <ul>
 <li>cookie 用来在客户端储存信息，而 session 用来在服务端存储信息，都可用于跟踪用户状态。</li>
 <li>session 存储在服务端，相对更安全，用户验证等重要信息一般存放于 session，但 cookie 也也可以加密来提高安全性。</li>
-<li>cookie 在主动删除前会永久保存，最大一般为 4kb，session 在会话期间保存。</li>
+<li>cookie 默认在浏览器关闭后失效，也可以设置过期时间，最大一般为 4kb，session 在会话期间保存。</li>
 <li>session 的实现需要 cookie 的支持，session 依赖于 session ID 实现，而 session ID 存放于 cookie 中，因此，禁用 cookie 之后，session 也失效。但可以使用其他方法实现，比如在 URL 中传递 session ID。</li>
 <li>session 在服务端可能存储在内存、数据库、文件等。</li>
 <li>session 支持各种类型的对象，cookie 只保存字符串。</li>

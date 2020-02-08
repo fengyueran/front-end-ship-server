@@ -6,8 +6,58 @@
 <li><p>空间复杂度</p>
 <p>同样，也是数据规模 n 的函数，反应了算法执行时所需的存储空间。</p>
 </li>
+<li><p>最坏复杂度</p>
+<p>最坏的情况下得到的复杂度。</p>
+</li>
+<li><p>最好复杂度</p>
+<p>最好的情况下得到的复杂度。</p>
+</li>
+<li><p>平均复杂度</p>
+<p>计算复杂度时，不同情况下得到的复杂度不同，所有情况的复杂度的加权平均值即为平均复杂度。
+要查找变量 value 是否在数组中一共存在 n+1 情况，即在数组中的位置为 0 到 n-1 或不在数组中。</p>
+<pre><code>const find(arr, value) {
+  let pos = -1;
+  const n = arr.length;
+  for (let i = 0; i &lt; n; ++i) {
+    if (array[i] === value) {
+      pos = i;
+      break;
+    }
+  }
+  return pos;
+}
+
+value的位置为0时需要查找的次数为： 1
+value的位置为1时需要查找的次数为： 2
+...
+value的位置为n-1时需要查找的次数为： n
+value不在数组中需要查找的次数为： n
+因此总的运行次数T(n) = 1 + 2 + ... + n + n
+                  = 0.5 * (1+n)n + n
+                  = 0.5n^2 + 1.5n
+因此复杂度的均值T(n)_average = (0.5n^2 + 1.5n)/(n+1)
+                        = O(n)</code></pre><p>上面的计算平均复杂度有点问题，事实上每种情况出现的概率可能并不相同，因此需要考虑概率。
+value 是否在数组中的概率为 1/2，而一个数在数组的某一个位置的概率 1 / n，因此这个数在数组中某一位置的概率为 1/2n。</p>
+<pre><code>value的位置为0时需要查找的次数为： 1 * 1/2n
+value的位置为1时需要查找的次数为： 2 * 1/2n
+...
+value的位置为n-1时需要查找的次数为： n * 1/2n
+value不在数组中需要查找的次数为： n * 1/2
+因此平均复杂度T(n)_average = 1/2n(1 + 2 + ... + n) + n/2
+                         = 3n/4 + 1/4
+                         = O(n)</code></pre><p>这个值就是概率论中的加权平均值，也叫作期望值，所以平均时间复杂度的全称应该叫加权平均时间复杂度或者期望时间复杂度。</p>
+</li>
 <li><p>稳定与不稳定</p>
-<p>如果两个操作数排序前的顺序为 a、b，排序后如果还是 a、b 则改算法是稳定的，反之则认为该算法是不稳定的。</p>
+<p>如果两个相等的操作数排序前的顺序为 a、b，排序后如果还是 a、b 则改算法是稳定的，反之则认为该算法是不稳定的。</p>
+</li>
+<li><p>原地排序</p>
+<p>指在排序过程中不申请多余的存储空间，只利用原来存储待排数据的存储空间进行比较和交换的数据排序。</p>
+</li>
+<li><p>比较类排序</p>
+<p>通过比较来决定元素间的相对次序，由于其时间复杂度不能突破 O(nlogn)，因此也称为非线性时间比较类排序。</p>
+</li>
+<li><p>非比较类排序</p>
+<p>不通过比较来决定元素间的相对次序，它可以突破基于比较排序的时间下界，以线性时间运行，因此也称为线性时间非比较类排序。</p>
 </li>
 </ul>
 <h3 id="常用排序算法">常用排序算法</h3>
@@ -131,10 +181,10 @@ var mergeSort = arr =&gt; {
 </ul>
 <pre><code>var selectionSort = arr =&gt; {
   let tmp;
-  const len = arr.length;
-  for (let i = 0; i &lt; len - 1; i++) {
+  const n = arr.length;
+  for (let i = 0; i &lt; n - 1; i++) {
     let minIndex = i;
-    for (let j = i + 1; j &lt; len; j++) {
+    for (let j = i + 1; j &lt; n; j++) {
       if (arr[j] &lt; arr[minIndex]) {
         minIndex = j;
       }
@@ -144,5 +194,62 @@ var mergeSort = arr =&gt; {
     arr[minIndex] = tmp;
   }
   return arr;
-};</code></pre></li>
+};</code></pre><p><strong>时间复杂度计算</strong></p>
+<pre><code>当i=0时，运行次数T(0)= n - 1;
+当i=1时，运行次数T(1)= n - 2;
+...
+当i=n-2时，运行次数T(n-2)= 1;
+因此总的运行次数T(n) = (n-1) + (n-2) + ...+ 1
+                  =  0.5 * (n^2 - n)
+                  = O(n^2)</code></pre><p>因此，选择排序的时<strong>间复杂度为 O(n^2)</strong>。此外选择排序是一种<strong>不稳定</strong>的排序方法，如下：
+对下列数字进行排序时，第一次迭代会将首位的 3 和 1 交换，首位的 3 和中间的 3 相对位置就发生变化了。</p>
+<pre><code>3 2 3 1 5</code></pre><p><strong>空间复杂度</strong>
+由于该算法额外开辟的空间只有 tmp、n 两个变量，因此其<strong>空间复杂度为 O(1)</strong>。</p>
+</li>
+<li><p>插入排序算法
+一般来说，插入排序都采用 in-place 在数组上实现。
+基本思想:</p>
+<ul>
+<li>从第一个元素开始，该元素可以认为已经排好序</li>
+<li>从下一个元素开始，在已经排序的元素序列中，从后向前开始扫描</li>
+<li>如果该元素(已排序的元素)大于新元素，则将该元素向后移动</li>
+<li>重复步骤 3，直到找到已排序元素小于等于新元素的位置</li>
+<li>将新元素插入到该位置</li>
+<li>重复步骤 2-5</li>
+</ul>
+<pre><code>var insertionSort = arr =&gt; {
+let preIndex;
+let current;
+const n = arr.length;
+for (let i = 1; i &lt; n ; i++) {
+  preIndex = i - 1;
+  current = arr[i];
+  while (preIndex &gt;= 0 &amp;&amp; arr[preIndex] &gt; current) {
+    arr[preIndex + 1] = arr[preIndex];
+    preIndex--;
+  }
+  arr[preIndex+1] = current;
+}
+return arr;
+};
+</code></pre><p>数组<code>[8,5,3,7,1]</code>用插入排序法过程如下：</p>
+<pre><code>8 5 3 7 1
+5 8 3 7 1
+3 5 8 7 1
+3 5 7 8 1
+1 3 5 7 8</code></pre><p><strong>时间复杂度计算</strong>
+如果目标是升序排列一个数组，那么存在最好和最坏的情况。最好的情况：如果数组已经是按升序排列，则只需要进行 n-1 次比较操作；最坏的情况：数组是按降序排列</p>
+<pre><code>如果数组是降序排列：
+当i=1时，运行次数T(1)= 1;
+当i=2时，运行次数T(2)= 2;
+当i=3时，运行次数T(3)= 3;
+...
+当i=n-1时，运行次数T(n-1)= n - 1;
+因此总的运行次数T(n) = 1 + 2 + 3 + ... + (n-2) + (n-1)
+                  =  0.5 * (n^2 - n)
+                  = O(n^2)
+</code></pre><p>平均来说插入排序算法复杂度为 O(n^2)，为<strong>稳定算法</strong>。
+<strong>空间复杂度</strong>
+由于该算法额外开辟的空间只有几个变量，因此其<strong>空间复杂度为 O(1)</strong>。</p>
+</li>
 </ul>

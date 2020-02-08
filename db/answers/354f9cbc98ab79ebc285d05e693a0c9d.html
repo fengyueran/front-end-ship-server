@@ -16,7 +16,7 @@
 </li>
 <li><p>与服务器通信</p>
 <ul>
-<li>每次请求都会携带在 http 请求头中，可能带来性能问题</li>
+<li>Cookie: 每次请求都会携带在 http 请求头中(ajax 会自动带上同源 cookie，不会带上不同源 cookie)，可能带来性能问题</li>
 <li>SessionStorage: 只在客户端起作用</li>
 <li>LocalStorage: 只在客户端起作用</li>
 </ul>

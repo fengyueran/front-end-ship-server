@@ -1,15 +1,30 @@
-<p>想要了解 react 的事件机制，我们需要一步步了解我们添加的事件是如何起作用的，如下：
+<p>想要了解 react 的事件机制，我们需要一步步了解我们添加的事件是如何起作用的，如下，
 react 是如何让下面这个 div 上监听的单击事件生效的呢？</p>
 <pre><code>//app.jsx
-const App = () =&gt; &lt;div title=&quot;click me&quot; onClick={()=&gt; console.log(&quot;click&quot;)}&gt;app&lt;/div&gt;
+const handleClick = (e) =&gt; console.log(&quot;click&quot;, e);
+const Son = () =&gt; (
+  &lt;div title=&quot;click me&quot; onClick={() =&gt; console.log(&quot;son&quot;)}&gt;
+    click
+  &lt;/div&gt;
+);
+
+const App = () =&gt; (
+  &lt;div onClick={() =&gt; console.log(&quot;app&quot;)}&gt;
+    &lt;Son /&gt;
+  &lt;/div&gt;
+);
+
+export default App;
+const App = () =&gt; &lt;div title=&quot;click me&quot; onClick={handleClick}&gt;app&lt;/div&gt;
 ReactDOM.render(&lt;App /&gt;, document.getElementById(&#39;root&#39;));
-</code></pre><h3 id="事件注册">事件注册</h3>
+</code></pre><p>以下调试是在 react、react-dom 16.12.0 上进行的。</p>
+<h3 id="事件注册">事件注册</h3>
 <p>我们知道每个 JSX 元素都是调用 React.createElement() 的语法糖，如下：</p>
 <pre><code>React.createElement(
   type,
   [props],
   [...children]
-)</code></pre><p>要知道 onClick 如何起作用就需要知道这个 props 是如何起作用的，于是查看 createElement 方法的源码，就是返回了一个带有 type、props 等信息的对象。</p>
+)</code></pre><p>要知道 onClick 如何起作用就需要知道这个 props 是如何起作用的，于是查看 createElement 方法的源码，可以看到 createElement 方法就是返回了一个带有 type、props 等信息的对象。</p>
 <pre><code>//react项目根目录下packages/react/src/ReactElement.js，省略不相关的源码
 const ReactElement = function(type, key, ref, self, source, owner, props) {
   const element = {
@@ -59,14 +74,14 @@ export function render(
   );
 }
 </code></pre><p>legacyRenderSubtreeIntoContainer 函数中涉及到一些异步调用，直接调试并不好弄清除 onClick 上的函数是如何绑定到 div 节点的，查看源码，发现有一个 setAttribute.js 的文件，断点到 setAttribute 函数，查看函数调用栈，最终在 setInitialDOMProperties 这个函数里发现了相关信息：</p>
-<p>如其名，这个函数就是用来设置 dom 的属性，包括 css、style 等。</p>
+<p>如其名，这个函数就是用来设置 dom 的属性，包括 css、style 等。nextProps 里就是 div 上添加的属性。</p>
 <pre><code>// packages/react-dom/src/client/ReactDOMComponent.js
 function setInitialDOMProperties(
-  tag: string,
-  domElement: Element,
-  rootContainerElement: Element | Document,
-  nextProps: Object,
-  isCustomComponentTag: boolean,
+  tag: string,//div
+  domElement: Element,//&lt;div&gt;&lt;/div&gt;
+  rootContainerElement: Element | Document,//&lt;div id=&quot;root&quot;&gt;&lt;/div&gt;
+  nextProps: Object,//{title: &quot;click me&quot;, children: &quot;app&quot;, onClick: ƒ}
+  isCustomComponentTag: boolean,//false
 ): void {
   for (const propKey in nextProps) {
       ...省略部分代码
@@ -83,8 +98,8 @@ function setInitialDOMProperties(
 </code></pre><p>ensureListeningTo 看着就比较像事件监听的样子，而 registrationNameModules 为预先注册的各种事件的名称。如下图：</p>
  <center><img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/react%E4%BA%8B%E4%BB%B6%E6%9C%BA%E5%88%B6/registrationNameModules.png" /></center>
 <center>registrationNameModules变量</center>
- propKey 为 onClick，似乎找对了地方。来看ensureListeningTo函数做了什么：
 
+<p>propKey 有 onClick 属性，似乎找对了地方。来看 ensureListeningTo 函数做了什么：</p>
 <pre><code>// packages/react-dom/src/client/ReactDOMComponent.js
 function ensureListeningTo(rootContainerElement, registrationName) {
   var isDocumentOrFragment = rootContainerElement.nodeType === DOCUMENT_NODE || rootContainerElement.nodeType === DOCUMENT_FRAGMENT_NODE;
@@ -103,9 +118,8 @@ export function listenTo(
     const dependency = dependencies[i];
     listenToTopLevel(dependency, mountAt, listeningSet);
   }
-}</code></pre><p>registrationNameDependencies 为 React 事件名为 key，原生事件名为 value 的 map:</p>
-<pre><code>registrationNameDependencies
-{onBlur: Array(1), onBlurCapture: Array(1), onCancel: Array(1), onCancelCapture: Array(1), onClick: Array(1), …}
+}</code></pre><p>registrationNameDependencies 为一个 map，这个 map 的 key 为 React 事件名，值为原生事件名的数组。</p>
+<pre><code>// registrationNameDependencies
 onAbort: [&quot;abort&quot;]
 onAbortCapture: [&quot;abort&quot;]
 onAnimationEnd: [&quot;animationend&quot;]
@@ -138,7 +152,7 @@ export function listenToTopLevel(
     }
     listenerMap.set(topLevelType, null);
   }
-}</code></pre><p>除了 scroll、focus、blur、cancel、close 走 trapCapturedEvent(捕获阶段注册事件)和一些无效的事件不处理外，其余都走 default，在 default 里只要不是媒体事件(play、pause 等，不会冒泡)都通过 trapBubbledEvent(冒泡阶段)来注册事件，由此可以知道，在 react 中大部分合成事件都是委托到 document 上注册的是冒泡阶段的事件监听器(即使使用 capture 事件，如：onClickCapture)，也就是是说合成事件要等到事件冒泡到最外层的 document 才会被执行，因此所有原生事件的响应(无论是冒泡事件还是捕获事件)，都将早于 React 合成事件，想在 react 组件中通过 e.stopPropagation()来阻止外层的原生事件是办不到的。继续看 trapBubbledEvent：</p>
+}</code></pre><p>除了 scroll、focus、blur、cancel、close 走 trapCapturedEvent(捕获阶段注册事件)和一些无效的事件不处理外，其余都走 default，在 default 里只要不是媒体事件(play、pause 等，不会冒泡)都通过 trapBubbledEvent(冒泡阶段)来注册事件，由此可知，在 react 中大部分合成事件都是委托到 document 上注册的是冒泡阶段的事件监听器(即使使用 capture 事件，如：onClickCapture)，也就是是说合成事件要等到事件冒泡到最外层的 document 才会被执行，因此所有原生事件的响应(无论是冒泡事件还是捕获事件)，都将早于 React 合成事件，想在 react 组件中通过 e.stopPropagation()来阻止外层的原生事件是办不到的。继续看 trapBubbledEvent：</p>
 <pre><code>// packages/react-dom/src/events/ReactDOMEventListener.js
 function trapBubbledEvent(topLevelType, element) {
   trapEventForPluginEventSystem(element, topLevelType, false);
@@ -177,14 +191,18 @@ function trapEventForPluginEventSystem(
   } else {
     addEventBubbleListener(element, rawEventName, listener);
   }
-}</code></pre><p>trapBubbledEvent 调用 trapEventForPluginEventSystem 生成了对应事件的回调函数 listener，在 addEventBubbleListener 中我们看到了熟悉的添加事件的方法，至此，我们注册的事件被添加到了目标元素上。</p>
+}</code></pre><p>trapBubbledEvent 调用 trapEventForPluginEventSystem 生成了对应事件的回调函数 listener，在 addEventBubbleListener 中我们看到了熟悉的添加事件的方法。</p>
 <pre><code>// packages/react-dom/src/events/EventListener.js
 function addEventBubbleListener(element, eventType, listener) {
   element.addEventListener(eventType, listener, false);
-}</code></pre><p>事件注册的整个流程大致如下：</p>
-<pre><code></code></pre><h3 id="事件分发">事件分发</h3>
-<p>由前述已经知道 react 中的事件基本都被绑定到 document 上了，元素本身并没有绑定任何事件，因此被触发的事件都是 react 的合成事件，并且需要一个分发的过程。
-从前述我们可以知道注册的回调函数由 trapEventForPluginEventSystem 这个函数生成，默认的事件为包装过的 dispatchEvent，进入 dispatchEvent:</p>
+}</code></pre><p>至此，我们注册的事件被添加到了 document 上，由 document 代理的好处就是不再需要到处绑定事件了，同一类型的事件只需要绑定一次。</p>
+<p>事件注册的整个流程大致如下：</p>
+ <center><img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/%E9%A2%98%E5%BA%93/react%E4%BA%8B%E4%BB%B6%E6%B3%A8%E5%86%8C.png" /></center>
+ <center>事件注册流程</center>
+
+<h3 id="事件分发">事件分发</h3>
+<p>由前述已经知道 react 中的事件被绑定到 document(fragment 也是一种轻量的 document) 上了，元素本身并没有绑定任何事件，因此被触发的事件都是 react 的合成事件，并且需要一个分发的过程。
+从前述我们可以知道注册的回调函数由 trapEventForPluginEventSystem 这个函数生成，默认的事件为包装过的 dispatchEvent，事实上 dispatchDiscreteEvent 和 dispatchUserBlockingUpdate 最后也会走 dispatchEvent， 也就是说当 document 监听到事件后会调用这个包装过的 dispatchEvent， 进入 dispatchEvent:</p>
 <pre><code>// packages/react-dom/src/events/ReactDOMEventListener.js
 export function dispatchEvent(
   topLevelType: DOMTopLevelEventType,
@@ -234,7 +252,9 @@ function dispatchEventForPluginEventSystem(topLevelType, eventSystemFlags, nativ
   } finally {
     releaseTopLevelCallbackBookKeeping(bookKeeping);
   }
-}</code></pre><p>batchedUpdates 把当前触发的事件放入到批处理队列中，handleTopLevel 是事件分发的核心所在：</p>
+}</code></pre><p>bookKeeping 里记录了事件相关的属性:</p>
+<pre><code>//bookKeeping
+{topLevelType: &quot;click&quot;, eventSystemFlags: 1, nativeEvent: MouseEvent, targetInst: FiberNode, ancestors: Array(1)}</code></pre><p>batchedEventUpdates 把当前触发的事件放入到批处理队列中，handleTopLevel 是事件分发的核心所在：</p>
 <pre><code>// packages/react-dom/src/events/ReactDOMEventListener.js
 function handleTopLevel(bookKeeping: BookKeepingInstance) {
   let targetInst = bookKeeping.targetInst;
@@ -272,5 +292,410 @@ function handleTopLevel(bookKeeping: BookKeepingInstance) {
     );
   }
 }
-</code></pre><p>在事件回调之前，先根据当前组件向上遍历得到所有的父组件并存储到 ancestors 的中，这样得到一个有序的数组，因此把事件有序的添加到 ancestors 内的元素上就能模拟事件的冒泡或捕获。而事件回调的循环中 i 是从 0 开始的，也就是说最先触发事件的组件是最内层组件，然后冒泡外层，也就是模拟了冒泡事件。</p>
+</code></pre><p>在事件回调之前，先根据当前组件向上遍历得到所有的父组件并存储到 ancestors 中，不过循环内的遍历是从当前组件的 root 元素开始查找的：</p>
+<pre><code> ancestor = getClosestInstanceFromNode(root);</code></pre><p>也就是从我们挂载的 root 节点开始查找，ancestors 所代表的层级关系应该是[当前组件, 顶层 root 关联的组件, root 父级组件]，
+这样得到一个包含组件层级关系的数组，按序执行 runExtractedPluginEventsInBatch 就可以让 root 节点及其父节点都能够监听到事件。</p>
 <h3 id="事件执行">事件执行</h3>
+<p>从前述已经知道事件执行从 runExtractedPluginEventsInBatch 开始，如下：</p>
+<pre><code>// packages/legacy-events/EventPluginHub.js
+export function runExtractedPluginEventsInBatch(
+  topLevelType: TopLevelType,
+  targetInst: null | Fiber,
+  nativeEvent: AnyNativeEvent,
+  nativeEventTarget: null | EventTarget,
+  eventSystemFlags: EventSystemFlags,
+) {
+  const events = extractPluginEvents(
+    topLevelType,
+    targetInst,
+    nativeEvent,
+    nativeEventTarget,
+    eventSystemFlags,
+  );
+  runEventsInBatch(events);
+}
+</code></pre><p>这里做了两件事，一是 extractPluginEvents: 提取事件，二是 runEventsInBatch: 批处理事件。</p>
+<p>先来看 extractPluginEvents：</p>
+<pre><code>// packages/legacy-events/EventPluginHub.js
+function extractPluginEvents(
+  topLevelType: TopLevelType,
+  targetInst: null | Fiber,
+  nativeEvent: AnyNativeEvent,
+  nativeEventTarget: null | EventTarget,
+  eventSystemFlags: EventSystemFlags,
+): Array&lt;ReactSyntheticEvent&gt; | ReactSyntheticEvent | null {
+  let events = null;
+  for (let i = 0; i &lt; plugins.length; i++) {
+    // Not every plugin in the ordering may be loaded at runtime.
+    const possiblePlugin: PluginModule&lt;AnyNativeEvent&gt; = plugins[i];
+    if (possiblePlugin) {
+      const extractedEvents = possiblePlugin.extractEvents(
+        topLevelType,
+        targetInst,
+        nativeEvent,
+        nativeEventTarget,
+        eventSystemFlags,
+      );
+      if (extractedEvents) {
+        events = accumulateInto(events, extractedEvents);
+      }
+    }
+  }
+  return events;
+}</code></pre><p>这里的 plugins 是各种事件的集合，一共有五类，在 EventPluginHub 初始化时注入</p>
+<pre><code>// packages/react-dom/src/client/ReactDOMClientInjection.js
+EventPluginHubInjection.injectEventPluginsByName({
+  SimpleEventPlugin: SimpleEventPlugin,
+  EnterLeaveEventPlugin: EnterLeaveEventPlugin,
+  ChangeEventPlugin: ChangeEventPlugin,
+  SelectEventPlugin: SelectEventPlugin,
+  BeforeInputEventPlugin: BeforeInputEventPlugin,
+});</code></pre><p>接下来通过 plugin(当前为 SimpleEventPlugin) 的 extractEvents 提取事件：</p>
+<pre><code>// packages/react-dom/src/events/SimpleEventPlugin.js
+var SimpleEventPlugin = {
+  eventTypes: eventTypes,
+  getEventPriority: function (topLevelType) {
+    var config = topLevelEventsToDispatchConfig[topLevelType];
+    return config !== undefined ? config.eventPriority : ContinuousEvent;
+  },
+  extractEvents: function (topLevelType, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags) {
+    var dispatchConfig = topLevelEventsToDispatchConfig[topLevelType];
+
+    if (!dispatchConfig) {
+      return null;
+    }
+
+    var EventConstructor;
+
+    switch (topLevelType) {
+      ...省略部分代码
+
+      case TOP_CLICK:
+      ...省略部分代码
+        EventConstructor = SyntheticMouseEvent;
+        break;
+      ...省略部分代码
+      default:
+        EventConstructor = SyntheticEvent;
+        break;
+    }
+
+    var event = EventConstructor.getPooled(dispatchConfig, targetInst, nativeEvent, nativeEventTarget);
+    accumulateTwoPhaseDispatches(event);
+    return event;
+  }
+};</code></pre><p>这里的 topLevelEventsToDispatchConfig 为事件的集合，click 显然在里面，进入 switch 语句的 TOP_CLICK(click)，得到合成事件的构造器 SyntheticMouseEvent，除此之外还有 SyntheticKeyboardEvent、SyntheticFocusEvent、SyntheticTouchEvent 等。</p>
+<pre><code>//topLevelEventsToDispatchConfig
+{blur: {…}, cancel: {…}, click: {…}, close: {…}, contextmenu: {…}, …}
+blur: {phasedRegistrationNames: {…}, dependencies: Array(1), eventPriority: 0}
+cancel: {phasedRegistrationNames: {…}, dependencies: Array(1), eventPriority: 0}
+click: {phasedRegistrationNames: {…}, dependencies: Array(1), eventPriority: 0}
+close: {phasedRegistrationNames: {…}, dependencies: Array(1), eventPriority: 0}
+contextmenu: {phasedRegistrationNames: {…}, dependencies: Array(1), eventPriority: 0}
+copy: {phasedRegistrationNames: {…}, dependencies: Array(1), eventPriority: 0}
+cut: {phasedRegistrationNames: {…}, dependencies: Array(1), eventPriority: 0}
+...</code></pre><p>得到合成事件的构造器后就可以通过 getPooled 从合成事件对象池中获取事件了，React 将所有的事件缓存在对象池中，如果池里有就不再创建新的事件，提高了性能。getPooled 实际就是 getPooledEvent，在 SyntheticEvent 初始化的时候设置了初始值：</p>
+<pre><code>// packages/legacy-events/SyntheticEvent.js
+addEventPoolingTo(SyntheticEvent);
+function addEventPoolingTo(EventConstructor) {
+  EventConstructor.eventPool = [];
+  EventConstructor.getPooled = getPooledEvent;
+  EventConstructor.release = releasePooledEvent;
+}
+</code></pre><p>getPooledEvent 如下：</p>
+<pre><code>// packages/legacy-events/SyntheticEvent.js
+function getPooledEvent(dispatchConfig, targetInst, nativeEvent, nativeInst) {
+  var EventConstructor = this;
+
+  if (EventConstructor.eventPool.length) {
+    var instance = EventConstructor.eventPool.pop();
+    EventConstructor.call(instance, dispatchConfig, targetInst, nativeEvent, nativeInst);
+    return instance;
+  }
+
+  return new EventConstructor(dispatchConfig, targetInst, nativeEvent, nativeInst);
+}</code></pre><p>首次触发事件 EventConstructor.eventPool.length 为 0，需要创建合成事件，再次触发时直接从事件池里取。这里的 EventConstructor 是 SyntheticMouseEvent，而 SyntheticMouseEvent 由 SyntheticUIEvent 扩展而来：</p>
+<pre><code>// packages/react-dom/src/events/SyntheticMouseEvent.js
+const SyntheticMouseEvent = SyntheticUIEvent.extend({
+  screenX: null,
+  screenY: null,
+  clientX: null,
+  clientY: null,
+  pageX: null,
+  pageY: null,
+  ctrlKey: null,
+  shiftKey: null,
+  altKey: null,
+  metaKey: null,
+  ...省略部分代码
+});
+</code></pre><p>可以知道 SyntheticMouseEvent 在 SyntheticUIEvent 的基础上添加了一些自己的属性，这些属性和原生事件的属性差别不大，且符合 W3C 标准，与原生的浏览器事件一样拥有同样的接口，也拥有 stopPropagation() 和 preventDefault()等方法。我们的事件处理回调方法拿到的事件 e 是合成事件，开发者无需考虑浏览器兼容性，只需要按照 w3c 规范取值即可，如果要获取原生的事件可通过 e.nativeEvent 获得。</p>
+<pre><code>//e为合成事件
+const handleClick = (e) =&gt; console.log(&quot;click&quot;, e);</code></pre><p>SyntheticUIEvent 又继承自 SyntheticEvent。</p>
+<pre><code>// packages/react-dom/src/events/SyntheticUIEvent.js
+const SyntheticUIEvent = SyntheticEvent.extend({
+  view: null,
+  detail: null,
+});</code></pre><p>SyntheticEvent.extend 如下：</p>
+<pre><code>SyntheticEvent.extend = function(Interface) {
+  const Super = this;
+
+  const E = function() {};
+  E.prototype = Super.prototype;
+  const prototype = new E();
+
+  function Class() {
+    return Super.apply(this, arguments);
+  }
+  Object.assign(prototype, Class.prototype);
+  Class.prototype = prototype;
+  Class.prototype.constructor = Class;
+
+  Class.Interface = Object.assign({}, Super.Interface, Interface);
+  Class.extend = Super.extend;
+  addEventPoolingTo(Class);
+
+  return Class;
+};</code></pre><p>为一个典型的寄生组合式继承，也是多数库采用的继承方式。通过继承 SyntheticEvent，EventConstructor 获得 SyntheticEvent 上的一些属性和方法，如 eventPool、getPooled 等。
+new EventConstructor 调用合成组件的构造器，开始真正构造合成事件，主要就是将原生浏览器事件上的参数挂载到合成事件上，包括 clientX、screenY、timeStamp 等事件属性。</p>
+<p>在 SyntheticEvent 上还实现了 preventDefault、stopPropagation 等方法:</p>
+<pre><code>// packages/legacy-events/SyntheticEvent.js
+Object.assign(SyntheticEvent.prototype, {
+  preventDefault: function() {
+    this.defaultPrevented = true;
+    const event = this.nativeEvent;
+    if (!event) {
+      return;
+    }
+
+    if (event.preventDefault) {
+      event.preventDefault();
+    } else if (typeof event.returnValue !== &#39;unknown&#39;) {
+      event.returnValue = false;
+    }
+    this.isDefaultPrevented = functionThatReturnsTrue;
+  },
+  stopPropagation: function() {
+    const event = this.nativeEvent;
+    if (!event) {
+      return;
+    }
+
+    if (event.stopPropagation) {
+      event.stopPropagation();
+    } else if (typeof event.cancelBubble !== &#39;unknown&#39;) {
+      event.cancelBubble = true;
+    }
+
+    this.isPropagationStopped = functionThatReturnsTrue;
+  },
+  ...
+});
+</code></pre><p>可以看到合成事件的 preventDefault(stopPropagation 一样)还是通过原生事件来阻止的，只是这个事件是在 document 上绑定的，向上阻止事件其实意义并不是很大了。但是这里有标志位 isDefaultPrevented 和 isPropagationStopped，通过标志位后续在执行回调时就能判断此刻是否还要继续执行。当标志位 isPropagationStopped 为 true 时就 break 掉，不再按序执行事件，也就模拟出了原生的 stopPropagation。</p>
+<p>通过前述的 getPooled 得到合成事件后，会对合成事件进一步加工，即 accumulateTwoPhaseDispatches，它会中间会调用 traverseTwoPhase:</p>
+<pre><code>// 调用栈accumulateTwoPhaseDispatches=&gt;forEachAccumulated=&gt;accumulateTwoPhaseDispatchesSingle=&gt;traverseTwoPhase
+// packages/shared/ReactTreeTraversal.js
+function traverseTwoPhase(inst, fn, arg) {
+  var path = [];
+
+  while (inst) {
+    path.push(inst);
+    inst = getParent(inst);
+  }
+
+  var i;
+
+  for (i = path.length; i-- &gt; 0;) {
+    fn(path[i], &#39;captured&#39;, arg);
+  }
+
+  for (i = 0; i &lt; path.length; i++) {
+    fn(path[i], &#39;bubbled&#39;, arg);
+  }
+}</code></pre><p>这里的 path 就是事件传播经过的节点数组，事件会添加到事件传播经过的节点上，同原生事件一样。
+接着进入 accumulateDirectionalDispatches：</p>
+<pre><code>// packages/legacy-events/EventPropagators.js
+function accumulateDirectionalDispatches(inst, phase, event) {
+  {
+    !inst ? warningWithoutStack$1(false, &#39;Dispatching inst must not be null&#39;) : void 0;
+  }
+
+  var listener = listenerAtPhase(inst, event, phase);
+
+  if (listener) {
+    event._dispatchListeners = accumulateInto(event._dispatchListeners, listener);
+    event._dispatchInstances = accumulateInto(event._dispatchInstances, inst);
+  }
+}</code></pre><p>它会保存当前元素及其父元素上所挂载的所有回调函数到 event 的_dispatchListeners，所有实例(FiberNode)保存到_dispatchInstances。
+事件提取后，就可以开始执行事件了，即 runEventsInBatch：</p>
+<pre><code>// packages/legacy-events/EventBatching.js
+export function runEventsInBatch(
+  events: Array&lt;ReactSyntheticEvent&gt; | ReactSyntheticEvent | null,
+) {
+  if (events !== null) {
+    eventQueue = accumulateInto(eventQueue, events);
+  }
+
+  // Set `eventQueue` to null before processing it so that we can tell if more
+  // events get enqueued while processing.
+  const processingEventQueue = eventQueue;
+  eventQueue = null;
+
+  if (!processingEventQueue) {
+    return;
+  }
+
+  forEachAccumulated(processingEventQueue, executeDispatchesAndReleaseTopLevel);
+  invariant(
+    !eventQueue,
+    &#39;processEventQueue(): Additional events were enqueued while processing &#39; +
+      &#39;an event queue. Support for this has not yet been implemented.&#39;,
+  );
+  // This would be a good time to rethrow if any of the event handlers threw.
+  rethrowCaughtError();
+}</code></pre><p>首先，通过 accumulateInto 将需要处理的 events 和事件队列里还没有处理完的事件进行合并，合并后通过 forEachAccumulated 方法执行事件：</p>
+<pre><code>// packages/legacy-events/forEachAccumulated.js
+function forEachAccumulated&lt;T&gt;(
+  arr: ?(Array&lt;T&gt; | T),
+  cb: (elem: T) =&gt; void,
+  scope: ?any,
+) {
+  if (Array.isArray(arr)) {
+    arr.forEach(cb, scope);
+  } else if (arr) {
+    cb.call(scope, arr);
+  }
+}</code></pre><p>可以看到执行事件是通过 cb 调用即 executeDispatchesAndReleaseTopLevel:</p>
+<pre><code>// packages/legacy-events/EventBatching.js
+const executeDispatchesAndRelease = function(event: ReactSyntheticEvent) {
+  if (event) {
+    executeDispatchesInOrder(event);
+
+    if (!event.isPersistent()) {
+      event.constructor.release(event);
+    }
+  }
+};
+const executeDispatchesAndReleaseTopLevel = function(e) {
+  return executeDispatchesAndRelease(e);
+};
+</code></pre><p>最终进入 executeDispatchesInOrder：</p>
+<pre><code>// packages/legacy-events/EventPluginUtils.js
+export function executeDispatchesInOrder(event) {
+  const dispatchListeners = event._dispatchListeners;
+  const dispatchInstances = event._dispatchInstances;
+  if (__DEV__) {
+    validateEventDispatches(event);
+  }
+  if (Array.isArray(dispatchListeners)) {
+    for (let i = 0; i &lt; dispatchListeners.length; i++) {
+      if (event.isPropagationStopped()) {
+        break;
+      }
+      // Listeners and Instances are two parallel arrays that are always in sync.
+      executeDispatch(event, dispatchListeners[i], dispatchInstances[i]);
+    }
+  } else if (dispatchListeners) {
+    executeDispatch(event, dispatchListeners, dispatchInstances);
+  }
+  event._dispatchListeners = null;
+  event._dispatchInstances = null;
+}</code></pre><p>拿到之前保存在 event 上事件开始执行，如果标志位 isPropagationStopped 为 true 就直接 break 掉，后边的事件就不再执行，也就模拟了 stopPropagation。进入执行函数 executeDispatch：</p>
+<pre><code>// packages/shared/invokeGuardedCallbackImpl.js
+let invokeGuardedCallbackImpl = function&lt;A, B, C, D, E, F, Context&gt;(
+  name: string | null,
+  func: (a: A, b: B, c: C, d: D, e: E, f: F) =&gt; mixed,
+  context: Context,
+  a: A,
+  b: B,
+  c: C,
+  d: D,
+  e: E,
+  f: F,
+) {
+  const funcArgs = Array.prototype.slice.call(arguments, 3);
+  try {
+    func.apply(context, funcArgs);
+  } catch (error) {
+    this.onError(error);
+  }
+};</code></pre><p>最终调用的就是 func.apply(context, funcArgs)，这里的 funcArgs 就是合成事件对象，包括原生浏览器事件对象的基本上所有的属性和方法，除此之外还挂载了额外其他一些跟 React 合成事件相关的属性和方法，而 func 则就是传入的事件回调函数，对于本示例来说，就是 handleClick 这个回调方法。至此，事件执行完毕，执行完后会做一些收尾工作，对事件进行清理：</p>
+<pre><code>event.constructor.release(event);</code></pre><p>实际是调用的合成事件的 releasePooledEvent 方法：</p>
+<pre><code>// packages/legacy-events/SyntheticEvent.js
+function releasePooledEvent(event) {
+  const EventConstructor = this;
+  invariant(
+    event instanceof EventConstructor,
+    &#39;Trying to release an event instance into a pool of a different type.&#39;,
+  );
+  event.destructor();
+  if (EventConstructor.eventPool.length &lt; EVENT_POOL_SIZE) {
+    EventConstructor.eventPool.push(event);
+  }
+}</code></pre><p>即调用了 event 的 destructor 方法</p>
+<pre><code>
+  destructor: function() {
+    const Interface = this.constructor.Interface;
+    for (const propName in Interface) {
+      if (__DEV__) {
+        Object.defineProperty(
+          this,
+          propName,
+          getPooledWarningPropertyDefinition(propName, Interface[propName]),
+        );
+      } else {
+        this[propName] = null;
+      }
+    }
+    this.dispatchConfig = null;
+    this._targetInst = null;
+    this.nativeEvent = null;
+    this.isDefaultPrevented = functionThatReturnsFalse;
+    this.isPropagationStopped = functionThatReturnsFalse;
+    this._dispatchListeners = null;
+    this._dispatchInstances = null;
+
+  },</code></pre><p>清除了事件上的各种属性。</p>
+<h3 id="react-事件总览">React 事件总览</h3>
+<pre><code>// packages/react-dom/src/events/ReactBrowserEventEmitter.js
+/**
+ * Summary of `ReactBrowserEventEmitter` event handling:
+ *
+ *  - React事件使用了事件委托机制，所有的事件都委托给了顶层的document
+ *
+ *  - React对事件进行了包装，以兼容不同的浏览器
+ *
+ *  - 事件的 合成与调度由 EventPluginHub完成
+ *
+ * +------------+    .
+ * |    DOM     |    .
+ * +------------+    .
+ *       |           .
+ *       v           .
+ * +------------+    .
+ * | ReactEvent |    .
+ * |  Listener  |    .
+ * +------------+    .                         +-----------+
+ *       |           .               +--------+|SimpleEvent|
+ *       |           .               |         |Plugin     |
+ * +-----|------+    .               v         +-----------+
+ * |     |      |    .    +--------------+                    +------------+
+ * |     +-----------.---&gt;|EventPluginHub|                    |    Event   |
+ * |            |    .    |              |     +-----------+  | Propagators|
+ * | ReactEvent |    .    |              |     |TapEvent   |  |------------|
+ * |  Emitter   |    .    |              |&lt;---+|Plugin     |  |other plugin|
+ * |            |    .    |              |     +-----------+  |  utilities |
+ * |     +-----------.---&gt;|              |                    +------------+
+ * |     |      |    .    +--------------+
+ * +-----|------+    .                ^        +-----------+
+ *       |           .                |        |Enter/Leave|
+ *       +           .                +-------+|Plugin     |
+ * +-------------+   .                         +-----------+
+ * | application |   .
+ * |-------------|   .
+ * |             |   .
+ * |             |   .
+ * +-------------+   .
+ *                   .
+ *    React Core     .  General Purpose Event Plugin System
+ */</code></pre>

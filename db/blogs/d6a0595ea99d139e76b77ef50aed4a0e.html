@@ -8,7 +8,7 @@
 </ul>
 <pre><code>   display: box;
    box-pack: center;</code></pre><ul>
-<li>flex 2012<img src="/images/11-1-flex.png" width="500" />
+<li>flex 2012<img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/11.css%E5%B1%85%E4%B8%AD%E6%96%B9%E6%B3%95/11-1-flex.png" width="500" />
 A: display: flex; justify-content: center; 子元素 B 水平居中
 B: display: flex; justify-content: center; 子元素 C 水平居中
 </li>
@@ -16,21 +16,21 @@ B: display: flex; justify-content: center; 子元素 C 水平居中
 </li>
 <li><ol start="2">
 <li>text-align
-只对内联元素有效， 块级元素想要通过 text-align 来居中可以将其 display 属性设置为 inline。<img src="/images/11-2-text-align.png" width="500" />
+只对内联元素有效， 块级元素想要通过 text-align 来居中可以将其 display 属性设置为 inline。<img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/11.css%E5%B1%85%E4%B8%AD%E6%96%B9%E6%B3%95/11-2-text-align.png" width="500" />
 A: text-align: center; 行内元素 B 水平居中
 </li>
 </ol>
 </li>
 <li><ol start="3">
 <li>margin-auto
-对块级元素有效，需要设置宽度，行内元素若要通过 margin 居中可以设置其 display 属性为 block。<img src="/images/11-3-margin-auto.png" width="500" />
+对块级元素有效，需要设置宽度，行内元素若要通过 margin 居中可以设置其 display 属性为 block。<img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/11.css%E5%B1%85%E4%B8%AD%E6%96%B9%E6%B3%95/11-3-margin-auto.png" width="500" />
 B(子元素): width: 200px; margin: 0 auto; 块级元素 B 水平居中，
 </li>
 </ol>
 </li>
 <li><ol start="4">
 <li>position
-子元素 B 相对于父元素 A 的 left 为父元素宽度减去子元素宽度的一半， 因此必须知道父子元素的宽度。<img src="/images/11-3-margin-auto.png" width="500" />
+子元素 B 相对于父元素 A 的 left 为父元素宽度减去子元素宽度的一半， 因此必须知道父子元素的宽度。<img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/11.css%E5%B1%85%E4%B8%AD%E6%96%B9%E6%B3%95/11-4-fit-content.png" width="500" />
 A:width: 500px; position: relative;
 B: position: absolute; left: 180px; width: 140px;
 </li>
@@ -38,7 +38,7 @@ B: position: absolute; left: 180px; width: 140px;
 </li>
 <li><ol start="5">
 <li>position + margin-left
-不需要知道父元素的宽度，通过 margin-left 设置为自身的一半宽度的负值达到向左偏移自身的一半宽度， 与 4)中的实现方法本质是一样的，但需要知道子元素 B 的宽度。<img src="/images/11-3-margin-auto.png" width="500" />
+不需要知道父元素的宽度，通过 margin-left 设置为自身的一半宽度的负值达到向左偏移自身的一半宽度， 与 4)中的实现方法本质是一样的，但需要知道子元素 B 的宽度。<img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/11.css%E5%B1%85%E4%B8%AD%E6%96%B9%E6%B3%95/11-3-margin-auto.png" width="500" />
 A: position: relative;
 B: position: absolute; left: 50%; margin-left: -70px; width: 140px;
 </li>
@@ -46,7 +46,7 @@ B: position: absolute; left: 50%; margin-left: -70px; width: 140px;
 </li>
 <li><ol start="6">
 <li>position + transform
-不需要知道父子元素的宽度，先定位到父元素的水平中心位置再通过 transform 向左偏移自身的一半宽度， 与 4)中的实现方法本质是一样的。transform 只对块级元素有效。<img src="/images/11-3-margin-auto.png" width="500" />
+不需要知道父子元素的宽度，先定位到父元素的水平中心位置再通过 transform 向左偏移自身的一半宽度， 与 4)中的实现方法本质是一样的。transform 只对块级元素有效。<img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/11.css%E5%B1%85%E4%B8%AD%E6%96%B9%E6%B3%95/11-3-margin-auto.png" width="500" />
 A: position: relative;
 B: position: absolute; left: 50%; transform: translateX(-50%);
 </li>
@@ -62,7 +62,7 @@ fit-content 是 CSS3 中给 width 新加的一个值，表示将元素宽度收�
     &lt;Li&gt;&lt;a href=&quot;/&quot;&gt;Fruits&lt;/a&gt;&lt;/Li&gt;
     &lt;Li&gt;&lt;a href=&quot;/&quot;&gt;Vegetables&lt;/a&gt;&lt;/Li&gt;
  &lt;/ul&gt;
-&lt;/div&gt;</code></pre><img src="/images/11-4-fit-content.png" width="500" />
+&lt;/div&gt;</code></pre><img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/11.css%E5%B1%85%E4%B8%AD%E6%96%B9%E6%B3%95/11-4-fit-content.png" width="500" />
 A(div): width: 500px;
 B(ul): width: fit-content; margin: 0 auto;
 
@@ -73,7 +73,7 @@ B(ul): width: fit-content; margin: 0 auto;
 <h3 id="垂直居中方法"><strong>垂直居中方法</strong></h3>
 <ul>
 <li><ol>
-<li>flex 2012<img src="/images/11-5-flex-vertical.png" width="500" />
+<li>flex 2012<img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/11.css%E5%B1%85%E4%B8%AD%E6%96%B9%E6%B3%95/11-5-flex-vertical.png" width="500" />
 A: display: flex; align-items: center; 子元素 B 垂直居中
 B: display: flex; align-items: center; 子元素 C 垂直居中
 </li>
@@ -89,7 +89,7 @@ B: position: absolute; top: 50; height: 50px;
 </li>
 <li><ol start="3">
 <li>position + margin-top
-子元素 B 相对于父元素 A 的 top 为父元素高度的一半，margin-top 为子元素高度一半的负值，因此必须知道子元素的高度。<img src="/images/11-6-position.png" width="500" />
+子元素 B 相对于父元素 A 的 top 为父元素高度的一半，margin-top 为子元素高度一半的负值，因此必须知道子元素的高度。<img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/11.css%E5%B1%85%E4%B8%AD%E6%96%B9%E6%B3%95/11-6-position.png" width="500" />
 A: position: relative; height:150px;
 B: position: absolute; top: 50%; margin-top: -25px; height: 50px;
 </li>
@@ -97,7 +97,7 @@ B: position: absolute; top: 50%; margin-top: -25px; height: 50px;
 </li>
 <li><ol start="4">
 <li>position + transform
-子元素 B 相对于父元素 A 的 top 为父元素高度的一半，通过 translateY(-50%)使子元素向上偏移自己一半的高度，本质上与 3）、4）中的方法一样。 不需要知道父子元素的高度。<img src="/images/11-6-position.png" width="500" />
+子元素 B 相对于父元素 A 的 top 为父元素高度的一半，通过 translateY(-50%)使子元素向上偏移自己一半的高度，本质上与 3）、4）中的方法一样。 不需要知道父子元素的高度。<img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/11.css%E5%B1%85%E4%B8%AD%E6%96%B9%E6%B3%95/11-7-vertical-align.png" width="500" />
 A: position: relative;
 B: position: absolute; top: 50%; transform: translateY(-50%);
 </li>
@@ -105,7 +105,7 @@ B: position: absolute; top: 50%; transform: translateY(-50%);
 </li>
 <li><ol start="5">
 <li>position + margin-auto
-如下，父元素 A 为相对定位，子元素 B 为绝对定位，设置 B 的 top、bottom 都为 0，并设置其 margin 为 auto 0 即可使子元素 B(高度固定)垂直居中。<img src="/images/11-6-position.png" width="500" />
+如下，父元素 A 为相对定位，子元素 B 为绝对定位，设置 B 的 top、bottom 都为 0，并设置其 margin 为 auto 0 即可使子元素 B(高度固定)垂直居中。<img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/11.css%E5%B1%85%E4%B8%AD%E6%96%B9%E6%B3%95/11-6-position.png" width="500" />
 A: position: relative;
 B: position: absolute; top: 0; bottom: 0; height: 50px; margin: auto 0;
 </li>
@@ -113,15 +113,26 @@ B: position: absolute; top: 0; bottom: 0; height: 50px; margin: auto 0;
 </li>
 <li><ol start="6">
 <li>vertical-align
-vertical-align 用于对齐行内元素(inline、inline-block、inline-table)，当父元素为 td、th 且高度固定时可以设置 vertical-align 为 middle 来垂直对齐子元素。<img src="/images/11-7-vertical-align.png" width="500" />
-结构: <div><table> <td> <th> <B /> </th> </td> </table><div>
+vertical-align 用于对齐行内元素(inline、inline-block、inline-table)，当父元素为 td、th 且高度固定时可以设置 vertical-align 为 middle 来垂直对齐子元素。<img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/11.css%E5%B1%85%E4%B8%AD%E6%96%B9%E6%B3%95/11-7-vertical-align.png" width="500" />
+结构:
+```
+<div>
+  <table>
+   <td>
+     <th>
+       <B />
+     </th>
+   </td>
+  </table>
+<div>
+```
 A(th): height: 70px; vertical-align: middle;
 </li>
 </ol>
 </li>
 <li><ol start="7">
 <li>inline-block + vertical-align
-父元素 A 添加伪元素，伪元素与父元素同高且为行内块级元素、居中对齐，子元素 B 设置为行内块级元素，居中对齐。<img src="/images/11-8-inline-block.png" width="500" />
+父元素 A 添加伪元素，伪元素与父元素同高且为行内块级元素、居中对齐，子元素 B 设置为行内块级元素，居中对齐。<img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/11.css%E5%B1%85%E4%B8%AD%E6%96%B9%E6%B3%95/11-8-inline-block.png" width="500" />
 A(div): &:after { content: ""; height: 100%; vertical-align: middle; display: inline-block; }
 B(div) : vertical-align: middle; display: inline-block;
 </li>
@@ -129,7 +140,7 @@ B(div) : vertical-align: middle; display: inline-block;
 </li>
 <li><ol start="8">
 <li>line-height
-对于单行文本，我们可以通过设置其 line-height 为父元素高度，使其垂直居中。<img src="/images/11-9-line-height.png" width="500" />
+对于单行文本，我们可以通过设置其 line-height 为父元素高度，使其垂直居中。<img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/11.css%E5%B1%85%E4%B8%AD%E6%96%B9%E6%B3%95/11-9-line-height.png" width="500" />
 A(div): height: 100px;
 B(span): line-height: 100px;
 </li>

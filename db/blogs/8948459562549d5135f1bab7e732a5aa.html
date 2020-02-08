@@ -1,15 +1,15 @@
-<h1>树的深度遍历与广度遍历</h1><div class="toc-article"><strong class="toc-title">Contents</strong><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本概念"><span class="toc-number">1.</span> <span class="toc-text">基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#树相关的术语"><span class="toc-number">2.</span> <span class="toc-text">树相关的术语</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#操作树"><span class="toc-number">3.</span> <span class="toc-text">操作树</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#节点"><span class="toc-number">3.1.</span> <span class="toc-text">节点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#树"><span class="toc-number">3.2.</span> <span class="toc-text">树</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#tree的方法"><span class="toc-number">3.3.</span> <span class="toc-text">Tree的方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#树的完整实现"><span class="toc-number">3.4.</span> <span class="toc-text">树的完整实现</span></a></li></ol></div></li></ol></div><h3 id="基本概念"><strong>基本概念</strong></h3>
-<p>树是一种数据结构，之所以称之为树是因为其结构类似于倒置的🌲，它的根在上，枝叶在下。树中一个最基本的数据称为节点(Node)，对应于🌲中的每一个分叉。树具有一个根节点(root)，根节点之下可能具有多个节点，节点间通过边(edge)相连，表示它们之间的关系。这种结构类似于Html文档，公司的组织结构...</p>
-<center>![树的结构示意图](https://i.imgur.com/C9MVN2F.png)</center>
+<h1>树的深度遍历与广度遍历</h1><div class="toc-article"><strong class="toc-title">Contents</strong><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本概念"><span class="toc-number">1.</span> <span class="toc-text">基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#树相关的术语"><span class="toc-number">2.</span> <span class="toc-text">树相关的术语</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#操作树"><span class="toc-number">3.</span> <span class="toc-text">操作树</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#节点"><span class="toc-number">3.1.</span> <span class="toc-text">节点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#树"><span class="toc-number">3.2.</span> <span class="toc-text">树</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#tree-的方法"><span class="toc-number">3.3.</span> <span class="toc-text">Tree 的方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#树的完整实现"><span class="toc-number">3.4.</span> <span class="toc-text">树的完整实现</span></a></li></ol></div></li></ol></div><h3 id="基本概念"><strong>基本概念</strong></h3>
+<p>树是一种数据结构，之所以称之为树是因为其结构类似于倒置的 🌲，它的根在上，枝叶在下。树中一个最基本的数据称为节点(Node)，对应于 🌲 中的每一个分叉。树具有一个根节点(root)，根节点之下可能具有多个节点，节点间通过边(edge)相连，表示它们之间的关系。这种结构类似于 Html 文档，公司的组织结构...</p>
+<img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/15.%E6%A0%91%E7%9A%84%E6%B7%B1%E5%BA%A6%E9%81%8D%E5%8E%86%E4%B8%8E%E5%B9%BF%E5%BA%A6%E9%81%8D%E5%8E%86/%E6%A0%91%E7%9A%84%E7%BB%93%E6%9E%84%E7%A4%BA%E6%84%8F%E5%9B%BE.png">
 <center>图1. 树的结构示意图 </center>
 
 <h3 id="树相关的术语"><strong>树相关的术语</strong></h3>
 <ul>
-<li>根结点: 树最顶层结点，也是树中唯一一个没有父节点的节点，如图1中的节点1。</li>
+<li>根结点: 树最顶层结点，也是树中唯一一个没有父节点的节点，如图 1 中的节点 1。</li>
 <li>边: 两个结点之间的连接。</li>
 <li>父结点: 一个节点有子节点则称这个节点是其子结点的父节点。</li>
-<li>兄弟结点: 具有相同父节点的节点互为兄弟节点，如图中的7、8、9。</li>
-<li>叶子结点: 树中没有子结点的结点(树得末端)，如图1中的6、7、8、9、10。</li>
+<li>兄弟结点: 具有相同父节点的节点互为兄弟节点，如图中的 7、8、9。</li>
+<li>叶子结点: 树中没有子结点的结点(树得末端)，如图 1 中的 6、7、8、9、10。</li>
 <li>层次: 节点的层次从根开始定义，根为第一层，根的子节点为第二层，依次类推</li>
 <li>深度: 树中结点的最大层次称为树的深度</li>
 </ul>
@@ -28,12 +28,12 @@
     this.children = [];
   }
 }</code></pre><h4 id="树">树</h4>
-<p>树有一个根节点root</p>
+<p>树有一个根节点 root</p>
 <pre><code>class Tree {
   constructor(data) {
     this._root = new Node(data);
   }
-}</code></pre><p>构造图1中的树</p>
+}</code></pre><p>构造图 1 中的树</p>
 <pre><code>  const tree = new Tree({ id: 1, value: 1 });
   const node2 = new Node({ id: 2, value: 2 });
   node2.parent = tree._root;
@@ -67,7 +67,7 @@
 
   const node10 = new Node({ id: 10, value: 10 })
   node10.parent = node5;
-  node5.children.push(node10);</code></pre><h4 id="tree的方法">Tree的方法</h4>
+  node5.children.push(node10);</code></pre><h4 id="tree-的方法">Tree 的方法</h4>
 <p>接下来我们将要创建以下五种方法。</p>
 <ul>
 <li><p>traverseDF(callback)</p>
@@ -81,11 +81,11 @@
 <li><p>remove(node, parent)</p>
 </li>
 </ul>
-<p><strong>方法1/5: traverseDF(callback)</strong>
-这种方法以深度优先遍历树，即尽可能深的遍历树的分支，再进行回溯。在这里通过递归和非递归的方式来实现。</p>
+<p><strong>方法 1/5: traverseDF(callback)</strong></p>
+<p>这种方法以深度优先遍历树，即尽可能深的遍历树的分支，再进行回溯。在这里通过递归和非递归的方式来实现。</p>
 <ul>
-<li><p>递归方法
-树本来就是一个递归结构，所以很容易想到用递归的方式来遍历树。对于图1中的树来说通过如下递归方法深度优先遍历的结果是: 7、8、9、4、2、10、5、6、3、1。当然，深度优先并不一定是这个顺序，深度优先，重在深度，在进行深度优先遍历的时候，如果一个节点还有子节点，会优先向更深的子节点进行搜索，而不是搜索同层的兄弟节点。</p>
+<li><p>递归方法</p>
+<p>树本来就是一个递归结构，所以很容易想到用递归的方式来遍历树。对于图 1 中的树来说通过如下递归方法深度优先遍历的结果是: 7、8、9、4、2、10、5、6、3、1。当然，深度优先并不一定是这个顺序，深度优先，重在深度，在进行深度优先遍历的时候，如果一个节点还有子节点，会优先向更深的子节点进行搜索，而不是搜索同层的兄弟节点。</p>
 <pre><code>  traverseDF(callback) {
     const recuseNode = (node) =&gt; {
       for (let i = 0; i &lt; node.children.length; i++) {
@@ -99,10 +99,8 @@
   tree.traverseDF((node) =&gt; {
     console.log(node.data.id); // 7 8 9 4 2 10 5 6 3 1
   });</code></pre></li>
-</ul>
-<ul>
-<li><p>非递归方法
-非递归方法主要是利用栈的特性来实现。对于图1中的树来说通过如下方法深度优先遍历的结果是: 1、2、4、7、8、9、3、5、10、6。</p>
+<li><p>非递归方法</p>
+<p>非递归方法主要是利用栈的特性来实现。对于图 1 中的树来说通过如下方法深度优先遍历的结果是: 1、2、4、7、8、9、3、5、10、6。</p>
 <pre><code>  traverseDFWithOutRecuse(callback) {
     let currentTree = this._root;
     let stack = [currentTree];
@@ -119,8 +117,8 @@
     console.log(node.data.id); // 1 2 4 7 8 9 3 5 10 6
   });</code></pre></li>
 </ul>
-<p><strong>方法2/5: traverseBF(callback)</strong></p>
-<p>这种方法以广度优先遍历树: 从根节点出发，对每一层节点依次访问，访问一层进入下一层，而且每个节点只能访问一次。对于图1中的树来说通过广度优先遍历的结果是: 1、2、3、4、5、6、7、8、9、10。</p>
+<p><strong>方法 2/5: traverseBF(callback)</strong></p>
+<p>这种方法以广度优先遍历树: 从根节点出发，对每一层节点依次访问，访问一层进入下一层，而且每个节点只能访问一次。对于图 1 中的树来说通过广度优先遍历的结果是: 1、2、3、4、5、6、7、8、9、10。</p>
 <pre><code>  class Queue {
     constructor() {
         this.dataStore = [];
@@ -145,18 +143,18 @@
       callback(currentTree);
       currentTree = queue.pop();
     }
-  }</code></pre><p><strong>方法3/5: contains(callback, traversalType)</strong>
-contains方法用于在树中搜索特定的值，它有两个参数，第一个为回调函数，每遍历到一个节点就会以该节点为回调参数回调，第二个为遍历的类型(深度遍历或广度遍历)</p>
+  }</code></pre><p><strong>方法 3/5: contains(callback, traversalType)</strong></p>
+<p>contains 方法用于在树中搜索特定的值，它有两个参数，第一个为回调函数，每遍历到一个节点就会以该节点为回调参数回调，第二个为遍历的类型(深度遍历或广度遍历)</p>
 <pre><code> contains(callback, traversalType) {
     const traverse = this[traversalType];
     traverse.call(this, callback);
   }
-</code></pre><p>搜索特定id的节点就可以这样写：</p>
+</code></pre><p>搜索特定 id 的节点就可以这样写：</p>
 <pre><code>tree.contains((node) =&gt; {
   if (node.id === &#39;5&#39;) {
     console.log(node);
   }
-}, &#39;traverseDF&#39;);</code></pre><p><strong>方法4/5: add(data, toId, traversalType)</strong></p>
+}, &#39;traverseDF&#39;);</code></pre><p><strong>方法 4/5: add(data, toId, traversalType)</strong></p>
 <p>该方法用于在指定节点添加节点。</p>
 <pre><code>  add(data, toId, traversalType) {
     let parent = null;
@@ -174,7 +172,7 @@ contains方法用于在树中搜索特定的值，它有两个参数，第一个
     } else {
       throw new Error(`can&#39;t find the target node`);
     }
-  }</code></pre><p><strong>方法5/5: remove(fromId, traversalType)</strong></p>
+  }</code></pre><p><strong>方法 5/5: remove(fromId, traversalType)</strong></p>
 <p>该方法用于在指定节点下的节点。</p>
 <pre><code>  remove(fromId, traversalType) {
     let parent = null;
