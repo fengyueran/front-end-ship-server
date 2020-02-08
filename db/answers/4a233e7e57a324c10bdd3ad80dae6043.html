@@ -1,61 +1,48 @@
 <ul>
-<li><p>深度优先遍历</p>
-<pre><code>//递归版
-var traverseDF = (node, cb) =&gt; {
-  cb(node.data);
-  if (node.children) {
-    for (let i = 0; i &lt; node.children.length; i++) {
-      traverseDF(node.children[i]);
-    }
+<li><p>插入排序算法
+一般来说，插入排序都采用 in-place 在数组上实现。
+基本思想:</p>
+<ul>
+<li>从第一个元素开始，该元素可以认为已经排好序</li>
+<li>从下一个元素开始，在已经排序的元素序列中，从后向前开始扫描</li>
+<li>如果该元素(已排序的元素)大于新元素，则将该元素向后移动</li>
+<li>重复步骤 3，直到找到已排序元素小于等于新元素的位置</li>
+<li>将新元素插入到该位置</li>
+<li>重复步骤 2-5</li>
+</ul>
+<pre><code>var insertionSort = arr =&gt; {
+let preIndex;
+let current;
+const n = arr.length;
+for (let i = 1; i &lt; n ; i++) {
+  preIndex = i - 1;
+  current = arr[i];
+  while (preIndex &gt;= 0 &amp;&amp; arr[preIndex] &gt; current) {
+    arr[preIndex + 1] = arr[preIndex];
+    preIndex--;
   }
-};
-
-//非递归版，利用栈的特性
-var traverseDF = (node, cb) =&gt; {
-  const stack = [node];
-  while (stack.length &gt; 0) {
-    const current = stack.pop();
-    cb(current.data);
-    if (current.children) {
-      for (let i = current.children.length - 1; i &gt; -1; i--) {
-        stack.push(current.children[i]);
-      }
-    }
-  }
-};
-
-traverseDF(data, value =&gt; {
-  console.log(value); //1、2、4、7、8、9、3、5、10、6
-});</code></pre></li>
-<li><p>广度优先遍历
-利用 queue 进行遍历。</p>
-<pre><code>function Queue() {
-  const nodes = [];
-  const add = node =&gt; {
-    nodes.push(node);
-  };
-  const pop = () =&gt; {
-    return nodes.shift();
-  };
-
-  return { add, pop };
+  arr[preIndex+1] = current;
 }
-var traverseBF = (node, cb) =&gt; {
-  const queue = Queue();
-  let _node = node;
-  while (_node) {
-    if (_node.children) {
-      for (let i = 0; i &lt; _node.children.length; i++) {
-        queue.add(_node.children[i]);
-      }
-    }
-    cb(_node.data);
-    _node = queue.pop();
-  }
+return arr;
 };
-
-traverseBF(data, value =&gt; {
-  console.log(value); // 1、2、3、4、5、6、7、8、9、10。
-});
-</code></pre></li>
+</code></pre><p>数组<code>[8,5,3,7,1]</code>用插入排序法过程如下：</p>
+<pre><code>8 5 3 7 1
+5 8 3 7 1
+3 5 8 7 1
+3 5 7 8 1
+1 3 5 7 8</code></pre><p><strong>时间复杂度计算</strong>
+如果目标是升序排列一个数组，那么存在最好和最坏的情况。最好的情况：如果数组已经是按升序排列，则只需要进行 n-1 次比较操作；最坏的情况：数组是按降序排列</p>
+<pre><code>如果数组是降序排列：
+当i=1时，运行次数T(1)= 1;
+当i=2时，运行次数T(2)= 2;
+当i=3时，运行次数T(3)= 3;
+...
+当i=n-1时，运行次数T(n-1)= n - 1;
+因此总的运行次数T(n) = 1 + 2 + 3 + ... + (n-2) + (n-1)
+                  =  0.5 * (n^2 - n)
+                  = O(n^2)
+</code></pre><p>平均来说插入排序算法复杂度为 O(n^2)，为<strong>稳定算法</strong>。
+<strong>空间复杂度</strong>
+由于该算法额外开辟的空间只有几个变量，因此其<strong>空间复杂度为 O(1)</strong>。</p>
+</li>
 </ul>

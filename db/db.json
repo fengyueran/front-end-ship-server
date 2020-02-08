@@ -66,7 +66,8 @@
       "d574ede79438b42be5074926723e5db3",
       "8d7f2e58b61948ea82fea6ba3c1ad91c",
       "e9bb67a562d2de609366efb6d6d83e3f",
-      "4a233e7e57a324c10bdd3ad80dae6043"
+      "4a233e7e57a324c10bdd3ad80dae6043",
+      "47553c4e5beb149dd715a43614e3cac2"
     ],
     "byId": {
       "f5838f1d65f228e08e8fdb013c7cf0d6": {
@@ -865,6 +866,20 @@
       "4a233e7e57a324c10bdd3ad80dae6043": {
         "id": "4a233e7e57a324c10bdd3ad80dae6043",
         "title": "插入排序算法排序",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "17416a508bc7181ce8da4a599dabc390",
+        "tags": [
+          "HTML"
+        ],
+        "type": "CODE",
+        "template": "const insertionSort = (arr) => {\n\n};\ninsertionSort([13,4,9,25, 10, 8, 11])",
+        "result": "[4,8,9,10,11,13,25]",
+        "date": "2018-01-15T18:10:20.000Z"
+      },
+      "47553c4e5beb149dd715a43614e3cac2": {
+        "id": "47553c4e5beb149dd715a43614e3cac2",
+        "title": "树的深度遍历和广度遍历",
         "exerciseTimes": 0,
         "passRate": "--",
         "md5": "c6349b3d73fac01dc92c783be1cb4317",

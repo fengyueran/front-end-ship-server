@@ -1,0 +1,61 @@
+<ul>
+<li><p>深度优先遍历</p>
+<pre><code>//递归版
+var traverseDF = (node, cb) =&gt; {
+  cb(node.data);
+  if (node.children) {
+    for (let i = 0; i &lt; node.children.length; i++) {
+      traverseDF(node.children[i]);
+    }
+  }
+};
+
+//非递归版，利用栈的特性
+var traverseDF = (node, cb) =&gt; {
+  const stack = [node];
+  while (stack.length &gt; 0) {
+    const current = stack.pop();
+    cb(current.data);
+    if (current.children) {
+      for (let i = current.children.length - 1; i &gt; -1; i--) {
+        stack.push(current.children[i]);
+      }
+    }
+  }
+};
+
+traverseDF(data, value =&gt; {
+  console.log(value); //1、2、4、7、8、9、3、5、10、6
+});</code></pre></li>
+<li><p>广度优先遍历
+利用 queue 进行遍历。</p>
+<pre><code>function Queue() {
+  const nodes = [];
+  const add = node =&gt; {
+    nodes.push(node);
+  };
+  const pop = () =&gt; {
+    return nodes.shift();
+  };
+
+  return { add, pop };
+}
+var traverseBF = (node, cb) =&gt; {
+  const queue = Queue();
+  let _node = node;
+  while (_node) {
+    if (_node.children) {
+      for (let i = 0; i &lt; _node.children.length; i++) {
+        queue.add(_node.children[i]);
+      }
+    }
+    cb(_node.data);
+    _node = queue.pop();
+  }
+};
+
+traverseBF(data, value =&gt; {
+  console.log(value); // 1、2、3、4、5、6、7、8、9、10。
+});
+</code></pre></li>
+</ul>
