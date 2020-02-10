@@ -64,7 +64,10 @@
       "a46602e904ac534176fa31fe48f606a0",
       "4c2dced5386432c406ecaf76957d854e",
       "d574ede79438b42be5074926723e5db3",
-      "8d7f2e58b61948ea82fea6ba3c1ad91c"
+      "8d7f2e58b61948ea82fea6ba3c1ad91c",
+      "e9bb67a562d2de609366efb6d6d83e3f",
+      "4a233e7e57a324c10bdd3ad80dae6043",
+      "47553c4e5beb149dd715a43614e3cac2"
     ],
     "byId": {
       "f5838f1d65f228e08e8fdb013c7cf0d6": {
@@ -96,7 +99,7 @@
         "title": "Cookie, SessionStorage 与 LocalStorage 区别",
         "exerciseTimes": 0,
         "passRate": "--",
-        "md5": "a8977a466f6f1e176bba71ced5b13e66",
+        "md5": "9c0781b712e01541c82bcf3cec5a9dbe",
         "tags": [
           "HTML"
         ],
@@ -108,7 +111,7 @@
         "title": "cookie、session 分别用来做什么的，有什么关系",
         "exerciseTimes": 0,
         "passRate": "--",
-        "md5": "e607fb09bad2a0c585dc96d8e3820245",
+        "md5": "183d70cf3ff8465c0f09ef4d94ed701c",
         "tags": [
           "HTML"
         ],
@@ -349,7 +352,7 @@
         "title": "JS 模块化分哪些阶段",
         "exerciseTimes": 0,
         "passRate": "--",
-        "md5": "9fce9646059623b3415a77300810e2b8",
+        "md5": "142573c6f466524a4e3adf8998129621",
         "tags": [
           "JavaScript"
         ],
@@ -592,7 +595,7 @@
         "title": "常用的跨域解决方案",
         "exerciseTimes": 0,
         "passRate": "--",
-        "md5": "3c0add38212964e9db9dd201d32809c9",
+        "md5": "aa20f819e4d93d5b60131264ffc74961",
         "tags": [
           "HTML"
         ],
@@ -767,7 +770,7 @@
         "title": "选择排序算法排序",
         "exerciseTimes": 0,
         "passRate": "--",
-        "md5": "5633485d988cccd5b03df5beee182a36",
+        "md5": "b68980574c8e836783d2c8b42ef587fe",
         "tags": [
           "HTML"
         ],
@@ -793,7 +796,7 @@
         "title": "谈谈React的diff算法",
         "exerciseTimes": 0,
         "passRate": "--",
-        "md5": "966e0a24aae3d586444fdb0a8e5e1897",
+        "md5": "e43611b7fe9f6f3aa3ba6bb17fc80494",
         "tags": [
           "HTML"
         ],
@@ -829,7 +832,7 @@
         "title": "谈谈react事件机制",
         "exerciseTimes": 0,
         "passRate": "--",
-        "md5": "4f9f9beaf86e39cbcdbbf314a7eb1a13",
+        "md5": "a91760ec684f269b65901f42464cbd8b",
         "tags": [
           "HTML"
         ],
@@ -847,6 +850,46 @@
         ],
         "type": "SHORT_ANSWER",
         "date": "2018-08-06T18:10:20.000Z"
+      },
+      "e9bb67a562d2de609366efb6d6d83e3f": {
+        "id": "e9bb67a562d2de609366efb6d6d83e3f",
+        "title": "js继承的几种方式",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "d427708a25a74257b47ed7a955c32a20",
+        "tags": [
+          "JavaScript"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2018-08-06T18:10:20.000Z"
+      },
+      "4a233e7e57a324c10bdd3ad80dae6043": {
+        "id": "4a233e7e57a324c10bdd3ad80dae6043",
+        "title": "插入排序算法排序",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "17416a508bc7181ce8da4a599dabc390",
+        "tags": [
+          "HTML"
+        ],
+        "type": "CODE",
+        "template": "const insertionSort = (arr) => {\n\n};\ninsertionSort([13,4,9,25, 10, 8, 11])",
+        "result": "[4,8,9,10,11,13,25]",
+        "date": "2018-01-15T18:10:20.000Z"
+      },
+      "47553c4e5beb149dd715a43614e3cac2": {
+        "id": "47553c4e5beb149dd715a43614e3cac2",
+        "title": "树的深度遍历和广度遍历",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "c6349b3d73fac01dc92c783be1cb4317",
+        "tags": [
+          "HTML"
+        ],
+        "type": "CODE",
+        "template": "const data = const data = { data: 1, children: [ { data: 2, children: [ { data: 4, children: [{ data: 7 }, { data: 8 }, { data: 9 }] } ] }, { data: 3, children: [ { data: 5, children: [ { data: 10 } ] }, { data: 6 } ] } ] }; var search = (arr) => {\n\n};\nsearch(data)",
+        "result": "",
+        "date": "2018-01-15T18:10:20.000Z"
       }
     }
   },

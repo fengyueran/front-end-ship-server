@@ -69,7 +69,7 @@
 <ul>
 <li><p>客户端 Ajax 请求</p>
 <pre><code>var xhr = new XMLHttpRequest();
-// 前端设置是否带cookie
+// 前端设置是否带cookie(ajax会自动带上同源的cookie，不会带上不同源的cookie)
 xhr.withCredentials = true;
 
 xhr.open(&#39;post&#39;, &#39;http://www.domain2.com:8000/test&#39;, true);

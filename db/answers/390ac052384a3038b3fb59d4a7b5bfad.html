@@ -8,10 +8,10 @@
 </ul>
 <pre><code>var selectionSort = arr =&gt; {
   let tmp;
-  const len = arr.length;
-  for (let i = 0; i &lt; len - 1; i++) {
+  const n = arr.length;
+  for (let i = 0; i &lt; n - 1; i++) {
     let minIndex = i;
-    for (let j = i + 1; j &lt; len; j++) {
+    for (let j = i + 1; j &lt; n; j++) {
       if (arr[j] &lt; arr[minIndex]) {
         minIndex = j;
       }
@@ -21,5 +21,16 @@
     arr[minIndex] = tmp;
   }
   return arr;
-};</code></pre></li>
+};</code></pre><p><strong>时间复杂度计算:</strong></p>
+<pre><code>当i=0时，运行次数T(0)= n - 1;
+当i=1时，运行次数T(1)= n - 2;
+...
+当i=n-2时，运行次数T(n-2)= 1;
+因此总的运行次数T(n) = (n-1) + (n-2) + ...+ 1
+                  =  0.5 * (n^2 - n)
+                  = O(n^2)</code></pre><p>因此，选择排序的时间复杂度为 O(n^2)。此外选择排序是一种<strong>不稳定</strong>的排序方法，如下：
+对下列数字进行排序时，第一次迭代会将首位的 3 和 1 交换，首位的 3 和中间的 3 相对位置就发生变化了。</p>
+<pre><code>3 2 3 1 5</code></pre><p><strong>空间复杂度</strong>
+由于该算法额外开辟的空间只有 tmp、n 两个变量，所有其<strong>空间复杂度为 O(1)</strong>。</p>
+</li>
 </ul>
