@@ -1,0 +1,46 @@
+<ul>
+<li><p>希尔排序算法</p>
+<p>将整个序列分成若干个子序列分别进行直接插入排序。
+基本思想:</p>
+<ul>
+<li><p>先取一个小于数组长度 n 的整数 d1 作为第一个增量，根据这个增量将整个序列分组，所有距离为 d1 倍数的元素为一组
+如果以步长为 3 开始进行排序，可以通过将序列放在有 3 列的表中来更好地描述算法，这样他们就应该看起来是这样：</p>
+<pre><code>9   3   13
+35  25  1
+10  27  51
+4</code></pre></li>
+<li><p>在各组进行插入排序
+即对每列进行排序：</p>
+<pre><code>4   3   1
+9   25  13
+10  27  51
+35</code></pre></li>
+<li><p>取第二个增量 d2&lt; d1 重复上述的分组和排序</p>
+</li>
+<li><p>直到增量为 1，即所有元素放在同一组中进行直接插入排序为止。</p>
+</li>
+</ul>
+<p>一般的初次取序列的一半为增量，以后每次减半，直到增量为 1。</p>
+<pre><code>// 对于数组[9, 3, 13, 35, 25, 1, 10, 27, 51, 4]，增量取5、2、1
+const shellSort = arr =&gt; {
+  const len = arr.length;
+  for (let gap = Math.floor(len / 2); gap &gt; 0; gap = Math.floor(gap / 2)) {
+    for (let i = gap; i &lt; len; i++) {
+      let j = i;
+      const current = arr[i];
+      while (j - gap &gt;= 0 &amp;&amp; current &lt; arr[j - gap]) {
+        arr[j] = arr[j - gap];
+        j = j - gap;
+      }
+      arr[j] = current;
+      console.log(&quot;00000&quot;, arr);
+    }
+  }
+  return arr;
+};</code></pre><p>排序过程大致如下：</p>
+  <center><img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/%E9%A2%98%E5%BA%93/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F.png" /></center>
+<center>希尔排序示意图</center>
+
+</li>
+</ul>
+<p>希尔排序为<strong>非稳定算法</strong>，其最坏的时间复杂度为 O(n^2)，经过优化的希尔排序最坏情形运行时间为 O(n^1.3)。</p>

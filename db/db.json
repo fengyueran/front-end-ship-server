@@ -67,7 +67,8 @@
       "8d7f2e58b61948ea82fea6ba3c1ad91c",
       "e9bb67a562d2de609366efb6d6d83e3f",
       "4a233e7e57a324c10bdd3ad80dae6043",
-      "47553c4e5beb149dd715a43614e3cac2"
+      "47553c4e5beb149dd715a43614e3cac2",
+      "21af72ad5e6ef92478798809e779bb6e"
     ],
     "byId": {
       "f5838f1d65f228e08e8fdb013c7cf0d6": {
@@ -733,12 +734,14 @@
         "title": "编写一个函数实现form表单的序列化",
         "exerciseTimes": 0,
         "passRate": "--",
-        "md5": "5c0455d00935c7289a4a0065683d661b",
+        "md5": "21e39fe27e0c923e108180e278993e0f",
         "tags": [
-          "JavaScript"
+          "1JavaScript"
         ],
         "type": "CODE",
-        "date": "2018-05-06T18:10:20.000Z"
+        "date": "2018-05-06T18:10:20.000Z",
+        "template": "const form = document.getElementById('target');\nconst serialize = (form)=> {\n}",
+        "result": "[4,8,9,10,11,13,25]"
       },
       "4da48b7078a101cfbb83bc13dc30b0b1": {
         "id": "4da48b7078a101cfbb83bc13dc30b0b1",
@@ -890,6 +893,20 @@
         "template": "const data = const data = { data: 1, children: [ { data: 2, children: [ { data: 4, children: [{ data: 7 }, { data: 8 }, { data: 9 }] } ] }, { data: 3, children: [ { data: 5, children: [ { data: 10 } ] }, { data: 6 } ] } ] }; var search = (arr) => {\n\n};\nsearch(data)",
         "result": "",
         "date": "2018-01-15T18:10:20.000Z"
+      },
+      "21af72ad5e6ef92478798809e779bb6e": {
+        "id": "21af72ad5e6ef92478798809e779bb6e",
+        "title": "希尔排序算法排序",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "559d6af6da970c251c44407e68144238",
+        "tags": [
+          "HTML"
+        ],
+        "type": "CODE",
+        "template": "const insertionSort = (arr) => {\n\n};\nshellSort([9, 3, 13, 35, 25, 1, 10, 27, 51, 4])",
+        "result": "[1, 3, 4, 9, 10, 13, 25, 27, 35, 51]",
+        "date": "2018-01-15T18:10:20.000Z"
       }
     }
   },
@@ -949,7 +966,7 @@
         "id": "a7501d0f4b5b396d2a09a808ea968fae",
         "title": "Git常用命令",
         "date": "2016-06-24T23:30:09.000Z",
-        "md5": "b2ba8ed748b13d4e7cc6e684fe64b9b3",
+        "md5": "d6668c50b1e6e1f93395699d1bb5b824",
         "tags": [
           "Git"
         ],
@@ -1053,7 +1070,7 @@
         "id": "7b40cf51fed7aefdac9db9d83af13d96",
         "title": "nginx基本配置及常用命令",
         "date": "2017-10-11T18:10:20.000Z",
-        "md5": "8efccc1a4cc14b42254db94c19ed6dfd",
+        "md5": "333c6f738fa82c0d93b03d8faa379633",
         "tags": [
           "server"
         ],
