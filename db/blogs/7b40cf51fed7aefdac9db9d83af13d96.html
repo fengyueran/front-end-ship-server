@@ -59,6 +59,7 @@ http {
        location / {
           root /root/www; #静态资源根目录
           index index.html;
+          try_files $uri $uri/ /index.html;
        }
        location /fancybook {
           alias /root/www/fancybook;

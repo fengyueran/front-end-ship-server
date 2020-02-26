@@ -67,7 +67,8 @@
       "8d7f2e58b61948ea82fea6ba3c1ad91c",
       "e9bb67a562d2de609366efb6d6d83e3f",
       "4a233e7e57a324c10bdd3ad80dae6043",
-      "47553c4e5beb149dd715a43614e3cac2"
+      "47553c4e5beb149dd715a43614e3cac2",
+      "21af72ad5e6ef92478798809e779bb6e"
     ],
     "byId": {
       "f5838f1d65f228e08e8fdb013c7cf0d6": {
@@ -733,12 +734,14 @@
         "title": "编写一个函数实现form表单的序列化",
         "exerciseTimes": 0,
         "passRate": "--",
-        "md5": "5c0455d00935c7289a4a0065683d661b",
+        "md5": "21e39fe27e0c923e108180e278993e0f",
         "tags": [
-          "JavaScript"
+          "1JavaScript"
         ],
         "type": "CODE",
-        "date": "2018-05-06T18:10:20.000Z"
+        "date": "2018-05-06T18:10:20.000Z",
+        "template": "const form = document.getElementById('target');\nconst serialize = (form)=> {\n}",
+        "result": "[4,8,9,10,11,13,25]"
       },
       "4da48b7078a101cfbb83bc13dc30b0b1": {
         "id": "4da48b7078a101cfbb83bc13dc30b0b1",
@@ -890,12 +893,34 @@
         "template": "const data = const data = { data: 1, children: [ { data: 2, children: [ { data: 4, children: [{ data: 7 }, { data: 8 }, { data: 9 }] } ] }, { data: 3, children: [ { data: 5, children: [ { data: 10 } ] }, { data: 6 } ] } ] }; var search = (arr) => {\n\n};\nsearch(data)",
         "result": "",
         "date": "2018-01-15T18:10:20.000Z"
+      },
+      "21af72ad5e6ef92478798809e779bb6e": {
+        "id": "21af72ad5e6ef92478798809e779bb6e",
+        "title": "希尔排序算法排序",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "559d6af6da970c251c44407e68144238",
+        "tags": [
+          "HTML"
+        ],
+        "type": "CODE",
+        "template": "const insertionSort = (arr) => {\n\n};\nshellSort([9, 3, 13, 35, 25, 1, 10, 27, 51, 4])",
+        "result": "[1, 3, 4, 9, 10, 13, 25, 27, 35, 51]",
+        "date": "2018-01-15T18:10:20.000Z"
       }
     }
   },
   "blogs": {
     "allIds": [
       "c160eb5149ef727dcf5b15a4d1c75f40",
+      "a7501d0f4b5b396d2a09a808ea968fae",
+      "9938142b92dc985b2f5f77251c8657ee",
+      "e24789e50b3862ca5294d69d32e569bb",
+      "9df1f554a5ba9aa84425755e80d24e80",
+      "2e576047ae509e55d8e86f36d730caf4",
+      "a45e8ab830b57f9b8303f978243d2e51",
+      "ad912ce89d686de9e39125b80882bad2",
+      "c604902cf4c0cb07994448c3d1414b4f",
       "7b40cf51fed7aefdac9db9d83af13d96",
       "d6a0595ea99d139e76b77ef50aed4a0e",
       "536f21741dad1d76f15a255a6f6d7e2c",
@@ -906,7 +931,6 @@
       "cf018c9eb83459361c46b3edc2cf50dc",
       "18d6bb27e7eaafbc91feac00c6255051",
       "021719ae29bb0f07e09d9ffdd14d8ad9",
-      "a7501d0f4b5b396d2a09a808ea968fae",
       "a4b6d641f7fdac857ac8c7491d262db8",
       "98f04014560181df930e249d2f11bd5d",
       "978bcd19684676ff44d780a0368523b6",
@@ -917,19 +941,12 @@
       "7e67fbca135d564d8f83b6ee7db38367",
       "ae46e8d96d55b91b296dff6a5579cf3f",
       "fb68956a285c4ca667ce0547d72b7d95",
-      "9938142b92dc985b2f5f77251c8657ee",
       "959a6055bf69b2c1ddc4ac0f250cd76e",
       "b62338f210c516f1d18a4cfe79c97165",
       "c419f78556365e5527c865418e28f532",
       "6e52edd4121b63ee37c781ec3528b6b3",
       "9bbf1415a6a3f1dd4b01c337096cd05d",
-      "a24a17ac834a19bf700c1ac8897073c2",
-      "e24789e50b3862ca5294d69d32e569bb",
-      "9df1f554a5ba9aa84425755e80d24e80",
-      "2e576047ae509e55d8e86f36d730caf4",
-      "a45e8ab830b57f9b8303f978243d2e51",
-      "ad912ce89d686de9e39125b80882bad2",
-      "c604902cf4c0cb07994448c3d1414b4f"
+      "a24a17ac834a19bf700c1ac8897073c2"
     ],
     "byId": {
       "c160eb5149ef727dcf5b15a4d1c75f40": {
@@ -945,11 +962,115 @@
         "tagline": "Supporting tagline",
         "description": "前端题集"
       },
+      "a7501d0f4b5b396d2a09a808ea968fae": {
+        "id": "a7501d0f4b5b396d2a09a808ea968fae",
+        "title": "Git常用命令",
+        "date": "2016-06-24T23:30:09.000Z",
+        "md5": "d6668c50b1e6e1f93395699d1bb5b824",
+        "tags": [
+          "Git"
+        ],
+        "category": "Git",
+        "layout": "post",
+        "tagline": "Supporting tagline",
+        "description": "Git作为一种流行的版本管理系统已经广泛应用于我们的日常开发中，它的命令很多，为了减少后续查询的时间，在这里记录下一些常见的命令。"
+      },
+      "9938142b92dc985b2f5f77251c8657ee": {
+        "id": "9938142b92dc985b2f5f77251c8657ee",
+        "title": "React最佳实践",
+        "date": "2017-06-20T20:10:07.000Z",
+        "md5": "cfa60b8f72e839d912da2dd3ae104161",
+        "tags": [
+          "react"
+        ],
+        "category": "react",
+        "layout": "post",
+        "tagline": "Supporting tagline",
+        "description": "在React应用的开发中遵循一定的基本准则，能使代码更加友好，提高代码质量。"
+      },
+      "e24789e50b3862ca5294d69d32e569bb": {
+        "id": "e24789e50b3862ca5294d69d32e569bb",
+        "title": "JS常用方法",
+        "date": "2016-06-05T18:10:20.000Z",
+        "md5": "c3b4ea6e78413026cc1110ccaaf7e95b",
+        "tags": [
+          "js"
+        ],
+        "category": "js",
+        "layout": "post",
+        "tagline": "Supporting tagline",
+        "description": "js中方法很多，在这里记录下自己容易忘记的一些较为重要的方法和技巧"
+      },
+      "9df1f554a5ba9aa84425755e80d24e80": {
+        "id": "9df1f554a5ba9aa84425755e80d24e80",
+        "title": "伪类与伪元素的区别",
+        "date": "2017-06-20T20:10:07.000Z",
+        "md5": "591f6472a657e5babeebea2855ea88d8",
+        "tags": [
+          "html"
+        ],
+        "category": "html",
+        "layout": "post",
+        "tagline": "Supporting tagline",
+        "description": "伪类与伪元素，一直傻傻分不清楚。"
+      },
+      "2e576047ae509e55d8e86f36d730caf4": {
+        "id": "2e576047ae509e55d8e86f36d730caf4",
+        "title": "正则表达式",
+        "date": "2017-02-25T20:10:00.000Z",
+        "md5": "34fb996f83c1e61da66049d7116f1481",
+        "tags": [
+          "JS"
+        ],
+        "category": "JS",
+        "layout": "post",
+        "tagline": "Supporting tagline",
+        "description": "正则表达式，对于前端同学的我来说用得不多，也就一直没去研究，当需要写正则时候就是一头雾水，包括配置webpack,jest等。于是在这里整理了一些JavaScritpt正则相关的内容，以此对正则表达式有一个基本的认识并能够运用正则处理日常需求。"
+      },
+      "a45e8ab830b57f9b8303f978243d2e51": {
+        "id": "a45e8ab830b57f9b8303f978243d2e51",
+        "title": "JavaScript中的this",
+        "date": "2016-01-02T16:17:25.000Z",
+        "md5": "597b3f260968ebbe2533ee01fe9303e5",
+        "tags": [
+          "js"
+        ],
+        "category": "js",
+        "layout": "post",
+        "tagline": "Supporting tagline",
+        "description": "在JavaScript中并没有OOP编程的概念，我们谈到的this不同于一些OOP编程里指向的实例化对象，它指的是运行时的上下文。所谓上下文，就是运行时所在的环境对象，比如你在公司，可能你的领导是你的部门经理，在家就是你媳妇儿一样，不同的场合上下文是不一样的。"
+      },
+      "ad912ce89d686de9e39125b80882bad2": {
+        "id": "ad912ce89d686de9e39125b80882bad2",
+        "title": "css选择器",
+        "date": "2016-05-05T18:10:20.000Z",
+        "md5": "f45a03c8457135d8691e381e12d592b4",
+        "tags": [
+          "css"
+        ],
+        "category": "css",
+        "layout": "post",
+        "tagline": "Supporting tagline",
+        "description": "css选择器用法较多，不常用的选择器容易遗忘，于是在这里整理出css选择器的基本用法，以备查用。"
+      },
+      "c604902cf4c0cb07994448c3d1414b4f": {
+        "id": "c604902cf4c0cb07994448c3d1414b4f",
+        "title": "AJAX是什么",
+        "date": "2016-01-01T18:10:20.000Z",
+        "md5": "fcb0d360999450edab88ce825050afd0",
+        "tags": [
+          "network"
+        ],
+        "category": "network",
+        "layout": "post",
+        "tagline": "Supporting tagline",
+        "description": "前端的同学在日常编程中应该对网络请求得心应手，什么get请求、post请求第三方库api一调用得溜溜的，其实这些库基本都是封装的ajax请求，那什么是ajax呢？"
+      },
       "7b40cf51fed7aefdac9db9d83af13d96": {
         "id": "7b40cf51fed7aefdac9db9d83af13d96",
         "title": "nginx基本配置及常用命令",
         "date": "2017-10-11T18:10:20.000Z",
-        "md5": "8efccc1a4cc14b42254db94c19ed6dfd",
+        "md5": "333c6f738fa82c0d93b03d8faa379633",
         "tags": [
           "server"
         ],
@@ -962,7 +1083,11 @@
         "id": "d6a0595ea99d139e76b77ef50aed4a0e",
         "title": "css居中方法",
         "date": "2016-10-10T18:10:20.000Z",
+<<<<<<< HEAD
         "md5": "164352c205b2a48e45f405d80dfac634",
+=======
+        "md5": "e53f89a70603fc99bea958ebb12daa19",
+>>>>>>> 31ec4dc31eaaec741b04fb5a5e71221189ded040
         "tags": [
           "css"
         ],
@@ -1014,7 +1139,7 @@
         "id": "8948459562549d5135f1bab7e732a5aa",
         "title": "树的深度遍历与广度遍历",
         "date": "2017-06-27T02:11:08.000Z",
-        "md5": "42539c07966be5b6cdda9394b003010f",
+        "md5": "f7b1260aaf75168f02b763f05759815c",
         "tags": [
           "js"
         ],
@@ -1074,19 +1199,6 @@
         "layout": "post",
         "tagline": "Supporting tagline",
         "description": "最近在做一个上传的客户端，上传的部分由后端同学以SDK的方式提供，因此该SDK是在一个独立的仓库，那么对于客户端该如何方便的集成该SDK呢？这就可以考虑用git的submodule。"
-      },
-      "a7501d0f4b5b396d2a09a808ea968fae": {
-        "id": "a7501d0f4b5b396d2a09a808ea968fae",
-        "title": "Git常用命令",
-        "date": "2016-06-24T23:30:09.000Z",
-        "md5": "b2ba8ed748b13d4e7cc6e684fe64b9b3",
-        "tags": [
-          "Git"
-        ],
-        "category": "Git",
-        "layout": "post",
-        "tagline": "Supporting tagline",
-        "description": "Git作为一种流行的版本管理系统已经广泛应用于我们的日常开发中，它的命令很多，为了减少后续查询的时间，在这里记录下一些常见的命令。"
       },
       "a4b6d641f7fdac857ac8c7491d262db8": {
         "id": "a4b6d641f7fdac857ac8c7491d262db8",
@@ -1218,19 +1330,6 @@
         "tagline": "Supporting tagline",
         "description": null
       },
-      "9938142b92dc985b2f5f77251c8657ee": {
-        "id": "9938142b92dc985b2f5f77251c8657ee",
-        "title": "React最佳实践",
-        "date": "2017-06-20T20:10:07.000Z",
-        "md5": "cfa60b8f72e839d912da2dd3ae104161",
-        "tags": [
-          "react"
-        ],
-        "category": "react",
-        "layout": "post",
-        "tagline": "Supporting tagline",
-        "description": "在React应用的开发中遵循一定的基本准则，能使代码更加友好，提高代码质量。"
-      },
       "959a6055bf69b2c1ddc4ac0f250cd76e": {
         "id": "959a6055bf69b2c1ddc4ac0f250cd76e",
         "title": "CSS与JS对DOM的阻塞行为",
@@ -1261,7 +1360,7 @@
         "id": "c419f78556365e5527c865418e28f532",
         "title": "常用排序算法",
         "date": "2016-06-05T18:10:20.000Z",
-        "md5": "12fdb12019118e77566c722c74befa33",
+        "md5": "a226692e4c4d43f10b9ab7c1e21bc435",
         "tags": [
           "js"
         ],
@@ -1308,84 +1407,6 @@
         "layout": "post",
         "tagline": "Supporting tagline",
         "description": null
-      },
-      "e24789e50b3862ca5294d69d32e569bb": {
-        "id": "e24789e50b3862ca5294d69d32e569bb",
-        "title": "JS常用方法",
-        "date": "2016-06-05T18:10:20.000Z",
-        "md5": "a550fc7a168c8cf991dd98604d16f883",
-        "tags": [
-          "js"
-        ],
-        "category": "js",
-        "layout": "post",
-        "tagline": "Supporting tagline",
-        "description": "js中方法很多，在这里记录下自己容易忘记的一些较为重要的方法和技巧"
-      },
-      "9df1f554a5ba9aa84425755e80d24e80": {
-        "id": "9df1f554a5ba9aa84425755e80d24e80",
-        "title": "伪类与伪元素的区别",
-        "date": "2017-06-20T20:10:07.000Z",
-        "md5": "591f6472a657e5babeebea2855ea88d8",
-        "tags": [
-          "html"
-        ],
-        "category": "html",
-        "layout": "post",
-        "tagline": "Supporting tagline",
-        "description": "伪类与伪元素，一直傻傻分不清楚。"
-      },
-      "2e576047ae509e55d8e86f36d730caf4": {
-        "id": "2e576047ae509e55d8e86f36d730caf4",
-        "title": "正则表达式",
-        "date": "2017-02-25T20:10:00.000Z",
-        "md5": "34fb996f83c1e61da66049d7116f1481",
-        "tags": [
-          "JS"
-        ],
-        "category": "JS",
-        "layout": "post",
-        "tagline": "Supporting tagline",
-        "description": "正则表达式，对于前端同学的我来说用得不多，也就一直没去研究，当需要写正则时候就是一头雾水，包括配置webpack,jest等。于是在这里整理了一些JavaScritpt正则相关的内容，以此对正则表达式有一个基本的认识并能够运用正则处理日常需求。"
-      },
-      "a45e8ab830b57f9b8303f978243d2e51": {
-        "id": "a45e8ab830b57f9b8303f978243d2e51",
-        "title": "JavaScript中的this",
-        "date": "2016-01-02T16:17:25.000Z",
-        "md5": "597b3f260968ebbe2533ee01fe9303e5",
-        "tags": [
-          "js"
-        ],
-        "category": "js",
-        "layout": "post",
-        "tagline": "Supporting tagline",
-        "description": "在JavaScript中并没有OOP编程的概念，我们谈到的this不同于一些OOP编程里指向的实例化对象，它指的是运行时的上下文。所谓上下文，就是运行时所在的环境对象，比如你在公司，可能你的领导是你的部门经理，在家就是你媳妇儿一样，不同的场合上下文是不一样的。"
-      },
-      "ad912ce89d686de9e39125b80882bad2": {
-        "id": "ad912ce89d686de9e39125b80882bad2",
-        "title": "css选择器",
-        "date": "2016-05-05T18:10:20.000Z",
-        "md5": "f45a03c8457135d8691e381e12d592b4",
-        "tags": [
-          "css"
-        ],
-        "category": "css",
-        "layout": "post",
-        "tagline": "Supporting tagline",
-        "description": "css选择器用法较多，不常用的选择器容易遗忘，于是在这里整理出css选择器的基本用法，以备查用。"
-      },
-      "c604902cf4c0cb07994448c3d1414b4f": {
-        "id": "c604902cf4c0cb07994448c3d1414b4f",
-        "title": "AJAX是什么",
-        "date": "2016-01-01T18:10:20.000Z",
-        "md5": "fcb0d360999450edab88ce825050afd0",
-        "tags": [
-          "network"
-        ],
-        "category": "network",
-        "layout": "post",
-        "tagline": "Supporting tagline",
-        "description": "前端的同学在日常编程中应该对网络请求得心应手，什么get请求、post请求第三方库api一调用得溜溜的，其实这些库基本都是封装的ajax请求，那什么是ajax呢？"
       }
     }
   },
