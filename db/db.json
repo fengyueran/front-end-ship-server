@@ -674,7 +674,7 @@
         "title": "移动开发中使用 rem 的优缺点",
         "exerciseTimes": 0,
         "passRate": "--",
-        "md5": "4d0b49cfd4415b54656923ba8b6ac987",
+        "md5": "2f7e44f30a71e68f295b9ac101bb119a",
         "tags": [
           "CSS"
         ],
@@ -1083,7 +1083,11 @@
         "id": "d6a0595ea99d139e76b77ef50aed4a0e",
         "title": "css居中方法",
         "date": "2016-10-10T18:10:20.000Z",
+<<<<<<< HEAD
+        "md5": "164352c205b2a48e45f405d80dfac634",
+=======
         "md5": "e53f89a70603fc99bea958ebb12daa19",
+>>>>>>> 31ec4dc31eaaec741b04fb5a5e71221189ded040
         "tags": [
           "css"
         ],
