@@ -1,0 +1,33 @@
+<h1>JavaScript的执行机制</h1><div class="toc-article"><strong class="toc-title">Contents</strong><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本概念"><span class="toc-number">1.</span> <span class="toc-text">基本概念</span></a></li></ol></div><p>记得曾经看到过这样一道面试题：</p>
+<p>console 的输出顺序是什么？</p>
+<pre><code>setTimeout(() =&gt; {
+  console.log(&quot;1111&quot;);
+}, 0);
+
+console.log(&quot;2222&quot;);
+
+new Promise((resolve, reject) =&gt; {
+  console.log(&quot;3333&quot;);
+  resolve()
+}).then(() =&gt; {
+  console.log(&quot;4444&quot;);
+});</code></pre><p>想要判断 console 的输出顺序，必须了解 JavaScript 的执行机制，不然只能靠感觉去猜，陷入深深的迷茫中 😇😇😇...</p>
+<h3 id="基本概念">基本概念</h3>
+<ul>
+<li><p>调用栈(Call Stack)</p>
+<p>栈是一种数据结构，按照先进后出的原则存储数据，先进入的数据被压入栈底，后进入的数据在栈顶，就像我们叠盘子一样。调用栈就是用栈的特性来管理函数的调用。当函数调用时就压入栈底，执行完后弹出。</p>
+</li>
+<li><p>事件表(Event Table)</p>
+<p>异步操作的事件像 setTimeout、Promise 等都会先加入到 Event Table，它是一个特殊的数据结构，可以知道在特定的事件完成后触发特定的函数，比如 timeout、click 事件，就将回调函数加入到 Event Queue。</p>
+</li>
+<li><p>事件队列(Event Queue)</p>
+<p>队列也是一种数据结构，按照先进先出的原则存储数据，先进入的数据进入对首，后进入的数据进入对尾，就像超市排队结账一样。事件队列就是用队列的特性来管理函数的调用。它接收来自 Event Table 的回调函数，但是并不执行，需要通过某种机制将函数加入到调用栈，这个机制就是事件循环(Event Loop)。</p>
+</li>
+<li><p>同步任务</p>
+<p>前一个任务执行完后才能去执行下一个任务，程序的执行顺序和任务的排列顺序是一致的，比如煮面的同步做法，我们要先烧水，等 5 分钟后水开了，备菜，再煮面。在 js 中，同步任务(如渲染元素)在主线程中执行，且立即执行。</p>
+</li>
+<li><p>异步任务</p>
+<p>一个任务比较耗时，其他任务不用等到这个耗时任务完成后再执行，这个耗时任务就是异步任务。煮面的异步做法就是不等水开就去备菜，再煮面。js 中的异步任务(如加载图片)不进入主线程，而是先加入 Event Table，特定事件触发后将回调函数加入 Event Queue，最后加入到调用栈执行。</p>
+</li>
+</ul>
+<p>众所周知 JavaScript 是一门<strong>单线程语言</strong>，也就意味着同一时间只能完成一个任务。为了防止一些耗时的任务(如加载图片、ajax 请求)影响我们的体验，就需要一种机制去调度任务，这个机制就是 event loop(事件循环)。</p>

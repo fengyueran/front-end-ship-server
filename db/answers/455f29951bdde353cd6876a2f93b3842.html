@@ -1,0 +1,105 @@
+<ul>
+<li><p>深度优先遍历</p>
+<pre><code>//递归版
+var deepCopyDFS = (origin, visitedItem = new Map()) =&gt; {
+  const type = getType(origin);
+  const isObject = isType(type, TYPE.OBJECT);
+  const isArray = isType(type, TYPE.ARRAY);
+  let target;
+  if (isObject || isArray) {
+    if (visitedItem.get(origin)) {
+      //对环状数据进行处理
+      target = origin;//为浅拷贝
+    } else {
+      target = isObject ? {} : [];
+      for (let key in origin) {
+        visitedItem.set(origin[key], true);
+        target[key] = deepCopyDFS(origin[key], visitedItem);
+      }
+    }
+  } else if (isType(type, TYPE.FUNCTION)) {
+    target = eval(`(${origin.toString()})`);
+  } else {
+    target = origin;
+  }
+  return target;
+};
+
+//非递归版，利用栈的特性
+var getInitInfo = origin =&gt; {
+  const type = getType(origin);
+  const isObject = isType(type, TYPE.OBJECT);
+  if (isObject) return { isObject, value: {} };
+
+  const isArray = isType(type, TYPE.ARRAY);
+  if (isArray) return { isArray, value: [] };
+
+  return { value: origin };
+};
+
+var deepCopyDFS = (origin, visitedItem = new Map()) =&gt; {
+  let { value, isObject, isArray } = getInitInfo(origin);
+  if (!isObject &amp;&amp; !isArray) return origin;
+
+  let target = value;
+  const stack = [[origin, target]];
+  while (stack.length &gt; 0) {
+    const [ori, tar] = stack.pop();
+    console.log(&quot;tar&quot;, tar);
+    for (let key in ori) {
+      const obj = getInitInfo(ori[key]);
+      tar[key] = obj.value;
+      if (obj.isObject || obj.isArray) {
+        if (visitedItem.get(ori[key])) {
+          tar[key] = ori[key];
+        } else {
+          visitedItem.set(ori[key], true);
+          stack.push([ori[key], tar[key]]);
+        }
+      }
+    }
+  }
+  return target;
+};
+</code></pre></li>
+<li><p>广度优先拷贝
+利用 queue 进行拷贝。</p>
+<pre><code>function Queue() {
+  const nodes = [];
+  const add = node =&gt; {
+    nodes.push(node);
+  };
+  const pop = () =&gt; {
+    return nodes.shift();
+  };
+
+  return { add, pop };
+}
+  var deepCopyBFS = (origin, visitedItem = new Map()) =&gt; {
+  let { value, isObject, isArray } = getInitInfo(origin);
+  if (!isObject &amp;&amp; !isArray) return origin;
+
+  const queue = Queue();
+  let target = value;
+  queue.add([origin, value]);
+  let current = queue.pop();
+  while (current) {
+    console.log(JSON.stringify(target));
+    const [ori, tar] = current;
+    for (let key in ori) {
+      const obj = getInitInfo(ori[key]);
+      tar[key] = obj.value;
+      if (obj.isObject || obj.isArray) {
+        if (visitedItem.get(ori[key])) {
+          tar[key] = ori[key];
+        } else {
+          visitedItem.set(ori[key], true);
+          queue.add([ori[key], tar[key]]);
+        }
+      }
+    }
+    current = queue.pop();
+  }
+  return target;
+};</code></pre></li>
+</ul>

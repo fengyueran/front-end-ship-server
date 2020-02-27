@@ -73,6 +73,7 @@ console.log(&quot;son2.name&quot;, son2.name); // son2
 <ul>
 <li>避免了引用类型的属性被所有实例共享</li>
 <li>可以向父类传递参数</li>
+<li>未改变原型链，可以通过 instanceof 来判断类型</li>
 </ul>
 <p><strong>缺点</strong></p>
 <ul>
@@ -99,7 +100,7 @@ function Son(name) {
 }
 
 Son.prototype = new Father();
-//constructor设置为子类的构造函数，否则子类会通过原型链继承父类的constructor
+//constructor设置为子类的构造函数，否则子类会通过原型链继承父类的constructor，当然有些时候并不需要
 Son.prototype.constructor = Son;
 
 const son1 = new Son(&quot;son1&quot;);
@@ -120,6 +121,10 @@ __proto__: Father
 name: undefined
 foods: (2) [&quot;fish&quot;, &quot;meat&quot;]
 __proto__: Object</code></pre></li>
+<li>可以通过 instanceof 来判断类型<pre><code>$ son1 instanceof Father
+&gt; true
+$ son1 instanceof Son
+&gt; true</code></pre></li>
 </ul>
 <h3 id="原型式继承">原型式继承</h3>
 <p>原型式继承实际就是 ES5 Object.create 的模拟实现，通过传入对象作为创建的对象的原型。</p>
@@ -150,7 +155,7 @@ console.log(obj2.name); // xh
 console.log(obj2.foods); // [&quot;fish&quot;, &quot;meat&quot;, &quot;rice&quot;]
 </code></pre><p><strong>缺点</strong></p>
 <ul>
-<li>同原型链继承一样，所有实例都会共享构造参数 object 上的值。</li>
+<li>同原型链继承一样，所有实例都会共享构造参数 object 上引用类型的值。</li>
 <li>无法传递参数</li>
 </ul>
 <h3 id="寄生式继承">寄生式继承</h3>

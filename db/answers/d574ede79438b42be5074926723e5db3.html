@@ -1,23 +1,9 @@
 <p>想要了解 react 的事件机制，我们需要一步步了解我们添加的事件是如何起作用的，如下，
 react 是如何让下面这个 div 上监听的单击事件生效的呢？</p>
-<pre><code>//app.jsx
-const handleClick = (e) =&gt; console.log(&quot;click&quot;, e);
-const Son = () =&gt; (
-  &lt;div title=&quot;click me&quot; onClick={() =&gt; console.log(&quot;son&quot;)}&gt;
-    click
-  &lt;/div&gt;
-);
+<pre><code>const handleClick = (e) =&gt; console.log(&quot;click&quot;, e);
+const App = () =&gt; &lt;div title=&quot;click me&quot; onClick={handleClick}&gt;app&lt;/div&gt;;
 
-const App = () =&gt; (
-  &lt;div onClick={() =&gt; console.log(&quot;app&quot;)}&gt;
-    &lt;Son /&gt;
-  &lt;/div&gt;
-);
-
-export default App;
-const App = () =&gt; &lt;div title=&quot;click me&quot; onClick={handleClick}&gt;app&lt;/div&gt;
-ReactDOM.render(&lt;App /&gt;, document.getElementById(&#39;root&#39;));
-</code></pre><p>以下调试是在 react、react-dom 16.12.0 上进行的。</p>
+ReactDOM.render(&lt;App /&gt;, document.getElementById(&#39;root&#39;));</code></pre><p>以下调试是在 react、react-dom 16.12.0 上进行的。</p>
 <h3 id="事件注册">事件注册</h3>
 <p>我们知道每个 JSX 元素都是调用 React.createElement() 的语法糖，如下：</p>
 <pre><code>React.createElement(
@@ -152,7 +138,7 @@ export function listenToTopLevel(
     }
     listenerMap.set(topLevelType, null);
   }
-}</code></pre><p>除了 scroll、focus、blur、cancel、close 走 trapCapturedEvent(捕获阶段注册事件)和一些无效的事件不处理外，其余都走 default，在 default 里只要不是媒体事件(play、pause 等，不会冒泡)都通过 trapBubbledEvent(冒泡阶段)来注册事件，由此可知，在 react 中大部分合成事件都是委托到 document 上注册的是冒泡阶段的事件监听器(即使使用 capture 事件，如：onClickCapture)，也就是是说合成事件要等到事件冒泡到最外层的 document 才会被执行，因此所有原生事件的响应(无论是冒泡事件还是捕获事件)，都将早于 React 合成事件，想在 react 组件中通过 e.stopPropagation()来阻止外层的原生事件是办不到的。继续看 trapBubbledEvent：</p>
+}</code></pre><p>除了 scroll、focus、blur、cancel、close 走 trapCapturedEvent(捕获阶段注册事件)和一些无效的事件不处理外，其余都走 default，在 default 里只要不是媒体事件(play、pause 等，不会冒泡)都通过 trapBubbledEvent(冒泡阶段)来注册事件，由此可知，在 react 中大部分合成事件都是委托到 document 上注册的冒泡阶段的事件监听器(即使使用 capture 事件，如：onClickCapture)，也就是是说合成事件要等到事件冒泡到最外层的 document 才会被执行，因此所有原生事件的响应(无论是冒泡事件还是捕获事件)，都将早于 React 合成事件，想在 react 组件中通过 e.stopPropagation()来阻止外层的原生事件是办不到的。继续看 trapBubbledEvent：</p>
 <pre><code>// packages/react-dom/src/events/ReactDOMEventListener.js
 function trapBubbledEvent(topLevelType, element) {
   trapEventForPluginEventSystem(element, topLevelType, false);
@@ -665,7 +651,7 @@ function releasePooledEvent(event) {
  *
  *  - React对事件进行了包装，以兼容不同的浏览器
  *
- *  - 事件的 合成与调度由 EventPluginHub完成
+ *  - 事件的合成与调度由 EventPluginHub完成
  *
  * +------------+    .
  * |    DOM     |    .
@@ -698,4 +684,12 @@ function releasePooledEvent(event) {
  * +-------------+   .
  *                   .
  *    React Core     .  General Purpose Event Plugin System
- */</code></pre>
+ */</code></pre><h3 id="总结">总结</h3>
+<ul>
+<li>React 实现了自己的一套合成事件，不存在兼容性问题，是原生事件系统的一个子集</li>
+<li>React 的事件都是绑定到顶层的 document 上，而不绑定到元素上，从而减少了事件的绑定(一种类型只绑定一次)。</li>
+<li>通过合成事件的 e.stopPropagation 只能阻止合成事件的冒泡，而不能阻止原生事件的冒泡，反过来，阻止原生事件
+的冒泡却能阻止 React 合成事件的传播</li>
+<li>除了 scroll、focus、blur、cancel、close 等事件是监听 document 上捕获阶段的事件，其余事件基本都是
+监听 document 上冒泡阶段的事件。</li>
+</ul>

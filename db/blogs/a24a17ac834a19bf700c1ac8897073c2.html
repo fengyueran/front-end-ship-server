@@ -1,4 +1,4 @@
-<h1>网页性能优化-基于drive的性能调优</h1><div class="toc-article"><strong class="toc-title">Contents</strong><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#研究概况"><span class="toc-number">1.</span> <span class="toc-text">研究概况</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#测量工具"><span class="toc-number">2.</span> <span class="toc-text">测量工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#性能指标"><span class="toc-number">3.</span> <span class="toc-text">性能指标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#drive-初始测评"><span class="toc-number">4.</span> <span class="toc-text">drive 初始测评</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#研究内容"><span class="toc-number">5.</span> <span class="toc-text">研究内容</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#结论"><span class="toc-number">6.</span> <span class="toc-text">结论</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#qa"><span class="toc-number">7.</span> <span class="toc-text">QA</span></a></li></ol></div><h3 id="研究概况">研究概况</h3>
+<h1>网页性能优化-基于drive的性能调优</h1><div class="toc-article"><strong class="toc-title">Contents</strong><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#研究概况"><span class="toc-number">1.</span> <span class="toc-text">研究概况</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#测量工具"><span class="toc-number">2.</span> <span class="toc-text">测量工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#性能指标"><span class="toc-number">3.</span> <span class="toc-text">性能指标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#drive-初始测评"><span class="toc-number">4.</span> <span class="toc-text">drive 初始测评</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#研究内容"><span class="toc-number">5.</span> <span class="toc-text">研究内容</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#结论"><span class="toc-number">6.</span> <span class="toc-text">结论</span></a></li></ol></div><h3 id="研究概况">研究概况</h3>
 <ul>
 <li><p>研究内容</p>
 <p>本次研究的主要内容为基于 drive 这个项目的性能优化。
@@ -369,28 +369,3 @@ drive 本身打包生成的 css drive.app.xxx.min.css 较小，只有 4kb，可�
 <li>purgecss 对于清除 css 的能力非常限，而且会误删除动态生成的 css，不建议使用</li>
 <li>html-critical-webpack-plugin 可以提取关键 css 内联到 html 并预加载非关键 css，但适应场景有限，要提取准确的 css 作为输入，但这并不能保证，此外 puppeteer 在加载静态 html 通常不能正确加载 js，也就无法提取出关键 css。</li>
 </ul>
-<h3 id="qa">QA</h3>
-<blockquote>
-<p>Q: 是否达到预期？
-A: 没有，预期 drive 优化后评分达到 85 分，实际上目前的优化，对分数影响不大，至于给出性能优化的指导性建议当前的结论还远远不够。</p>
-</blockquote>
-<blockquote>
-<p>Q: 为什么没有达到预期？
-A: 时间不够是一方面，优化性能本身就不是一件一蹴而就的事。</p>
-</blockquote>
-<blockquote>
-<p>Q: 有什么收获？
-A: 更多的是培养了一种提出问题、分析问题、解决问题的能力，尽管没有达到预期，也得到了相互学习的机会。</p>
-</blockquote>
-<blockquote>
-<p>Q: 研究中存在的问题？
-A: 浅尝辄止，有些问题还没研究透彻就转向其他问题，这是需要在后续的研究中需要注意的地方。</p>
-</blockquote>
-<blockquote>
-<p>Q: 有什么建议？
-A: 每个月试用对方的成果，比如我用 fei 的研究成果写测试，可以直接反馈用户感受，方便研究者提高。</p>
-</blockquote>
-<blockquote>
-<p>Q: 接下来研究什么？
-A: drive 性能优化先搁置，转向对 app-tempalte 编译速度的研究。</p>
-</blockquote>
