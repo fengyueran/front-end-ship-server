@@ -1,31 +1,61 @@
 <ul>
 <li><p>深度优先遍历</p>
-<pre><code>//递归版
-var deepCopyDFS = (origin, visitedItem = new Map()) =&gt; {
-  const type = getType(origin);
-  const isObject = isType(type, TYPE.OBJECT);
-  const isArray = isType(type, TYPE.ARRAY);
+<p><strong>递归版:</strong></p>
+<pre><code class="language-js">var isType = (obj, type) =&gt;
+  Object.prototype.toString.call(obj) === `[object ${type}]`;
+
+var deepCopyDFS = origin =&gt; {
   let target;
+  const isObject = isType(origin, &quot;Object&quot;);
+  const isArray = isType(origin, &quot;Array&quot;);
+
   if (isObject || isArray) {
-    if (visitedItem.get(origin)) {
-      //对环状数据进行处理
-      target = origin;//为浅拷贝
-    } else {
-      target = isObject ? {} : [];
-      for (let key in origin) {
-        visitedItem.set(origin[key], true);
-        target[key] = deepCopyDFS(origin[key], visitedItem);
-      }
-    }
-  } else if (isType(type, TYPE.FUNCTION)) {
+    target = isObject ? {} : [];
+    Object.keys(origin).forEach(key =&gt; {
+      target[key] = deepCopyDFS(origin[key]);
+    });
+  } else if (isType(origin, &quot;Function&quot;)) {
     target = eval(`(${origin.toString()})`);
   } else {
     target = origin;
   }
   return target;
+};</code></pre>
+<p>上例的递归方法，对于环状结构(循环引用)会不停的递归而爆栈：</p>
+<pre><code class="language-js">var circleObj = {
+  xhm: {
+    name: &quot;xhm&quot;,
+    data: {
+      name: &quot;snow&quot;,
+      child: null
+    }
+  }
 };
+circleObj.xhm.data.child = circleObj.xhm;</code></pre>
+<p>因此需要处理环状结构：</p>
+<pre><code class="language-js">var deepCopyDFS = (origin, vistedItem = new Map()) =&gt; {
+  let target;
+  const isObject = isType(origin, &quot;Object&quot;);
+  const isArray = isType(origin, &quot;Array&quot;);
 
-//非递归版，利用栈的特性
+  if (isObject || isArray) {
+    if (vistedItem.get(origin)) {
+      //环状结构，处理过了就不再处理
+      target = vistedItem.get(origin);
+    } else {
+      target = isObject ? {} : [];
+      vistedItem.set(origin, target);
+      Object.keys(origin).forEach(key =&gt; {
+        target[key] = deepCopyDFS(origin[key], vistedItem);
+      });
+    }
+  } else {
+    target = origin;
+  }
+  return target;
+};</code></pre>
+<p><strong>非递归版:</strong></p>
+<pre><code class="language-js">//非递归版，利用栈的特性
 var getInitInfo = origin =&gt; {
   const type = getType(origin);
   const isObject = isType(type, TYPE.OBJECT);
@@ -37,34 +67,34 @@ var getInitInfo = origin =&gt; {
   return { value: origin };
 };
 
-var deepCopyDFS = (origin, visitedItem = new Map()) =&gt; {
-  let { value, isObject, isArray } = getInitInfo(origin);
+var deepCopyDFS = origin =&gt; {
+  const { isObject, isArray, value } = getInitInfo(origin);
   if (!isObject &amp;&amp; !isArray) return origin;
-
+  const vistedItem = new Map();
   let target = value;
   const stack = [[origin, target]];
   while (stack.length &gt; 0) {
     const [ori, tar] = stack.pop();
-    console.log(&quot;tar&quot;, tar);
-    for (let key in ori) {
-      const obj = getInitInfo(ori[key]);
-      tar[key] = obj.value;
-      if (obj.isObject || obj.isArray) {
-        if (visitedItem.get(ori[key])) {
-          tar[key] = ori[key];
-        } else {
-          visitedItem.set(ori[key], true);
+
+    Object.keys(ori).forEach(key =&gt; {
+      if (vistedItem.get(ori[key])) {
+        tar[key] = vistedItem.get(ori[key]);
+      } else {
+        const item = getInitInfo(ori[key]);
+        tar[key] = item.value;
+        if (item.isArray || item.isObject) {
+          vistedItem.set(ori[key], tar[key]);
           stack.push([ori[key], tar[key]]);
         }
       }
-    }
+    });
   }
   return target;
-};
-</code></pre></li>
-<li><p>广度优先拷贝
-利用 queue 进行拷贝。</p>
-<pre><code>function Queue() {
+};</code></pre>
+</li>
+<li><p>广度优先拷贝</p>
+<p>和深度优先拷贝的非递归版本类似，利用 queue 进行拷贝。</p>
+<pre><code class="language-js">function Queue() {
   const nodes = [];
   const add = node =&gt; {
     nodes.push(node);
@@ -75,31 +105,30 @@ var deepCopyDFS = (origin, visitedItem = new Map()) =&gt; {
 
   return { add, pop };
 }
-  var deepCopyBFS = (origin, visitedItem = new Map()) =&gt; {
-  let { value, isObject, isArray } = getInitInfo(origin);
+var deepCopyBFS = origin =&gt; {
+  const { isObject, isArray, value } = getInitInfo(origin);
   if (!isObject &amp;&amp; !isArray) return origin;
-
-  const queue = Queue();
+  const vistedItem = new Map();
   let target = value;
-  queue.add([origin, value]);
-  let current = queue.pop();
-  while (current) {
-    console.log(JSON.stringify(target));
-    const [ori, tar] = current;
-    for (let key in ori) {
-      const obj = getInitInfo(ori[key]);
-      tar[key] = obj.value;
-      if (obj.isObject || obj.isArray) {
-        if (visitedItem.get(ori[key])) {
-          tar[key] = ori[key];
-        } else {
-          visitedItem.set(ori[key], true);
+  const queue = new Queue();
+  queue.add([origin, target]);
+  while (queue.nodes.length &gt; 0) {
+    const [ori, tar] = queue.pop();
+
+    Object.keys(ori).forEach(key =&gt; {
+      if (vistedItem.get(ori[key])) {
+        tar[key] = vistedItem.get(ori[key]);
+      } else {
+        const item = getInitInfo(ori[key]);
+        tar[key] = item.value;
+        if (item.isArray || item.isObject) {
+          vistedItem.set(ori[key], tar[key]);
           queue.add([ori[key], tar[key]]);
         }
       }
-    }
-    current = queue.pop();
+    });
   }
   return target;
-};</code></pre></li>
+};</code></pre>
+</li>
 </ul>

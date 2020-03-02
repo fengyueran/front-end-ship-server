@@ -72,16 +72,15 @@ boy.getName();
 <p><strong>构造函数调用</strong></p>
 <p>想要知道调用构造函数 this 如何指向，需要知道 new 操作符究竟做了什么。
 如下为 new 的模拟实现:</p>
-<pre><code class="language-code">function mockNew(f) {
+<pre><code class="language-js">function mockNew(f) {
   // 1.
-  var newObj, returnObj, proto;
-
+  var returnObj, proto;
+  var newObj = new Object();
   // 2.
   proto = Object(f.prototype) === f.prototype ? f.prototype : Object.prototype;
 
   // 3.
-  newObj = Object.create(proto);
-
+  newObj.__proto__ = proto;
   // 4.
   /*
     arguments为类数组对象需要通过Array.prototype.slice.call将其转换为数组;
@@ -104,14 +103,14 @@ boy.getName();
 </ol>
 </li>
 <li><ol start="2">
-<li><p>给内置属性<code>[[prototype]]</code>(proto)赋值</p>
+<li><p>给内置属性<code>[[prototype]]</code>((__proto__))赋值</p>
 <p>如果 f 的<a href="https://juejin.im/post/5cab34def265da034c7002a6">prototype</a>为原始的 Object 类型，则将构造函数 f 的 prototype 赋值给 proto，否则将 Object 的 prototype 赋值给 proto。</p>
 </li>
 </ol>
 </li>
 <li><ol start="3">
 <li><p>创建继承自 proto 的对象</p>
-<p>通过 Object.create 创建对象 newObj，newObj 可通过<a href="https://juejin.im/post/5cab34def265da034c7002a6">原型链</a>继承 proto 的属性。</p>
+<p>通过<code>newObj.__proto__ = proto</code>， 使 newObj 可通过<a href="https://juejin.im/post/5cab34def265da034c7002a6">原型链</a>继承 proto 的属性。</p>
 </li>
 </ol>
 </li>

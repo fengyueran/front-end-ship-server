@@ -4,69 +4,73 @@
 <p>它描述了一种字符串匹配的模式，即要寻找符合这一模式(某种规则)的子串，找到后进行提取或替换。</p>
 </li>
 <li><p><strong>元字符</strong></p>
-<p>在正则表达式中具有特殊含义的字符，如<code>+</code>号，代表前面的字符必须至少出现一次（1 次或多次），iphone+x，可以匹配 iphonex、iphoneex、iphoneeeeex 等。
-<code>*</code> 号代表字符可以不出现，也可以出现一次或者多次（0 次、或 1 次、或多次）
-iphone*x，可以匹配 iphonx、iphonex、iphoneeex 等。
-如果要匹配字符串中的特殊符号，则需要对其进行转义，即在其前加一个<code>\</code>，如<code>iphone\+plus</code> 匹配 <code>iphone+plus</code>。
+<p>在正则表达式中具有特殊含义的字符，如<code>+</code>号，代表前面的字符必须至少出现一次(1 次或多次)，iphone+x，可以匹配 iphonex、iphoneex、iphoneeeeex 等。<code>*</code> 号代表字符可以不出现，也可以出现一次或者多次
+iphone*x，可以匹配 iphonx、iphonex、iphoneeex 等。如果要匹配字符串中的特殊符号，则需要对其进行转义，即在其前加一个<code>\</code>,如<code>iphone\+plus</code> 匹配 <code>iphone+plus</code>。
 以下是正则中的特殊字符：</p>
-<pre><code>( ) [ ] { } \ ^ $ | ? * + .</code></pre></li>
+<pre><code class="language-code">( ) [ ] { } \ ^ $ | ? * + .</code></pre>
+</li>
 <li><p><strong>子模式</strong></p>
 <p>在正则表达式中，可以使用括号()将模式中的子字符串括起来，以形成一个子模式。将子模式视为一个整体时，那么它就相当于单个字符。</p>
 </li>
 <li><p><strong>贪婪与非贪婪匹配</strong></p>
 <p>贪婪模式在整个表达式匹配成功的前提下尽可能多的匹配，而非贪婪模式在匹配成功的前提下尽可能少的匹配。在 js 的正则中，默认为贪婪模式，可通过在代表数量的标示符后放置 ? 来开启非贪婪模式，如 ? 、+? 甚至是 ??。</p>
-<pre><code>&#39;aaaaa&#39;.match(&#39;a+&#39;);//贪婪模式，匹配aaaaa
-&#39;aaaaa&#39;.match(&#39;a+?&#39;);//非贪婪模式，匹配a
-</code></pre></li>
+<pre><code class="language-js">&quot;aaaaa&quot;.match(&quot;a+&quot;); //贪婪模式，匹配aaaaa
+&quot;aaaaa&quot;.match(&quot;a+?&quot;); //非贪婪模式，匹配a</code></pre>
+</li>
 </ul>
 <h3 id="正则表达式形式"><strong>正则表达式形式</strong></h3>
 <p>正则表达式是包含在两个斜杠之间的一个或多个字符，在后一个斜杠的后面，可以指定一个或多个选项。正则表达式也可以通过对象 RegExp 的构造函数来生成，带有变量的字符串通过 RegExp 能够比较简单地生成正则表达式，而采用<code>/pattern/</code>的方式变量会识别成字面量。</p>
-<pre><code> var regExp = /pattern/flags
- 或 var regExpStr = new RegExp(regStr, pattern)</code></pre><p>其中，“pattern”为指定的匹配模式，flags 为可选项，这些选项及其含义如下：</p>
+<pre><code class="language-js"> var regExp = /pattern/flags
+ 或 var regExpStr = new RegExp(regStr, pattern)</code></pre>
+<p>其中，“pattern”为指定的匹配模式，flags 为可选项，这些选项及其含义如下：</p>
 <ul>
 <li><p>i：表示忽略大小写，就是在字符串匹配的时候不区分大小写。</p>
-<pre><code>var str = &quot;Apple&quot;;
+<pre><code class="language-js">var str = &quot;Apple&quot;;
 var patt = /apple/;
 console.log(str.match(patt));
 =&gt; null
 var patt = /apple/i;
 console.log(str.match(patt));
-=&gt;[&quot;Apple&quot;, index: 0, input: &quot;Apple&quot;]</code></pre></li>
+=&gt;[&quot;Apple&quot;, index: 0, input: &quot;Apple&quot;]</code></pre>
+</li>
 <li><p>g：表示全局匹配，即匹配符合模式的所有子串。</p>
-<pre><code>var str = &quot;meatvsmeat&quot;;
+<pre><code class="language-js">var str = &quot;meatvsmeat&quot;;
 var patt = /meat/;
 console.log(str.match(patt));
 =&gt;[&quot;meat&quot;, index: 0, input: &quot;meatvsmeat&quot;]
 
 var patt = /meat/g;
 console.log(str.match(patt));
-=&gt;[&quot;meat&quot;, &quot;meat&quot;]</code></pre></li>
+=&gt;[&quot;meat&quot;, &quot;meat&quot;]</code></pre>
+</li>
 <li><p>m：表示进行多行匹配</p>
-<pre><code>var str=&quot;This is a\n dog&quot;; //\n代表换行符
+<pre><code class="language-js">var str=&quot;This is a\n dog&quot;; //\n代表换行符
 var patt=/a$/;//$代表输入的结束位置
 console.log(str.match(patt));
 =&gt; null
 
 var patt=/a$/m;
 console.log(str.match(patt));
-=&gt; [&quot;a&quot;, index: 8, input: &quot;This is a↵ dog&quot;]</code></pre></li>
+=&gt; [&quot;a&quot;, index: 8, input: &quot;This is a↵ dog&quot;]</code></pre>
+</li>
 </ul>
 <p><strong>正则表达式常用方法</strong></p>
 <ul>
 <li><p>exec</p>
 <p>查找字符串中匹配正则的字符串，返回一个数组(未匹配到则返回 null)，和 string 的 match 方法相同。</p>
-<pre><code>var reg = /a/;
+<pre><code class="language-js">var reg = /a/;
 reg.exec(&#39;abc&#39;);
-=&gt; [&quot;a&quot;, index: 0, input: &quot;abc&quot;, groups: undefined]</code></pre></li>
+=&gt; [&quot;a&quot;, index: 0, input: &quot;abc&quot;, groups: undefined]</code></pre>
+</li>
 <li><p>test</p>
 <p>测试字符串是否匹配正则，匹配返回 true，不匹配返回 false。</p>
-<pre><code>var reg = /a/;
+<pre><code class="language-js">var reg = /a/;
 reg.test(&#39;abc&#39;);
-=&gt; true</code></pre></li>
+=&gt; true</code></pre>
+</li>
 </ul>
 <h3 id="正则表达式的优先级"><strong>正则表达式的优先级</strong></h3>
-<p>正则表达式同算术表达式类似，都是从左到右进行计算，并遵循优先级顺序。下面列出了
-优先级从高到低的顺序:</p>
+<p>正则表达式同算术表达式类似，都是从左到右进行计算，并遵循优先级顺序。下面列出了优先级从高到低的顺序:</p>
 <ul>
 <li><code>\</code>: 转义字符</li>
 <li><code>(), (?:), (?=), []</code>: 圆括号与方括号</li>
@@ -75,30 +79,34 @@ reg.test(&#39;abc&#39;);
 <li><code>|</code>: 替换，&quot;或&quot;操作</li>
 </ul>
 <p>来看下面的例子:</p>
-<pre><code>/^a|bc$/</code></pre><p>上面的正则表达式根据从左到右的顺序以及优先级关系，等同于:</p>
-<pre><code>/(^a)|((bc)$)/</code></pre><p>可以看到，它所表达的意思就是以 a 开头或 bc 结尾的字符串。</p>
-<pre><code>/^a|bc$/.test(&#39;adfd&#39;); //true
-/^a|bc$/.test(&#39;dfdb&#39;); //false
-/^a|bc$/.test(&#39;dfdbc&#39;); //true</code></pre><h3 id="js-中字符串的匹配和替换"><strong>JS 中字符串的匹配和替换</strong></h3>
+<pre><code class="language-js">/^a|bc$/;</code></pre>
+<p>上面的正则表达式根据从左到右的顺序以及优先级关系，等同于:</p>
+<pre><code class="language-js">/(^a)|((bc)$)/;</code></pre>
+<p>可以看到，它所表达的意思就是以 a 开头或 bc 结尾的字符串。</p>
+<pre><code class="language-js">/^a|bc$/.test(&quot;adfd&quot;); //true
+/^a|bc$/.test(&quot;dfdb&quot;); //false
+/^a|bc$/.test(&quot;dfdbc&quot;); //true</code></pre>
+<h3 id="js-中字符串的匹配和替换"><strong>JS 中字符串的匹配和替换</strong></h3>
 <ul>
 <li><p>字符串匹配</p>
 <p>语法：str.match(regExp)</p>
 <p>参数：regExp 为一个正则表达式</p>
 <p>返回值：如果字符串匹配到了表达式则返回一个数组，数组的第一个元素为匹配到的内容，之后的项是小括号捕获的内容，如果没有匹配到则返回 null。</p>
 <p>例：匹配数字</p>
-<pre><code>var str = &quot;you know that I am 17 years old&quot;;
+<pre><code class="language-js">var str = &quot;you know that I am 17 years old&quot;;
 //\d表示数字+号表示出现多次，即可匹配数字17
 var patt = /I am (\d+)/;
 
 str.match(patt)
 //17为小括号捕获的内容，index为匹配的位置(字符I的位置)
 =&gt;  [&quot;I am 17&quot;, &quot;17&quot;, index: 0, input: &quot;I am 17 years old&quot;, groups: undefined]
-</code></pre></li>
+</code></pre>
+</li>
 <li><p>字符串替换</p>
 <p>语法：str.replace(regexp|str, newSubstr|func)</p>
 <p>参数：第一个参数为一个正则表达式或子串，第二个参数为要替换的内容或一个返回替换内容的函数</p>
 <p>例：匹配数字</p>
-<pre><code>/*
+<pre><code class="language-js">/*
   match: 匹配的结果
   s1: 第一个小括号匹配到的内容
   s2: 第二个小括号匹配到的内容
@@ -111,56 +119,65 @@ function replacer(match, s1, s2, offset, string) {
 }
 var newString = &#39;a67bc123&#39;.replace(/a(\d+)bc(\d+)/, replacer);
 或var newString = &#39;a67bc123&#39;.replace(/a(\d+)bc(\d+)/, `$1 - $2`);
-=&gt; newString: &quot;67 - 123&quot;</code></pre></li>
+=&gt; newString: &quot;67 - 123&quot;</code></pre>
+</li>
 </ul>
 <h3 id="特殊字符用法"><strong>特殊字符用法</strong></h3>
 <ul>
 <li><p><code>\</code> 标记其后的字符为特殊字符、转义字符</p>
-<p>如<code>\r</code>代表回车符，<code>\b</code>表示一个字符边界，反斜杠<code>\</code>也可以将其后的特殊字符转义为字面量，例如模式<code>/a*/</code>代表会匹配 0 个或者多个 a。相反，模式<code>/a\*/</code>将<code>*</code>的特殊性移除，从而可以匹配像<code>a*</code>这样的字符串。<code>\\</code>表示一个<code>\</code>,第一个<code>\</code>为转义字符，第二个<code>\</code>为特殊字符<code>\</code>。</p>
+<p>如<code>\r</code>代表回车符，<code>\b</code>表示一个字符边界，反斜杠<code>\</code>也可以将其后的特殊字符转义为字面量，例如模式<code>/a*/</code>会匹配 0 个或者多个 a。相反，模式<code>/a\*/</code>将<code>*</code>的特殊性移除，从而可以匹配像<code>a*</code>这样的字符串。<code>\\</code>表示一个<code>\</code>，第一个<code>\</code>为转义字符，第二个<code>\</code>为特殊字符<code>\</code>。</p>
 </li>
 <li><p><code>^</code> 匹配输入的开始位置</p>
 <p>如果多行标志为 true 时也匹配换行符后紧跟的位置。</p>
 <p>匹配以 snow 开头的字符串</p>
-<pre><code>//如下/^snow/匹配snow is my name但不匹配my name is snow
+<pre><code class="language-js">///^snow/匹配snow is my name但不匹配my name is snow
 var str = &quot;snow is my name&quot;;
-var patt = /^snow/;</code></pre></li>
+var patt = /^snow/;</code></pre>
+</li>
 <li><p><code>$</code> 匹配输入结束的位置</p>
-<p>匹配输入的结束。如果多行标示为 true 时也匹配换行符前的位置。</p>
-<pre><code>//如下/snow$/匹配my name is snow但不匹配snow is my name
+<p>匹配输入的结束，如果多行标示为 true 时也匹配换行符前的位置。</p>
+<pre><code class="language-js">//如下/snow$/匹配my name is snow但不匹配snow is my name
 var str = &quot;my name is snow&quot;;
-var patt = /snow$/;</code></pre><p>匹配 snow 这个字符串, 如下^$结合可以匹配 snow(snow 为开始和结束即仅匹配 snow，不匹配 snow is snow)</p>
-<pre><code>var str = &quot;snow&quot;;
-var patt = /^snow$/;</code></pre></li>
+var patt = /snow$/;</code></pre>
+<p>^$结合可以匹配 snow(snow 为开始和结束即仅匹配 snow，不匹配 snow is snow)</p>
+<pre><code class="language-js">var str = &quot;snow&quot;;
+var patt = /^snow$/;</code></pre>
+</li>
 <li><p><code>|</code> 类似或，指明两项之间的一个选择</p>
 <p>匹配苹果或香蕉</p>
-<pre><code>var str = &quot;banana&quot;;
-var patt = /apple|banana/;</code></pre></li>
+<pre><code class="language-js">var str = &quot;banana&quot;;
+var patt = /apple|banana/;</code></pre>
+</li>
 <li><p><code>{n}</code> 匹配前一项连续出现 n 次</p>
 <p>如，/p{2}/不会匹配 aple 中的 p，但会匹配 apple 中所有的 p。</p>
-<pre><code>var str = &quot;apple is a apple&quot;;
+<pre><code class="language-js">var str = &quot;apple is a apple&quot;;
 var patt = /(apple){2}/;
 console.log(str.match(patt)); =&gt; null
 
 var str = &quot;appleapple 2 apple&quot;;
 var patt = /(apple){2}/;
-console.log(str.match(patt)); =&gt; appleapple</code></pre></li>
+console.log(str.match(patt)); =&gt; appleapple</code></pre>
+</li>
 <li><p><code>{m,n}</code> 匹配前一项连续出现 m 到 n 次，包括 m、n 次</p>
-<pre><code>var str = &quot;apple is a apple&quot;;
+<pre><code class="language-js">var str = &quot;apple is a apple&quot;;
 var patt = /(apple){2,3}/;
 console.log(str.match(patt)); =&gt; null
 
 var str = &quot;appleapple 2 apple&quot;;
 var patt = /(apple){2,3}/;
-console.log(str.match(patt)); =&gt; appleapple</code></pre></li>
+console.log(str.match(patt)); =&gt; appleapple</code></pre>
+</li>
 <li><p><code>.</code> 默认情况下, 句点匹配除新行符(换行符<code>\n</code>和回车符<code>\r</code>)外的任何单个字符</p>
 <p>匹配 snow<em>，如下/snow./可以匹配 snow1，snowa，snow</em>等。</p>
-<pre><code>var str = &quot;snow_&quot;;
-var patt = /snow./;</code></pre></li>
+<pre><code class="language-js">var str = &quot;snow_&quot;;
+var patt = /snow./;</code></pre>
+</li>
 <li><p><code>*</code> 匹配零个或多个前一项，等价于 {0,}。</p>
-<p>匹配 a，如下 a*可以匹配 aabc，aaaabc，甚至不包含 &quot;a&quot; 的任意字符串.</p>
-<pre><code>var str = &quot;aaaabaac&quot;;
+<p>如下 a*可以匹配 aabc，aaaabc，甚至不包含 &quot;a&quot; 的任意字符串.</p>
+<pre><code class="language-js">var str = &quot;aaaabaac&quot;;
 var patt = /ba*/;
-console.log(str.match(patt)) =&gt; baa</code></pre><p>通配符: 句点星号模式 .* 可以匹配零个或多个任意字符 (除了新行符: <code>\r</code> 和 <code>\n</code>). 例如, snow.*123 可以匹配 snowAnything123, 也能匹配 snow123.</p>
+console.log(str.match(patt)) =&gt; baa</code></pre>
+<p>句点星号模式 .* 可以匹配零个或多个任意字符 (除了新行符: <code>\r</code> 和 <code>\n</code>)。例如, snow.*123 可以匹配 snowAnything123, 也能匹配 snow123.</p>
 </li>
 <li><p><code>+</code> 匹配前一项一个或多个，等价于 {1,}。</p>
 <p>例如，/p+/匹配了&quot;apppppple&quot; 中的 &#39;p&#39;。</p>
@@ -171,7 +188,7 @@ console.log(str.match(patt)) =&gt; baa</code></pre><p>通配符: 句点星号模
 </li>
 <li><p><code>()</code> 标记一个子表达式(分组)的开始和结束位置</p>
 <p>每一个子表达式会自动拥有一个组号，规则是：从左向右，以分组的左括号为标志，第一个出现的分组的组号为 1，第二个为 2，以此类推。子表达式的结果可以获取供以后使用。</p>
-<pre><code>
+<pre><code class="language-js">
 var str = &quot;abc&quot;;
 str.match(/((a)(b))(c)/);
 [&quot;abc&quot;,
@@ -194,65 +211,63 @@ console.log(str.match(patt));
 &#39;Plus&#39;,
 index: 11,
 input: &#39;there is a iphonePlus called iphonePlus&#39; ]
-</code></pre></li>
+</code></pre>
+</li>
 <li><p><code>(x)</code> 匹配 x 并且记住匹配项，括号被称为捕获括号。</p>
-<pre><code>
-var str = &quot;there is a iphone called iphone&quot;;
+<pre><code class="language-js">var str = &quot;there is a iphone called iphone&quot;;
 var patt = /(iphone).*\1$/; //因为记住了匹配项，所有\1 能够拿到子表达式 1 的结果 iphone
 console.log(str.match(patt));
 =&gt;[ &#39;iphone called iphone&#39;,
 &#39;iphone&#39;,
 index: 11,
 input: &#39;there is a iphone called iphone&#39; ]
-</code></pre></li>
+</code></pre>
+</li>
 <li><p><code>(?:x)</code> 匹配 x 但是不记住匹配项。这种叫作非捕获括号</p>
-<pre><code>
-var str = &quot;there is a iphone called iphone&quot;;
+<pre><code class="language-js">var str = &quot;there is a iphone called iphone&quot;;
 var patt = /(?:iphone).*\1\$/; //因为没有记住匹配项，所有\1 不能拿到子表达式 1 的结果，匹配为 null
 console.log(str.match(patt));
 =&gt;null
-</code></pre></li>
+</code></pre>
+</li>
 <li><p><code>x(?=y)</code> 匹配 x 仅仅当 x 后面跟着 y，这叫做正向肯定查找。</p>
-<pre><code>
-var str = &quot;iphoneX and iphonePlus&quot;;
+<pre><code class="language-js">var str = &quot;iphoneX and iphonePlus&quot;;
 var patt = /iphone(?=Plus)/; //匹配 iphonePlus 的 iphone
 console.log(str.match(patt));
 =&gt;[ &#39;iphone&#39;, index: 12, input: &#39;iphoneX and iphonePlus&#39; ]
-</code></pre></li>
-<li><p><code>x(?!y)</code> 匹配&#39;x&#39;仅仅当&#39;x&#39;后面不跟着&#39;y&#39;,这个叫做正向否定查找。</p>
-<pre><code>var str = &quot;iphoneX and iphonePlus&quot;;
+</code></pre>
+</li>
+<li><p><code>x(?!y)</code> 匹配 x 仅仅当 x 后面不跟着 y,这个叫做正向否定查找。</p>
+<pre><code class="language-js">var str = &quot;iphoneX and iphonePlus&quot;;
 var patt = /iphone(?!Plus)/;//匹配 iphoneX 的 iphone
 console.log(str.match(patt));
 =&gt; [ &#39;iphone&#39;, index: 0, input: &#39;iphoneX and iphonePlus&#39; ]
-</code></pre></li>
+</code></pre>
+</li>
 <li><p><code>[xyz]</code>
 字符类：元字符<code>[</code>和<code>]</code>指定正则表达式中的字符类。
-字符类[123]将匹配字符 1，2 或 3。例如，字符串“man&quot;或“men&quot;将匹配正则表达式“m[ae]n&quot;。
-可以使用连字符-来指定字符范围，如[A-Z]表示所有大写任何字母;[0-9]表示 0 和 9 之间的任何数字。[a-ex-z]
-将包括 a，b，c，d, x，y 或 z。</p>
+字符类[123]将匹配字符 1，2 或 3。例如，正则表达式“m[ae]n&quot;可以匹配字符串“man&quot;或“men&quot;。
+可以使用连字符-来指定字符范围，如[A-Z]表示所有大写任何字母;[0-9]表示 0 和 9 之间的任何数字。[a-ex-z]将包括 a，b，c，d, x，y 或 z。</p>
 </li>
 <li><p><code>[^xyz]</code>
 一个反向字符集。^表示除什么以外，也就是说， 它匹配任何没有包含在方括号中的字符。你可以使用破折号（-）来指定一个字符范围。任何普通字符在这里都是起作用的。
-[^abc]，[^a-c] 表示除 a，b 和 c 以外的字符</p>
+<code>[^abc]</code>，<code>[^a-c]</code> 表示除 a，b 和 c 以外的字符。</p>
 </li>
 <li><p><code>[\b]</code> 匹配一个退格(U+0008)。（不要和\b 混淆了）</p>
 </li>
-<li><p><code>\b</code> 匹配一个单词的边界，一个词的边界就是一个词不被另外一个字符跟随的位置或者没有其他字符在其前面的位置
-例子：
+<li><p><code>\b</code> 匹配一个单词的边界，一个词的边界就是一个词不被另外一个字符跟随的位置或者没有其他字符在其前面的位置。
 /\bm/匹配“moon”中得‘m’；
 /oo\b/并不匹配&quot;moon&quot;中得&#39;oo&#39;，因为&#39;oo&#39;被一个字符&#39;n&#39;紧跟着。
 /oon\b/匹配&quot;moon&quot;中得&#39;oon&#39;，因为&#39;oon&#39;是这个字符串的结束部分，他没有被一个字符紧跟着。</p>
 </li>
 <li><p><code>\B</code> 匹配一个非单词边界
-例如，/\Bday/能够匹配&quot;noonday&quot;中的&#39;day&#39;, 而/y\B/匹配&quot;possibly yesterday&quot;中的 yesterday 的首字母’y‘。</p>
+例如，/\Bday/能够匹配&quot;noonday&quot;中的&#39;day&#39;, 而/y\B/匹配&quot;possibly yesterday&quot;中 yesterday 的首字母’y‘。</p>
 </li>
-<li><p><code>\d</code>
-匹配一个数字。
+<li><p><code>\d</code> 匹配一个数字。
 等价于[0-9]。
 例如， /\d/ 或者 /[0-9]/ 匹配&quot;B2 is the suite number.&quot;中的 2。</p>
 </li>
-<li><p><code>\D</code>
-匹配一个非数字字符。
+<li><p><code>\D</code> 匹配一个非数字字符。
 等价于[^0-9]。
 例如， /\D/ 或者 /[^0-9]/ 匹配&quot;B2 is the suite number.&quot;中的 B。</p>
 </li>
@@ -264,13 +279,11 @@ console.log(str.match(patt));
 </li>
 <li><p><code>\r</code> 匹配一个回车符 (U+000D)。</p>
 </li>
-<li><p><code>\s</code>
-匹配一个空白字符，包括空格、制表符、换页符和换行符。
+<li><p><code>\s</code> 匹配一个空白字符，包括空格、制表符、换页符和换行符。
 等价于[ \f\n\r\t\v\u00a0\u1680\u180e\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff]。
 例如, /\s\w*/ 匹配&quot;foo bar.&quot;中的&#39; bar&#39;。</p>
 </li>
-<li><p><code>\S</code>
-匹配一个非空白字符。
+<li><p><code>\S</code> 匹配一个非空白字符。
 等价于[^ \f\n\r\t\v\u00a0\u1680\u180e\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff]。
 例如， /\S\w*/ 匹配&quot;foo bar.&quot;中的&#39;foo&#39;。</p>
 </li>
@@ -278,13 +291,11 @@ console.log(str.match(patt));
 </li>
 <li><p><code>\v</code> 匹配一个垂直制表符 (U+000B)。</p>
 </li>
-<li><p><code>\w</code>
-匹配一个单字字符（字母、数字或者下划线）。
+<li><p><code>\w</code> 匹配一个单字字符（字母、数字或者下划线）。
 等价于[A-Za-z0-9_]。
 例如, /\w/ 匹配 &quot;apple,&quot; 中的 &#39;a&#39;，&quot;$5.28,&quot;中的 &#39;5&#39; 和 &quot;3D.&quot; 中的 &#39;3&#39;。</p>
 </li>
-<li><p><code>\W</code>
-匹配一个非单字字符。
+<li><p><code>\W</code> 匹配一个非单字字符。
 等价于[^a-za-z0-9_]。
 例如, /\W/ 或者 /[^a-za-z0-9_]/ 匹配 &quot;50%.&quot; 中的 &#39;%&#39;。</p>
 </li>
@@ -295,31 +306,27 @@ console.log(str.match(patt));
 <li><p><code>\uhhhh</code> 与代码 hhhh 匹配字符（四个十六进制数字）。</p>
 </li>
 <li><p><code>?#comment</code>注释</p>
-<pre><code>var patt = /\/(?#匹配斜杠/)/;</code></pre></li>
+<pre><code class="language-js">var patt = /\/(?#匹配斜杠/)/;</code></pre>
+</li>
 </ul>
 <h3 id="实例"><strong>实例</strong></h3>
 <ul>
 <li><p>匹配任意字符</p>
-<pre><code>([\s\S]*)</code></pre></li>
-<li><p>匹配斜杠/</p>
-<pre><code>
-var str = &quot;/public/image/a.png&quot;;
-var patt = /\//;
-console.log(str.match(patt));
-=&gt;[&quot;/&quot;, index: 0, input: &quot;/public/image/a.png&quot;, groups: undefined]
-</code></pre></li>
+<pre><code class="language-js">([\s\S]*)</code></pre>
+</li>
 <li><p>匹配最后一个斜杠后的，最后一个点前的内容</p>
-<pre><code>//要匹配目标内容，可以从后往回推，首先是后缀名(.*表示)，后缀名前跟着一个&#39;.&#39;(\.表示)，&#39;.&#39;前则是目标内容(.*)，用括号捕获，目标内容前为斜杠(\/表示)，斜杠前为任意内容，正则表达式如下：
+<pre><code class="language-js">//要匹配目标内容，可以从后往回推，首先是后缀名(.*表示)，后缀名前跟着一个&#39;.&#39;(\.表示)，&#39;.&#39;前则是目标内容(.*)，用括号捕获，目标内容前为斜杠(\/表示)，斜杠前为任意内容，正则表达式如下：
 var r =/.*\/(.*)\..*/;
 var m = s.match(r);
 console.log(str.match(patt));
-=&gt; [&quot;http://i2.xxx.com/wx/images_2016/monkey/m4_1e3thtr.png&quot;,&quot;m4_1e3thtr&quot;]</code></pre><p>这里的<code>.*\/</code>可以匹配最后一个斜杠前的所有内容，因为 js 中的正则默认是贪婪模式。</p>
+=&gt; [&quot;http://i2.xxx.com/wx/images_2016/monkey/m4_1e3thtr.png&quot;,&quot;m4_1e3thtr&quot;]</code></pre>
+<p>这里的<code>.*\/</code>可以匹配最后一个斜杠前的所有内容，因为 js 中的正则默认是贪婪模式。</p>
 </li>
 <li><p>验证字符串组成，第一个为数字，后面可以是字母、数字、下划线组成的 1 到 50 位的字符。</p>
 <p><code>str.match(/\d\w{1,50}$/)</code></p>
 </li>
 <li><p>将一浮点数小数点左边的数字每三位加一个逗号</p>
-<pre><code>
+<pre><code class="language-js">
 //当一个字符串中某个数字后跟着 n 对三个数字(\d{3})就匹配这个数字
 const formateNum = (num) =&gt; {
   const numStr = num.toString();
@@ -338,12 +345,14 @@ const formateNum = (num) =&gt; {
 
 formateNum(435345.656)
 =&gt; &quot;435,345.656&quot;
-</code></pre></li>
+</code></pre>
+</li>
 <li><p>匹配一个字符串当这个字符串中没有<code>@</code>这个字符</p>
 <p>如下: 正则<code>/^(?!.*@)/</code>表示如果这个字符串中没有<code>@</code>字符就匹配字符串开始的位置，如果不添加开始符号<code>^</code>会因为<code>@</code>后面的字符导致匹配结果不对(比如<code>abcd@efg</code>并不满足正则<code>(?!.*@)</code>，从而匹配成功)。</p>
-<pre><code>var reg = /^(?!.\*@)/;
+<pre><code class="language-js">var reg = /^(?!.\*@)/;
 reg.test(&#39;abcd@efg&#39;);
 =&gt; false
 reg.test(&#39;abcdefg&#39;);
-=&gt; true</code></pre></li>
+=&gt; true</code></pre>
+</li>
 </ul>

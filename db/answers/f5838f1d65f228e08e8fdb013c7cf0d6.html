@@ -6,23 +6,26 @@
 <p>使脚本在下载完成后立即执行，async 属性使脚本以乱序执行为主，不一定是在 DOMContentLoaded 前执行。对内联脚本不起作用。</p>
 <pre><code>  &lt;script src=&quot;bundle.js&quot; defer&gt;&lt;/script&gt;</code></pre></li>
 <li><p>动态创建 DOM</p>
-<pre><code>function loadJS() {
-    var el = document.createElement(&#39;script&#39;);
-    el.src = &#39;http://localhost:8000/package.json&#39;;
-    document.body.appendChild(el);
-    //chrome,Firefox不支持onreadystatechange
-    el.onload = el.onreadystatechange = () =&gt; {
-        if (!this.readyState ||
-        this.readyState == &quot;loaded&quot; ||
-        this.readyState == &quot;complete&quot;)) {
-        console.log(&#39;load script success&#39;);
-        el.onload = el.onreadystatechange = null;
-        document.body.removeChild(el);
-      }
-    };
-    el.onerror = () =&gt; {
-      alert(&#39;error&#39;);
-    };
-  }
-  window.addEventListener(&#39;load&#39;, loadJS);</code></pre></li>
+<pre><code class="language-js">function loadJS() {
+  var el = document.createElement(&quot;script&quot;);
+  el.src = &quot;http://localhost:8000/package.json&quot;;
+  document.body.appendChild(el);
+  //chrome,Firefox不支持onreadystatechange
+  el.onload = el.onreadystatechange = function() {
+    if (
+      !this.readyState ||
+      this.readyState == &quot;loaded&quot; ||
+      this.readyState == &quot;complete&quot;
+    ) {
+      console.log(&quot;load script success&quot;);
+      el.onload = el.onreadystatechange = null;
+      document.body.removeChild(el);
+    }
+  };
+  el.onerror = () =&gt; {
+    alert(&quot;error&quot;);
+  };
+}
+window.addEventListener(&quot;load&quot;, loadJS);</code></pre>
+</li>
 </ul>
