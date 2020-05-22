@@ -1,4 +1,4 @@
-<h1>AJAX是什么</h1><div class="toc-article"><strong class="toc-title">Contents</strong><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是-ajax"><span class="toc-number">1.</span> <span class="toc-text">什么是 AJAX</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#发起-ajax-请求"><span class="toc-number">2.</span> <span class="toc-text">发起 AJAX 请求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ajax-请求-post-和-get-的区别"><span class="toc-number">3.</span> <span class="toc-text">AJAX 请求 post 和 get 的区别</span></a></li></ol></div><h3 id="什么是-ajax"><strong>什么是 AJAX</strong></h3>
+<h1>AJAX是什么</h1><div class="toc-article"><strong class="toc-title">Contents</strong><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是-ajax"><span class="toc-number">1.</span> <span class="toc-text">什么是 AJAX</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#发起-ajax-请求"><span class="toc-number">2.</span> <span class="toc-text">发起 AJAX 请求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ajax-请求-post-和-get-的区别"><span class="toc-number">3.</span> <span class="toc-text">AJAX 请求 post 和 get 的区别</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#get-请求"><span class="toc-number">3.0.1.</span> <span class="toc-text">get 请求</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#post-请求"><span class="toc-number">3.0.2.</span> <span class="toc-text">post 请求</span></a></li></ol></div></li></ol></div></li></ol></div><h3 id="什么是-ajax"><strong>什么是 AJAX</strong></h3>
 <p>AJAX 即 Asynchronous JavaScript and XML(异步的 JavaScript 和 XML 技术)，它不是一种具体的东西，而是一种使用现有标准的技术，它允许客户端脚本向服务器发送请求，这对于 21 世纪的我们来说似乎再寻常不过了，但没有 AJAX 之前发送网络请求是这样的：</p>
 <ul>
 <li>打开浏览器 =&gt; 输入网址 =&gt; 回车 =&gt; 发送请求 =&gt; 服务器返回页面，页面刷新</li>
@@ -10,37 +10,44 @@
 <ul>
 <li><p>创建 XMLHttpRequest 对象
 XMLHttpRequest 对象是 AJAX 的基础，现代浏览器均支持该对象。</p>
-<pre><code>  const xhr = new XMLHttpRequest();</code></pre></li>
+<pre><code class="language-js">const xhr = new XMLHttpRequest();</code></pre>
+</li>
 <li><p>监听请求状态</p>
-<pre><code>  xhr.onreadystatechange = () =&gt; {
-    if (xhr.readyState == 4 &amp;&amp; xhr.status == 200) {
-      document.getElementById(&quot;root&quot;).innerHTML=xhr.responseText
-      console.log(&#39;请求成功&#39;);
-    }
-  };
-</code></pre><p>readyState 的值如下:</p>
+<pre><code class="language-js">xhr.onreadystatechange = () =&gt; {
+  if (xhr.readyState == 4 &amp;&amp; xhr.status == 200) {
+    document.getElementById(&quot;root&quot;).innerHTML = xhr.responseText;
+    console.log(&quot;请求成功&quot;);
+  }
+};</code></pre>
+<p>readyState 的值如下:</p>
 <pre><code>  0: 未初始化，XMLHttpRequest对象被创建，还没调用open方法
   1: 服务器连接已建立: open方法被调用建立起连接(send还没被调用)
   2: 服务器已接收请求: XMLHttpRequest对象的请求发送完成(send被调用)
   3: 解析，XMLHttpRequest对象开始读取服务器的响应
   4: 完成，XMLHttpRequest对象读取服务器响应结束</code></pre></li>
 <li><p>设置请求参数</p>
-</li>
-</ul>
-<pre><code>/*
- 方法：open(method,url,async)
- - method: GET或POST
- - url: 发送请求的URL
- - async: 异步或同步(true或false)
+<pre><code class="language-js">/*
+方法：open(method,url,async)
+- method: GET或POST
+- url: 发送请求的URL
+- async: 异步或同步(true或false)
 */
 // get请求
-xhr.open( &quot;get&quot;, &quot;http://localhost:4000/data?page=&quot; + encodeURTComponent(page), true);
+xhr.open(
+  &quot;get&quot;,
+  &quot;http://localhost:4000/data?page=&quot; + encodeURTComponent(page),
+  true
+);
 // post 请求
-xhr.open(&quot;POST&quot;,&quot;http://localhost:4000/data&quot;,true);</code></pre><p>必须设置提交时的内容类型，否则服务器端收不到参数。常用的请求格式有如下四种:</p>
+xhr.open(&quot;POST&quot;, &quot;http://localhost:4000/data&quot;, true);</code></pre>
+</li>
+</ul>
+<p>必须设置提交时的内容类型，否则服务器端收不到参数。常用的请求格式有如下四种:</p>
 <ul>
 <li><p>application/x-www-form-urlencoded
 最常见的 POST 提交数据的方式，原生的表单如不设置 enctype 属性，默认采用的就是这种格式。</p>
-<pre><code>  const data =&quot;name=&quot; + encodeURIComponent(&quot;xhm&quot;);</code></pre></li>
+<pre><code class="language-js">const data = &quot;name=&quot; + encodeURIComponent(&quot;xhm&quot;);</code></pre>
+</li>
 <li><p>multipart/form-data
 我们使用表单上传文件时，必须让 form 表单的 enctype 等于 multipart/form-data</p>
 </li>
@@ -49,35 +56,65 @@ xhr.open(&quot;POST&quot;,&quot;http://localhost:4000/data&quot;,true);</code></
 </li>
 <li><p>text/xml
 它是一种使用 HTTP 作为传输协议，XML 作为编码方式的远程调用规范。</p>
+<pre><code class="language-js">xhr.setRequestHeader(
+  &quot;Content-Type&quot;,
+  &quot;application/x-www-form-urlencoded; charset=UTF-8&quot;
+);</code></pre>
+</li>
+<li><p>发送请求</p>
+<pre><code class="language-js">// get
+request.send();
+// post data为为请求参数
+const data = &quot;name=&quot; + encodeURIComponent(&quot;xhm&quot;);
+request.send(data);</code></pre>
+</li>
+<li><p>完整的请求</p>
+<pre><code class="language-js">function success(text) {
+   console.log(&#39;success)
+}
+
+function fail(code) {
+   console.log(&#39;fail&#39;)
+}
+
+const xhr = new XMLHttpRequest(); // 新建XMLHttpRequest对象
+
+xhr.onreadystatechange = function () { // 状态发生变化时，函数被回调
+    if (xhr.readyState === 4) { // 成功完成
+        // 判断响应结果:
+        if (xhr.status === 200) {
+            // 成功，通过responseText拿到响应的文本:
+            return success(xhr.responseText);
+        } else {
+            // 失败，根据响应码判断失败原因:
+            return fail(xhr.status);
+        }
+    } else {
+        // HTTP请求还在继续...
+    }
+}
+
+// 发送请求:
+xhr.open(&#39;GET&#39;, &#39;/api/categories&#39;);
+xhr.setRequestHeader(
+  &quot;Content-Type&quot;,
+  &quot;application/x-www-form-urlencoded; charset=UTF-8&quot;
+);
+xhr.send();</code></pre>
 </li>
 </ul>
-<pre><code> xhr.setRequestHeader(&#39;Content-Type&#39;, &#39;application/x-www-form-urlencoded; charset=UTF-8&#39;);</code></pre><ul>
-<li>发送请求</li>
-</ul>
-<pre><code>  // get
-  request.send();
-  // post data为为请求参数
-  const data =&quot;name=&quot; + encodeURIComponent(&quot;xhm&quot;);
-  request.send(data);</code></pre><h3 id="ajax-请求-post-和-get-的区别"><strong>AJAX 请求 post 和 get 的区别</strong></h3>
+<h3 id="ajax-请求-post-和-get-的区别"><strong>AJAX 请求 post 和 get 的区别</strong></h3>
+<h5 id="get-请求">get 请求</h5>
 <ul>
-<li><p>get 请求</p>
-</li>
-<li><p>数据较小，一般限制在 1kb 以下</p>
-</li>
-<li><p>数据追加到 url 中，如(<a href="http://localhost:4000/data?username=xhm&amp;&amp;password=xhm">http://localhost:4000/data?username=xhm&amp;&amp;password=xhm</a>)</p>
-</li>
-<li><p>浏览器会缓存请求记录，可能带来安全性问题</p>
-</li>
-<li><p>服务器端用 Request.query 获取变量的值</p>
-</li>
-<li><p>post 请求</p>
-</li>
-<li><p>没有数据量限制(但理论上，因服务器的不同而异)</p>
-</li>
-<li><p>发送包含未知字符的用户输入时 post 更加安全</p>
-</li>
-<li><p>get 请求时参数在 url 里，send 的时参数为 null，post 请求时可以给 send 函数赋予参数</p>
-</li>
-<li><p>服务器端用 Request.Form 获取提交的数据</p>
-</li>
+<li>数据较小，一般限制在 1kb 以下</li>
+<li>数据追加到 url 中，如(<a href="http://localhost:4000/data?username=xhm&amp;&amp;password=xhm">http://localhost:4000/data?username=xhm&amp;&amp;password=xhm</a>)</li>
+<li>浏览器会缓存请求记录，可能带来安全性问题</li>
+<li>服务器端用 Request.query 获取变量的值</li>
+</ul>
+<h5 id="post-请求">post 请求</h5>
+<ul>
+<li>没有数据量限制(但理论上，因服务器的不同而异)</li>
+<li>发送包含未知字符的用户输入时 post 更加安全</li>
+<li>get 请求时参数在 url 里，send 的时参数为 null，post 请求时可以给 send 函数赋予参数</li>
+<li>服务器端用 Request.Form 获取提交的数据</li>
 </ul>

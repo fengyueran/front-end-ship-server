@@ -225,7 +225,7 @@ input: &#39;there is a iphone called iphone&#39; ]
 </li>
 <li><p><code>(?:x)</code> 匹配 x 但是不记住匹配项。这种叫作非捕获括号</p>
 <pre><code class="language-js">var str = &quot;there is a iphone called iphone&quot;;
-var patt = /(?:iphone).*\1\$/; //因为没有记住匹配项，所有\1 不能拿到子表达式 1 的结果，匹配为 null
+var patt = /(?:iphone).*\1\$/; //因为没有记住匹配项，所有\1 不能拿到子表达式(括号匹配的内容) 1 的结果，匹配为 null
 console.log(str.match(patt));
 =&gt;null
 </code></pre>

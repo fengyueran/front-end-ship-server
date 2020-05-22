@@ -97,9 +97,8 @@
       &lt;input id=&quot;input3&quot; type=&quot;checkbox&quot; /&gt;
   &lt;/div&gt;</code></pre>
 <ul>
-<li><p><code>E:target</code>: URL 后跟锚点#，指向文档内某个具体的元素，这个被链接的元素就是目标元素，<code>E:target</code>选
-择器用于选取当前活动的目标元素
-当我们点击列表 tab1 时，因为其锚点链接的元素就是 id 为 tab1 的元素，所以此时活动的目标元素就是 id 为 tab1 的 div，通过 div:target 就可以获取此目标元素。</p>
+<li><p><code>E:target</code>: URL 后跟锚点#，指向文档内某个具体的元素，这个被链接的元素就是目标元素，<code>E:target</code>选择器用于选取当前活动的目标元素当我们点击列
+表 tab1 时，因为其锚点链接的元素就是 id 为 tab1 的元素，所以此时活动的目标元素就是 id 为 tab1 的 div，通过 div:target 就可以获取此目标元素。</p>
 <p><code>div:target { background: red; }</code></p>
 </li>
 <li><p><code>:not(selector)</code>: 匹配与 selector 选择器描述不相符的元素</p>
@@ -124,8 +123,7 @@
 列表 tab1 是其父元素 ul 的第一个元素，因此可以匹配到列表 tab1</p>
 <p><code>li:nth-child(1) { color: red; }</code></p>
 </li>
-<li><p><code>E:nth-last-child(n)</code>: 匹配元素 E 当它是其父元素的倒数第 n(从 1 开始)个子元素
-列表 tab2 是其父元素 ul 的倒数第一个子元素，因此可以匹配到列表 tab2</p>
+<li><p><code>E:nth-last-child(n)</code>: 匹配元素 E 当它是其父元素的倒数第 n(从 1 开始)个子元素列表 tab2 是其父元素 ul 的倒数第一个子元素，因此可以匹配到列表 tab2</p>
 <p><code>li:nth-last-child(1) { color: red; }</code></p>
 </li>
 <li><p><code>E:last-child</code>: 匹配元素 E 当它是其父元素的倒数第 1 个子元素</p>
@@ -202,16 +200,16 @@
 <li><p><code>E F</code>: 后代元素选择器，匹配 E 元素的后代元素 F</p>
 <p><code>#div1 h2 { color: red; }</code></p>
 </li>
-<li><p><code>E + F</code>: 相邻元素选择器，匹配所有紧随 E 元素之后的 F 元素
-匹配 div3</p>
+<li><p><code>E + F</code>: 相邻元素选择器，匹配所有紧随 E 元素之后的 F 元素</p>
+<p>匹配 div3</p>
 <p><code>#div2 + div { color: red; }</code></p>
 </li>
-<li><p><code>E ~ F</code>: 同级元素选择器，匹配所有 E 元素之后的同级元素 F
-匹配 div3，div4</p>
+<li><p><code>E ~ F</code>: 同级元素选择器，匹配所有 E 元素之后的同级元素 F</p>
+<p>匹配 div3，div4</p>
 <p><code>#div2 ~ div { color: red; }</code></p>
 </li>
-<li><p><code>EF</code>: 多条件元素选择器，同时匹配 E 和 F 的元素
-匹配 id 为 div2 的 div</p>
+<li><p><code>EF</code>: 多条件元素选择器，同时匹配 E 和 F 的元素</p>
+<p>匹配 id 为 div2 的 div</p>
 <p><code>div#div2 { color: red; }</code></p>
 </li>
 </ul>

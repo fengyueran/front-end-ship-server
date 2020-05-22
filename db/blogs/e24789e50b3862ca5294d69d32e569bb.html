@@ -23,15 +23,17 @@
 </ul>
 <h3 id="解析对象"><strong>解析对象</strong></h3>
 <p>请实现方法 parse ，作用如下：</p>
-<pre><code>var object = {
- b: { c: 4 }, d: [{ e: 5 }, { ef: 6 }]
+<pre><code class="language-js">var object = {
+  b: { c: 4 },
+  d: [{ e: 5 }, { ef: 6 }],
 };
-console.log( parse(object, &#39;b.c&#39;) == 4 ) //true
-console.log( parse(object, &#39;d[0].e&#39;) == 5 ) //true
-console.log( parse(object, &#39;d.0.e&#39;) == 5 ) //true
-console.log( parse(object, &#39;d[1].ef&#39;) == 6 ) //true
-console.log( parse(object, &#39;d.1.ef&#39;) == 6 ) //true
-console.log( parse(object, &#39;f&#39;) == undefined ) //true</code></pre><pre><code>var parse = (object, key) =&gt; {
+console.log(parse(object, &quot;b.c&quot;) == 4); //true
+console.log(parse(object, &quot;d[0].e&quot;) == 5); //true
+console.log(parse(object, &quot;d.0.e&quot;) == 5); //true
+console.log(parse(object, &quot;d[1].ef&quot;) == 6); //true
+console.log(parse(object, &quot;d.1.ef&quot;) == 6); //true
+console.log(parse(object, &quot;f&quot;) == undefined); //true</code></pre>
+<pre><code class="language-js">var parse = (object, key) =&gt; {
   if (!object || !key) return;
   const els = key.split(&quot;.&quot;);
   let target = object;
@@ -52,7 +54,8 @@ console.log( parse(object, &#39;f&#39;) == undefined ) //true</code></pre><pre><
     i++;
   }
   return target;
-};</code></pre><h3 id="取整函数"><strong>取整函数</strong></h3>
+};</code></pre>
+<h3 id="取整函数"><strong>取整函数</strong></h3>
 <ul>
 <li>向上取整: Math.ceil():</li>
 <li>向下取整: Math.floor():</li>
@@ -61,61 +64,69 @@ console.log( parse(object, &#39;f&#39;) == undefined ) //true</code></pre><pre><
 <h3 id="生成随机数"><strong>生成随机数</strong></h3>
 <ul>
 <li><p>产生[m, n]的随机整数</p>
-<pre><code>// Math.random产生[0, 1)的随机数
-const random = (m, n) =&gt; Math.ceil(Math.random() * (n - m)) + m;</code></pre></li>
+<pre><code class="language-js">// Math.random产生[0, 1)的随机数
+const random = (m, n) =&gt; Math.ceil(Math.random() * (n - m)) + m;</code></pre>
+</li>
 <li><p>产生(m, n]的随机整数</p>
-<pre><code>const random = (m, n) =&gt; {
+<pre><code class="language-js">const random = (m, n) =&gt; {
   const value = Math.random();
   return value === 0 ? m + 1 : Math.ceil(value * (n - m)) + m;
-}</code></pre></li>
+};</code></pre>
+</li>
 <li><p>产生[m, n)的随机整数</p>
-<pre><code>const random = (m, n) =&gt; Math.floor(Math.random() * (n - m)) + m;</code></pre></li>
+<pre><code class="language-js">const random = (m, n) =&gt; Math.floor(Math.random() * (n - m)) + m;</code></pre>
+</li>
 <li><p>产生(m, n)的随机整数</p>
-<pre><code>  const random = (m, n) =&gt; {
-    const value = Math.floor(Math.random() * (n - m));
-    return value === 0 ? m + 1 : value + m;
-  }</code></pre></li>
+<pre><code class="language-js">const random = (m, n) =&gt; {
+  const value = Math.floor(Math.random() * (n - m));
+  return value === 0 ? m + 1 : value + m;
+};</code></pre>
+</li>
 </ul>
 <h3 id="操作数组"><strong>操作数组</strong></h3>
 <ul>
 <li><p>shift</p>
 <p>该方法用于将数组的第一个元素从其中删除，并返回第一个元素的值。如果数组为空，则不进行任何操作，返回 undefined 值，该方法不会创建新数组而是从原数组直接进行修改。</p>
-<pre><code>const arr = [1, 2];
+<pre><code class="language-js">const arr = [1, 2];
 const v = arr.shift();
 console.log(v); // 1
-console.log(arr); // [2]
-</code></pre></li>
+console.log(arr); // [2]</code></pre>
+</li>
 <li><p>unshift</p>
 <p>该方法向数组中开头添加一个或多个元素，并返回数组的新长度。</p>
-<pre><code>const arr = [1, 2];
+<pre><code class="language-js">const arr = [1, 2];
 const v = arr.unshift(0);
 console.log(v); // 3
 console.log(arr); // [0, 1, 2]
 
 const v1 = arr.unshift(3, 4);
 console.log(v1); // 5
-console.log(arr); // [3, 4, 0, 1, 2]
-</code></pre></li>
+console.log(arr); // [3, 4, 0, 1, 2]</code></pre>
+</li>
 <li><p>pop</p>
 <p>该方法用于删除并返回数组的最后一个元素，如果数组为空，则 pop 不改变数组，并返回 undefined 值，该方法不会创建新数组而是从原数组直接进行修改。</p>
-<pre><code>const arr = [1, 2];
+<pre><code class="language-js">const arr = [1, 2];
 const v = arr.pop();
 console.log(v); // 2
-console.log(arr); // [1]</code></pre></li>
+console.log(arr); // [1]</code></pre>
+</li>
 <li><p>slice</p>
 <p>该方法返回一个新的数组对象，这个对象由一个 begin 和 end(不包括 end)决定的原数组的浅拷贝，原数组不会被改变。</p>
 <p><strong>语法:</strong></p>
-<pre><code>arr.slice(begin, end);</code></pre><p><strong>参数:</strong></p>
+<pre><code class="language-js">arr.slice(begin, end);</code></pre>
+<p><strong>参数:</strong></p>
 <pre><code>begin(可选): 拷贝元素的开始位置(包含开始位置)，默认为0，如果为负数，则表示从原数组的倒数第几个元素开始拷贝。
 end(可选): 拷贝元素的结束位置(不包括结束位置)，如果省略或大于数组长度，则拷贝到最后一个元素(包含最后一个元素)。如果为负数，则表示从拷贝到原数组的倒数第几个元素。</code></pre><p><strong>实例:</strong></p>
-<pre><code>var a = [1, 2, 3, 4];
-var b = a.slice(1, 3);// [2, 3]
-var c = a.slice(1);// [2, 3, 4]
-var d = a.slice();// [1, 2, 3, 4]</code></pre></li>
+<pre><code class="language-js">var a = [1, 2, 3, 4];
+var b = a.slice(1, 3); // [2, 3]
+var c = a.slice(1); // [2, 3, 4]
+var d = a.slice(); // [1, 2, 3, 4]</code></pre>
+</li>
 <li><p>splice</p>
 <p>该方法通过删除或替换现有元素或者原地添加新的元素来修改数组，并以数组的形式返回被修改的内容，此方法会改变原数组。</p>
 <p><strong>语法:</strong></p>
-<pre><code>array.splice(start, deleteCount, item1, item2, ...)</code></pre><p><strong>参数:</strong></p>
+<pre><code class="language-js">array.splice(start, deleteCount, item1, item2, ...)</code></pre>
+<p><strong>参数:</strong></p>
 <pre><code>start:
 
 指定修改的开始位置，从 0 开始，如果超出了数组的长度，则从数组末尾开始添加内容；如果是负值，则表
@@ -127,28 +138,31 @@ deleteCount(可选):
 
 item1, item2,...(可选):
 
-要添加进数组的元素，从 start 位置开始，如果不指定，则 splice()删除元素。
+要添加进数组的元素，从 start 位置开始，如果不指定，则 splice()只删除元素。
 </code></pre><p><strong>实例:</strong></p>
-<pre><code>var a=[1,2,3,4,5];
+<pre><code class="language-js">var a = [1, 2, 3, 4, 5];
 //1. a.splice(1, 3)从第二个元素开始删除三个元素 a 变为[1,5]
 //2. 元素 5、2、1 添加到数组删除的位置，则 a 变为[1, 5, 2, 1, 5]
-var b = a.splice(1,3,5,2,1); // b: [2, 3, 4]，为被删除的元素
-console.log(a);[1, 5, 2, 1, 5]
-</code></pre></li>
+var b = a.splice(1, 3, 5, 2, 1); // b: [2, 3, 4]，为被删除的元素
+console.log(a);
+[1, 5, 2, 1, 5];</code></pre>
+</li>
 <li><p>concat</p>
 <p>该方法用于合并多个数组或值，此方法不会改变原数组，而是返回一个新数组。</p>
 <p><strong>语法:</strong></p>
-<pre><code>var newArray = arr1.cancat(arr2, arr3, ..., arrN)</code></pre><p><strong>参数:</strong></p>
+<pre><code class="language-js">var newArray = arr1.cancat(arr2, arr3, ..., arrN)</code></pre>
+<p><strong>参数:</strong></p>
 <pre><code>valueN: 要合并的数组或值</code></pre><p><strong>实例:</strong></p>
-<pre><code>var arr1 = [1];
+<pre><code class="language-js">var arr1 = [1];
 var arr2 = [2];
 var arr3 = [3, 4];
 var newArr1 = arr1.concat(); // [1]
 var newArr2 = arr1.concat(arr2, arr3);
-console.log(newArr);//[1, 2, 3, 4]</code></pre></li>
+console.log(newArr); //[1, 2, 3, 4]</code></pre>
+</li>
 <li><p>sort
 该方法用于对数组的元素进行排序，并返回数组，此方法会改变原数组。</p>
-<pre><code>  /*
+<pre><code class="language-js">/*
   compareFunction: 用于指定按照某种顺序进行排序的函数，如果省略，元
                     素按照转换为字符串的各个字符的Unicode编码顺序进行升序排序。
   compareFunction(a, b): a和b分别表示第一个比较的元素和第二个比较的元素，函数返回值决定了如何排序
@@ -156,22 +170,24 @@ console.log(newArr);//[1, 2, 3, 4]</code></pre></li>
                         2. 等于0，可能保持相对位置不变(并不是所有浏览器都遵守)
                         3. 大于0，则a排在b后面
   */
-  array.sort(compareFunction)
+array.sort(compareFunction);
 
-  var a=[&#39;b&#39;,&#39;a&#39;];
-  //a的ASCII码比b的ASCII码小，所以a排在前面
-  var b = a.sort(); //[&#39;a&#39;, &#39;b&#39;]
-  console.log(a); // [&#39;a&#39;, &#39;b&#39;]
+var a = [&quot;b&quot;, &quot;a&quot;];
+//a的ASCII码比b的ASCII码小，所以a排在前面
+var b = a.sort(); //[&#39;a&#39;, &#39;b&#39;]
+console.log(a); // [&#39;a&#39;, &#39;b&#39;]
 
-  var c =[10, 2];
-  //10，2转换为字符串&#39;10&#39;, &#39;2&#39;进行比较，因为&#39;1&#39;比&#39;2&#39;的的ASCII码小，所以10排前面
-  var d = c.sort(); //[10, 2]
+var c = [10, 2];
+//10，2转换为字符串&#39;10&#39;, &#39;2&#39;进行比较，因为&#39;1&#39;比&#39;2&#39;的的ASCII码小，所以10排前面
+var d = c.sort(); //[10, 2]
 
-  var e = c.sort((a, b) =&gt; a - b); //[2, 10]</code></pre></li>
+var e = c.sort((a, b) =&gt; a - b); //[2, 10]</code></pre>
+</li>
 <li><p>filter</p>
 <p>该方法通过预先设定的函数来筛选目标元素，此方法不会改变原数组。</p>
 <p><strong>语法:</strong></p>
-<pre><code>var newArray = array.filter(callback(item, index, arr), thisArg)</code></pre><p><strong>参数:</strong></p>
+<pre><code class="language-js">var newArray = array.filter(callback(item, index, arr), thisArg);</code></pre>
+<p><strong>参数:</strong></p>
 <pre><code>  callback: 用来测试数组的每个元素的函数。返回 true 表示该元素通过测试，保留该元素，false 则不保留。它接受以下三个参
             数：
             item: 当前正则处理的元素
@@ -180,10 +196,34 @@ console.log(newArr);//[1, 2, 3, 4]</code></pre></li>
   thisArg(可选): 执行 callback 时，用于 this 的值。</code></pre><p><strong>返回值:</strong>
 一个新的、由通过测试的元素组成的数组，如果没有任何数组元素通过测试，则返回空数组。</p>
 <p><strong>实例:</strong></p>
-<pre><code>const new arr = [1, 2].filter((e, index, arr)=&gt; e &gt; 1); //[2]</code></pre></li>
+<pre><code class="language-js">const new arr = [1, 2].filter((e, index, arr)=&gt; e &gt; 1); //[2]</code></pre>
+</li>
 <li><p>reverse
 该方法将数组中的元素位置颠倒，并返回颠倒后的数组，该方法会改变原数组。</p>
-<pre><code>var a = [1, 2, 3];
+<pre><code class="language-js">var a = [1, 2, 3];
 var b = a.reverse(); //[3, 2, 1];
-console.log(a); //[3, 2, 1];</code></pre></li>
+console.log(a); //[3, 2, 1];</code></pre>
+</li>
+<li><p>reduce</p>
+<p>对数组中的每个元素执行一个自定义的 reducer 函数(升序执行)，将其结果汇总为单个返回值。</p>
+<p><strong>语法:</strong></p>
+<pre><code class="language-js">/*
+  reducer(必须): 自定义的函数, 有4个参数
+       total: 必需，初始值, 或者计算结束后的返回值。
+       currentValue: 必需，当前元素
+       currentIndex: 可选。当前元素的索引
+       arr: 可选，当前元素所属的数组对象。
+  initialValue(可选): 初始值
+*/
+arr.reduce(function reducer(total, currentValue, currentIndex, arr), initialValue)</code></pre>
+<p><strong>实例:</strong></p>
+<pre><code class="language-js">const arr = [1, 2, 3, 4];
+const reducer = (accumulator, currentValue) =&gt; accumulator + currentValue;
+
+// 1 + 2 + 3 + 4
+console.log(array1.reduce(reducer)); //10
+
+// 5 + 1 + 2 + 3 + 4
+console.log(array1.reduce(reducer, 5)); //15</code></pre>
+</li>
 </ul>

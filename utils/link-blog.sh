@@ -1,3 +1,3 @@
 # cd ..
 # echo $PWD
-ln  -sf  ~/MyHouse/xh-blog/source/_posts/  ./source/blogs
+ln  -sf  ~/xinghun/MyHouse/xh-blog/source/_posts/  ./source/blogs
