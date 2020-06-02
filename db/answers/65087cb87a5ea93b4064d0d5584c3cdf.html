@@ -3,12 +3,14 @@
 <p>表示服务器收到请求，需要请求者继续执行操作</p>
 <ul>
 <li>100 Continue: 客户端应继续其请求。</li>
+<li>101 Switching Protocols: 服务器根据客户端的请求切换协议。只能切换到更高级的协议，例如，切换到 websocket。</li>
 </ul>
 </li>
 <li><p>成功(2xx)</p>
 <p>表示服务器成功接收请求并处理返回</p>
 <ul>
 <li>200 Ok: 请求正常处理完毕。一般用于 GET 与 POST 请求</li>
+<li>201 Created: 已创建，成功请求并创建了新的资源</li>
 <li>202 Accepted: 服务器已经接受到消息，但尚未处理</li>
 <li>204 No Content: 服务器成功处理了请求但未返回任何内容</li>
 <li>206 Partial Content: 服务器成功处理了部分 get 请求</li>

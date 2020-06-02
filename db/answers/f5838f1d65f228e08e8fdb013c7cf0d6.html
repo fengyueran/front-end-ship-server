@@ -4,7 +4,7 @@
 <pre><code>  &lt;script src=&quot;bundle.js&quot; defer&gt;&lt;/script&gt;</code></pre></li>
 <li><p>async</p>
 <p>使脚本在下载完成后立即执行，async 属性使脚本以乱序执行为主，不一定是在 DOMContentLoaded 前执行。对内联脚本不起作用。</p>
-<pre><code>  &lt;script src=&quot;bundle.js&quot; defer&gt;&lt;/script&gt;</code></pre></li>
+<pre><code>  &lt;script src=&quot;bundle.js&quot; async&gt;&lt;/script&gt;</code></pre></li>
 <li><p>动态创建 DOM</p>
 <pre><code class="language-js">function loadJS() {
   var el = document.createElement(&quot;script&quot;);
