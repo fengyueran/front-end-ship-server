@@ -11,9 +11,6 @@ SHELL_LOG="$BASE_DIR/$APP_NAME.log"
 REMOTE="root@139.180.215.117"
 SERVER_DIR_ON_REMOTE="/root/server/front-end-ship-server"
 
-
-
-
 log(){
   LOG_INFO=$1
   echo "$DATE $SCRIPT_NAME : $LOG_INF" >> $SHELL_LOG
@@ -59,12 +56,10 @@ main(){
      printRed "There are files need to commit" && exit
   fi
 
-  lock
   pushDBJsonOnRemote
   updateDBJson
   pushDBJsonOnLocal
   deploy
-  unlock
 }
 
 main
