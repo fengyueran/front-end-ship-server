@@ -1,0 +1,21 @@
+<h1>scroll相关属性</h1><div class="toc-article"><strong class="toc-title">Contents</strong><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#scroll-相关属性"><span class="toc-number">1.</span> <span class="toc-text">scroll 相关属性</span></a></li></ol></div><h3 id="scroll-相关属性">scroll 相关属性</h3>
+ <center><img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/38.scroll%E7%9B%B8%E5%85%B3%E5%B1%9E%E6%80%A7/scroll%E7%9B%B8%E5%85%B3%E5%B1%9E%E6%80%A7%E7%A4%BA%E6%84%8F%E5%9B%BE.png" /></center>
+
+<ul>
+<li><p>clientHeight</p>
+<p>对于块级元素而言 clientHeight 包括内容高度和 padding 的高度单位 px，只读。对于内联元素而言 clientHeight 为 0。clientHeight = CSS height + CSS padding - height of horizontal scrollbar(如果存在)。</p>
+</li>
+<li><p>offsetHeight</p>
+<p>对于块级元素而言 offsetHeight 包括 border、内容、padding 的高度以及水平滚动条高度，单位 px，只读。对于内联元素而言 offsetHeight 为 0。</p>
+</li>
+<li><p>scrollHeight</p>
+<p>当父元素 overflow 设置为 auto 或 scroll，而子元素的高度又大于父元素高度时就会出现滚动条。scrollHeight 实际代表了子元素所能撑开的高度(子元素的 offsetHeight、margin 以及伪元素高度)，对于拥有滚动条的父元素而言其 scrollHeight&gt;=clientHeight 恒成立，也就可以由此来判断元素是否会出现滚动条，为一个只读属性。</p>
+</li>
+<li><p>scrollTop</p>
+<p>滚动条向下滚动的距离，也就是元素顶部被遮挡部分的高度，因此在没有滚动条时 crollTop==0 恒成立，单位 px，可读写。</p>
+</li>
+<li><p>offsetTop</p>
+<p>元素离最近的父元素顶部的距离，与滚动条无关，单位 px，只读。</p>
+<center><img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/38.scroll%E7%9B%B8%E5%85%B3%E5%B1%9E%E6%80%A7/offsetTop%E7%A4%BA%E6%84%8F%E5%9B%BE.png" /></center>
+</li>
+</ul>
