@@ -19,20 +19,20 @@ log(){
 pushDBJsonOnRemote(){
   printGreen "Push db.json on remote..."
   log "Push db.json on remote"
-  result=`ssh $REMOTE "cd $SERVER_DIR_ON_REMOTE && git add . && git commit -m 'update db.json' && git pull --rebase origin master && git push origin master"` || (unlock && unlock)
+  result=`ssh $REMOTE "cd $SERVER_DIR_ON_REMOTE && git add . && git commit -m 'update db.json' && git pull --rebase origin master && git push origin master"` 
   echo $result
 }
 
 pushDBJsonOnLocal(){
   printGreen "Push db.json on local..."
   log "Push db.json on local"
-  git push origin master || (unlock && exit 1)
+  git push origin master || exit 1
 }
 
 updateDBJson(){
   printGreen "Update db.json..."
   log "Update db.json"
-  git pull --rebase || (unlock && exit 1)
+  git pull --rebase || exit 1
 }
 
 deploy(){
