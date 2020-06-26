@@ -5,23 +5,23 @@
 <img style="display:block; margin: auto; width:400px" alt="作用域示意图" src="https://user-gold-cdn.xitu.io/2019/4/18/16a2f55cd71b035e?w=613&h=328&f=png&s=282657" />
 
 <p>来看下面的例子:</p>
-<pre><code class="language-code">  var name = &#39;lily&#39;;
+<pre><code class="language-js">var name = &quot;lily&quot;;
 
-  function getName() {
-    console.log(&#39;name: &#39;, name);
-  }
+function getName() {
+  console.log(&quot;name: &quot;, name);
+}
 
-  function getMyName() {
-      var name = &#39;lucy&#39;;
-      getName();
-  }
+function getMyName() {
+  var name = &quot;lucy&quot;;
+  getName();
+}
 
-  getMyName();</code></pre>
+getMyName();</code></pre>
 <p>输出的结果是什么呢？对于静态作用域，函数 getName 执行时，先在函数内部查找变量，如果没有，则在上层查找，显然它的上层环境在定义时就已经确定，为全局环境，因此找到了 lily，输出<code>name: lily</code>。</p>
 <p><strong>动态作用域</strong></p>
 <p>与静态作用域相对的就是动态作用域，函数的作用域在函数调用时才确定。
 假如采用动态作用域(如 bash)，当函数 getMyName 执行时，变量 name 的值已经变成了 lucy，因此调用 getName 函数时输出<code>name: lucy</code>。如下，执行 <code>bash ./test.sh</code> 就会输出<code>name: lucy</code>。</p>
-<pre><code class="language-code">#test.sh
+<pre><code class="language-sh">#test.sh
 name=&#39;lily&#39;;
 
 function getName() {
@@ -46,7 +46,7 @@ getMyName;</code></pre>
 </ul>
 <p>进入代码执行阶段，函数环境的变量对象会变成活动对象 AO(Active Object)，变成活动对象前，其内部属性不能被访问。对于全局环境，其变量对象就是 window 对象自身，可以直接访问其内部属性。需要注意的是在 ES5 中变量对象和活动对象的概念被融合到了词法环境(lexical environments)模型(环境记录: Environment Record 和对外部环境的引用: outer reference)中，ES5 后到现在的 ES8 还有一些新的概念(Realms 领域，作业 Job 等)被提出。
 来看下面的例子:</p>
-<pre><code class="language-code">function calcArea(r) {
+<pre><code class="language-js">function calcArea(r) {
   var width = 20;
   var squareArea = function squareArea() {
     return width * width;
@@ -54,7 +54,7 @@ getMyName;</code></pre>
 
   function circleArea() {
     return 3.14 * r * r;
-  };
+  }
 
   return circleArea() + squareArea();
 }
@@ -75,7 +75,7 @@ calcArea(10);</code></pre>
   },
   this: { ... }
 }</code></pre>
-<p>可以看到在创建阶段，只处理定义变量的名字，不为变量赋值，一旦创建完成进入执行阶段就会为变量赋值。创建阶段执行环境的快照如下:</p>
+<p>可以看到在创建阶段，只处理定义变量的名字，不为变量赋值，一旦创建完成进入执行阶段就会为变量赋值。执行阶段执行环境的快照如下:</p>
 <pre><code>calcAreaExecutionContext = {
   scopeChain: { ... },
   variableObject: {
@@ -90,8 +90,10 @@ calcArea(10);</code></pre>
   },
   this: { ... }
 }</code></pre><p>由此变量提升就比较容易理解了，来看如下例子</p>
-<pre><code class="language-code">console.log(hello); // [Function: hello]
-function hello() { console.log(&#39;how are u&#39;) }
+<pre><code class="language-js">console.log(hello); // [Function: hello]
+function hello() {
+  console.log(&quot;how are u&quot;);
+}
 var hello = 10;</code></pre>
 <p>可以看到打印输出的值为<code>[Function: hello]</code>，为什么能在变量声明前使用呢？我们来看上述代码的执行流程</p>
 <ul>
@@ -108,11 +110,11 @@ var hello = 10;</code></pre>
 <p>当代码在一个环境中执行时，会创建变量对象的一个作用域链，它是由当前环境与上层环境的一系列变量对象组成的，保证了当前执行环境对符合访问权限的变量和函数的有序访问。
 在执行环境中查找变量，如果这个变量不是局部变量(包括局部函数或形参)，这个变量就称为自由变量，要找到自由变量就需要作用域链。</p>
 <p>来看下面的例子:</p>
-<pre><code class="language-code">var firstName = &#39;Michael&#39;;
+<pre><code class="language-js">var firstName = &quot;Michael&quot;;
 function getName() {
-  var middleName = &#39;Jeffrey&#39;;
+  var middleName = &quot;Jeffrey&quot;;
   function fullName() {
-    var lastName = &#39;Jordan&#39;;
+    var lastName = &quot;Jordan&quot;;
     return firstName + middleName + lastName;
   }
   return fullName();
@@ -185,20 +187,20 @@ getName();</code></pre>
 <li><p>try-catch 语句的 catch 块</p>
 <p>在执行 catch 语句块时，创建一个包含抛出错误对象声明的变量对象，将其加入作用域链前端。
 如下，在 catch 块中，错误对象 e 被添加到了其作用域链前端，这使得在 catch 块内部能够访问到错误对象。执行完后，catch 块内部的变量对象被销毁，因此在 catch 块外部就不能访问到错误对象 e 了(ie8 可以访问到，ie9 修复了这个问题)。</p>
-<pre><code class="language-code">var test = () =&gt; {
+<pre><code class="language-js">var test = () =&gt; {
   try {
     throw Error(&quot;出错误了&quot;);
-  } catch(e) {
-    console.log(e);  //Error: 出错误了
+  } catch (e) {
+    console.log(e); //Error: 出错误了
   }
-  console.log(e);  //Uncaught ReferenceError: e is not defined
-}
+  console.log(e); //Uncaught ReferenceError: e is not defined
+};
 test();</code></pre>
 </li>
 <li><p>with(obj)语句</p>
 <p>将 obj 对象加入到作用域链前端。
-如下，语句<code>with(persion)</code>将对象 persion 添加到了函数 getName 作用域链的前端，语句<code>var myName = name</code>在查找变量 name 时 会首先在其作用域链前端，即 person 对象中查找，查找到 name 属性为 snow。又因为 with 语句的变量对象是只读的，在本层定义的变量，不能存储到本层，而是存储到它的上一层作用域。这样在函数 getName 的作用域内就能访问到变量 myName 了。</p>
-<pre><code class="language-code">var persion = { name: &#39;snow&#39; };
+如下，语句<code>with(persion)</code>将对象 persion 添加到了函数 getName 作用域链的前端，语句<code>var myName = name</code>在查找变量 name 时会首先在其作用域链前端，即 person 对象中查找，查找到 name 属性为 snow。又因为 with 语句的变量对象是只读的，在本层定义的变量，不能存储到本层，而是存储到它的上一层作用域。这样在函数 getName 的作用域内就能访问到变量 myName 了。</p>
+<pre><code class="language-js">var persion = { name: &#39;snow&#39; };
 var name = &#39;summer&#39;;
 var getName = () =&gt; {
   with(persion) {

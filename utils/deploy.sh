@@ -7,19 +7,9 @@ DATE=$(date "+%Y-%m-%d-%H-%M")
 APP_NAME="front-end-ship-server"
 SCRIPT_NAME="deploy.sh"
 BASE_DIR="/tmp"
-LOCK_FILE="$BASE_DIR/$APP_NAME.lock"
 SHELL_LOG="$BASE_DIR/$APP_NAME.log"
 REMOTE="root@139.180.215.117"
 SERVER_DIR_ON_REMOTE="/root/server/front-end-ship-server"
-
-
-lock(){
-  touch $LOCK_FILE
-}
-
-unlock(){
-  rm -f $LOCK_FILE
-}
 
 log(){
   LOG_INFO=$1
@@ -66,16 +56,10 @@ main(){
      printRed "There are files need to commit" && exit
   fi
 
-  if [ -f "$LOCK_FILE" ];then
-     log "$SCRIPT_NAME is running"
-     printRed "$SCRIPT_NAME is running" && exit
-  fi
-  lock
   pushDBJsonOnRemote
   updateDBJson
   pushDBJsonOnLocal
   deploy
-  unlock
 }
 
 main

@@ -76,7 +76,7 @@ map.get([&#39;a&#39;]) // undefined</code></pre><p>Map 结构转为数组结构�
 <pre><code>const map = new Map([[1, 1], [2, 2], [3, 3]])
 console.log([...map])    // [[1, 1], [2, 2], [3, 3]]</code></pre></li>
 <li><p>WeakMap</p>
-<p>WeakMap 对象是一组键值对的集合，其中的键是弱引用对象，而值可以是任意。</p>
+<p>WeakMap 对象是一组键值对的集合，其中的键是弱引用的，必须是对象，而值可以是任意的。</p>
 <p>注意，WeakMap 弱引用的只是键名，而不是键值。键值依然是正常引用。</p>
 <p>WeakMap 中，每个键对自己所引用对象的引用都是弱引用，在没有其他引用和该键引用同一对象，这个对象将会被垃圾回收（相应的 key 则变成无效的），所以，WeakMap 的 key 是不可枚举的。</p>
 <pre><code>let myElement = document.getElementById(&#39;logo&#39;);
@@ -96,18 +96,18 @@ myElement.addEventListener(&#39;click&#39;, function() {
 2）[value, value]，键值与键名是一致的（或者说只有键值，没有键名）
 3）可以遍历，方法有：add、delete、has</p>
 </li>
-<li><p>WeakSet
-1）成员都是对象
-2）成员都是弱引用，可以被垃圾回收机制回收，可以用来保存 DOM 节点，不容易造成内存泄漏
-3）不能遍历，方法有 add、delete、has</p>
+<li><p>WeakSet</p>
+<p>1）成员都是对象</p>
+<p>2）成员都是弱引用，可以被垃圾回收机制回收，可以用来保存 DOM 节点，不容易造成内存泄漏</p>
+<p>3）不能遍历，方法有 add、delete、has</p>
 </li>
-<li><p>Map
-1）本质上是键值对的集合，类似集合
-2）可以遍历，方法很多，可以跟各种数据格式转换</p>
+<li><p>Map</p>
+<p>1）本质上是键值对的集合，类似集合</p>
+<p>2）可以遍历，方法很多，可以跟各种数据格式转换</p>
 </li>
-<li><p>WeakMap
-1）只接受对象作为键名（null 除外），不接受其他类型的值作为键名
-2）键名是弱引用，键值可以是任意的，键名所指向的对象可以被垃圾回收，此时键名是无效的
-3）不能遍历，方法有 get、set、has、delete</p>
+<li><p>WeakMap</p>
+<p>1）只接受对象作为键名（null 除外），不接受其他类型的值作为键名</p>
+<p>2）键名是弱引用，键值可以是任意的，键名所指向的对象可以被垃圾回收，此时键名是无效的</p>
+<p>3）不能遍历，方法有 get、set、has、delete</p>
 </li>
 </ul>
