@@ -2,7 +2,7 @@
 <p>当我们的代码在执行时，对于特定的代码，我们应该去哪查找变量？我们又该如何查找这些变量？答案就是作用域，也就是说作用域确定了如何在某些位置存储变量以及如何在稍后查找这些变量。在 JS 中采用词法作用域(Lexical Scope)，也就是静态作用域。</p>
 <p><strong>静态作用域</strong></p>
 <p>对于静态作用域，函数的作用域与书写代码的位置直接相关，也就说作用域在在函数定义时就确定了。那是如何确定的呢？就是词法的嵌套结构: 在函数内部的环境引用函数外部的环境，函数外部的环境也可以引用它外部的环境，如此，直到全局环境。像下面的洋葱圈，全局环境是洋葱的最外层，里面的每一层(函数环境)都嵌套其中。</p>
-<img style="display:block; margin: auto; width:400px" alt="作用域示意图" src="https://user-gold-cdn.xitu.io/2019/4/18/16a2f55cd71b035e?w=613&h=328&f=png&s=282657" />
+<img style="display:block; margin: auto; width:400px" alt="作用域示意图" src="http://blog-bed.oss-cn-beijing.aliyuncs.com/25.%E5%8F%98%E9%87%8F%E5%AF%B9%E8%B1%A1%E4%B8%8E%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/onion.png" />
 
 <p>来看下面的例子:</p>
 <pre><code class="language-js">var name = &quot;lily&quot;;
@@ -179,7 +179,7 @@ getName();</code></pre>
   ]</code></pre></li>
 </ul>
 <p>这里，我们用一个数组来表示作用域链，数组的第一个元素即链条的最前端为当前执行环境的活动对象，数组的最后一个元素即链条的最末端为全局执行环境的变量对象。当前执行环境在执行阶段访问变量会先从作用域链的最前端开始查找变量，如果没有则在包含环境中查找，如果包含环境中没有则继续向上查找，如此，直到全局环境中的变量对象，返过来并不成立，也就是说在全局作用域并不能访问函数内部的变量。</p>
-<img style="display:block; margin: auto;" alt="作用域链示意图" src="https://user-gold-cdn.xitu.io/2019/4/3/169e1b94ce0fc256?w=1070&h=372&f=png&s=49703" />
+<img style="display:block; margin: auto;" alt="作用域链示意图" src="http://blog-bed.oss-cn-beijing.aliyuncs.com/25.%E5%8F%98%E9%87%8F%E5%AF%B9%E8%B1%A1%E4%B8%8E%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/scope-chain.png" />
 
 <h3 id="延长作用域链">延长作用域链</h3>
 <p>在 js 中，某些语句可以在作用域链前端临时添加一个变量对象，该变量对象会在代码执行完毕后移除。具体来说当执行流进入到下列两种语句时，作用域就会得到加长：</p>

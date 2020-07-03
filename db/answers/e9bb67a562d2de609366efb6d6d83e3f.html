@@ -27,12 +27,11 @@ son.sleep();//sleep</code></pre><p>new Father()得到实例 father， father 的
 <li><p>在创建子类的实例时，不能向父类传参</p>
 </li>
 <li><p>所有实例共享父类引用类型的数据</p>
-<pre><code>function Father() {
+<pre><code class="language-js">function Father() {
   this.food = [];
 }
 
-function Son() {
-}
+function Son() {}
 
 const father = new Father();
 Son.prototype = father;
@@ -42,7 +41,8 @@ son1.food.push(&quot;meat&quot;);
 console.log(&quot;son1.food&quot;, son1.food); // [&quot;meat&quot;]
 const son2 = new Son();
 son2.food.push(&quot;fish&quot;);
-console.log(&quot;son2.food&quot;, son2.food); // [&quot;meat&quot;, &quot;fish&quot;]</code></pre></li>
+console.log(&quot;son2.food&quot;, son2.food); // [&quot;meat&quot;, &quot;fish&quot;]</code></pre>
+</li>
 </ul>
 <h3 id="借用构造函数经典继承">借用构造函数(经典继承)</h3>
 <p>借用构造函数就是通过其他对象的构造函数进行初始化。</p>
@@ -100,7 +100,7 @@ function Son(name) {
 }
 
 Son.prototype = new Father();
-//constructor设置为子类的构造函数，否则子类会通过原型链继承父类的constructor，当然有些时候并不需要
+//constructor设置为子类的构造函数，否则子类会通过原型链继承父类的constructor
 Son.prototype.constructor = Son;
 
 const son1 = new Son(&quot;son1&quot;);
@@ -162,7 +162,7 @@ console.log(obj2.foods); // [&quot;fish&quot;, &quot;meat&quot;, &quot;rice&quot
 <p>寄生式继承就是在原型式继承的基础上，增强对象，返回增强后的对象。</p>
 <pre><code>function createObj(o) {
   const obj = Object.create(o);
-  obj.prototype.eat = () =&gt; {
+  obj.eat = () =&gt; {
     console.log(&quot;eat&quot;);
   };
   return obj;
@@ -265,7 +265,7 @@ MyClass.prototype.myMethod = function() {
      // do something
 };</code></pre><p>Object.assign 会把 OtherSuperClass 原型上的函数拷贝到 MyClass 原型上，使 MyClass 的所有实例都可用 OtherSuperClass 的方法。</p>
 <h3 id="es6-类继承-extends">ES6 类继承 extends</h3>
-<p>extends 关键字主要用于类声明或者类表达式中，以创建一个类，该类是另一个类的子类。其中 constructor 表示构造函数，一个类中只能有一个构造函数，有多个会报出 SyntaxError 错误,如果没有显式指定构造方法，则会添加默认的 constructor 方法。</p>
+<p>extends 关键字主要用于类声明或者类表达式中，以创建一个类，该类是另一个类的子类。其中 constructor 表示构造函数，一个类中只能有一个构造函数，有多个会报出 SyntaxError 错误，如果没有显式指定构造方法，则会添加默认的 constructor 方法。</p>
 <pre><code>class Father {
   constructor(name) {
     this.name = name;

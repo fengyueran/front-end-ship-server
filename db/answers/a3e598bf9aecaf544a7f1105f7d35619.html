@@ -19,17 +19,18 @@ document.body.appendChild(frag);</code></pre></li>
 <pre><code>document.createTextNode(&quot;text node&quot;);</code></pre></li>
 <li><p>createAttribute(name)</p>
 <p>创建属性节点</p>
-<pre><code>function setAttr() {
-  var node = document.getElementById(&#39;root&#39;);
+<pre><code class="language-js">function setAttr() {
+  var node = document.getElementById(&quot;root&quot;);
   var attr = document.createAttribute(&quot;属性名&quot;);
   attr.nodeValue = &quot;属性值&quot;;
   node.setAttributeNode(attr);
 }
-等同于
+//等同于
 function setAttr() {
-  var node = document.getElementById(&#39;root&#39;);
+  var node = document.getElementById(&quot;root&quot;);
   node.setAttribute(&quot;属性名&quot;, &quot;属性值&quot;);
-}</code></pre></li>
+}</code></pre>
+</li>
 </ul>
 </li>
 <li><p>操纵节点</p>
@@ -50,10 +51,11 @@ const referenceNode = document.getElementById(&#39;div1&#39;);
 parentNode.insertBefore(newNode, referenceNode);</code></pre></li>
 <li><p>删除节点</p>
 <p>Node.removeChild(child)方法从 DOM 中删除一个子节点，并返回删除的节点。</p>
-<pre><code>const node = document.getElementById(&quot;app&quot;);
+<pre><code class="language-js">const node = document.getElementById(&quot;app&quot;);
 if (node.parentNode) {
   node.parentNode.removeChild(node);
-}</code></pre></li>
+}</code></pre>
+</li>
 <li><p>替换节点</p>
 <p>用指定的节点替换当前节点的一个子节点，并返回被替换掉的节点。</p>
 <pre><code>const replacedNode = parentNode.replaceChild(newChild, oldChild);</code></pre></li>
@@ -76,12 +78,14 @@ const dupNode = node.cloneNode(deep);</code></pre></li>
 var element = document.getElementById(id);</code></pre></li>
 <li><p>getElementsByTagName(tagName)</p>
 <p>通过标签名查找，返回一个动态的包含所有指定标签名的元素的 HTML 集合 HTMLCollection。</p>
-<pre><code>//搜索从element开始。请注意只有element的后代元素会被搜索，不包括元素自己。
-var elements = element.getElementsByTagName(tagName)</code></pre></li>
+<pre><code class="language-js">//搜索从element开始。请注意只有element的后代元素会被搜索，不包括元素自己。
+var elements = element.getElementsByTagName(tagName);</code></pre>
+</li>
 <li><p>getElementsByName()</p>
 <p>根据给定的 name 返回一个在(X)HTML document 的节点列表集合。</p>
-<pre><code>//name是元素的name属性的值。
-var elements = document.getElementsByName(name)</code></pre></li>
+<pre><code class="language-js">//name是元素的name属性的值。
+var elements = document.getElementsByName(name);</code></pre>
+</li>
 </ul>
 </li>
 </ul>

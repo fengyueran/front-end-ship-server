@@ -70,7 +70,11 @@
       "a4f187f62c69bbeddc102ace0d60ae43",
       "455f29951bdde353cd6876a2f93b3842",
       "21af72ad5e6ef92478798809e779bb6e",
-      "b17667f4435c9777a99752d424cd3e6b"
+      "b17667f4435c9777a99752d424cd3e6b",
+      "a9535ff119a7a3a148ce3fae3a2c6a83",
+      "e2c3dba2a0b849441097b52146a256f1",
+      "c70605f6f66bfbc5eb71eb6ac68addbb",
+      "e7b636315dd3b3918dcdf3e7ab767538"
     ],
     "byId": {
       "f5838f1d65f228e08e8fdb013c7cf0d6": {
@@ -138,7 +142,7 @@
         "title": "css 多列等高(高度不固定)如何实现",
         "exerciseTimes": 0,
         "passRate": "--",
-        "md5": "bad0abe2764dc0cb32916177913e365e",
+        "md5": "4c236ae83d5710020b6b1ce036ff8ca8",
         "tags": [
           "HTML",
           "CSS"
@@ -187,7 +191,7 @@
         "title": "DOM 操作相关方法",
         "exerciseTimes": 0,
         "passRate": "--",
-        "md5": "72b66b43bae335160f4ead0404e050de",
+        "md5": "43100c1c04904492cb76e8e6b0421cbf",
         "tags": [
           "JavaScript"
         ],
@@ -199,7 +203,7 @@
         "title": "html 代码中让链接在新窗口中打开的写法",
         "exerciseTimes": 0,
         "passRate": "--",
-        "md5": "475e6f9fc9c35763c4a90a735fc1f7ce",
+        "md5": "6db3d671db287c35ec5875775e107f49",
         "tags": [
           "HTML"
         ],
@@ -861,7 +865,7 @@
         "title": "js继承的几种方式",
         "exerciseTimes": 0,
         "passRate": "--",
-        "md5": "37bf89414fce460c04e52b31f8c4d7fc",
+        "md5": "0d52040ff38ce8b31f079aa68f6d5b73",
         "tags": [
           "JavaScript"
         ],
@@ -915,7 +919,7 @@
         "title": "希尔排序算法排序",
         "exerciseTimes": 0,
         "passRate": "--",
-        "md5": "559d6af6da970c251c44407e68144238",
+        "md5": "061ea6aa1f5de9737e4cc2739cf79e4b",
         "tags": [
           "HTML"
         ],
@@ -929,11 +933,59 @@
         "title": "实现promise的基本功能",
         "exerciseTimes": 0,
         "passRate": "--",
-        "md5": "0965408a6bfbae69a0ff6141fa792284",
+        "md5": "0d1515317c232f179ef5d5414d7a3c7b",
         "tags": [
-          "HTML"
+          "JavaScript"
         ],
-        "type": "CODE",
+        "type": "SHORT_ANSWER",
+        "date": "2019-01-15T18:10:20.000Z"
+      },
+      "a9535ff119a7a3a148ce3fae3a2c6a83": {
+        "id": "a9535ff119a7a3a148ce3fae3a2c6a83",
+        "title": "JS 异步解决方案的发展历程以及优缺点",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "74eaae8b60f10de8b1d36e06a980a2c0",
+        "tags": [
+          "JavaScript"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2019-01-15T18:10:20.000Z"
+      },
+      "e2c3dba2a0b849441097b52146a256f1": {
+        "id": "e2c3dba2a0b849441097b52146a256f1",
+        "title": "简单讲解一下http2的多路复用",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "6e12b66dbf12c264a8bc02b43ee74518",
+        "tags": [
+          "Http"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2019-01-15T18:10:20.000Z"
+      },
+      "c70605f6f66bfbc5eb71eb6ac68addbb": {
+        "id": "c70605f6f66bfbc5eb71eb6ac68addbb",
+        "title": "React 中 setState 什么时候是同步的，什么时候是异步的",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "27ff3c64cb6815d0cb197842b7018e60",
+        "tags": [
+          "JavaScript"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2019-01-15T18:10:20.000Z"
+      },
+      "e7b636315dd3b3918dcdf3e7ab767538": {
+        "id": "e7b636315dd3b3918dcdf3e7ab767538",
+        "title": "介绍下 npm 模块安装机制，为什么输入 npm install 就可以自动安装对应的模块？",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "5b2f5d68d9745047501f9beb628bf509",
+        "tags": [
+          "JavaScript"
+        ],
+        "type": "SHORT_ANSWER",
         "date": "2019-01-15T18:10:20.000Z"
       }
     }
@@ -1062,7 +1114,7 @@
         "id": "a45e8ab830b57f9b8303f978243d2e51",
         "title": "JavaScript中的this",
         "date": "2016-01-02T16:17:25.000Z",
-        "md5": "597b3f260968ebbe2533ee01fe9303e5",
+        "md5": "f2e59b43a4b73b6dfdc22fa73f4efdac",
         "tags": [
           "js"
         ],
@@ -1127,7 +1179,7 @@
         "id": "536f21741dad1d76f15a255a6f6d7e2c",
         "title": "函数的防抖与节流",
         "date": "2016-03-01T15:10:20.000Z",
-        "md5": "d0fa76815590074b651c133af90d9308",
+        "md5": "87e5306fea58515c3247c32c21deff25",
         "tags": [
           "js"
         ],
@@ -1140,7 +1192,7 @@
         "id": "2de1412a392e2431162f8dcaf2436906",
         "title": "JavaScript中的闭包",
         "date": "2016-03-02T15:15:21.000Z",
-        "md5": "b620398c1e7d89b261fcd835c2609909",
+        "md5": "f6901ed0bbe6288d7bb751626a017eb8",
         "tags": [
           "js"
         ],
@@ -1153,14 +1205,14 @@
         "id": "0836fc62857fc16fedc3e23614a601f3",
         "title": "JavaScript中的值传递、引用传递及深浅拷贝",
         "date": "2017-05-01T18:10:20.000Z",
-        "md5": "f26844988a553ea425623c7f080d4531",
+        "md5": "3787fe12c7bc7631ea29f8905ffb9f91",
         "tags": [
           "JS"
         ],
         "category": "JS",
         "layout": "post",
         "tagline": "Supporting tagline",
-        "description": "在JavaScript编程中经常会遇到改变了一个变量另一个变量情况，即使传给函数的参数的改变都可能导致原值被改变，这和其他某些语言并不太一样，值得去探究一下。"
+        "description": "在JavaScript编程中经常会遇到改变了一个变量另一个变量也跟着改变的情况，即使传给函数的参数的改变都可能导致原值被改变，这和其他某些语言并不太一样，值得去探究一下。"
       },
       "8948459562549d5135f1bab7e732a5aa": {
         "id": "8948459562549d5135f1bab7e732a5aa",
@@ -1179,7 +1231,7 @@
         "id": "c2795b1dc955b3497b25dd13daeeb3c5",
         "title": "JS中的继承与原型链",
         "date": "2017-02-01T18:10:20.000Z",
-        "md5": "33218c4d5e31beb22ff662545595b2de",
+        "md5": "f7baea2716b4e5fe1fc8a0718bfb1710",
         "tags": [
           "JS"
         ],
@@ -1218,7 +1270,7 @@
         "id": "021719ae29bb0f07e09d9ffdd14d8ad9",
         "title": "Git submodule的使用",
         "date": "2016-07-24T23:30:09.000Z",
-        "md5": "a60e8685f54a80a24de5ab1f73555b5b",
+        "md5": "3cad9ef88868ba31ee95ca68e60323b7",
         "tags": [
           "Git"
         ],
@@ -1296,7 +1348,7 @@
         "id": "8217b97d535cb863afb5902ef4d87ae0",
         "title": "变量对象与作用域链",
         "date": "2017-04-05T18:10:20.000Z",
-        "md5": "0a631b45f0a5a196174cf3546c57b138",
+        "md5": "b2d68eb74c2464ec46856d94eedecb8d",
         "tags": [
           "js"
         ],

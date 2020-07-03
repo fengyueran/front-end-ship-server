@@ -6,7 +6,7 @@
 <p>来看下面的的例子。</p>
 <p>例 1:</p>
 <p>如下，函数 getName 在全局调用，this 指向全局对象</p>
-<pre><code class="language-code">var name = &#39;lily&#39;;
+<pre><code class="language-js">var name = &#39;lily&#39;;
 function getName() {
   var name = &#39;lucy&#39;;
   console.log(&#39;name:&#39;, this.name);
@@ -16,7 +16,7 @@ getName();
 =&gt; name: lily</code></pre>
 <p>例 2:</p>
 <p>如下，尽管函数 getNameFunc 为 boy 对象的方法，但因其在全局调用，this 同样指向全局对象。</p>
-<pre><code class="language-code">var name = &#39;lily&#39;;
+<pre><code class="language-js">var name = &#39;lily&#39;;
 var boy = {
   name: &#39;lucy&#39;,
   getName: function() {
@@ -28,7 +28,7 @@ getNameFunc();
 =&gt; name: lily</code></pre>
 <p>例 3:</p>
 <p>如下，boy.getName()返回一个匿名函数，假如这个匿名函数叫做 f，则<code>(boy.getName())()</code>等同于<code>f()</code>，等同于在全局中调用，因此 this 同样指向全局对象。</p>
-<pre><code class="language-code">var name = &#39;lily&#39;;
+<pre><code class="language-js">var name = &#39;lily&#39;;
 var boy = {
   name: &#39;lucy&#39;,
   getName: function() {
@@ -43,7 +43,7 @@ var boy = {
 
 =&gt; name: lily</code></pre>
 <p>为了保持 this 可以通过闭包实现，如下，执行 boy.getName()时，this 指向当前执行环境 boy，因此 that 指向 boy，属性 name 为 lily，匿名函数执行<code>console.log(&#39;name:&#39;, that.name);</code>时，由于作用域链的关系，可以访问到上级作用域的 that 对象，指向 boy，因此 that.name 为 lucy</p>
-<pre><code class="language-code">var name = &#39;lily&#39;;
+<pre><code class="language-js">var name = &#39;lily&#39;;
 var boy = {
   name: &#39;lucy&#39;,
   getName: function() {
@@ -60,7 +60,7 @@ var boy = {
 =&gt; name: lucy</code></pre>
 <p><strong>对象调用</strong></p>
 <p>如下，对象 boy 调用自己的方法 getName，this 则指向 boy。</p>
-<pre><code class="language-code">var boy = {
+<pre><code class="language-js">var boy = {
   name: &#39;lucy&#39;,
   getName: function() {
     console.log(&#39;name:&#39;, this.name);
@@ -72,7 +72,7 @@ boy.getName();
 <p><strong>构造函数调用</strong></p>
 <p>想要知道调用构造函数 this 如何指向，需要知道 new 操作符究竟做了什么。
 如下为 new 的模拟实现:</p>
-<pre><code class="language-code">function mockNew(f) {
+<pre><code class="language-js">function mockNew(f) {
   // 1.
   var newObj, returnObj, proto;
 
@@ -131,35 +131,32 @@ boy.getName();
 </ul>
 <p>来看下面的例子:</p>
 <p>通过 mockNew 函数构造对象的过程中，会调用上述第 4 步 f.apply(newObj, Array.prototype.slice.call(arguments, 1))，等同于调用 newObj.f(...arguments)，则 this.name = &#39;lily&#39;等同于 newObj.name = &#39;lily&#39;，mockNew 返回 newObj 时，p 就等于 newObj，因此 p 能够访问到 person 的 name 属性。</p>
-<pre><code class="language-code">function person() {
-  this.name = &#39;lily&#39;;
+<pre><code class="language-js">function person() {
+  this.name = &quot;lily&quot;;
 }
 
 //这里，可以认为mockNew(person)等同于new person()
 var p = mockNew(person);
-p.name // lily
-</code></pre>
+p.name; // lily</code></pre>
 <p>来看另一个例子:</p>
-<pre><code class="language-code">var human = {
-  name: &#39;lucy&#39;,
-
-}
+<pre><code class="language-js">var human = {
+  name: &quot;lucy&quot;,
+};
 
 //返回了一个对象，则new操作符最终返回这个对象
 function person() {
-  this.name = &#39;lily&#39;;
+  this.name = &quot;lily&quot;;
   return human;
 }
 
 var p = mockNew(person);
-p.name // lucy
-</code></pre>
+p.name; // lucy</code></pre>
 <p>由此，通过 new 操作符调用构造函数时，this 的最终指向为 new 返回的对象，即新创建的对象 newObj 或构造函数中返回的对象 returnObj(上例中的 human)。</p>
 <p><strong>func.call 和 func.apply</strong></p>
 <p>func.call 和 func.apply 的作用一样都是改变执行上下文，只是接收参数的形式不同。
 func.apply 方法传入两个参数，第一个参数是想要指定的上下文，为空则指向全局对象，第二个参数是函数参数组成的数组。
 func.call 方法传入两个参数，第一个参数是想要指定的上下文，第二个参数是传入的是一个参数列表，而不是单个数组。</p>
-<pre><code>/*
+<pre><code class="language-js">/*
   thisArg: 想要指定的环境
   argsArray: 参数数组
 */
@@ -169,8 +166,9 @@ func.apply(thisArg, argsArray)
   thisArg: 想要指定的环境
   arg1、arg2...: 参数列表
 */
-func.call(thisArg, arg1, arg2, ...)</code></pre><p>如下 boy 并没有 getName 方法，但是通过 apply/call 改变 this 的指向达到了在 boy 中调用 girl 的 getName 方法。</p>
-<pre><code class="language-code">  function getName(firstName, lastName) {
+func.call(thisArg, arg1, arg2, ...)</code></pre>
+<p>如下 boy 并没有 getName 方法，但是通过 apply/call 改变 this 的指向达到了在 boy 中调用 girl 的 getName 方法。</p>
+<pre><code class="language-js">  function getName(firstName, lastName) {
     console.log(`${firstName}.${this.name}.${lastName}`)
   };
   const girl = {
@@ -186,7 +184,7 @@ func.call(thisArg, arg1, arg2, ...)</code></pre><p>如下 boy 并没有 getName 
   =&gt; Michael.Jeffrey.Jordan</code></pre>
 <p><strong>bind 函数</strong></p>
 <p>bind 方法不会立即执行，而是返回一个改变了上下文 this 后的函数。</p>
-<pre><code class="language-code">const newGetName = girl.getName.bind(boy);
+<pre><code class="language-js">const newGetName = girl.getName.bind(boy);
 newGetName(&#39;Michael&#39;, &#39;Jordan&#39;)
 =&gt; Michael.Jeffrey.Jordan</code></pre>
 <p>综上，this 的指向由其具体的执行环境决定，同时也可以通过函数的原型方法 apply、call 以及 bind 来显式地改变 this 的指向。不过，箭头函数的 this，总是指向定义时所在的对象，而不是运行时所在的对象，apply、call 也无法更改。</p>

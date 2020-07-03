@@ -50,7 +50,7 @@ class MyPromise {
     }
     this._status = STATUS.PENDING;
     try {
-      handle(this._resolve, this._reject);
+      handler(this._resolve, this._reject);
     } catch (e) {
       _reject(e);
     }
@@ -187,7 +187,7 @@ promise2.then(
 );</code></pre>
 <p>根据上面的规则，我们来为 完善 MyPromise</p>
 <p>修改 constructor : 增加执行队列</p>
-<p>由于 then 方法支持多次调用，我们可以维护两个数组，将每次 then 方法注册时的回调函数添加到数组中，等待执行</p>
+<p>由于 then 方法支持多次调用(同一个 promise 多次调用 then 方法)，我们可以维护两个数组，将每次 then 方法注册时的回调函数添加到数组中，等待执行</p>
 <pre><code class="language-js">const isFunction = (handler) =&gt; typeof handler === &quot;function&quot;;
   constructor(handler) {
     if (!isFunction(handler)) {
@@ -206,19 +206,20 @@ promise2.then(
 <p>首先，then 返回一个新的 Promise 对象，并且需要将回调函数加入到执行队列中</p>
 <pre><code class="language-js">then = (onFulfilled, onRejected) =&gt; {
   const { _status, _value } = this;
-  switch (_status) {
-    case STATUS.PENDING:
-      this._fulfilledQueue.push(onFulfilled);
-      this._rejectedQueue.push(onRejected);
-      break;
-    case STATUS.FULFILLED:
-      onFulfilled(_value);
-      break;
-    case STATUS.REJECTED:
-      onRejected(_value);
-      break;
-  }
-  return new MyPromise((onFulfilledNext, onRejectedNext) =&gt; {});
+  return new MyPromise((onFulfilledNext, onRejectedNext) =&gt; {
+    switch (_status) {
+      case STATUS.PENDING:
+        this._fulfilledQueue.push(onFulfilled);
+        this._rejectedQueue.push(onRejected);
+        break;
+      case STATUS.FULFILLED:
+        onFulfilled(_value);
+        break;
+      case STATUS.REJECTED:
+        onRejected(_value);
+        break;
+    }
+  });
 };</code></pre>
 <p>根据上文中 then 方法的规则，我们知道返回的新的 Promise 对象的状态依赖于当前 then 方法回调函数执行的情况以及返回值，例如 then 的参数是否为一个函数、回调函数执行是否出错、返回值是否为 Promise 对象。
 我们来进一步完善 then 方法:</p>
@@ -321,7 +322,7 @@ const p2 = new Promise(function(resolve, reject) {
   // ...
   resolve(p1);
 });</code></pre>
-<p>复制代码上面代码中，p1 和 p2 都是 Promise 的实例，但是 p2 的 resolve 方法将 p1 作为参数，即一个异步操作的结果是返回另一个异步操作。
+<p>上面代码中，p1 和 p2 都是 Promise 的实例，但是 p2 的 resolve 方法将 p1 作为参数，即一个异步操作的结果是返回另一个异步操作。
 注意，这时 p1 的状态就会传递给 p2，也就是说，p1 的状态决定了 p2 的状态。如果 p1 的状态是 Pending，那么 p2 的回调函数就会等待 p1 的状态改变；如果 p1 的状态已经是 Fulfilled 或者 Rejected，那么 p2 的回调函数将会立刻执行。
 我们来修改_resolve 来支持这样的特性</p>
 <pre><code class="language-js">_resolve = (value) =&gt; {
@@ -511,7 +512,7 @@ class MyPromise {
       this._status = STATUS.REJECTED;
       let cb;
       while ((cb = this._rejectedQueue.shift())) {
-        cb(value);
+        cb(e);
       }
     };
     //根据标准需要异步执行
@@ -629,4 +630,8 @@ class MyPromise {
     );
   };
 }</code></pre>
-<p>引用自<a href="https://juejin.im/post/5b83cb5ae51d4538cc3ec354">Promise 实现原理</a></p>
+<h3 id="总结">总结</h3>
+<ul>
+<li>promise 构造函数为同步执行，then 方法的回调为异步执行
+引用自<a href="https://juejin.im/post/5b83cb5ae51d4538cc3ec354">Promise 实现原理</a></li>
+</ul>

@@ -99,7 +99,7 @@ console.log(nimo.eat()); // Uncaught TypeError: nimo.eat is not a function</code
 </ul>
 <h3 id="总结"><strong>总结</strong></h3>
 <ul>
-<li>任何对象都可以成为其他对象的原型对象(<code>__proto__</code>指向的对象)。</li>
+<li>任何对象都可以成为其他对象的原型对象 prototype(<code>__proto__</code>指向的对象)。</li>
 <li><code>[[Prototype]]</code>为一个对象的指向原型对象的内置属性，不能直接访问。</li>
 <li><code>__proto__</code> 为一个非标准的，只是为了方便访问原型对象而实现的一个属性，它和<code>[[Prototype]]</code>本质上一样都
 指向原型对象，是所有对象都有的属性。</li>

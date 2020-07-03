@@ -3,7 +3,7 @@
 <ul>
 <li>函数防抖的简单实现</li>
 </ul>
-<pre><code class="language-code">//arguments 为非箭头函数中可用的内部变量，为传递给函数参数的伪数组。
+<pre><code class="language-js">//arguments 为非箭头函数中可用的内部变量，为传递给函数参数的伪数组。
 const debounce = function(fn, wait) {
   let timer = null;
   return function handler() {
@@ -12,22 +12,22 @@ const debounce = function(fn, wait) {
     clearTimeout(timer);
     timer = setTimeout(function() {
       fn.apply(context, args);
-    }, wait)
-  }
-}</code></pre>
-<p>通过 fn.apply 调用 fn 是为了能够保持函数 handler 调用者的 this 上下文，而不是指向 window。来看下面的例子:</p>
-<pre><code class="language-code">  function calcCirleArea(arg) {
-    const r = this.r; // 10
-    const area = 3.14 * r * r; // 314
-    return area;
-  }
-
-  const calcArea = debounce(calcCirleArea, 1000);
-  const circle = {
-    r: 10,
-    calcArea
+    }, wait);
   };
-  circle.calcArea();</code></pre>
+};</code></pre>
+<p>通过 fn.apply 调用 fn 是为了能够保持函数 handler 调用者的 this 上下文，而不是指向 window。来看下面的例子:</p>
+<pre><code class="language-js">function calcCirleArea(arg) {
+  const r = this.r; // 10
+  const area = 3.14 * r * r; // 314
+  return area;
+}
+
+const calcArea = debounce(calcCirleArea, 1000);
+const circle = {
+  r: 10,
+  calcArea,
+};
+circle.calcArea();</code></pre>
 <p>执行 circle.calcArea()，在函数 calcCirleArea 中可以访问到对象 circle 的属性 r，原因就是通过 fn.apply 调用时绑定了 circle 的上下文。假如我们通过<code>fn()</code>直接调用，在非严格模式下 calcCirleArea 函数 this 的指向为 window，<code>this.r</code>为 undefined，所以需要通过 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/apply">fn.apply</a> 来调用。</p>
 <ul>
 <li><p>防抖函数应用场景</p>
@@ -44,10 +44,8 @@ const debounce = function(fn, wait) {
 <ul>
 <li><p>函数节流的简单实现</p>
 <p>函数节流的实现主要有时间轴的方法和计时器的方法。时间轴的方法是通过比较事件触发时间与上一次函数执行时间(第一次为 0，保证第一次一定执行)的差 dt 来判断是否执行事件处理函数，如果 dt 大于约定的时间则执行，反之则不执行；计时器的方法是在事件触发时，如果当前没有计时器则设置计时器来触发事件处理函数的执行。这两种方法对于最后一次触发事件，都有可能不会执行。</p>
-<ol>
-<li>时间轴</li>
-</ol>
-<pre><code class="language-code">  const throttle = function(fn, wait) {
+<p><strong>1）时间轴</strong></p>
+<pre><code class="language-js">const throttle = function(fn, wait) {
   //pre设置为0使得第一次一定执行
   let pre = 0;
   return function() {
@@ -58,48 +56,46 @@ const debounce = function(fn, wait) {
       fn.apply(context, args);
       pre = now;
     }
+  };
+};</code></pre>
+<p><strong>2） 计时器</strong></p>
+<pre><code class="language-js">const throttle = function(fn, wait) {
+  let timer = null;
+  return function() {
+    const context = this;
+    const args = arguments;
+    clearTimeout(timer);
+    if (!timer) {
+      timer = setTimeout(function() {
+        fn.apply(context, args);
+        timer = null;
+      }, wait);
     }
-  }</code></pre>
-<ol start="2">
-<li>计时器</li>
-</ol>
-<pre><code class="language-code">  const throttle = function(fn, wait) {
-    let timer = null;
-    return function() {
-      const context = this;
-      const args = arguments;
-      clearTimeout(timer);
-      if (!timer) {
-        timer = setTimeout(function() {
-          fn.apply(context, args);
-          timer = null;
-        }, wait)
-      }
-    }
-  }</code></pre>
+  };
+};</code></pre>
 </li>
 </ul>
 <p>有些时候我们希望至少第一次和最后一次触发事件得到响应，这就可以结合时间轴和计时器的方法。
 如下，当事件最后一次触发时要么达到了约定的时间可以立即执行事件处理函数，要么设置一个 timer 等待约定的时间后执行。</p>
-<pre><code class="language-code">  const throttle = function(fn, wait) {
-    let pre = 0;
-    let timer = null;
-    return function() {
-      const context = this;
-      const args = arguments;
-      const now = Date.now();
-      clearTimeout(timer);
-      const dt = now - pre;
-      if (dt &gt; wait) {
+<pre><code class="language-js">const throttle = function(fn, wait) {
+  let pre = 0;
+  let timer = null;
+  return function() {
+    const context = this;
+    const args = arguments;
+    const now = Date.now();
+    clearTimeout(timer);
+    const dt = now - pre;
+    if (dt &gt; wait) {
+      fn.apply(context, args);
+      pre = now;
+    } else {
+      timer = setTimeout(function() {
         fn.apply(context, args);
-        pre = now;
-      } else {
-        timer = setTimeout(function() {
-          fn.apply(context, args);
-        }, wait)
-      }
+      }, wait);
     }
-  }</code></pre>
+  };
+};</code></pre>
 <ul>
 <li><p>节流函数应用场景</p>
 <p>比如在客户端搜索，服务器返回搜索结果时我们希望尽快刷新搜索结果，但又不希望频繁的向服务器请求结果而导致性能下降，节流就是一个很好的选择。</p>

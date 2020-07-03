@@ -1,25 +1,25 @@
-<h1>JavaScript中的值传递、引用传递及深浅拷贝</h1><div class="toc-article"><strong class="toc-title">Contents</strong><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#值传递"><span class="toc-number">1.</span> <span class="toc-text">值传递</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#引用传递"><span class="toc-number">2.</span> <span class="toc-text">引用传递</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#深拷贝"><span class="toc-number">3.</span> <span class="toc-text">深拷贝</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#浅拷贝"><span class="toc-number">4.</span> <span class="toc-text">浅拷贝</span></a></li></ol></div><h3 id="值传递"><strong>值传递</strong></h3>
-<p>JS中值传递是对于基本数据而言的，包括boolean、null、undefined、String以及Number类型。在某些经典的系统语言(C等)中基本数据都是在栈空间分配，而JS这种动态语言不同，它没有明确的堆栈概念，变量如何分配内存依赖于具体的解释器。
-如果将一个基本类型的数据绑定到一个变量，则该认为变量包含这个基本数据类型的值。如果我们将一个变量赋值给另一个变量，实际是将对应的值拷贝了一份给另一个变量。他们在内存中存在于不同的区域，一个变量的改变不会影响另一个变量。
-如下，a赋值给b后，a值的改变并不会影响b值。</p>
+<h1>JavaScript中的值传递、引用传递及深浅拷贝</h1><div class="toc-article"><strong class="toc-title">Contents</strong><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#值传递"><span class="toc-number">1.</span> <span class="toc-text">值传递</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#引用传递"><span class="toc-number">2.</span> <span class="toc-text">引用传递</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#深拷贝"><span class="toc-number">3.</span> <span class="toc-text">深拷贝</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#浅拷贝"><span class="toc-number">4.</span> <span class="toc-text">浅拷贝</span></a></li></ol></div><h3 id="值传递">值传递</h3>
+<p>JS 中值传递是对于基本数据而言的，包括 boolean、null、undefined、String 以及 Number 类型。在某些经典的系统语言(C 等)中基本数据都是在栈空间分配，而 JS 这种动态语言不同，它没有明确的堆栈概念，变量如何分配内存依赖于具体的解释器。
+如果将一个基本类型的数据绑定到一个变量，则认为这个变量指向这个基本数据类型的值，如果我们将这个变量赋值给另一个变量，实际是将对应的值拷贝了一份给另一个变量。他们在内存中存在于不同的区域，一个变量的改变不会影响另一个变量。
+如下，a 赋值给 b 后，a 值的改变并不会影响 b 值。</p>
 <pre><code>var a = 1;
 var b = a;
 a = 2;
 console.log(a); // 2
-console.log(b); // 1 </code></pre><center><img src="/images/14-1-value.png" width="500" /><center>
+console.log(b); // 1</code></pre><img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/14.JavaScript%E4%B8%AD%E7%9A%84%E5%80%BC%E4%BC%A0%E9%80%92/14-1-value.png" width="500" />
 
-<h3 id="引用传递"><strong>引用传递</strong></h3>
-<p>引用传递是对于非基本类型而言的，包括Array, Function以及Object。
+<h3 id="引用传递">引用传递</h3>
+<p>引用传递是对于非基本类型而言的，包括 Array, Function 以及 Object。
 如果将一个非基本类型的数据绑定到一个变量，实际上是将非基本类型的数据地址赋值给了该变量，这个变量只包含了一个地址并没有包含实际的数据，这与值传递时拥有数据本身不同，这种赋值方式叫做引用传递。
-如下，将变量m赋值给变量n后，m和n的值都为指向对象{ a:1, b: 2 }的地址，修改n，则m也会改变。</p>
+如下，将变量 m 赋值给变量 n 后，m 和 n 的值都为指向对象{ a:1, b: 2 }的地址，修改 n，则 m 也会改变。</p>
 <pre><code>var m = { a:1, b: 2 };
 var n = m;
 n.a = 3;
 console.log(m.a); // 3
-console.log(n.a); // 3</code></pre><center><img src="/images/14-2-reference.png" width="500" /><center>
+console.log(n.a); // 3</code></pre><center><img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/14.JavaScript%E4%B8%AD%E7%9A%84%E5%80%BC%E4%BC%A0%E9%80%92/14-2-reference.png" width="500" /><center>
 
 <p>如果将一个已经赋值的变量重新赋值，那么它将包含新的数据或地址。
-如下，在函数updateAgeAndRef内部，参数girl的age被修改为18，因为对象为引用传递，所以参数girl1的age也变成了18，接着又将新的对象赋值给了参数girl，因此girl指向了新的对象{ name: &#39;lucy&#39;, age: 20 }，所以girl2的age为20。</p>
+如下，在函数 updateAgeAndRef 内部，参数 girl 的 age 被修改为 18，因为对象为引用传递，所以参数 girl1 的 age 也变成了 18，接着又将新的对象赋值给了参数 girl，因此 girl 指向了新的对象{ name: &#39;lucy&#39;, age: 20 }，所以 girl2 的 age 为 20。</p>
 <pre><code>function updateAgeAndRef(girl) {
     girl.age = 18;
     girl = {
@@ -49,7 +49,7 @@ console.log(girl2.age); // -&gt; 20</code></pre><h3 id="深拷贝"><strong>深�
       }
     }
     return copyTarget;
-  } 
+  }
 }
 
 var obj = { a: 1, b: { c: 2, d: 3 }};
@@ -68,7 +68,7 @@ console.log(obj.b === copyObj.b); // false</code></pre><h3 id="浅拷贝"><stron
       copyTarget[key] = target[key];
     }
     return copyTarget;
-  } 
+  }
 }
 
 var obj = { a: 1, b: { c: 2, d: 3 }};
