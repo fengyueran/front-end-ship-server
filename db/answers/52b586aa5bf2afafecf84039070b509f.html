@@ -11,7 +11,13 @@
 <p>污染全局作用域，文件间依赖关系不明显。</p>
 </li>
 </ul>
-<h3 id="commonjs-规范">CommonJS 规范</h3>
+<h3 id="iife">IIFE</h3>
+<p>使用自执行函数来编写模块化，特点：在一个单独的函数作用域中执行代码，避免变量冲突。</p>
+<pre><code>(function(){
+  return {
+    data:[]
+  }
+})()</code></pre><h3 id="commonjs-规范">CommonJS 规范</h3>
 <p>CommonJS 是一个 JavaScript 模块化规范，最初用于服务端的 node。根据这个规范一个文件就是一个模块，其内部定义的变量函数只属于这个模块而不对外暴露。CommonJS 通过 exports(输出多个) 或 module.exports(输出一个) 来导出需要对外提供的接口，通过 require 方法来同步加载所要依赖的模块。</p>
 <ul>
 <li><p>模块定义</p>
@@ -47,8 +53,8 @@ require.config({
   baseUrl: &quot;js/lib&quot;,
   paths: {
     jquery: &quot;jquery.min&quot;, //实际路径为js/lib/jquery.min.js
-    lodash: &quot;lodash.min&quot;
-  }
+    lodash: &quot;lodash.min&quot;,
+  },
 });
 // 执行基本操作
 require([&quot;jquery&quot;, &quot;lodash&quot;], function($, _) {
@@ -64,7 +70,7 @@ define(function() {
     return x + y;
   };
   return {
-    add: add
+    add: add,
   };
 });</code></pre>
 </li>
@@ -98,6 +104,9 @@ define(function() {
 <p>依赖 SPM 打包，模块的加载逻辑偏重。</p>
 </li>
 </ul>
+<h3 id="umd">UMD</h3>
+<p>CommonJS、AMD、CMD 并行的状态下，就需要一种方案能够兼容他们，这样我们在开发时，
+就不需要再去考虑依赖模块所遵循的规范了，而 UMD 的出现就是为了解决这个问题。</p>
 <h3 id="es6-模块化">ES6 模块化</h3>
 <p>前面的模块化方法都是社区自己实现的，而 ES6 的模块化方案是真正的规范。在 ES6 中通过 import 关键字引入模块，export 关键字导出模块，目前很多浏览器都不支持 ES6 因此需要用 babel 将代码转换为广泛支持的 require。</p>
 <pre><code class="language-js">import React from &quot;react&quot;;

@@ -1,0 +1,17 @@
+<p>在 ES5 中，顶层对象的属性和全局变量是等价的，var 命令和 function 命令声明的全局变量，自然也是顶层对象。</p>
+<pre><code class="language-js">var a = 10;
+var func = function() {};
+
+console.log(window.a); // 10
+console.log(window.func); // ƒ (){}</code></pre>
+<p>而 es6 中的 let 和 const 却不在全局对象上。
+<img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/80.const%E5%92%8Clet%E5%A3%B0%E6%98%8E%E7%9A%84%E5%8F%98%E9%87%8F%E4%B8%8D%E5%9C%A8window%E4%B8%8A%E5%9C%A8%E5%93%AA%E9%87%8C/let-const-scope.png"></p>
+<p>通过上图也可以看到，在全局作用域中，用 let 和 const 声明的全局变量并没有在全局对象中，而在一个块级作用域（Script）中。
+const 和 let 会生成块级作用域，可以理解为</p>
+<pre><code class="language-js">let a = 10;
+const b = 20;
+// 相当于：
+(function() {
+  var a = 10;
+  var b = 20;
+})();</code></pre>

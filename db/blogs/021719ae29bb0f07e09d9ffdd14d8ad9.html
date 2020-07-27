@@ -21,7 +21,8 @@ cat .gitmodules 看到.gitmodules 储存了 submodule 的路径及远程地址�
     url = git@github.com:fengyueran/UploaderSDK.git</code></pre><p>UploaderSDK 的内容为 submodule 的 commit id。</p>
 <pre><code>Subproject commit 6b53e1840b27ca1587b96c1eb9dd5f4ff0866089</code></pre><p>不难想象通过.gitmodules 和 UploaderSDK 的信息就可以拿到 submodule 的内容了，因此我们需要提交这个两个文件。</p>
 <pre><code>git add .
-git commit -m &quot;add submodule&quot;</code></pre><h3 id="克隆带有-submodule-的项目"><strong>克隆带有 submodule 的项目</strong></h3>
+git commit -m &quot;add submodule&quot;</code></pre><p>此时通过 git submodule 就可以查看当前 submodule 的 commit 了。</p>
+<h3 id="克隆带有-submodule-的项目"><strong>克隆带有 submodule 的项目</strong></h3>
 <p>主要有两个方式</p>
 <p><strong>1. 采用先克隆后更新的方式</strong></p>
 <p>和想象中的不一样，直接 clone 主项目，submodule 并不会跟着 clone 下来，而只有包含 submodule 名的空文件夹。</p>
@@ -47,16 +48,14 @@ Submodule path &#39;src/uploaderSDK&#39;: checked out &#39;6b53e1840b27ca1587b96
 <p><strong>1. 直接在主项目中的 submodule 下修改</strong></p>
 <p>如上例，直接在 MainProject 下的 src/uploaderSDK 中修改，uploaderSDK 切换到工作分支，修改并提交后，可以 checkout 到最新的 commit，也可以不切，反正都在当前最新的 commit 上(如果想测试其他 commit 也可以切换到相应 commit 上)，此时 MainProject 中我们可以看到 src/uploaderSDK 的 commit 有如下变化</p>
 <pre><code>-Subproject commit 6b53e1840b27ca1587b96c1eb9dd5f4ff0866089
-+Subproject commit a4d6dc0457673a275b1f6cbeda6f8ff23293b9de</code></pre><p>a4d6 为修改的提交，需要注意的地方是此时 submodule 已经在最新的 commit 上了，不要再在 MainProject 中 git submodule update 进行更新了，如果进行此操作 submodule 又会回到原来的 commit(带有减号的 commit)，只需要在 MainProject 提交，并在必要的时候 push 到远程仓库。这种方法，非 submodule 的开发人员就不用关心 submodule 是否更新了，只需要在 MainProject 下 pull 代码发现 submodule 有更改时执行 git submodule update(更新为带减号 commit)进行更新，前提是其他开发人员提交了正确的 submodule commit。</p>
++Subproject commit a4d6dc0457673a275b1f6cbeda6f8ff23293b9de</code></pre><p>a4d6 为修改的提交，需要注意的地方是此时 submodule 已经在最新的 commit 上了，不要再在 MainProject 中 git submodule update 进行更新了，如果进行此操作 submodule 又会回到原来的 commit(带有减号的 commit)，只需要在 MainProject 提交，并在必要的时候 push 到远程仓库。这种方法，非 submodule 的开发人员就不用关心 submodule 是否更新了，只需要在 <strong>MainProject</strong> 下 pull 代码发现 submodule <strong>有更新时</strong>执行 git submodule update(更新为带减号 commit)进行更新，前提是其他开发人员提交了正确的 submodule commit。</p>
 <p><strong>2. 在 submodule 自己独立的仓库进行修改</strong></p>
 <p>在工作目录克隆下 submodule 的仓库，切换到工作分支进行修改提交并 push 到远程仓库。这种方法需要 submodule 开发人员告诉 MainProject 的开发人员 submodule 有更新或主动查看是否有更新，有更新时就在 MainProject 的 src/uploaderSDK 下 pull 远程代码(需要知道 submodule 的工作分支)，快速合并后，uploaderSDK 的 commit 有如下变化，此时同 1 不要 git submodule update，而只是在 MainProject 下提交这个更改。</p>
 <pre><code>-Subproject commit f4573cc1bb50000779202c7f56a640b1ffc075cb
 +Subproject commit 64ae6d149c0f6e3b06b8cea262c6126a7bc0887f
 </code></pre><h3 id="删除-submodule"><strong>删除 submodule</strong></h3>
 <p>执行如下命令</p>
-<ol>
-<li>$ git submodule deinit</li>
-</ol>
+<p>1.<code>$ git submodule deinit</code></p>
 <pre><code>逆初始化模块，submodule为子模块目录，执行后可发现子模块目录被清空
 $ git submodule deinit [submodule_name]
 -&gt; Cleared directory &#39;test2sub&#39;
@@ -65,12 +64,12 @@ Submodule &#39;test2sub&#39; (git@github.com:fengyueran/test2sub.git) unregister
 //执行如下命令还能看到子项目信息
 $ git submodule
 -&gt; -dab52c62f52353d9967619625c28e28dc4320aef test2sub</code></pre><ol start="2">
-<li>$ git rm <code>--</code>cached [submodule_name]</li>
+<li><code>$ git rm --cached [submodule_name]</code></li>
 </ol>
 <pre><code>// 删除.gitmodules中记录的模块信息（--cached选项清除.git/modules中的缓存）
 git rm --cached test2sub
 //执行如下命令已看看不到删除的子项目信息了
 $ git submodule</code></pre><ol start="3">
-<li>$ git commit</li>
+<li><code>$ git commit</code></li>
 </ol>
 <pre><code>git commit -m &quot;remove submodule&quot;</code></pre>

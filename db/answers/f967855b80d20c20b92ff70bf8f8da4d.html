@@ -1,0 +1,27 @@
+<p>迭代方法</p>
+<pre><code class="language-js">const flatten = (arr) =&gt; {
+  while (arr.find((v) =&gt; Array.isArray(v))) {
+    arr = [].concat(...arr);
+  }
+  return arr;
+};</code></pre>
+<p>递归法</p>
+<pre><code class="language-js">const flatten = function(arr, flattened = []) {
+  let current;
+
+  while ((current = arr.shift())) {
+    if (Array.isArray(current)) {
+      flatten(current, flattened);
+    } else {
+      flattened.push(current);
+    }
+  }
+  return flattened;
+};
+
+const flatten = function(arr) {
+  arr.reduce((acc, cur, []) =&gt;
+    Array.isArray(cur) ? [...flatten[cur], ...acc] : [...acc, cur]
+  );
+  return flattened;
+};</code></pre>

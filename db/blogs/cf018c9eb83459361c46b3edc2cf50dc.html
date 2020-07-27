@@ -1,82 +1,99 @@
-<h1>CSS中的BFC</h1><div class="toc-article"><strong class="toc-title">Contents</strong><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#bfc"><span class="toc-number">1.</span> <span class="toc-text">BFC</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#bfc触发条件"><span class="toc-number">2.</span> <span class="toc-text">BFC触发条件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#bfc的应用"><span class="toc-number">3.</span> <span class="toc-text">BFC的应用</span></a></li></ol></div><p>在谈BFC之前我们需要了解两个概念: Box和Formatting context。</p>
+<h1>CSS中的BFC</h1><div class="toc-article"><strong class="toc-title">Contents</strong><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#bfc"><span class="toc-number">1.</span> <span class="toc-text">BFC</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#bfc-触发条件"><span class="toc-number">2.</span> <span class="toc-text">BFC 触发条件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#bfc-的应用"><span class="toc-number">3.</span> <span class="toc-text">BFC 的应用</span></a></li></ol></div><p>在谈 BFC 之前我们需要了解两个概念: Box 和 Formatting context。</p>
 <ul>
 <li><p>Box
-它是CSS布局中的最小单位，可以认为一个页面就是有这些不同大小、位置以及属性各异的盒子组成，这些盒子大致分为两类，块级盒子(block-level box)和行内级盒子(inline-level box)。</p>
+它是 CSS 布局中的最小单位，可以认为一个页面就是有这些不同大小、位置以及属性各异的盒子组成，这些盒子大致分为两类，块级盒子(block-level box)和行内级盒子(inline-level box)。</p>
 <ul>
 <li>block-level box
-块级盒子，由块级元素生成，一个块级元素至少会生成一个块级盒子。每个块级盒子都会参与块级格式化上下文BFC(Block formatting context)。</li>
+块级盒子，由块级元素生成，一个块级元素至少会生成一个块级盒子。每个块级盒子都会参与块级格式化上下文 BFC(Block formatting context)。</li>
 <li>inline-level box
-行内级盒子，由行内元素生成。行内级盒子包括行内盒子和原子行内盒子两种，行内盒子参与格式化上下文IFC(Inline formatting context)，而原子行内盒子不参与格式化上下文。</li>
+行内级盒子，由 display 值为 inline 的非替换元素生成。行内级盒子包括行内盒子和原子行内盒子(除了行内盒之外，其余的行内级盒都是原子行内级盒(atomic inline-level boxes), 它的典型特征就是作为一个整体，不能拆分换行)两种，行内盒子参与行内格式化上下文 IFC(Inline formatting context)，而原子行内盒子不参与格式化上下文。</li>
 </ul>
 </li>
 <li><p>Formatting context
-它是页面中的一块渲染区域，在这个区域内有一套渲染规则，区域内的元素根据这套规则进行渲染，不同的display有不同的层级(block-level box、inline-level box等)，不同的层级会参与不同的Formatting context，它决定了元素如何对其内容进行定位以及与其他元素的关系和相互作用。通俗来说FC是一个独立的环境，像个沙盒，在这个沙盒中按着一定规则进行物品摆放，而不会对其他环境的物品造成影响。</p>
+它是页面中的一块渲染区域，在这个区域内有一套渲染规则，区域内的元素根据这套规则进行渲染，不同的 display 有不同的层级(block-level box、inline-level box 等)，不同的层级会参与不同的 Formatting context，它决定了元素如何对其内容进行定位以及与其他元素的关系和相互作用。通俗来说 FC 是一个独立的环境，像个沙盒，在这个沙盒中按着一定规则进行物品摆放，而不会对其他环境的物品造成影响。</p>
 </li>
 </ul>
 <h3 id="bfc">BFC</h3>
 <p>块级格式化上下文，即块级+格式化上下文，它规定了块级盒子渲染布局的规则。规则如下:</p>
 <ul>
-<li>1) 内部的盒子在垂直方向排列。</li>
-<li>2) 每个元素margin box的左边与包含块的左边相接触(对于从左往右的格式化，否则相反)，浮动元
-   素也不例外。</li>
-<li>3) 盒子垂直方向的距离由margin决定，同一个BFC下的两个相邻的Box会产生margin collapse      (外边距合并)。</li>
-<li>4) BFC区域不会与float box重叠。</li>
-<li>5) 计算BFC的高度时，考虑BFC所包含的所有子元素，浮动元素也不例外。</li>
+<li><ol>
+<li>内部的盒子在垂直方向排列。</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>每个元素 margin box 的左边与包含块的左边相接触(对于从左往右的格式化，否则相反)，浮动元
+素也不例外。</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>盒子垂直方向的距离由 margin 决定，同一个 BFC 下的两个相邻的 Box 会产生 margin collapse (外边距合并)。</li>
+</ol>
+</li>
+<li><ol start="4">
+<li>BFC 区域不会与 float box 重叠。</li>
+</ol>
+</li>
+<li><ol start="5">
+<li>计算 BFC 的高度时，考虑 BFC 所包含的所有子元素，浮动元素也不例外。</li>
+</ol>
+</li>
 </ul>
-<h3 id="bfc触发条件">BFC触发条件</h3>
-<p>在日常的布局中，我们可能不知不觉地就触发了BFC，而BFC默默的在后边做着贡献，那有哪些条件会触发BFC呢？</p>
+<h3 id="bfc-触发条件">BFC 触发条件</h3>
+<p>在日常的布局中，我们可能不知不觉地就触发了 BFC，而 BFC 默默的在后边做着贡献，那有哪些条件会触发 BFC 呢？</p>
 <ul>
 <li>根元素<code>&lt;html&gt;</code></li>
-<li>float的属性不为none</li>
-<li>position为absolute或fixed</li>
-<li>display为inline-block, table-cell, table-caption, flex, inline-flex</li>
-<li>overflow不为visible</li>
+<li>float 的属性不为 none</li>
+<li>position 为 absolute 或 fixed</li>
+<li>display 为 inline-block, table-cell, table-caption, flex, inline-flex</li>
+<li>overflow 不为 visible</li>
 </ul>
-<h3 id="bfc的应用">BFC的应用</h3>
+<h3 id="bfc-的应用">BFC 的应用</h3>
 <ul>
-<li><p>防止margin collapse
-由BFC特性3我们知道在同一BFC下会产生外边距合并，那么，是不是让元素处在不同的BFC就可以避免外边距合并了呢？let me try!
-如下，通过设置overflow的值为hidden给box2创建了新的BFC环境，以此来避免外边距合并。</p>
-<pre><code>  &lt;style&gt;
-    .box1 {
-      width: 200px;
-      height: 100px;
-      background: #7F80FF;
-      margin-bottom: 50px;
-    }
-    .box2 {
-      width: 200px;
-      height: 100px;
-      background: #7F80FF;
-      margin-top: 20px;
-      overflow: hidden;
-    }
-  &lt;/style&gt;
-  &lt;div&gt;
-    &lt;div class=&quot;box1 &quot; /&gt;
-    &lt;div class=&quot;box2&quot; /&gt;
-  &lt;/div&gt;</code></pre><p>很遗憾，并没有成功，找了半天资料，来看一下w3c怎么说的(还是亲爹靠谱)，注意了，扔家说的是创建了新BFC的元素与其子元素不会发生外边距合并，因此直接在box1的兄弟元素box2上创建新的BFC并不能阻止外边距合并。</p>
+<li><p>防止 margin collapse
+由 BFC 特性 3 我们知道在同一 BFC 下会产生外边距合并，那么，是不是让元素处在不同的 BFC 就可以避免外边距合并了呢？let me try!
+如下，通过设置 overflow 的值为 hidden 给 box2 创建了新的 BFC 环境，以此来避免外边距合并。</p>
+<pre><code class="language-html">&lt;style&gt;
+  .box1 {
+    width: 200px;
+    height: 100px;
+    background: #7f80ff;
+    margin-bottom: 50px;
+  }
+  .box2 {
+    width: 200px;
+    height: 100px;
+    background: #7f80ff;
+    margin-top: 20px;
+    overflow: hidden;
+  }
+&lt;/style&gt;
+&lt;div&gt;
+  &lt;div class=&quot;box1 &quot; /&gt;
+  &lt;div class=&quot;box2&quot; /&gt;
+&lt;/div&gt;</code></pre>
+<p>很遗憾，并没有成功，找了半天资料，来看一下 w3c 怎么说的(还是亲爹靠谱)，注意了，人家说的是创建了新 BFC 的元素与其子元素不会发生外边距合并，因此直接在 box1 的兄弟元素 box2 上创建新的 BFC 并不能阻止外边距合并。</p>
 <blockquote>
 <p>Margins of elements that establish new block formatting contexts (such as floats and elements with &#39;overflow&#39; other than &#39;visible&#39;) do not collapse with their <font color=#0099ff>in-flow children<font>.</p>
-<img src="/images/17-1-margin-un-collapse.png" width="500" />
+<img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/17.CSS%E4%B8%AD%E7%9A%84BFC/17-1-margin-un-collapse.png" width="500" />
 </blockquote>
-<p>这该如何是好？如下，给box2添加父类box2-father，并设置box2-father的overflow为hidden。</p>
-<pre><code>  &lt;style&gt;
-    .box2-father {
-      overflow: hidden; // 触发新的BFC
-    }
-  &lt;/style&gt;
-  &lt;div&gt;
-    &lt;div class=&quot;box1 &quot; /&gt;
-    &lt;div class=&quot;box2-father&quot;&gt;
-      &lt;div class=&quot;box2&quot; /&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;</code></pre><p>奇迹出现了，如下图，box1、box2并没有发生外边距合并，这是什么原因呢？由前述我们已经知道触发box2-father生成新的BFC后box2-father与其第一个子元素box不会发生外边距合并，也就是说此时box2的外边距不会溢出到父元素外，也就不会和box1产生外边距合并。</p>
-<img src="/images/17-2-margin-collapse.png" width="500" />
+<p>这该如何是好？如下，给 box2 添加父类 box2-father，并设置 box2-father 的 overflow 为 hidden。</p>
+<pre><code class="language-html">&lt;style&gt;
+  .box2-father {
+    overflow: hidden; // 触发新的BFC
+  }
+&lt;/style&gt;
+&lt;div&gt;
+  &lt;div class=&quot;box1 &quot; /&gt;
+  &lt;div class=&quot;box2-father&quot;&gt;
+    &lt;div class=&quot;box2&quot; /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<p>奇迹出现了，如下图，box1、box2 并没有发生外边距合并，这是什么原因呢？由前述我们已经知道触发 box2-father 生成新的 BFC 后 box2-father 与其第一个子元素 box 不会发生外边距合并，也就是说此时 box2 的外边距不会溢出到父元素外，也就不会和 box1 产生外边距合并。</p>
+<img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/17.CSS%E4%B8%AD%E7%9A%84BFC/17-2-margin-collapse.png" width="500" />
 
 <ul>
 <li>实现两列布局
-如下，当box1为float时，box1的兄弟元素box2的内容会环绕着box1，但有时我们并不希望这样，而是希望box1和box2为两列布局。<pre><code>&lt;style&gt;
+如下，当 box1 为 float 时，box1 的兄弟元素 box2 的内容会环绕着 box1，但有时我们并不希望这样，而是希望 box1 和 box2 为两列布局。<pre><code class="language-html">&lt;style&gt;
   .box1 {
     width: 200px;
     height: 100px;
@@ -86,7 +103,7 @@
   .box2 {
     width: 400px;
     height: 240px;
-    background: #2196F3;
+    background: #2196f3;
   }
 &lt;/style&gt;
 &lt;div&gt;
@@ -94,59 +111,63 @@
   &lt;div class=&quot;box2&quot;&gt;
     我环绕着box1，我环绕着box1，我环绕着box1，我环绕着box1，我环绕着box1，我环绕着box1，我环绕着box1，我环绕着box1，我环绕着box1，我环绕着box1，我环绕着box1，我环绕着box1，我环绕着box1，我环绕着box1，我环绕着box1，我环绕着box1，我环绕着box1，我环绕着box1，我环绕着box1。
   &lt;/div&gt;
-&lt;/div&gt;</code></pre><img src="/images/17-3-column-layout.png" width="500" />
+&lt;/div&gt;</code></pre>
+</li>
+</ul>
+<img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/17.CSS%E4%B8%AD%E7%9A%84BFC/17-3-column-layout.png" width="500" />
 
 </li>
 </ul>
-<p>由BFC特性4知道BFC的区域不会与float box重叠，因此，可以通过触发box2产生新的BFC来达到两列布局的目的。</p>
-<pre><code>  .box2 {
-      width: 400px;
-      height: 240px;
-      background: #2196F3;
-      overflow: hidden;//触发新的BFC
-    }</code></pre><p>两列布局效果如下图:</p>
-<img src="/images/17-4-column-layout.png" width="500" />
-
+<p>由 BFC 特性 4 知道 BFC 的区域不会与 float box 重叠，因此，可以通过触发 box2 产生新的 BFC 来达到两列布局的目的。</p>
+<pre><code class="language-css">.box2 {
+  width: 400px;
+  height: 240px;
+  background: #2196f3;
+  overflow: hidden; //触发新的 BFC
+}</code></pre>
+<p>两列布局效果如下图:
+<img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/17.CSS%E4%B8%AD%E7%9A%84BFC/17-4-column-layout.png" width="500" /></p>
 <ul>
 <li>清除浮动</li>
 </ul>
-<p>如下，由于box1、box2浮动导致容器container的高度塌陷，其兄弟元素box3不能正确的布局。根据BFC特性5，则可以考虑用BFC来解决高度塌陷的问题。</p>
-<pre><code>  &lt;style&gt;
-    .container {
-      border: solid red;
-      width: 400px;
-    }
-    .box1 {
-      width: 200px;
-      height: 100px;
-      background: gray;
-      float: left;
-    }
-    .box2 {
-      width: 200px;
-      height: 100px;
-      background: black;
-      float: left;
-    }
-    .box3 {
-      width: 410px;
-      height: 120px;
-      background: #2196F3;
-    }
-  &lt;/style&gt;
-  &lt;div&gt;
-    &lt;div class=&quot;container&quot;&gt;
-      &lt;div class=&quot;box1 &quot; /&gt;
-      &lt;div class=&quot;box2&quot; /&gt;
-    &lt;/div&gt;
-    &lt;div class=&quot;box3&quot; /&gt;
-  &lt;/div&gt;</code></pre><img src="/images/17-5-clear-float.png" width="500" />
-
-<p>设置容器overflow为hidden来触发生成新的BFC，进而清除浮动。</p>
-<pre><code>  .container {
+<p>如下，由于 box1、box2 浮动导致容器 container 的高度塌陷，其兄弟元素 box3 不能正确的布局。根据 BFC 特性 5，则可以考虑用 BFC 来解决高度塌陷的问题。</p>
+<pre><code class="language-html">&lt;style&gt;
+  .container {
     border: solid red;
     width: 400px;
-    overflow: hidden;
-  }</code></pre><p>效果如下:</p>
-<img src="/images/17-6-clear-float.png" width="500" /></li>
-</ul>
+  }
+  .box1 {
+    width: 200px;
+    height: 100px;
+    background: gray;
+    float: left;
+  }
+  .box2 {
+    width: 200px;
+    height: 100px;
+    background: black;
+    float: left;
+  }
+  .box3 {
+    width: 410px;
+    height: 120px;
+    background: #2196f3;
+  }
+&lt;/style&gt;
+&lt;div&gt;
+  &lt;div class=&quot;container&quot;&gt;
+    &lt;div class=&quot;box1 &quot; /&gt;
+    &lt;div class=&quot;box2&quot; /&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;box3&quot; /&gt;
+&lt;/div&gt;</code></pre>
+  <img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/17.CSS%E4%B8%AD%E7%9A%84BFC/17-5-clear-float.png" width="500" />
+
+<p>设置容器 overflow 为 hidden 来触发生成新的 BFC，进而清除浮动。</p>
+<pre><code class="language-css">.container {
+  border: solid red;
+  width: 400px;
+  overflow: hidden;
+}</code></pre>
+<p>效果如下:
+<img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/17.CSS%E4%B8%AD%E7%9A%84BFC/17-6-clear-float.png" width="500" /></p>
