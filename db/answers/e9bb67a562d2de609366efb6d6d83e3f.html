@@ -1,6 +1,6 @@
 <h3 id="原型链继承">原型链继承</h3>
 <p>原型链继承也就是通过<a href="https://juejin.im/post/5cab34def265da034c7002a6">原型链</a>的特性来实现继承:</p>
-<pre><code>function Father() {
+<pre><code class="language-js">function Father() {
   this.name = &quot;father&quot;;
 }
 
@@ -20,8 +20,9 @@ const father = new Father();
 Son.prototype = father;
 
 const son = new Son();
-son.eat();//eat
-son.sleep();//sleep</code></pre><p>new Father()得到实例 father， father 的<code>__proto__</code>指向 Father 原型 prototype，Son.prototype = father;也就意味着 Son 的实例通过原型链可以查找到 Father 原型 prototype，也就达到了继承的目的。</p>
+son.eat(); //eat
+son.sleep(); //sleep</code></pre>
+<p>new Father()得到实例 father， father 的<code>__proto__</code>指向 Father 原型 prototype，Son.prototype = father;也就意味着 Son 的实例通过原型链可以查找到 Father 原型 prototype，也就达到了继承的目的。</p>
 <p><strong>缺点</strong></p>
 <ul>
 <li><p>在创建子类的实例时，不能向父类传参</p>
@@ -46,7 +47,7 @@ console.log(&quot;son2.food&quot;, son2.food); // [&quot;meat&quot;, &quot;fish&
 </ul>
 <h3 id="借用构造函数经典继承">借用构造函数(经典继承)</h3>
 <p>借用构造函数就是通过其他对象的构造函数进行初始化。</p>
-<pre><code>function Father(name) {
+<pre><code class="language-js">function Father(name) {
   this.name = name;
   this.eat = () =&gt; {
     console.log(&quot;eat&quot;);
@@ -66,9 +67,9 @@ son1.eat(); // eat
 son1.sleep(); // Uncaught TypeError: son1.sleep is not a function
 console.log(&quot;son1.name&quot;, son1.name); // son1
 const son2 = new Son(&quot;son2&quot;);
-son2.eat();// eat
-console.log(&quot;son2.name&quot;, son2.name); // son2
-</code></pre><p>通过调用 Father.call(this, name)使得子类可以调用父类的构造函数。</p>
+son2.eat(); // eat
+console.log(&quot;son2.name&quot;, son2.name); // son2</code></pre>
+<p>通过调用 Father.call(this, name)使得子类可以调用父类的构造函数。</p>
 <p><strong>优点</strong></p>
 <ul>
 <li>避免了引用类型的属性被所有实例共享</li>
@@ -82,7 +83,7 @@ console.log(&quot;son2.name&quot;, son2.name); // son2
 </ul>
 <h3 id="组合继承">组合继承</h3>
 <p>组合继承就是组合上面的两种继承方式来实现继承。</p>
-<pre><code>function Father(name) {
+<pre><code class="language-js">function Father(name) {
   this.name = name;
   this.foods = [&quot;fish&quot;, &quot;meat&quot;];
 }
@@ -106,7 +107,8 @@ Son.prototype.constructor = Son;
 const son1 = new Son(&quot;son1&quot;);
 console.log(son1.name); // son1
 son1.eat(); // eat
-son1.sleep(); // sleep</code></pre><p><strong>优点</strong></p>
+son1.sleep(); // sleep</code></pre>
+<p><strong>优点</strong></p>
 <ul>
 <li>结合了原型链继承和借用构造继承的优点，能够继承父类原型链上的属性方法，继承父类实例的属性方法，可以向父类传递参数</li>
 </ul>
@@ -128,7 +130,7 @@ $ son1 instanceof Son
 </ul>
 <h3 id="原型式继承">原型式继承</h3>
 <p>原型式继承实际就是 ES5 Object.create 的模拟实现，通过传入对象作为创建的对象的原型。</p>
-<pre><code>function createObj(object) {
+<pre><code class="language-js">function createObj(object) {
   function F() {}
   F.prototype = object;
   return new F();
@@ -139,7 +141,7 @@ const object = {
   eat: () =&gt; {
     console.log(&quot;eat&quot;);
   },
-  foods: [&quot;fish&quot;, &quot;meat&quot;]
+  foods: [&quot;fish&quot;, &quot;meat&quot;],
 };
 
 const obj1 = createObj(object);
@@ -152,15 +154,15 @@ obj1.eat(); // eat
 const obj2 = createObj(object);
 obj2.age = 20;
 console.log(obj2.name); // xh
-console.log(obj2.foods); // [&quot;fish&quot;, &quot;meat&quot;, &quot;rice&quot;]
-</code></pre><p><strong>缺点</strong></p>
+console.log(obj2.foods); // [&quot;fish&quot;, &quot;meat&quot;, &quot;rice&quot;]</code></pre>
+<p><strong>缺点</strong></p>
 <ul>
 <li>同原型链继承一样，所有实例都会共享构造参数 object 上引用类型的值。</li>
 <li>无法传递参数</li>
 </ul>
 <h3 id="寄生式继承">寄生式继承</h3>
 <p>寄生式继承就是在原型式继承的基础上，增强对象，返回增强后的对象。</p>
-<pre><code>function createObj(o) {
+<pre><code class="language-js">function createObj(o) {
   const obj = Object.create(o);
   obj.eat = () =&gt; {
     console.log(&quot;eat&quot;);
@@ -174,7 +176,8 @@ const object = {
 
 const obj1 = createObj(object);
 console.log(obj1.name); // xh
-obj1.eat(); // eat</code></pre><p><strong>缺点</strong></p>
+obj1.eat(); // eat</code></pre>
+<p><strong>缺点</strong></p>
 <ul>
 <li>跟原型式继承一样，会共享 object 的属性和方法</li>
 <li>跟借用构造函数模式一样，每次创建对象都会创建一遍方法</li>
@@ -182,15 +185,17 @@ obj1.eat(); // eat</code></pre><p><strong>缺点</strong></p>
 <h3 id="寄生组合式继承">寄生组合式继承</h3>
 <p>寄生组合式继承就是寄生式继承和组合继承的组合，前述我们已经知道组合式继承的缺点是调用了两次父类的构造函数，如果在设置子类原型时不调用父类的构造函数呢？
 如下：通过构造一个空函数来让子类间接引用到父类的 prototype，调用 new F()时也就不会去构造父类的属性和方法。</p>
-<pre><code>const F = function(){};
+<pre><code class="language-js">const F = function() {};
 F.prototype = Father.prototype;
-Son.prototype = new F();</code></pre><p>结合寄生式继承，上面的代码转换为：</p>
-<pre><code>function createObject(o) {
+Son.prototype = new F();</code></pre>
+<p>结合寄生式继承，上面的代码转换为：</p>
+<pre><code class="language-js">function createObject(o) {
   function F() {}
   F.prototype = o;
   return new F();
-}</code></pre><p>完整的例子：</p>
-<pre><code>function Father(name) {
+}</code></pre>
+<p>完整的例子：</p>
+<pre><code class="language-js">function Father(name) {
   this.name = name;
   this.foods = [&quot;fish&quot;, &quot;meat&quot;];
 }
@@ -222,7 +227,7 @@ function inheritPrototypeFromParent(Child, Parent) {
   const prototype = createObject(Parent.prototype);
   prototype.constructor = Child;
   //保留Child原有的prototype
-  Child.prototype = Object.assign(prototype, Child.prototype);;
+  Child.prototype = Object.assign(prototype, Child.prototype);
 }
 
 inheritPrototypeFromParent(Son, Father);
@@ -236,11 +241,12 @@ son1.sleep(); // sleep
 son1.play(); // play
 
 const son2 = new Son(&quot;son2&quot;, 17);
-console.log(son2.foods); // [&quot;fish&quot;, &quot;meat&quot;]
-</code></pre><p>通过 inheritPrototypeFromParent 子类就能继承父类的 prototype 了。</p>
-<pre><code>Son.prototype.play = () =&gt; {
+console.log(son2.foods); // [&quot;fish&quot;, &quot;meat&quot;]</code></pre>
+<p>通过 inheritPrototypeFromParent 子类就能继承父类的 prototype 了。</p>
+<pre><code class="language-js">Son.prototype.play = () =&gt; {
   console.log(&quot;play&quot;);
-};</code></pre><p><strong>优点</strong></p>
+};</code></pre>
+<p><strong>优点</strong></p>
 <ul>
 <li>只调用了一次父类的构造函数</li>
 <li>避免了在父类的 prototype 上面创建不必要的、多余的属性</li>
@@ -249,7 +255,7 @@ console.log(son2.foods); // [&quot;fish&quot;, &quot;meat&quot;]
 </ul>
 <p>由于上述的优点，开发人员普遍认为寄生组合式继承是引用类型最理想的继承范式，大多数库也是采用的这种继承方法。</p>
 <h3 id="混合方式继承多个对象">混合方式继承多个对象</h3>
-<pre><code>function MyClass() {
+<pre><code class="language-js">function MyClass() {
   SuperClass.call(this);
   OtherSuperClass.call(this);
 }
@@ -262,11 +268,12 @@ Object.assign(MyClass.prototype, OtherSuperClass.prototype);
 MyClass.prototype.constructor = MyClass;
 
 MyClass.prototype.myMethod = function() {
-     // do something
-};</code></pre><p>Object.assign 会把 OtherSuperClass 原型上的函数拷贝到 MyClass 原型上，使 MyClass 的所有实例都可用 OtherSuperClass 的方法。</p>
+  // do something
+};</code></pre>
+<p>Object.assign 会把 OtherSuperClass 原型上的函数拷贝到 MyClass 原型上，使 MyClass 的所有实例都可用 OtherSuperClass 的方法。</p>
 <h3 id="es6-类继承-extends">ES6 类继承 extends</h3>
 <p>extends 关键字主要用于类声明或者类表达式中，以创建一个类，该类是另一个类的子类。其中 constructor 表示构造函数，一个类中只能有一个构造函数，有多个会报出 SyntaxError 错误，如果没有显式指定构造方法，则会添加默认的 constructor 方法。</p>
-<pre><code>class Father {
+<pre><code class="language-js">class Father {
   constructor(name) {
     this.name = name;
   }
@@ -292,25 +299,26 @@ class Son extends Father {
   }
 }
 
-const son1 = new Son(&#39;son1&#39;, 17);
-console.log(son1.getName());// son1
-son1.eat();// eat
-son1.sleep();// sleep</code></pre><p>通过 super 调用父类的构造函数来继承父类属性。
+const son1 = new Son(&quot;son1&quot;, 17);
+console.log(son1.getName()); // son1
+son1.eat(); // eat
+son1.sleep(); // sleep</code></pre>
+<p>通过 super 调用父类的构造函数来继承父类属性。
 extends 继承的核心代码如下，其实现和上述的寄生组合式继承方式一样</p>
-<pre><code>function _inherits(subType, superType) {
-    subType.prototype = Object.create(superType &amp;&amp; superType.prototype, {
-        constructor: {
-            value: subType,
-            enumerable: false,
-            writable: true,
-            configurable: true
-        }
-    });
+<pre><code class="language-js">function _inherits(subType, superType) {
+  subType.prototype = Object.create(superType &amp;&amp; superType.prototype, {
+    constructor: {
+      value: subType,
+      enumerable: false,
+      writable: true,
+      configurable: true,
+    },
+  });
 
-    if (superType) {
-        Object.setPrototypeOf
-            ? Object.setPrototypeOf(subType, superType)
-            : subType.__proto__ = superType;
-    }
-}
-</code></pre><p>extend 继承与 ES5 的继承的区别在于 ES5 的继承实质上是先创建子类的实例对象，然后再将父类的方法添加到 this 上(Parent.call(this))，而 ES6 的继承不同，实质上是先创建父类的实例对象 this，然后再用子类的构造函数修改 this。因为子类没有自己的 this 对象，所以必须先调用父类的 super()方法，否则新建实例会报错。</p>
+  if (superType) {
+    Object.setPrototypeOf
+      ? Object.setPrototypeOf(subType, superType)
+      : (subType.__proto__ = superType);
+  }
+}</code></pre>
+<p>extend 继承与 ES5 的继承的区别在于 ES5 的继承实质上是先创建子类的实例对象，然后再将父类的方法添加到 this 上(Parent.call(this))，而 ES6 的继承不同，实质上是先创建父类的实例对象 this，然后再用子类的构造函数修改 this。因为子类没有自己的 this 对象，所以必须先调用父类的 super()方法，否则新建实例会报错。</p>

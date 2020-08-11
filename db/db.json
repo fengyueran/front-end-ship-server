@@ -84,7 +84,12 @@
       "0ee82e93c4f8408a5c350adc1b3f1ba1",
       "0f80ce1bbc43eeed054982e7a63ea57f",
       "dfd620776562ecbaa5e6b632b7be4d23",
-      "f967855b80d20c20b92ff70bf8f8da4d"
+      "f967855b80d20c20b92ff70bf8f8da4d",
+      "382270edb71478a28bf76ae84331723a",
+      "fa311c4e9f1fe60c235bfa1c28edccb3",
+      "fbb959a82e8b0da05cb6059c879dbb5a",
+      "fd9ad3945a77dc1c2a36e0d7c102be3a",
+      "75d180f8e267332c4bf842f5fa9c3ace"
     ],
     "byId": {
       "f5838f1d65f228e08e8fdb013c7cf0d6": {
@@ -839,7 +844,7 @@
         "title": "介绍下 Set、Map、WeakSet 和 WeakMap 的区别",
         "exerciseTimes": 0,
         "passRate": "--",
-        "md5": "4d6a695f2f3a24bae10e3bd22fe265e5",
+        "md5": "d4dd947f27e902e5835c2782d9ef3ed4",
         "tags": [
           "HTML"
         ],
@@ -875,7 +880,7 @@
         "title": "js继承的几种方式",
         "exerciseTimes": 0,
         "passRate": "--",
-        "md5": "0d52040ff38ce8b31f079aa68f6d5b73",
+        "md5": "43e7872a1ab05ad37c3e192218b07045",
         "tags": [
           "JavaScript"
         ],
@@ -887,7 +892,7 @@
         "title": "插入排序算法排序",
         "exerciseTimes": 0,
         "passRate": "--",
-        "md5": "4d082858950db373dec6d31f98e14fd6",
+        "md5": "e5286bb9814d2b3d2866cbe5ed1ebaf5",
         "tags": [
           "HTML"
         ],
@@ -901,7 +906,7 @@
         "title": "实现深度优先和广度优先遍历数据",
         "exerciseTimes": 0,
         "passRate": "--",
-        "md5": "c6349b3d73fac01dc92c783be1cb4317",
+        "md5": "7ee6aef9899d6a287a151fb6e1f60f3a",
         "tags": [
           "JavaScript"
         ],
@@ -929,7 +934,7 @@
         "title": "希尔排序算法排序",
         "exerciseTimes": 0,
         "passRate": "--",
-        "md5": "061ea6aa1f5de9737e4cc2739cf79e4b",
+        "md5": "e93689efaf967efdff57535af39e1baf",
         "tags": [
           "HTML"
         ],
@@ -943,7 +948,7 @@
         "title": "实现promise的基本功能",
         "exerciseTimes": 0,
         "passRate": "--",
-        "md5": "0d1515317c232f179ef5d5414d7a3c7b",
+        "md5": "b80c55a509a16a74653a752dfd9d02f5",
         "tags": [
           "JavaScript"
         ],
@@ -967,7 +972,7 @@
         "title": "简单讲解一下http2的多路复用",
         "exerciseTimes": 0,
         "passRate": "--",
-        "md5": "6e12b66dbf12c264a8bc02b43ee74518",
+        "md5": "4dd5eb767fe65deb7961a76b826e046b",
         "tags": [
           "Http"
         ],
@@ -1039,7 +1044,7 @@
         "title": "node的事件循环",
         "exerciseTimes": 0,
         "passRate": "--",
-        "md5": "b930582b729bf069e5db1d46287b4a34",
+        "md5": "caf6b39334bfb512d6d39efec8e01eb5",
         "tags": [
           "JavaScript"
         ],
@@ -1087,7 +1092,7 @@
         "title": "IFFE的应用",
         "exerciseTimes": 0,
         "passRate": "--",
-        "md5": "8e870ed5745c762d30d8a6a92ca6f2cf",
+        "md5": "d77082383f454e88eee59c3a4a0eb080",
         "tags": [
           "JavaScript"
         ],
@@ -1118,6 +1123,66 @@
         "type": "CODE",
         "template": "const form = document.getElementById('target');\nconst serialize = (form)=> {\n}",
         "result": "[4,8,9,10,11,13,25]",
+        "date": "2018-05-06T18:10:20.000Z"
+      },
+      "382270edb71478a28bf76ae84331723a": {
+        "id": "382270edb71478a28bf76ae84331723a",
+        "title": "谈谈你对TCP三次握手和四次挥手的理解",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "8bef515103643499bda6881ea41b349c",
+        "tags": [
+          "Http"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2019-01-15T18:10:20.000Z"
+      },
+      "fa311c4e9f1fe60c235bfa1c28edccb3": {
+        "id": "fa311c4e9f1fe60c235bfa1c28edccb3",
+        "title": "：为什么 Vuex 的 mutation 和 Redux 的 reducer 中不能做异步操作？",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "5f5e2f6159cafd96bd4281db262cfd4b",
+        "tags": [
+          "JavaScript"
+        ],
+        "type": "CODE",
+        "date": "2018-05-06T18:10:20.000Z"
+      },
+      "fbb959a82e8b0da05cb6059c879dbb5a": {
+        "id": "fbb959a82e8b0da05cb6059c879dbb5a",
+        "title": "：(京东）下面代码中 a 在什么情况下会打印 1？",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "116e7b4074da8f3b92c9afed1b9afedc",
+        "tags": [
+          "JavaScript"
+        ],
+        "type": "CODE",
+        "date": "2018-05-06T18:10:20.000Z"
+      },
+      "fd9ad3945a77dc1c2a36e0d7c102be3a": {
+        "id": "fd9ad3945a77dc1c2a36e0d7c102be3a",
+        "title": "：使用 sort() 对数组 [3, 15, 8, 29, 102, 22] 进行排序，输出结果",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "9359f2aa4ad15bda235cd8bb4b4fb276",
+        "tags": [
+          "JavaScript"
+        ],
+        "type": "CODE",
+        "date": "2018-05-06T18:10:20.000Z"
+      },
+      "75d180f8e267332c4bf842f5fa9c3ace": {
+        "id": "75d180f8e267332c4bf842f5fa9c3ace",
+        "title": "：介绍 HTTPS 握手过程",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "5deeda8f0c64f29911dbbe64c16e96bc",
+        "tags": [
+          "JavaScript"
+        ],
+        "type": "CODE",
         "date": "2018-05-06T18:10:20.000Z"
       }
     }

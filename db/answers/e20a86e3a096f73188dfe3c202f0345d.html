@@ -161,6 +161,8 @@ Node 端运行结果分两种情况：</p>
 如果是 node10 及其之前版本：要看第一个定时器执行完，第二个定时器是否在完成队列中。</p>
 <p>如果是第二个定时器还未在完成队列中，最后的结果为 timer1=&gt;promise1=&gt;timer2=&gt;promise2
 如果是第二个定时器已经在完成队列中，则最后的结果为 timer1=&gt;timer2=&gt;promise1=&gt;promise2(下文过程解释基于这种情况下)</p>
-<p>1.全局脚本（main()）执行，将 2 个 timer 依次放入 timer 队列，main()执行完毕，调用栈空闲，任务队列开始执行； 2.首先进入 timers 阶段，执行 timer1 的回调函数，打印 timer1，并将 promise1.then 回调放入 microtask 队列，同样的步骤执行 timer2，打印 timer2； 3.至此，timer 阶段执行结束，event loop 进入下一个阶段之前，执行 microtask 队列的所有任务，依次打印 promise1、promise2
+<p>1.全局脚本（main()）执行，将 2 个 timer 依次放入 timer 队列，main()执行完毕，调用栈空闲，任务队列开始执行；</p>
+<p>2.首先进入 timers 阶段，执行 timer1 的回调函数，打印 timer1，并将 promise1.then 回调放入 microtask 队列，同样的步骤执行 timer2，打印 timer2；</p>
+<p>3.至此，timer 阶段执行结束，event loop 进入下一个阶段之前，执行 microtask 队列的所有任务，依次打印 promise1、promise2
 Node 端的处理过程如下：
 <img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/79.node%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/execute-in-node.gif"></p>

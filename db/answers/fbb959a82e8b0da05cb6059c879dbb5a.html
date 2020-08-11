@@ -1,0 +1,12 @@
+<p>下面代码中 a 在什么情况下会打印 1？</p>
+<pre><code class="language-js">var a = ?;
+if(a == 1 &amp;&amp; a == 2 &amp;&amp; a == 3){
+  console.log(1);
+}</code></pre>
+<p>非严格相等在比较时会进行类型转换，如果 a 为一个对象会调用它的 toString 和 valueOf 方法进行转换， valueOf 的优先级更高，当 valueOf 返回的值仍为对象时，再调用 toString 方法进行转换。因此可以重写 valueOf 或 toString 方法</p>
+<pre><code class="language-js">var a = {
+  x: 0,
+  toString: () =&gt; {
+    return ++a.x;
+  },
+};</code></pre>

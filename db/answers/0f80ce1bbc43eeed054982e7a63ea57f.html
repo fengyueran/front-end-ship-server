@@ -30,3 +30,11 @@
   console.log(b); // 20
   console.log(window.b); // 10
 })();</code></pre>
+<pre><code class="language-js">var a = 10;
+(function() {
+  console.log(a); //undefined
+  a = 5;
+  console.log(window.a); //10
+  var a = 20;
+  console.log(a); //20
+})();</code></pre>

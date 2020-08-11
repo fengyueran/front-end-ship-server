@@ -630,6 +630,42 @@ class MyPromise {
     );
   };
 }</code></pre>
+<h3 id="错误处理">错误处理</h3>
+<ul>
+<li><p>异步错误
+对于异步错误，Promise 并不能直接 catch 到，需要用 reject。</p>
+<pre><code class="language-js">new Promise((resolve, reject) =&gt; {
+  setTimeout(() =&gt; {
+    //catch不到
+    throw new Error(&quot;error&quot;);
+  });
+}).catch(() =&gt; {
+  console.log(&quot;error&quot;);
+});</code></pre>
+<p>reject catch</p>
+<pre><code class="language-js">new Promise((resolve, reject) =&gt; {
+  setTimeout(() =&gt; {
+    //能够catch
+    reject(&quot;error&quot;);
+  });
+}).catch(() =&gt; {
+  console.log(&quot;error&quot;);
+});</code></pre>
+</li>
+<li><p>try catch 捕获不到异常
+在 Promise 中在执行回调时都用 try catch 包裹起来了，因此错误被内部捕获，并未向上抛出。</p>
+<pre><code class="language-js">try {
+  new Promise(function(resolve, reject) {
+    x;
+  }).then((v) =&gt; {
+    console.log(v);
+  });
+} catch (e) {
+  console.log(&quot;error&quot;, e);
+}
+//output: Uncaught (in promise) ReferenceError: x is not defined</code></pre>
+</li>
+</ul>
 <h3 id="总结">总结</h3>
 <ul>
 <li>promise 构造函数为同步执行，then 方法的回调为异步执行

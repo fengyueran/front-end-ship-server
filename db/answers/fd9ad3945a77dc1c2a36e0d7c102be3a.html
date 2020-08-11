@@ -1,0 +1,22 @@
+<pre><code class="language-js">[3, 15, 8, 29, 102, 22].sort(); // [102, 15, 22, 29, 3, 8]</code></pre>
+<h3 id="sort-的用法">sort 的用法</h3>
+<pre><code class="language-js">/*
+    compareFunction: 用于指定按照某种顺序进行排序的函数，如果省略，元
+                      素按照转换为字符串的各个字符的Unicode编码顺序进行升序排序。
+    compareFunction(a, b): a和b分别表示第一个比较的元素和第二个比较的元素，函数返回值决定了如何排序
+                          1. 小于0则a排在b前面
+                          2. 等于0，可能保持相对位置不变(并不是所有浏览器都遵守)
+                          3. 大于0，则a排在b后面
+*/
+array.sort(compareFunction);
+
+var a = [&quot;b&quot;, &quot;a&quot;];
+//a的ASCII码比b的ASCII码小，所以a排在前面
+var b = a.sort(); //[&#39;a&#39;, &#39;b&#39;]
+console.log(a); // [&#39;a&#39;, &#39;b&#39;]
+
+var c = [10, 2];
+//10，2转换为字符串&#39;10&#39;, &#39;2&#39;进行比较，因为&#39;1&#39;比&#39;2&#39;的的ASCII码小，所以10排前面
+var d = c.sort(); //[10, 2]
+
+var e = c.sort((a, b) =&gt; a - b); //[2, 10]</code></pre>

@@ -21,25 +21,25 @@
 </li>
 </ul>
 <p>一般初次取序列的一半为增量，以后每次减半，直到增量为 1。</p>
-<pre><code>// 对于数组[9, 3, 13, 35, 25, 1, 10, 27, 51, 4]，增量取5、2、1
-const shellSort = arr =&gt; {
+<pre><code class="language-js">// 对于数组[9, 3, 13, 35, 25, 1, 10, 27, 51, 4]，增量取5、2、1
+const shellSort = (arr) =&gt; {
   const len = arr.length;
   for (let gap = Math.floor(len / 2); gap &gt; 0; gap = Math.floor(gap / 2)) {
     for (let i = gap; i &lt; len; i++) {
-      let j = i;
+      let preIndex = i - gap;
       const current = arr[i];
-      while (j - gap &gt;= 0 &amp;&amp; current &lt; arr[j - gap]) {
-        arr[j] = arr[j - gap];
-        j = j - gap;
+      while (preIndex &gt;= 0 &amp;&amp; current &lt; arr[preIndex]) {
+        arr[preIndex + gap] = arr[preIndex];
+        preIndex -= gap;
       }
-      arr[j] = current;
+      arr[preIndex + gap] = current;
       console.log(&quot;00000&quot;, arr);
     }
   }
   return arr;
-};</code></pre><p>排序过程大致如下：</p>
-  <center><img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/%E9%A2%98%E5%BA%93/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F.png" /></center>
-<center>希尔排序示意图</center>
+};</code></pre>
+<p>排序过程大致如下：</p>
+<pre><code>&lt;center&gt;&lt;img src=&quot;http://blog-bed.oss-cn-beiiing.aliyuncs.com/%E9%A2%98%E5%BA%93/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F.png&quot; /&gt;&lt;/center&gt;</code></pre>  <center>希尔排序示意图</center>
 
 </li>
 </ul>
