@@ -1,0 +1,63 @@
+<h1>npm install安装模块的流程</h1><div class="toc-article"><strong class="toc-title">Contents</strong><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#执行-preinstall-钩子"><span class="toc-number">1.</span> <span class="toc-text">执行 preinstall 钩子</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#确定首层依赖"><span class="toc-number">2.</span> <span class="toc-text">确定首层依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查找模块"><span class="toc-number">3.</span> <span class="toc-text">查找模块</span></a></li></ol></div><p>当我们在控制台输入 npm install 回车时会经历以下步骤。</p>
+<h3 id="执行-preinstall-钩子">执行 preinstall 钩子</h3>
+<p>顾名思义 preinstall 定义的钩子会在 install 前执行，如下：
+package.json 中定义了 preinstall 的钩子：</p>
+<pre><code class="language-json">// package.json
+{
+  &quot;name&quot;: &quot;tmp&quot;,
+  &quot;scripts&quot;: {
+    &quot;preinstall&quot;: &quot;node ./test-preinstall.js&quot;
+  },
+  &quot;dependencies&quot;: {
+    &quot;eslint-config-airbnb&quot;: &quot;^17.1.0&quot;
+  }
+}</code></pre>
+<p>当运行 npm install 时会首先执行<code>node ./test-preinstall.js</code>，控制台输出如下：</p>
+<pre><code>➜  tmp npm install
+
+&gt; tmp@1.0.0 preinstall /Users/xinghunm/xinghun/MyHouse/test/tmp
+&gt; node ./test-preinstall.js</code></pre><h3 id="确定首层依赖">确定首层依赖</h3>
+<p>在项目根目录下的 package.json 里我们定义的 dependencies 和 devDependencies 即为首层依赖，首层依赖下的模块同样依赖着其他模块，npm 在进行模块依赖的查找时会根据首层依赖开启多线程进行查找。</p>
+<h3 id="查找模块">查找模块</h3>
+<p>确定首层依赖后，知道了需要哪些模块，但是这些模块从哪获取呢？因此需要先获取模块信息</p>
+<ul>
+<li><p>确定版本</p>
+<p>我们通过 npm 安装包时版本通常都是带<code>^</code>号的，这个符号使得安装的包是灵活变动的，他表示当前库的版本可以更新到(格式：主版本号.次版本号.修订号)主板号一致的最新版本，如 package.json 中某个包的版本是 ^1.0.0，npm intall 时就会去获取符合 1.x.x 形式的最新版本。如下：
+当在控制台运行<code>npm install eslint-config-airbnb@17.1.0</code>时，会在 package.json 生成 airbnb 这个库的依赖(默认带<code>^</code>号)以及 package-lock.json(用来锁定安装时的版本号)这个文件。</p>
+<pre><code class="language-json">//package.json
+{
+  &quot;dependencies&quot;: {
+    &quot;eslint-config-airbnb&quot;: &quot;^17.1.0&quot;
+  }
+}
+//  package-lock.json
+{
+  &quot;eslint-config-airbnb&quot;: {
+    &quot;version&quot;: &quot;17.1.0&quot;,
+    &quot;resolved&quot;: &quot;https://registry.npm.taobao.org/eslint-config-airbnb/download/eslint-config-airbnb-17.1.0.tgz&quot;,
+    &quot;integrity&quot;: &quot;sha1-OWTtS8GYJAMV/1IDC/hjb0K8RzI=&quot;,
+    &quot;requires&quot;: {
+      &quot;eslint-config-airbnb-base&quot;: &quot;^13.1.0&quot;,
+      &quot;object.assign&quot;: &quot;^4.1.0&quot;,
+      &quot;object.entries&quot;: &quot;^1.0.4&quot;
+    }
+  },
+  &quot;eslint-config-airbnb-base&quot;: {
+    &quot;version&quot;: &quot;13.2.0&quot;,
+    &quot;resolved&quot;: &quot;https://registry.npm.taobao.org/eslint-config-airbnb-base/download/eslint-config-airbnb-base-13.2.0.tgz?cache=0&amp;sync_timestamp=1591856153104&amp;other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Feslint-config-airbnb-base%2Fdownload%2Feslint-config-airbnb-base-13.2.0.tgz&quot;,
+    &quot;integrity&quot;: &quot;sha1-9uqBRZ/03sLdogDDXx2PdBnVeUM=&quot;,
+    &quot;requires&quot;: {
+      &quot;confusing-browser-globals&quot;: &quot;^1.0.5&quot;,
+      &quot;object.assign&quot;: &quot;^4.1.0&quot;,
+      &quot;object.entries&quot;: &quot;^1.1.0&quot;
+    }
+  },
+}</code></pre>
+<p>此时，如果直接再进行 npm install 并不会重装 eslint-config-airbnb，因为 node_modules 里 删除 node_modules 里的 aribnb，运行 npm install 重装，eslint-config-airbnb 仍然会安装 17.1.0，因为有 package-lock.json，如果删除 node_modules 和 package-lock.json 再进行重装则会安装 17.x.x 的最新版，需要注意的是如果如果只删除 package-lock.json，eslint-config-airbnb 在 node_modules 中还存在，npm install 是不会更新包的。</p>
+</li>
+<li><p>获取模块信息。</p>
+<p>在下载一个模块之前，首先要确定其版本，这是因为 package.json 中往往是 semantic version（semver，语义化版本）。此时如果版本描述文件（npm-shrinkwrap.json 或 package-lock.json）中有该模块信息直接拿即可，如果没有则从仓库获取。如 packaeg.json 中某个包的版本是 ^1.1.0，npm 就会去仓库中获取符合 1.x.x 形式的最新版本。</p>
+<p>2）获取模块实体。上一步会获取到模块的压缩包地址（resolved 字段），npm 会用此地址检查本地缓存，缓存中有就直接拿，如果没有则从仓库下载。</p>
+<p>3）查找该模块依赖，如果有依赖则回到第 1) 步，如果没有则停止。</p>
+</li>
+</ul>
