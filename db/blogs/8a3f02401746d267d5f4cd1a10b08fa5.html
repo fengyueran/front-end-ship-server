@@ -1,0 +1,182 @@
+<h1>sentry的使用</h1><div class="toc-article"><strong class="toc-title">Contents</strong><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#sentry"><span class="toc-number">1.</span> <span class="toc-text">Sentry</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#官方服务"><span class="toc-number">1.0.1.</span> <span class="toc-text">官方服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#自己搭建服务器"><span class="toc-number">1.0.2.</span> <span class="toc-text">自己搭建服务器</span></a></li></ol></div></li></ol></div></li></ol></div><h1 id="sentry"><a href="https://sentry.io/welcome/">Sentry</a></h1>
+<p>Sentry 是一个实时的事件日志记录和聚合平台，其专注于错误监控以及提取追踪错误相关的信息而不依赖于用户反馈。使用 sentry 主要有以下两种方式，使用官方服务和自己搭建服务器。</p>
+<blockquote>
+<p>Sentry&#39;s application monitoring platform helps every developer diagnose, fix, and optimize the performance of their code.</p>
+</blockquote>
+<h3 id="官方服务">官方服务</h3>
+<p>官方的免费服务，对于个人开发者可以使用，当然有一些限制，如不能添加项目成员，数据只保留 30 天等，见下图
+<img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/sentry%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/developer.png" alt="developer">
+使用官方服务步骤如下：989</p>
+<ul>
+<li><p><a href="https://sentry.io/signup?plan=am1_f&amp;referrer=pricing">账号注册</a>
+有了账号就可以登录官方提供的项目管理系统。</p>
+</li>
+<li><p>创建项目
+<a href="https://sentry.io/auth/login/">登录 sentry</a>，进入项目管理界面后就可以创建项目了，如下图，
+<img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/sentry%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/create_project.png" alt="create project"></p>
+<p>创建完成后会生成一个与项目相关的 dsn，通过这个 dsn 就可以将对应的项目与 sentry 连接起来了。如果勾选了<code>Alert me on every new issue</code>，sentry 收到错误时就会向用户发送邮件，当然也可以通过 sentry 的 Alerts 配置更自由的通知策略。</p>
+</li>
+<li><p>连接项目与 Sentry</p>
+<p>在上一步创建项目成功后，sentry 已经贴心的生成了在前端集成的代码:
+<img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/sentry%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/created.png" alt="created project"></p>
+<p>我们只需要在前端项目调用 sentry 的初始化接口，如下：</p>
+<pre><code class="language-js">import React from &quot;react&quot;;
+import ReactDOM from &quot;react-dom&quot;;
+import * as Sentry from &quot;@sentry/react&quot;;
+import App from &quot;./App&quot;;
+//最简单的配置，只需要项目对应的dsn
+Sentry.init({
+  dsn:
+    &quot;https://d156e1ba13uu042b5b2ee15fd1c84a7e8@o416397.ingest.sentry.io/5379526&quot;,
+});
+ReactDOM.render(&lt;App /&gt;, document.getElementById(&quot;root&quot;));</code></pre>
+<p>以上完成以后，sentry 就可以自动捕获所有未 catch 到的错误并发送到 sentry 后台。此外，sentry 还会通过面包屑的方式搜集错误发生时的各种信息，包括 console，网络请求、点击的 button 等信息，如下：
+<img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/sentry%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/example.png" alt="example"></p>
+<p>这为调试提供了很大的便利，当然，为了能更好的调试 bug 需要根据需要进一步配置或主动捕获信息。</p>
+</li>
+<li><p>配置用户信息</p>
+<p>为了区分用户，最好配置用户的信息，如果不配置，sentry 收到错误时用户信息只有 IP。</p>
+<pre><code class="language-js">const user = {
+  id: &quot;1&quot;,
+  email: &quot;316032603@qq.com&quot;,
+  username: &quot;xhm&quot;,
+  domain: &quot;domain&quot;,
+};
+Sentry.init({
+  dsn:
+    &quot;https://d156e1ba13uu042b5b2ee15fd1c84a7e8@o416397.ingest.sentry.io/5379526&quot;,
+  beforeBreadcrumb(breadcrumb, hint: Sentry.BreadcrumbHint) {
+    if (breadcrumb.category === &quot;console&quot;) {
+      //如果不stringify，sentry后台对于object只会显示[object,object]
+      breadcrumb.message = JSON.stringify(hint.input);
+    }
+    return breadcrumb;
+  },
+});
+Sentry.configureScope(function(scope) {
+  scope.setUser(user);
+});</code></pre>
+<p>配置用户信息后，sentry 捕获到错误时用户信息就有了：
+<img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/41.sentry%E7%9A%84%E4%BD%BF%E7%94%A8/user.png" alt="user"></p>
+<p>有了用户信息，搜索 bug 就可以在问题搜索框通过用户信息<a href="https://docs.sentry.io/product/sentry-basics/search/">搜索</a>了：</p>
+<pre><code>//搜索用户id为1的问题
+user.id:1
+//搜索用户名为xhm的问题
+user.username:xhm
+//不支持自定义的user属性搜索
+user.username:domain=&gt;搜索不到</code></pre></li>
+<li><p>上传 <a href="https://docs.sentry.io/platforms/javascript/sourcemaps/">sourcemap</a>到 sentry 后台</p>
+<p>如果 sentry 后台上传了 sourcemap，那么 sentry 搜集到出错误时就能显示出具体的出错代码。
+上传 sourcemap 的方式很多，可以在 webpack 中配置，build 的时候自动上传。</p>
+<pre><code class="language-js">const SentryWebpackPlugin = require(&quot;@sentry/webpack-plugin&quot;);
+module.exports = {
+  // other configuration
+  plugins: [
+    new SentryWebpackPlugin({
+      include: &quot;./build&quot;,
+      release: &quot;1.0.0&quot;,
+      configFile: &quot;sentry.properties&quot;,
+    }),
+  ],
+};</code></pre>
+<p>使用<code>@sentry/webpack-plugin</code>插件需要在项目根目录配置 <code>.sentryclirc</code>文件</p>
+<pre><code>// .sentryclirc,如果是sentry官方提供的服务url可以省略
+[defaults]
+project=dvfcloud
+org=keyayun
+url=http://xx-sentry.keyayun.com
+[auth]
+token=69cd3e75399f41d69f569db2711c8339365aada123c2041609a70c916786xxxx</code></pre><p>token 在<code>Settings&gt;Account&gt;API&gt;Auth Tokens</code>中创建
+<img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/sentry%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/get_token.png" alt="get token"></p>
+<p>下面来测试一下，代码如下：</p>
+<pre><code class="language-js">//App.js
+import React from &quot;react&quot;;
+import * as Sentry from &quot;@sentry/react&quot;;
+
+Sentry.init({
+  dsn:
+    &quot;https://726ecd0052654e02af76728a9933a8d7@o416397.ingest.sentry.io/5495712&quot;,
+});
+function App() {
+  return (
+    &lt;button
+      onClick={() =&gt; {
+        throw new Error(&quot;test sentry&quot;);
+      }}
+    &gt;
+      throw
+    &lt;/button&gt;
+  );
+}
+export default App;</code></pre>
+<p>以上代码，build 后正确上传了 sourcemap，打开网页，点击 button 触发错误，查看 sentry 后台收集到的错误能否定位到具体代码，如下：
+<img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/41.sentry%E7%9A%84%E4%BD%BF%E7%94%A8/sourcemap.png" alt="get token">
+可以看到的 sentry 正确的定位到了出错的代码()。
+需要注意的是定位出错代码的前提是我们上传了出错文件对应的 sourcemap。</p>
+</li>
+<li><p>主动捕获错误</p>
+<p>有时我们希望主动捕获信息，这需要用到 captureMessage。</p>
+<pre><code class="language-js">import * as Sentry from &quot;@sentry/react&quot;;
+//app.js其他代码一样
+function App() {
+  return (
+    &lt;button
+      onClick={() =&gt; {
+        Sentry.captureMessage(&quot;test sentry&quot;);
+      }}
+    &gt;
+      throw
+    &lt;/button&gt;
+  );
+}</code></pre>
+<p>从 sentry 项目的后台得到的信息如下：
+<img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/41.sentry%E7%9A%84%E4%BD%BF%E7%94%A8/capture_message.png" alt="capture message"></p>
+</li>
+<li><p>收集 redux 信息</p>
+<p>如果我们在项目中使用了 redux，可以通过添加 enhancers 来实现记录 redux，配置如下：</p>
+<pre><code class="language-js">import * as Sentry from &quot;@sentry/react&quot;;
+const sentryReduxEnhancer = Sentry.createReduxEnhancer({
+  stateTransformer: (state) =&gt; {
+    //如果不stringify，sentry后台对于object只会显示[object,object]
+    return { state: JSON.stringify(state) };
+  },
+});
+export const setupStore = () =&gt; {
+  const epicMiddleware = createEpicMiddleware();
+  const store = configureStore({
+    reducer: persistedReducer,
+    middleware: (getDefaultMiddleware) =&gt;
+      getDefaultMiddleware().concat(
+        epicMiddleware,
+        routerMiddleware(history)
+      ),
+    enhancers: [sentryReduxEnhancer],
+  });
+  epicMiddleware.run((action$, store) =&gt; rootEpic(action$, store));
+  return store;
+};</code></pre>
+<p>配置好后就可以在上传错误信息的时候自动上传 action 及 state 的数据了，来简单的测试以下：</p>
+<pre><code class="language-js">const DropRegion = ({ sentryTest }) =&gt; {
+  const onClick = () =&gt; {
+    setTimeout(() =&gt; {
+      //send action
+      sentryTest(1);
+    }, 1000);
+
+    setTimeout(() =&gt; {
+      throw new Error(&quot;test&quot;);
+    }, 3000);
+    setTimeout(() =&gt; {
+      sentryTest(2);
+    }, 2000);
+  };
+
+  return &lt;button onClick={onClick}&gt;test&lt;/button&gt;;
+};</code></pre>
+<p>点击 button，3 秒后抛错，sentry 上传错误信息，如下：</p>
+<p><img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/41.sentry%E7%9A%84%E4%BD%BF%E7%94%A8/action.png" alt="redux">
+可以看到，在点击 button 后，发送了 SENTRY_TEST 的 action，参数为 1，接着又发送了 SENTRY_TEST 的 action，参数为 2，再接着就抛错了。</p>
+</li>
+</ul>
+<h3 id="自己搭建服务器">自己搭建服务器</h3>
+<p>官方提供了<a href="https://github.com/getsentry/onpremise">docker</a>可以自己搭建服务器。</p>

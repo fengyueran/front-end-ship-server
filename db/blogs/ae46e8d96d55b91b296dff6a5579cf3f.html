@@ -29,7 +29,7 @@ $ git branch --unset-upstream dev</code></pre>
 </li>
 </ul>
 <h3 id="fetch_head">FETCH_HEAD</h3>
-<p>FETCH_HEAD 一个短期引用，表示刚刚从远程获取的分支的最新 commit。每执行一次 fetch 操作都会更新一次 FETCH_HEAD 列表，这个列表存在于<code>.git/FETCH_HEAD</code> 文件中，它的每一行对应一个分支的最新 commit，第一行表示当前分支的最新 commit。
+<p>FETCH_HEAD 为一个短期引用，表示刚刚从远程获取的分支的最新 commit。每执行一次 fetch 操作都会更新一次 FETCH_HEAD 列表，这个列表存在于<code>.git/FETCH_HEAD</code> 文件中，它的每一行对应一个分支的最新 commit，第一行表示当前分支的最新 commit。
 在 master 分支下执行 git fetch，然后查看<code>.git/FETCH_HEAD</code> 文件，输出如下:</p>
 <pre><code class="language-code">9b04659a6105b139fad28018ee0f8c777379134a    branch &#39;master&#39; of https://github.com/fengyueran/test
 91edbb325972ffb8e924e664d61aa79054967e12    not-for-merge    branch &#39;dev&#39; of https://github.com/fengyueran/test
@@ -98,11 +98,8 @@ $ git pull pb dev</code></pre><p>当我们不显示指定仓库名和分支名�
 <p>事实上 git pull = git fetch + git merge FETCH_HEAD，直接 git pull 时会首先执行 git fetch origin 获取 origin 仓库所有分支，然后执行 git merge FETCH_HEAD 将 FETCH_HEAD(远程某个分支的最新 commit) 合并到当前分支。
 如果是 git pull --rebase 第二步则执行 rebase 操作，即 git rebase FETCH_HEAD。</p>
 <p>如下: git pull pb dev 相当于分两步执行</p>
-<ul>
-<li>将 pull 替换为 fetch 执行命令
-git fetch pb dev</li>
-<li>git merge FETCH_HEAD</li>
-</ul>
+<p>1）将 pull 替换为 fetch 执行命令</p>
+<pre><code>  git fetch pb dev</code></pre><p>2）git merge FETCH_HEAD</p>
 <p>第二步 merge 时会访问 git 的默认配置。</p>
 <pre><code class="language-code">// cat .git/config
 [branch &quot;master&quot;]
