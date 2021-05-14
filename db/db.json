@@ -89,7 +89,9 @@
       "fa311c4e9f1fe60c235bfa1c28edccb3",
       "fbb959a82e8b0da05cb6059c879dbb5a",
       "fd9ad3945a77dc1c2a36e0d7c102be3a",
-      "75d180f8e267332c4bf842f5fa9c3ace"
+      "75d180f8e267332c4bf842f5fa9c3ace",
+      "6acb6da20e04d64becfa3f4561249b06",
+      "d34e26203a834ca6858ceaae1593d7c4"
     ],
     "byId": {
       "f5838f1d65f228e08e8fdb013c7cf0d6": {
@@ -996,7 +998,7 @@
         "title": "介绍下 npm 模块安装机制，为什么输入 npm install 就可以自动安装对应的模块？",
         "exerciseTimes": 0,
         "passRate": "--",
-        "md5": "5a1471e2d675eab9e7a8671fa9e7d8e6",
+        "md5": "69a3109d2592faa2cd513b16e1f826c5",
         "tags": [
           "JavaScript"
         ],
@@ -1032,7 +1034,7 @@
         "title": "redux设计思想",
         "exerciseTimes": 0,
         "passRate": "--",
-        "md5": "29f5302988f46aa51682ed74062ef359",
+        "md5": "4cd1fbf9515fa76caec6bb492e1a2ec5",
         "tags": [
           "JavaScript"
         ],
@@ -1044,7 +1046,7 @@
         "title": "node的事件循环",
         "exerciseTimes": 0,
         "passRate": "--",
-        "md5": "60e3b4a8b0431a37f05673a93f400cc5",
+        "md5": "4f22f8521a121c3191fa035efe240166",
         "tags": [
           "JavaScript"
         ],
@@ -1142,7 +1144,7 @@
         "title": "：为什么 Vuex 的 mutation 和 Redux 的 reducer 中不能做异步操作？",
         "exerciseTimes": 0,
         "passRate": "--",
-        "md5": "5f5e2f6159cafd96bd4281db262cfd4b",
+        "md5": "a59bd6b933d4f36d6bb987bcf8c94d2b",
         "tags": [
           "JavaScript"
         ],
@@ -1184,6 +1186,30 @@
         ],
         "type": "CODE",
         "date": "2018-05-06T18:10:20.000Z"
+      },
+      "6acb6da20e04d64becfa3f4561249b06": {
+        "id": "6acb6da20e04d64becfa3f4561249b06",
+        "title": "实现redux",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "469bb7b8d30020784f9425e9ba970c6b",
+        "tags": [
+          "JavaScript"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2018-05-06T18:10:20.000Z"
+      },
+      "d34e26203a834ca6858ceaae1593d7c4": {
+        "id": "d34e26203a834ca6858ceaae1593d7c4",
+        "title": "yarn link的原理",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "42308834d5efed1fd88275693ecac09b",
+        "tags": [
+          "JavaScript"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2019-05-06T18:10:20.000Z"
       }
     }
   },
@@ -1229,7 +1255,8 @@
       "e0bd08c8b9d167174f3b12d59ef8db05",
       "e77a98b1bc22a41cd76f63d762e03957",
       "7538ca2f5e473a0bde164b993bbbc3a0",
-      "3c7ac85e06dd5156bed95fec07a76932"
+      "3c7ac85e06dd5156bed95fec07a76932",
+      "8a3f02401746d267d5f4cd1a10b08fa5"
     ],
     "byId": {
       "c160eb5149ef727dcf5b15a4d1c75f40": {
@@ -1301,7 +1328,7 @@
         "id": "2e576047ae509e55d8e86f36d730caf4",
         "title": "正则表达式",
         "date": "2017-02-25T20:10:00.000Z",
-        "md5": "4dcaa5123e18f21d1c6daf5221845887",
+        "md5": "595ee52f3ea6d4d8c2e01960b13e2df5",
         "tags": [
           "JS"
         ],
@@ -1483,7 +1510,7 @@
         "id": "a4b6d641f7fdac857ac8c7491d262db8",
         "title": "markdown的基本语法",
         "date": "2016-01-24T22:30:09.000Z",
-        "md5": "b540883711933744b23aa0f5eb93f147",
+        "md5": "3c83b2cf87004ad22e61e18f0dd380d8",
         "tags": [
           "Other"
         ],
@@ -1587,7 +1614,7 @@
         "id": "ae46e8d96d55b91b296dff6a5579cf3f",
         "title": "Git中的push和pull的默认行为",
         "date": "2016-03-04T18:10:20.000Z",
-        "md5": "d4741eb38b7b379988517fdd55288da2",
+        "md5": "75dfe4e208d86d8f9eed8ec60e60783e",
         "tags": [
           "Git"
         ],
@@ -1756,14 +1783,27 @@
         "id": "3c7ac85e06dd5156bed95fec07a76932",
         "title": "npm install安装模块的流程",
         "date": "2019-09-25T18:10:20.000Z",
-        "md5": "b9029f14551654938dd8bdaff1564595",
+        "md5": "9dedb63c5cbffa9443992e8a58f7e9ed",
         "tags": [
           "Other"
         ],
         "category": "js",
         "layout": "post",
         "tagline": "Supporting tagline",
-        "description": "有时，我们的项目在自己的环境下没有问题，在别人的那就出错了，或者删除node_modules重装后就不跑起来了，通常这样的问题是由于依赖的包变化了，因此有必要懂得npm的包是如何确定下载的。"
+        "description": "有时，我们的项目在自己的环境下没有问题，在其他环境就出错了，这时我们通常的做法是，删除node_modules，然后重装。能不能好不知道，先试一下再说，如果要做到心中有数，还是有必要懂得npm的包是如何确定下载的。"
+      },
+      "8a3f02401746d267d5f4cd1a10b08fa5": {
+        "id": "8a3f02401746d267d5f4cd1a10b08fa5",
+        "title": "sentry的使用",
+        "date": "2019-09-25T18:10:20.000Z",
+        "md5": "f567a36050769dbd815d5697bdfefd9f",
+        "tags": [
+          "Other"
+        ],
+        "category": "js",
+        "layout": "post",
+        "tagline": "Supporting tagline",
+        "description": null
       }
     }
   },

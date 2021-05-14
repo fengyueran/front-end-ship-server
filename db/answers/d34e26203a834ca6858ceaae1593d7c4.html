@@ -1,0 +1,33 @@
+<h3 id="yarn-link-是什么">yarn link 是什么</h3>
+<p>yarn link 就是通过<a href="https://en.wikipedia.org/wiki/Symbolic_link">Symlink</a>，即超链接的方式将一个文件或文件夹与另一个文件或文件夹连接起来。使用 yarn link 通常是为了方便的测试一个频繁更新的库，例如我在 package a 下开发，而依赖另一个同事开发的 package b，b 更新频繁但并不会频繁的发包，这时通过 yarn link 就可以方便的将 package b 与 package a 根目录 node_modules 下的 b 包连接起来，步骤如下：</p>
+<ul>
+<li><p>yarn link</p>
+<p>在你需要 link 的 package 里执行 yarn link，这里我们希望 package a 根目录 node_modules 下的 b 与本地的 package b 连接起来，因此在 package b 下执行 yarn link。</p>
+<pre><code class="language-sh">$ yarn link
+=&gt; yarn link v1.15.2
+   success Registered &quot;b&quot;.
+   info You can now run `yarn link &quot;b&quot;` in the projects where you want to use this package and it will be used instead.</code></pre>
+<p>执行完 yarn link 后会通过 Symlink 的方式将包注册到<code>~/.config/yarn/link</code>下。
+此外还可以通过<code>yarn link --link-folder path/to/dir/</code>直接将当前 package 与某个 dir 连接起来，当然这并不会在<code>~/.config/yarn/link</code>下进行注册。</p>
+</li>
+<li><p>yarn link [package]</p>
+<p>在 package b 目录执行 yarn link 后，在需要 link 的地方(a)中执行 yarn link b。这样将在 a 中的 node_modules 会创建一个名为 b 的 Symlink，从而达到替换本地 node_modules 中 package b 的目的。</p>
+<pre><code class="language-sh">$ yarn link b
+=&gt; yarn link v1.15.2
+   success Using linked package for &quot;b&quot;.</code></pre>
+</li>
+<li><p>yarn unlink</p>
+<p>如果想取消 link，需要在使用 link 包的地方(a)的地方执行 yarn unlink [package]:</p>
+<pre><code class="language-sh">$ yarn unlink b
+=&gt; yarn unlink v1.15.2
+   success Removed linked package &quot;b&quot;.
+   info You will need to run `yarn install --force` to re-install the package that was linked.</code></pre>
+<p>执行完后 package a 的 node_modules 下的 b 就没有了，需要执行<code>yarn install --force</code>重新安装。
+yarn unlink [package]只是在使用的地方取消了 link，我们在<code>~/.config/yarn/link</code>下还能找到这个包，如果想取消注册需要在 link 的地方(b)执行 yarn unlink。</p>
+<pre><code class="language-sh">$ yarn unlink
+=&gt; yarn unlink v1.15.2
+  success Unregistered &quot;b&quot;.
+  info You can now run `yarn unlink &quot;b&quot;` in the projects where you no longer want to use this package.</code></pre>
+<p>yarn link 实际就是对 Symlink 的封装，使我们更容易的进行 link。</p>
+</li>
+</ul>
