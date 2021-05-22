@@ -1,4 +1,18 @@
-<h1>npm install安装模块的流程</h1><div class="toc-article"><strong class="toc-title">Contents</strong><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#npm-install-经历的几个阶段"><span class="toc-number">1.</span> <span class="toc-text">npm install 经历的几个阶段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#npm-模块安装机制："><span class="toc-number">2.</span> <span class="toc-text">npm 模块安装机制：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#npm-实现原理"><span class="toc-number">3.</span> <span class="toc-text">npm 实现原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#执行-preinstall-钩子"><span class="toc-number">4.</span> <span class="toc-text">执行 preinstall 钩子</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#确定首层依赖"><span class="toc-number">5.</span> <span class="toc-text">确定首层依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查找模块"><span class="toc-number">6.</span> <span class="toc-text">查找模块</span></a></li></ol></div><p>为了了解 npm install 的安装流程，先发布了以下几个包，以 xinghunm-为前缀，以下均已 a、b、c、d 指代，依赖关系如下：
+<h1>npm install安装模块的流程</h1><div class="toc-article"><strong class="toc-title">Contents</strong><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#准备工作"><span class="toc-number">1.</span> <span class="toc-text">准备工作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#npm-install-经历的几个阶段"><span class="toc-number">2.</span> <span class="toc-text">npm install 经历的几个阶段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#npm-模块安装机制："><span class="toc-number">3.</span> <span class="toc-text">npm 模块安装机制：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#npm-实现原理"><span class="toc-number">4.</span> <span class="toc-text">npm 实现原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#执行-preinstall-钩子"><span class="toc-number">5.</span> <span class="toc-text">执行 preinstall 钩子</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#确定首层依赖"><span class="toc-number">6.</span> <span class="toc-text">确定首层依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查找模块"><span class="toc-number">7.</span> <span class="toc-text">查找模块</span></a></li></ol></div><h3 id="准备工作">准备工作</h3>
+<ul>
+<li><p>新建工作目录
+创建名为 npm 的测试工作目录，package.json 如下：</p>
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;npm&quot;,
+  &quot;version&quot;: &quot;1.0.0&quot;,
+  &quot;main&quot;: &quot;index.js&quot;,
+  &quot;dependencies&quot;: {
+    &quot;xinghunm-a&quot;: &quot;^1.0.0&quot;
+  }
+}</code></pre>
+</li>
+<li><p>发布测试包
+为了了解 npm install 的安装流程，先发布了以下几个包，以 xinghunm-为前缀，以下均已 a、b、c、d 指代，依赖关系如下：
 package a 依赖 b、c 以及 d 的 2.0.0 版本，b 依赖 c，c 依赖 d 的 1.0.0 版本，d 没有依赖。</p>
 <pre><code>xinghunm-a
   xinghunm-b
@@ -8,60 +22,58 @@ xinghunm-b
   xinghunm-c
 xinghunm-c
   xinghunm-d(1.0.0)
-xinghunm-d</code></pre><p>测试的包发布后，为了能够更加细致的了解安装流程，需要下载<a href="https://github.com/npm/cli">npm cli 的源码</a>来执行 npm install。下载完成后在我们的测试目录(test)引用 cli 仓库的脚本执行 npm install。</p>
-<pre><code>$ node /Users/xinghunm/framework/cli/bin/npm-cli.js i xinghunm-a</code></pre><h3 id="npm-install-经历的几个阶段">npm install 经历的几个阶段</h3>
+xinghunm-d</code></pre></li>
+<li><p>下载源码
+测试的包发布后，为了能够更加细致的了解安装流程，需要下载<a href="https://github.com/npm/cli">npm cli 的源码</a>来执行 npm install。下载完成后在我们的测试目录(npm)引用 cli 仓库的脚本执行 npm install。</p>
+<pre><code>$ node /Users/xinghunm/framework/cli/bin/npm-cli.js install</code></pre></li>
+</ul>
+<h3 id="npm-install-经历的几个阶段">npm install 经历的几个阶段</h3>
 <p>npm 提供了命令查看 npm install 的过程：</p>
 <pre><code>//--loglevel=verbose提供更多更冗余的信息
-$ npm i --timing=true --loglevel=verbose</code></pre><p>以安装 xinghunm-a 为例，执行如下命令：</p>
+$ npm i --timing=true --loglevel=verbose</code></pre><p>以安装 xinghunm-a 为例，在我们新建的 npm 测试目录执行如下命令：</p>
 <pre><code>$ npm cache clean -f
-$ node --inspect-brk  /Users/xinghunm/xinghun/MyHouse/framework/cli/bin/npm-cli.js i xinghunm-a  --timing=true</code></pre><p>输出如下：</p>
+$ node --inspect-brk  /Users/xinghunm/framework/cli/bin/npm-cli.js install  --timing=true</code></pre><p>输出如下：</p>
 <pre><code>//为方便表述每一行加了序号
-#1. npm http fetch GET 200 https://registry.npmjs.org/xinghunm-a 1243ms
-#2. npm http fetch GET 200 https://registry.npmjs.org/xinghunm-a/-/xinghunm-a-1.0.0.tgz 8582ms
-#3. npm timing stage:loadCurrentTree Completed in 22498ms
-npm timing stage:loadIdealTree:cloneCurrentTree Completed in 0ms
-npm timing stage:loadIdealTree:loadShrinkwrap Completed in 684392ms
-npm http fetch GET 200 https://registry.npmjs.org/xinghunm-c 808ms
-npm http fetch GET 200 https://registry.npmjs.org/xinghunm-b 826ms
-npm http fetch GET 200 https://registry.npmjs.org/xinghunm-d 861ms
-npm http fetch GET 200 https://registry.npmjs.org/xinghunm-c/-/xinghunm-c-1.0.0.tgz 69ms
-npm http fetch GET 200 https://registry.npmjs.org/xinghunm-b/-/xinghunm-b-1.0.1.tgz 79ms
-npm http fetch GET 200 https://registry.npmjs.org/xinghunm-d/-/xinghunm-d-2.0.0.tgz 65ms
-npm http fetch GET 200 https://registry.npmjs.org/xinghunm-d/-/xinghunm-d-1.0.0.tgz 71ms
-npm timing stage:loadIdealTree:loadAllDepsIntoIdealTree Completed in 1032ms
-npm timing stage:loadIdealTree Completed in 686352ms
-npm timing stage:generateActionsToTake Completed in 6ms
+#1. npm timing stage:loadCurrentTree Completed in 6ms
+#2. npm timing stage:loadIdealTree:cloneCurrentTree Completed in 0ms
+npm timing stage:loadIdealTree:loadShrinkwrap Completed in 0ms
+npm http fetch GET 200 https://registry.npmjs.org/xinghunm-a 913ms
+npm http fetch GET 200 https://registry.npmjs.org/xinghunm-a/-/xinghunm-a-1.0.0.tgz 751ms
+npm http fetch GET 200 https://registry.npmjs.org/xinghunm-b 769ms
+npm http fetch GET 200 https://registry.npmjs.org/xinghunm-c 773ms
+npm http fetch GET 200 https://registry.npmjs.org/xinghunm-d 1022ms
+npm http fetch GET 200 https://registry.npmjs.org/xinghunm-b/-/xinghunm-b-1.0.1.tgz 257ms
+npm http fetch GET 200 https://registry.npmjs.org/xinghunm-c/-/xinghunm-c-1.0.0.tgz 699ms
+npm http fetch GET 200 https://registry.npmjs.org/xinghunm-d/-/xinghunm-d-2.0.0.tgz 703ms
+npm http fetch GET 200 https://registry.npmjs.org/xinghunm-d/-/xinghunm-d-1.0.0.tgz 668ms
+npm timing stage:loadIdealTree:loadAllDepsIntoIdealTree Completed in 3841ms
+npm timing stage:loadIdealTree Completed in 3845ms
+npm timing stage:generateActionsToTake Completed in 4ms
 npm timing action:extract Completed in 21ms
 npm timing action:finalize Completed in 9ms
-npm timing action:refresh-package-json Completed in 10ms
+npm timing action:refresh-package-json Completed in 8ms
 npm timing action:preinstall Completed in 1ms
-npm timing action:build Completed in 2ms
-npm timing action:install Completed in 2ms
-npm timing action:postinstall Completed in 2ms
-npm timing stage:executeActions Completed in 60ms
-npm timing stage:rollbackFailedOptional Completed in 0ms
-npm timing stage:runTopLevelLifecycles Completed in 708922ms
+npm timing action:build Completed in 1ms
+npm timing action:install Completed in 1ms
+npm timing action:postinstall Completed in 1ms
+npm timing stage:executeActions Completed in 52ms
+npm timing stage:rollbackFailedOptional Completed in 1ms
+npm timing stage:runTopLevelLifecycles Completed in 3929ms
 npm notice created a lockfile as package-lock.json. You should commit this file.
 npm WARN npm@1.0.0 No description
 npm WARN npm@1.0.0 No repository field.
+npm WARN npm@1.0.0 No license field.
 
-npm timing audit submit Completed in 289ms
-npm http fetch POST 200 https://registry.npmjs.org/-/npm/v1/security/audits/quick 288ms
+npm timing audit submit Completed in 302ms
+npm http fetch POST 200 https://registry.npmjs.org/-/npm/v1/security/audits/quick 301ms
 npm timing audit body Completed in 1ms
-+ xinghunm-a@1.0.0
-added 5 packages and audited 5 packages in 709.154s
+added 5 packages and audited 5 packages in 4.18s
 found 0 vulnerabilities
 
-npm timing npm Completed in 710302ms</code></pre><p>上述输出就是本次 npm install 所经历的流程，具体如下：</p>
+</code></pre><p>上述输出就是本次 npm install 所经历的流程，具体如下：</p>
 <ul>
-<li><p>1）获取模块信息(#1)</p>
-<p><code>https://registry.npmjs.org/xinghunm-a</code>第一眼看上去似乎是获取 a 这个模块，事实上是在获取 a 这个模块的信息。地址栏输入<code>https://registry.npmjs.org/xinghunm-a</code>就可以看到一个详尽描述模块 a 版本信息的 json 文件。</p>
-</li>
-<li><p>2）下载模块(#2)</p>
-<p>与网络上有些文章写的先构建依赖树后下载不同的是，构建依赖树还没完成之前，就已经下载了<code>xinghunm-a-1.0.0.tgz</code>这个包，如何确定的呢？在源码 loadCurrentTree 函数中断点，#2 信息输出后，loadCurrentTree 还没执行完，就在 npm 的<a href="https://www.zhihu.com/question/305539244">缓存目录</a>中找到了<code>xinghunm-a-1.0.0.tgz</code>这个包。</p>
-</li>
-<li><p>3）构建依赖树</p>
-<p>3.1）loadCurrentTree(#3)</p>
+<li><p>1）构建依赖树</p>
+<p>1.1）loadCurrentTree(#1)</p>
 <p><code>npm timing stage:loadCurrentTree</code>即加载当前 node_modules 的依赖树，主要通过<a href="https://www.npmjs.com/package/read-package-tree">read-package-tree</a>实现。</p>
 <pre><code class="language-js">Installer.prototype.loadCurrentTree = function(cb) {
   validate(&quot;F&quot;, arguments);
@@ -79,7 +91,7 @@ npm timing npm Completed in 710302ms</code></pre><p>上述输出就是本次 npm
 <p>第一次运行，测试目录没有 node_modules，得到的 currentTree 类似：</p>
 <pre><code class="language-json">//删除部分代码
 {
-  &quot;name&quot;: &quot;test&quot;,
+  &quot;name&quot;: &quot;npm&quot;,
   &quot;id&quot;: 0,
   &quot;package&quot;: {
     &quot;name&quot;: &quot;npm&quot;,
@@ -89,65 +101,174 @@ npm timing npm Completed in 710302ms</code></pre><p>上述输出就是本次 npm
   &quot;isLink&quot;: false,
   &quot;children&quot;: []
 }</code></pre>
-</li>
-</ul>
-<p>loadCurrentTree 过后就能得到 node_modules 的依赖树了：</p>
-<pre><code class="language-js">{
-  name: &#39;test&#39;,
-  id: 0,
-  package: {
-         &quot;name&quot;: &quot;npm&quot;,
-      &quot;dependencies&quot;: { &quot;xinghunm-a&quot;: &quot;^1.0.0&quot; }
+<p>如果当前已经安装过，有 node_modules 目录，loadCurrentTree 得到的依赖树大概是下面这个样子：</p>
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;npm&quot;,
+  &quot;id&quot;: 0,
+  &quot;package&quot;: {
+    &quot;name&quot;: &quot;npm&quot;,
+    &quot;dependencies&quot;: { &quot;xinghunm-a&quot;: &quot;^1.0.0&quot; }
   },
-  parent: null,
-  isLink: false,
-  children: [
-   {
-      name: &#39;xinghunm-a&#39;,
-      path: &#39;/Users/xinghunm/xinghun/MyHouse/test/npm/node_modules/xinghunm-a&#39;,
-      realpath: &#39;/Users/xinghunm/xinghun/MyHouse/test/npm/node_modules/xinghunm-a&#39;,
-      error: null,
-      id: 1,
-      package: [Object],
-      parent: [Circular],
-      isLink: false,
-      children: []
+  &quot;parent&quot;: null,
+  &quot;isLink&quot;: false,
+  &quot;children&quot;: [
+    {
+      &quot;name&quot;: &quot;xinghunm-a&quot;,
+      &quot;path&quot;: &quot;/Users/xinghunm/npm/node_modules/xinghunm-a&quot;,
+      &quot;realpath&quot;: &quot;/Users/xinghunm/npm/node_modules/xinghunm-a&quot;,
+      &quot;package&quot;: {
+        &quot;version&quot;: &quot;1.0.0&quot;
+      },
+      &quot;children&quot;: []
     },
     {
-      name: &#39;xinghunm-b&#39;,
-      path: &#39;/Users/xinghunm/xinghun/MyHouse/test/npm/node_modules/xinghunm-b&#39;,
-      realpath: &#39;/Users/xinghunm/xinghun/MyHouse/test/npm/node_modules/xinghunm-b&#39;,
-      error: null,
-      id: 2,
-      package: [Object],
-      parent: [Circular],
-      isLink: false,
-      children: []
+      &quot;name&quot;: &quot;xinghunm-b&quot;,
+      &quot;path&quot;: &quot;/Users/xinghunm/npm/node_modules/xinghunm-b&quot;,
+      &quot;realpath&quot;: &quot;/Users/xinghunm/npm/node_modules/xinghunm-b&quot;,
+      &quot;package&quot;: {
+        &quot;version&quot;: &quot;1.0.0&quot;
+      },
+      &quot;children&quot;: []
     },
-   {
-      name: &#39;xinghunm-c&#39;,
-      path: &#39;/Users/xinghunm/xinghun/MyHouse/test/npm/node_modules/xinghunm-c&#39;,
-      realpath: &#39;/Users/xinghunm/xinghun/MyHouse/test/npm/node_modules/xinghunm-c&#39;,
-      error: null,
-      id: 3,
-      package: [Object],
-      parent: [Circular],
-      isLink: false,
-      children: [Array]
+    {
+      &quot;name&quot;: &quot;xinghunm-c&quot;,
+      &quot;path&quot;: &quot;/Users/xinghunm/npm/node_modules/xinghunm-c&quot;,
+      &quot;realpath&quot;: &quot;/Users/xinghunm/npm/node_modules/xinghunm-c&quot;,
+      &quot;package&quot;: {
+        &quot;version&quot;: &quot;1.0.0&quot;
+      },
+      &quot;children&quot;: [
+        {
+          &quot;name&quot;: &quot;xinghunm-d&quot;,
+          &quot;path&quot;: &quot;/Users/xinghunm/npm/node_modules/xinghunm-d&quot;,
+          &quot;realpath&quot;: &quot;/Users/xinghunm/npm/node_modules/xinghunm-d&quot;,
+          &quot;package&quot;: {
+            &quot;version&quot;: &quot;1.0.0&quot;
+          },
+          &quot;children&quot;: []
+        }
+      ]
     },
-   {
-      name: &#39;xinghunm-d&#39;,
-      path: &#39;/Users/xinghunm/xinghun/MyHouse/test/npm/node_modules/xinghunm-d&#39;,
-      realpath: &#39;/Users/xinghunm/xinghun/MyHouse/test/npm/node_modules/xinghunm-d&#39;,
-      error: null,
-      id: 4,
-      package: [Object],
-      parent: [Circular],
-      isLink: false,
-      children: []
+    {
+      &quot;name&quot;: &quot;xinghunm-d&quot;,
+      &quot;path&quot;: &quot;/Users/xinghunm/npm/node_modules/xinghunm-d&quot;,
+      &quot;realpath&quot;: &quot;/Users/xinghunm/npm/node_modules/xinghunm-d&quot;,
+      &quot;package&quot;: {
+        &quot;version&quot;: &quot;2.0.0&quot;
+      },
+      &quot;children&quot;: []
     }
   ],
-  warnings: []</code></pre>
+  &quot;warnings&quot;: []
+}</code></pre>
+<p>上述的目录结构形如：</p>
+<pre><code>xinghunm-a
+xinghunm-b
+xinghunm-c
+  xinghunm-d(1.0.0)
+xinghunm-d(2.0.0)</code></pre><p>之所以是上述的结构，与模块的扁平化有很大关系。
+<strong>模块扁平化（dedupe）</strong></p>
+<p>上一步获取到的是一棵完整的依赖树。在 npm3 以前会严格按照依赖树的结构进行安装，因此会造成模块冗余。</p>
+<p>从 npm3 开始默认加入了一个 dedupe 的过程。它会遍历所有节点，逐个将模块放在根节点下面，也就是 node-modules 的第一层。当发现有重复模块时，则将其丢弃。</p>
+<p>这里需要对重复模块进行一个定义，它指的是模块名相同且 semver 兼容。每个 semver 都对应一段版本允许范围，如果两个模块的版本允许范围存在交集，那么就可以得到一个兼容版本，而不必版本号完全一致，这可以使更多冗余模块在 dedupe 过程中被去掉。</p>
+<p>比如 node-modules 下 foo 模块依赖 lodash@^1.0.0，bar 模块依赖 lodash@^1.1.0，则 ^1.1.0 为兼容版本。</p>
+<p>而当 foo 依赖 lodash@^2.0.0，bar 依赖 lodash@^1.1.0，则依据 semver 的规则，二者不存在兼容版本。会将一个版本放在 node_modules 中，另一个仍保留在依赖树里。</p>
+<p>举个例子，假设一个依赖树原本是这样：</p>
+<pre><code>node_modules
+-- foo
+---- lodash@version1
+
+-- bar
+---- lodash@version2</code></pre><p>假设 version1 和 version2 是兼容版本，则经过 dedupe 会成为下面的形式：</p>
+<pre><code>node_modules
+-- foo
+
+-- bar
+
+-- lodash（保留的版本为兼容版本）</code></pre><p>假设 version1 和 version2 为非兼容版本，则后面的版本保留在依赖树中：</p>
+<pre><code>node_modules
+-- foo
+-- lodash@version1
+
+-- bar
+---- lodash@version2</code></pre><p>1.2）loadIdealTree:cloneCurrentTree(#2)</p>
+<pre><code class="language-js">Installer.prototype.loadIdealTree = function(cb) {
+  validate(&quot;F&quot;, arguments);
+  log.silly(&quot;install&quot;, &quot;loadIdealTree&quot;);
+  chain(
+    [
+      [
+        this.newTracker(
+          this.progress.loadIdealTree,
+          &quot;loadIdealTree:cloneCurrentTree&quot;
+        ),
+      ],
+      [this, this.cloneCurrentTreeToIdealTree],
+      [this, this.finishTracker, &quot;loadIdealTree:cloneCurrentTree&quot;],
+
+      [
+        this.newTracker(
+          this.progress.loadIdealTree,
+          &quot;loadIdealTree:loadShrinkwrap&quot;
+        ),
+      ],
+      [this, this.loadShrinkwrap],
+      [this, this.finishTracker, &quot;loadIdealTree:loadShrinkwrap&quot;],
+
+      [
+        this.newTracker(
+          this.progress.loadIdealTree,
+          &quot;loadIdealTree:loadAllDepsIntoIdealTree&quot;,
+          10
+        ),
+      ],
+      [this, this.loadAllDepsIntoIdealTree],
+      [this, this.finishTracker, &quot;loadIdealTree:loadAllDepsIntoIdealTree&quot;],
+      [
+        this,
+        function(next) {
+          computeMetadata(this.idealTree);
+          next();
+        },
+      ],
+      [this, this.pruneIdealTree],
+    ],
+    cb
+  );
+};</code></pre>
+<pre><code class="language-js">//before: https://docs.npmjs.com/cli/v6/using-npm/config#before
+Installer.prototype.cloneCurrentTreeToIdealTree = function(cb) {
+  validate(&quot;F&quot;, arguments);
+  log.silly(&quot;install&quot;, &quot;cloneCurrentTreeToIdealTree&quot;);
+  if (npm.config.get(&quot;before&quot;)) {
+    this.idealTree = {
+      package: this.currentTree.package,
+      path: this.currentTree.path,
+      realpath: this.currentTree.realpath,
+      children: [],
+      requires: [],
+      missingDeps: {},
+      missingDevDeps: {},
+      requiredBy: [],
+      error: this.currentTree.error,
+      warnings: [],
+      isTop: true,
+    };
+  } else {
+    this.idealTree = copyTree(this.currentTree);
+    this.idealTree.warnings = [];
+  }
+
+  cb();
+};</code></pre>
+</li>
+<li><p>1）获取模块信息(#1)</p>
+<p><code>https://registry.npmjs.org/xinghunm-a</code>第一眼看上去似乎是获取 a 这个模块，事实上是在获取 a 这个模块的信息。地址栏输入<code>https://registry.npmjs.org/xinghunm-a</code>就可以看到一个详尽描述模块 a 版本信息的 json 文件。</p>
+</li>
+<li><p>2）下载模块(#2)</p>
+<p>与网络上有些文章写的先构建依赖树后下载不同的是，构建依赖树还没完成之前，就已经下载了<code>xinghunm-a-1.0.0.tgz</code>这个包，如何确定的呢？在源码 loadCurrentTree 函数中断点，#2 信息输出后，loadCurrentTree 还没执行完，就在 npm 的<a href="https://www.zhihu.com/question/305539244">缓存目录</a>中找到了<code>xinghunm-a-1.0.0.tgz</code>这个包。</p>
+</li>
+</ul>
 <p>接着会对会对扁平化</p>
 <h3 id="npm-模块安装机制：">npm 模块安装机制：</h3>
 <ul>
@@ -231,7 +352,7 @@ package.json 中定义了 preinstall 的钩子：</p>
 <p>当运行 npm install 时会首先执行<code>node ./test-preinstall.js</code>，控制台输出如下：</p>
 <pre><code>➜  tmp npm install
 
-&gt; tmp@1.0.0 preinstall /Users/xinghunm/xinghun/MyHouse/test/tmp
+&gt; tmp@1.0.0 preinstall /Users/xinghunm/tmp
 &gt; node ./test-preinstall.js</code></pre><h3 id="确定首层依赖">确定首层依赖</h3>
 <p>在项目根目录下的 package.json 里我们定义的 dependencies 和 devDependencies 即为首层依赖，首层依赖下的模块同样依赖着其他模块，npm 在进行模块依赖的查找时会根据首层依赖开启多线程进行查找。</p>
 <h3 id="查找模块">查找模块</h3>
@@ -277,3 +398,41 @@ package.json 中定义了 preinstall 的钩子：</p>
 <p>3）查找该模块依赖，如果有依赖则回到第 1) 步，如果没有则停止。</p>
 </li>
 </ul>
+<pre><code>npm timing npm Completed in 4675ms
+#1. npm http fetch GET 200 https://registry.npmjs.org/xinghunm-a 1243ms
+#2. npm http fetch GET 200 https://registry.npmjs.org/xinghunm-a/-/xinghunm-a-1.0.0.tgz 8582ms
+#3. npm timing stage:loadCurrentTree Completed in 22498ms
+npm timing stage:loadIdealTree:cloneCurrentTree Completed in 0ms
+npm timing stage:loadIdealTree:loadShrinkwrap Completed in 684392ms
+npm http fetch GET 200 https://registry.npmjs.org/xinghunm-c 808ms
+npm http fetch GET 200 https://registry.npmjs.org/xinghunm-b 826ms
+npm http fetch GET 200 https://registry.npmjs.org/xinghunm-d 861ms
+npm http fetch GET 200 https://registry.npmjs.org/xinghunm-c/-/xinghunm-c-1.0.0.tgz 69ms
+npm http fetch GET 200 https://registry.npmjs.org/xinghunm-b/-/xinghunm-b-1.0.1.tgz 79ms
+npm http fetch GET 200 https://registry.npmjs.org/xinghunm-d/-/xinghunm-d-2.0.0.tgz 65ms
+npm http fetch GET 200 https://registry.npmjs.org/xinghunm-d/-/xinghunm-d-1.0.0.tgz 71ms
+npm timing stage:loadIdealTree:loadAllDepsIntoIdealTree Completed in 1032ms
+npm timing stage:loadIdealTree Completed in 686352ms
+npm timing stage:generateActionsToTake Completed in 6ms
+npm timing action:extract Completed in 21ms
+npm timing action:finalize Completed in 9ms
+npm timing action:refresh-package-json Completed in 10ms
+npm timing action:preinstall Completed in 1ms
+npm timing action:build Completed in 2ms
+npm timing action:install Completed in 2ms
+npm timing action:postinstall Completed in 2ms
+npm timing stage:executeActions Completed in 60ms
+npm timing stage:rollbackFailedOptional Completed in 0ms
+npm timing stage:runTopLevelLifecycles Completed in 708922ms
+npm notice created a lockfile as package-lock.json. You should commit this file.
+npm WARN npm@1.0.0 No description
+npm WARN npm@1.0.0 No repository field.
+
+npm timing audit submit Completed in 289ms
+npm http fetch POST 200 https://registry.npmjs.org/-/npm/v1/security/audits/quick 288ms
+npm timing audit body Completed in 1ms
++ xinghunm-a@1.0.0
+added 5 packages and audited 5 packages in 709.154s
+found 0 vulnerabilities
+
+npm timing npm Completed in 710302ms</code></pre>
