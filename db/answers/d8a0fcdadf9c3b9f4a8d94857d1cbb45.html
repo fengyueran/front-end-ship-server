@@ -73,7 +73,7 @@
   const width = box1.clientWidth + 1;
   box1.style.width = width + &quot;px&quot;;
 }</code></pre>
-<p>我们在修改样式的时候，<strong>最好避免使用上面列出的属性，他们都会刷新渲染队列。</strong>如果要使用它们，最好将值缓存起来。需要注意的是并不是只要访问了上述的属性就一定会重流，只有当浏览器的队列不为空时，为了返回当前修改样式后的布局信息时才会清空触发，如下，在没有其他样式修改的情况下，只有第一次访问 clientWidth 会回流，剩余的 99 次都不会触发。</p>
+<p>我们在修改样式的时候，<strong>最好避免使用上面列出的属性，他们都会刷新渲染队列</strong>。如果要使用它们，最好将值缓存起来。需要注意的是<strong>并不是只要访问了上述的属性就一定会重流</strong>，只有当浏览器的队列不为空时，为了返回当前修改样式后的布局信息时才会清空触发，如下，在没有其他样式修改的情况下，只有第一次访问 clientWidth 会回流，剩余的 99 次都不会触发。</p>
 <pre><code class="language-js">for (let i = 0; i &lt; 100; i++) {
   console.log(&quot;node.clientWidth&quot;, node.clientWidth);
 }</code></pre>

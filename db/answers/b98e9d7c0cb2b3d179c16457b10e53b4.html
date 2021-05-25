@@ -1,0 +1,231 @@
+<p>最近根据公司的业务需要，封装了一些平时开发中基本都会用到的基础业务模块，其中用的最多的就是各个工厂模式了，同时也趁着这个机会复习了一下工厂模式。这篇文章会详细介绍一下各个工厂模式的优缺点，如果你能完全理解了以下三个实例那么工厂模式就不在话下了。由于业务代码不能公开，文中用到的实例会使用其他例子代替。　　我们知道 Java 里边共有 23 种设计模式而工厂模式就有三种，它们分别是简单工厂模式（并不在 23 中模式之中），工厂方法模式以及抽象工厂模式，其中我们通常所说的工厂模式指的是工厂方法模式，工厂方法模式是日常开发中使用频率最高的一种设计模式，甚至在 Android 的源码中也是随处可见。　　下面按照学习的难易程度由浅入深的来说说这三种模式，每种模式都会先从定义，使用场景，实例三方面入手。很多小伙伴都说学习的时候感觉理解了，实例也能看得懂，可在实际开发中就不会运用了，这因为没有记住它的使用场景，各位小伙伴一定要结合实例记住使用场景，这样才能在开发中达到融汇贯通的效果。这也说明了设计模式只是思想，没有固定的代码！首先来看最简单的。</p>
+<h3 id="简单工厂模式">简单工厂模式</h3>
+<p>简单工厂模式其实并不算是一种设计模式，更多的时候是一种编程习惯。
+<strong>定义</strong>：　　定义一个工厂类，根据传入的参数不同返回不同的实例，被创建的实例具有共同的父类或接口。
+<strong>适用场景</strong>：　　其实由定义也大概能推测出其使用场景，首先由于只有一个工厂类，所以工厂类中创建的对象不能太多，否则工厂类的业务逻辑就太复杂了，其次由于工厂类封装了对象的创建过程，所以客户端应该不关心对象的创建。总结一下适用场景：　　
+（1）需要创建的对象较少。
+（2）客户端不关心对象的创建过程。以上就是简单工厂模式简单工厂模式的适用场景，下面看一个具体的实例。
+<strong>实例</strong>：　　创建一个可以绘制不同形状的绘图工具，可以绘制圆形，正方形，三角形，每个图形都会有一个 draw()方法用于绘图，不看代码先考虑一下如何通过该模式设计完成此功能。
+　　由题可知圆形，正方形，三角形都属于一种图形，并且都具有 draw 方法，所以首先可以定义一个接口或者抽象类，作为这三个图像的公共父类，并在其中声明一个公共的 draw 方法。</p>
+<pre><code class="language-ts">export interface Shape {
+  draw: () =&gt; void;
+}</code></pre>
+<p>这里定义成抽象类也是可以的，只不过接口是更高一级的抽象，所以习惯定义成接口，而且接口支持多实现，方便以后扩展。
+下面就是编写具体的图形，每种图形都实现 Shape 接口 圆形</p>
+<pre><code class="language-ts">class CircleShape implements Shape {
+  draw = () =&gt; {
+    console.log(&quot;draw circle&quot;);
+  };
+}</code></pre>
+<p>正方形</p>
+<pre><code class="language-ts">class RectShape implements Shape {
+  draw = () =&gt; {
+    console.log(&quot;draw rect&quot;);
+  };
+}</code></pre>
+<p>三角形</p>
+<pre><code class="language-ts">class TriangleShape implements Shape {
+  draw = () =&gt; {
+    console.log(&quot;draw triangle&quot;);
+  };
+}</code></pre>
+<p>下面是工厂类的具体实现</p>
+<pre><code class="language-ts">class ShapeFactory {
+  static getShape(type: string) {
+    let shape = null;
+    if (type === &quot;circle&quot;) {
+      shape = new CircleShape();
+    } else if (type === &quot;rect&quot;) {
+      shape = new RectShape();
+    } else if (type === &quot;triangle&quot;) {
+      shape = new TriangleShape();
+    }
+    return shape;
+  }
+}</code></pre>
+<p>在这个工厂类中通过传入不同的 type 可以 new 不同的形状，返回结果为 Shape 类型，这个就是简单工厂核心的地方了。</p>
+<p>客户端使用</p>
+<p>画圆形</p>
+<pre><code class="language-ts">const shape = ShapeFactory.getShape(&quot;circle&quot;);
+shape.draw();</code></pre>
+<p>画正方形</p>
+<pre><code class="language-ts">const shape = ShapeFactory.getShape(&quot;rect&quot;);
+shape.draw();</code></pre>
+<p>画三角形</p>
+<pre><code class="language-ts">const shape = ShapeFactory.getShape(&quot;triangle&quot;);
+shape.draw();</code></pre>
+<p>只通过给 ShapeFactory 传入不同的参数就实现了各种形状的绘制。以上就是简单工厂方式，小伙伴们看明白了吗？</p>
+<h3 id="工厂方法模式">工厂方法模式</h3>
+<p>工厂方法模式是简单工厂的仅一步深化， 在工厂方法模式中，我们不再提供一个统一的工厂类来创建所有的对象，而是针对不同的对象提供不同的工厂。也就是说每个对象都有一个与之对应的工厂。
+<strong>定义</strong>：　　定义一个用于创建对象的接口，让子类决定将哪一个类实例化。工厂方法模式让一个类的实例化延迟到其子类。这次我们先用实例详细解释一下这个定义，最后在总结它的使用场景。
+<strong>实例</strong>：　　现在需要设计一个这样的图片加载类，它具有多个图片加载器，用来加载 jpg，png，gif 格式的图片，每个加载器都有一个 read()方法，用于读取图片。下面我们完成这个图片加载类。
+首先完成图片加载器的设计，编写一个加载器的公共接口。</p>
+<pre><code class="language-ts">interface Reader {
+  read: () =&gt; void;
+}</code></pre>
+<p>Reader 里面只有一个 read（）方法，然后完成各个图片加载器的代码。
+Jpg 图片加载器</p>
+<pre><code class="language-ts">class JpgReader implements Reader {
+  read = () =&gt; {
+    console.log(&quot;read jpg&quot;);
+  };
+}</code></pre>
+<p>Png 图片加载器</p>
+<pre><code class="language-ts">class PngReader implements Reader {
+  read = () =&gt; {
+    console.log(&quot;read png&quot;);
+  };
+}</code></pre>
+<p>Gif 图片加载器</p>
+<pre><code class="language-ts">class GifReader implements Reader {
+  read = () =&gt; {
+    console.log(&quot;read gif&quot;);
+  };
+}</code></pre>
+<p>现在我们按照定义所说定义一个抽象的工厂接口</p>
+<pre><code class="language-ts">interface ReaderFactory {
+  getReader: () =&gt; Reader;
+}</code></pre>
+<p>里面有一个 getReader（）方法返回我们的 Reader 类，接下来我们把上面定义好的每个图片加载器都提供一个工厂类，这些工厂类实现了 ReaderFactory 。
+Jpg 加载器工厂</p>
+<pre><code class="language-ts">class JpgReaderFactory implements ReaderFactory {
+  getReader() {
+    return new JpgReader();
+  }
+}</code></pre>
+<p>Png 加载器工厂</p>
+<pre><code class="language-ts">class PngReaderFactory implements ReaderFactory {
+  getReader() {
+    return new PngReader();
+  }
+}</code></pre>
+<p>Gif 加载器工厂</p>
+<pre><code class="language-ts">class GifReaderFactory implements ReaderFactory {
+  getReader() {
+    return new GifReader();
+  }
+}</code></pre>
+<p>在每个工厂类中我们都通过复写的 getReader（）方法返回各自的图片加载器对象。</p>
+<p>客户端使用</p>
+<p>读取 Jpg</p>
+<pre><code class="language-ts">const factory = new JpgReaderFactory();
+const reader = factory.getReader();
+reader.read();</code></pre>
+<p>读取 Png</p>
+<pre><code class="language-ts">const factory = new PngReaderFactory();
+const reader = factory.getReader();
+reader.read();</code></pre>
+<p>读取 Gif</p>
+<pre><code class="language-ts">const factory = new GifReaderFactory();
+const reader = factory.getReader();
+reader.read();</code></pre>
+<p>可以看到上面三段代码，分别读取了不同格式的图片，不同之处在于针对不同的图片格式声明了不同的工厂，进而创建了相应的图片加载器。
+　　通过这个实例各位小伙伴是不是对工厂模式有了进一步的理解呢，和简单工厂对比一下，最根本的区别在于，简单工厂只有一个统一的工厂类，而工厂方法是针对每个要创建的对象都会提供一个工厂类，这些工厂类都实现了一个工厂基类（本例中的 ReaderFactory ）。下面总结一下工厂方法的适用场景。
+<strong>适用场景</strong>：
+　　（1）客户端不需要知道它所创建的对象的类。例子中我们不知道每个图片加载器具体叫什么名，只知道创建它的工厂名就完成了创建过程。　　
+2）客户端可以通过子类来指定创建对应的对象。以上场景使用于采用工厂方法模式。</p>
+<h3 id="抽象工厂模式">抽象工厂模式</h3>
+<p>这个模式最不好理解，而且在实际应用中局限性也蛮大的，因为这个模式并不符合开闭原则。实际开发还需要做好权衡。　　
+抽象工厂模式是工厂方法的仅一步深化，在这个模式中的工厂类不单单可以创建一个对象，而是可以创建一组对象。这是和工厂方法最大的不同点。
+<strong>定义</strong>：　　提供一个创建一系列相关或相互依赖对象的接口，而无须指定它们具体的类。（ 在抽象工厂模式中，每一个具体工厂都提供了多个工厂方法用于产生多种不同类型的对象）　　
+抽象工厂和工厂方法一样可以划分为 4 大部分：
+AbstractFactory（抽象工厂）声明了一组用于创建对象的方法，注意是一组。
+ConcreteFactory（具体工厂）：它实现了在抽象工厂中声明的创建对象的方法，生成一组具体对象。
+AbstractProduct（抽象产品）：它为每种对象声明接口，在其中声明了对象所具有的业务方法。
+ConcreteProduct（具体产品）：它定义具体工厂生产的具体对象。下面还是先看一个具体实例。
+<strong>实例</strong>：　　现在需要做一款跨平台的游戏，需要兼容 Android，Ios，Wp 三个移动操作系统，该游戏针对每个系统都设计了一套操作控制器（OperationController）和界面控制器（UIController），下面通过抽闲工厂方式完成这款游戏的架构设计。
+　　由题可知，游戏里边的各个平台的 UIController 和 OperationController 应该是我们最终生产的具体产品。所以新建两个抽象产品接口。
+抽象操作控制器</p>
+<pre><code class="language-ts">interface OperationController {
+  control: () =&gt; void;
+}</code></pre>
+<p>抽象界面控制器</p>
+<pre><code class="language-ts">interface UIController {
+  display: () =&gt; void;
+}</code></pre>
+<p>然后完成各个系统平台的具体操作控制器和界面控制器
+Android</p>
+<pre><code class="language-ts">class AndroidOperationController implements OperationController {
+  control() {
+    console.log(AndroidOperationController);
+  }
+}
+
+class AndroidUIController implements UIController {
+  display() {
+    console.log(&quot;AndroidInterfaceController&quot;);
+  }
+}</code></pre>
+<p>Ios</p>
+<pre><code class="language-ts">class IosOperationController implements OperationController {
+  control() {
+    console.log(IosOperationController);
+  }
+}
+class IosUIController implements UIController {
+  display() {
+    console.log(&quot;IosUIController&quot;);
+  }
+}</code></pre>
+<p>Wp</p>
+<pre><code class="language-ts">class WpOperationController implements OperationController {
+  control() {
+    console.log(WpOperationController);
+  }
+}
+class WpInterfaceController implements UIController {
+  display() {
+    console.log(&quot;WpInterfaceController&quot;);
+  }
+}</code></pre>
+<p>下面定义一个抽象工厂，该工厂需要可以创建 OperationController 和 UIController</p>
+<pre><code class="language-ts">interface SystemFactory {
+  createOperationController: () =&gt; void;
+  createInterfaceController: () =&gt; void;
+}</code></pre>
+<p>在各平台具体的工厂类中完成操作控制器和界面控制器的创建过程
+Android</p>
+<pre><code class="language-ts">class AndroidFactory implements SystemFactory {
+  createOperationController() {
+    return new AndroidOperationController();
+  }
+
+  createInterfaceController() {
+    return new AndroidUIController();
+  }
+}</code></pre>
+<p>Ios</p>
+<pre><code class="language-ts">class IosFactory implements SystemFactory {
+  createOperationController() {
+    return new IosOperationController();
+  }
+  createInterfaceController() {
+    return new IosUIController();
+  }
+}</code></pre>
+<p>Wp</p>
+<pre><code class="language-ts">class WpFactory implements SystemFactory {
+  createOperationController() {
+    return new WpOperationController();
+  }
+
+  createInterfaceController() {
+    return new WpUIController();
+  }
+}</code></pre>
+<p>客户端调用：</p>
+<pre><code class="language-ts">//Android
+let mFactory = new AndroidFactory();
+//Ios
+mFactory = new IosFactory();
+//Wp
+mFactory = new WpFactory();
+
+let interfaceController = mFactory.createInterfaceController();
+let operationController = mFactory.createOperationController();
+interfaceController.display();
+operationController.control();</code></pre>
+<p>针对不同平台只通过创建不同的工厂对象就完成了操作和 UI 控制器的创建。小伙伴们可以对比一下，如果这个游戏使用工厂方法模式搭建需要创建多少个工厂类呢？下面总结一下抽象工厂的适用场景。
+适用场景：（1）和工厂方法一样客户端不需要知道它所创建的对象的类。（2）需要一组对象共同完成某种功能时。并且可能存在多组对象完成不同功能的情况。（3）系统结构稳定，不会频繁的增加对象。（因为一旦增加就需要修改原有代码，不符合开闭原则）
+以上就是三种工厂模式的总结，如有不对之处还希望各位留言指正，以免误导他人。</p>
+<p><a href="https://juejin.cn/post/6844903474639929357">引自</a></p>

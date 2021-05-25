@@ -94,7 +94,9 @@
       "d34e26203a834ca6858ceaae1593d7c4",
       "2f2c6cb5abf3fbfe35194d9c0300b236",
       "9e9354b7f153291e7b4df1d651c1718a",
-      "a92898060cc2a249cd2b1667f4e018a1"
+      "a92898060cc2a249cd2b1667f4e018a1",
+      "b98e9d7c0cb2b3d179c16457b10e53b4",
+      "e146dbe8b105a58764dc08148ccf67d6"
     ],
     "byId": {
       "f5838f1d65f228e08e8fdb013c7cf0d6": {
@@ -1013,7 +1015,7 @@
         "title": "介绍下重绘和回流（Repaint & Reflow），以及如何进行优化",
         "exerciseTimes": 0,
         "passRate": "--",
-        "md5": "0a3a5c8b6fb8984ab0d03a22791dc1c5",
+        "md5": "e3e1a3a381915a3a3007ee0a813ff6a3",
         "tags": [
           "JavaScript"
         ],
@@ -1025,7 +1027,7 @@
         "title": "介绍下观察者模式和订阅-发布模式的区别，各自适用于什么场景",
         "exerciseTimes": 0,
         "passRate": "--",
-        "md5": "23e9f093b5a6013030b924712eba293d",
+        "md5": "b51c1f17edd3d23963bdb18e1279beae",
         "tags": [
           "JavaScript"
         ],
@@ -1249,6 +1251,30 @@
         ],
         "type": "SHORT_ANSWER",
         "date": "2020-05-06T18:10:20.000Z"
+      },
+      "b98e9d7c0cb2b3d179c16457b10e53b4": {
+        "id": "b98e9d7c0cb2b3d179c16457b10e53b4",
+        "title": "工厂模式",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "1868535298cc791dc4fc270bc7e7e95b",
+        "tags": [
+          "JavaScript"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2020-05-06T18:10:20.000Z"
+      },
+      "e146dbe8b105a58764dc08148ccf67d6": {
+        "id": "e146dbe8b105a58764dc08148ccf67d6",
+        "title": "单例模式",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "51c2a156879e0e640466ea8ee5b1254a",
+        "tags": [
+          "JavaScript"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2020-05-06T18:10:20.000Z"
       }
     }
   },
@@ -1295,7 +1321,8 @@
       "e77a98b1bc22a41cd76f63d762e03957",
       "7538ca2f5e473a0bde164b993bbbc3a0",
       "3c7ac85e06dd5156bed95fec07a76932",
-      "8a3f02401746d267d5f4cd1a10b08fa5"
+      "8a3f02401746d267d5f4cd1a10b08fa5",
+      "e1da1e03fb7beb9f050c141a59f4e573"
     ],
     "byId": {
       "c160eb5149ef727dcf5b15a4d1c75f40": {
@@ -1836,6 +1863,19 @@
         "title": "sentry的使用",
         "date": "2019-09-25T18:10:20.000Z",
         "md5": "f567a36050769dbd815d5697bdfefd9f",
+        "tags": [
+          "Other"
+        ],
+        "category": "js",
+        "layout": "post",
+        "tagline": "Supporting tagline",
+        "description": null
+      },
+      "e1da1e03fb7beb9f050c141a59f4e573": {
+        "id": "e1da1e03fb7beb9f050c141a59f4e573",
+        "title": "docker常用命令",
+        "date": "2019-09-25T18:10:20.000Z",
+        "md5": "3909b073ead7dbc3d10023cf6336903e",
         "tags": [
           "Other"
         ],
