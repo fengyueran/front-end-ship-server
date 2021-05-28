@@ -1,12 +1,12 @@
 <h1>CSS中的BFC</h1><div class="toc-article"><strong class="toc-title">Contents</strong><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#bfc"><span class="toc-number">1.</span> <span class="toc-text">BFC</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#bfc-触发条件"><span class="toc-number">2.</span> <span class="toc-text">BFC 触发条件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#bfc-的应用"><span class="toc-number">3.</span> <span class="toc-text">BFC 的应用</span></a></li></ol></div><p>在谈 BFC 之前我们需要了解两个概念: Box 和 Formatting context。</p>
 <ul>
 <li><p>Box
-它是 CSS 布局中的最小单位，可以认为一个页面就是有这些不同大小、位置以及属性各异的盒子组成，这些盒子大致分为两类，块级盒子(block-level box)和行内级盒子(inline-level box)。</p>
+它是 CSS 布局中的最小单位，可以认为一个页面就是由这些不同大小、位置以及属性各异的盒子组成，这些盒子大致分为两类，块级盒子(block-level box)和行内级盒子(inline-level box)。</p>
 <ul>
 <li>block-level box
 块级盒子，由块级元素生成，一个块级元素至少会生成一个块级盒子。每个块级盒子都会参与块级格式化上下文 BFC(Block formatting context)。</li>
 <li>inline-level box
-行内级盒子，由 display 值为 inline 的非替换元素生成。行内级盒子包括行内盒子和原子行内盒子(除了行内盒之外，其余的行内级盒都是原子行内级盒(atomic inline-level boxes), 它的典型特征就是作为一个整体，不能拆分换行)两种，行内盒子参与行内格式化上下文 IFC(Inline formatting context)，而原子行内盒子不参与格式化上下文。</li>
+行内级盒子，由 display 值为 inline 的<a href="https://segmentfault.com/a/1190000006835284">非替换元素</a>生成。行内级盒子包括行内盒子和原子行内盒子(除了行内盒之外，其余的行内级盒都是原子行内级盒(atomic inline-level boxes), 它的典型特征就是作为一个整体，不能拆分换行)两种，行内盒子参与行内格式化上下文 IFC(Inline formatting context)，而原子行内盒子不参与格式化上下文。</li>
 </ul>
 </li>
 <li><p>Formatting context

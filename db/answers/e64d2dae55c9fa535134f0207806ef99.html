@@ -7,10 +7,12 @@
 <li>从后往前两两比较，直到最前面两个数，此时最小的数被排到了前面</li>
 <li>重复上述过程，依次将第 2，3...n 个最小的数排好位置</li>
 </ul>
-<pre><code>var bubbleSort = arr =&gt; {
+<pre><code class="language-js">var bubbleSort = (arr) =&gt; {
   let tmp;
   let flag = false;
-  for (let i = 0; i &lt; arr.length - 1; i++) { //表示排序次数
+  for (let i = 0; i &lt; arr.length - 1; i++) {
+    //表示排序次数
+    flag = false;
     for (let j = arr.length - 1; j &gt; i; j--) {
       if (a[j] &lt; a[j - 1]) {
         tmp = a[j];
@@ -21,7 +23,8 @@
     }
     if (!flag) break; //flag为false表明没有位置交换，也就是说数组已经是有序的了
   }
-};</code></pre><p><strong>时间复杂度计算:</strong></p>
+};</code></pre>
+<p><strong>时间复杂度计算:</strong></p>
 <p>如下: 冒泡排序的时间复杂度为 O(n^2)</p>
 <pre><code>假设数组长度为n，算法执行次数为T(n)，时间复杂度为O(T(n))
 T(n) = (n - 1) + (n - 2) + (n - 3) + ... + n - (n - 1)
