@@ -1,0 +1,28 @@
+<p>先看 Link 点击事件 handleClick 部分源码</p>
+<pre><code class="language-js">if (_this.props.onClick) _this.props.onClick(event);
+
+if (
+  !event.defaultPrevented &amp;&amp; // onClick prevented default
+  event.button === 0 &amp;&amp; // ignore everything but left clicks
+  !_this.props.target &amp;&amp; // let browser handle &quot;target=_blank&quot; etc.
+  !isModifiedEvent(event) // ignore clicks with modifier keys
+) {
+  event.preventDefault();
+
+  var history = _this.context.router.history;
+  var _this$props = _this.props,
+    replace = _this$props.replace,
+    to = _this$props.to;
+
+  if (replace) {
+    history.replace(to);
+  } else {
+    history.push(to);
+  }
+}</code></pre>
+<p>Link 做了 3 件事情：</p>
+<ul>
+<li>有 onclick 那就执行 onclick</li>
+<li>click 的时候阻止 a 标签默认事件（这样子点击<a href="/abc">123</a>就不会跳转和刷新页面）</li>
+<li>再取得跳转 href（即是 to），用 history（前端路由两种方式之一，history &amp; hash）跳转，此时只是链接变了，并没有刷新页面</li>
+</ul>

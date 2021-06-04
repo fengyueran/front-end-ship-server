@@ -1,0 +1,70 @@
+<pre><code class="language-js">LazyMan(&quot;Tony&quot;);
+// Hi I am Tony
+
+LazyMan(&quot;Tony&quot;)
+  .sleep(10)
+  .eat(&quot;lunch&quot;);
+// Hi I am Tony
+// 等待了10秒...
+// I am eating lunch
+
+LazyMan(&quot;Tony&quot;)
+  .eat(&quot;lunch&quot;)
+  .sleep(10)
+  .eat(&quot;dinner&quot;);
+// Hi I am Tony
+// I am eating lunch
+// 等待了10秒...
+// I am eating diner
+
+LazyMan(&quot;Tony&quot;)
+  .eat(&quot;lunch&quot;)
+  .eat(&quot;dinner&quot;)
+  .sleepFirst(5)
+  .sleep(10)
+  .eat(&quot;junk food&quot;);
+// Hi I am Tony
+// 等待了5秒...
+// I am eating lunch
+// I am eating dinner
+// 等待了10秒...
+// I am eating junk food</code></pre>
+<pre><code class="language-js">class LazyManClass {
+  tasks = [];
+  constructor(name) {
+    console.log(`Hi I am ${name}`);
+    setTimeout(() =&gt; {
+      this.next();
+    }, 0);
+  }
+
+  sleep(dt) {
+    const fn = () =&gt; {
+      setTimeout(() =&gt; {
+        console.log(`waitting ${dt}`);
+        this.next();
+      }, dt);
+    };
+    this.tasks.push(fn);
+    return this;
+  }
+
+  next() {
+    const task = this.tasks.shift();
+    if (task) {
+      task();
+    }
+  }
+
+  eat(food) {
+    this.tasks.push(() =&gt; {
+      console.log(`I am eating ${food}`);
+      this.next();
+    });
+    return this;
+  }
+}
+
+function LazyMan(name) {
+  return new LazyManClass(name);
+}</code></pre>

@@ -1,0 +1,29 @@
+<pre><code class="language-js">&lt;body&gt;
+  hello,world
+  &lt;input type=&quot;text&quot; id=&quot;model&quot;&gt;
+  &lt;p id=&quot;word&quot;&gt;&lt;/p&gt;
+&lt;/body&gt;
+&lt;script&gt;
+  const model = document.getElementById(&quot;model&quot;)
+  const word = document.getElementById(&quot;word&quot;)
+  var obj= {};
+
+  const newObj = new Proxy(obj, {
+      get: function(target, key, receiver) {
+        console.log(`getting ${key}!`);
+        return Reflect.get(target, key, receiver);
+      },
+      set: function(target, key, value, receiver) {
+        console.log(&#39;setting&#39;,target, key, value, receiver);
+        if (key === &quot;text&quot;) {
+          model.value = value;
+          word.innerHTML = value;
+        }
+        return Reflect.set(target, key, value, receiver);
+      }
+    });
+
+  model.addEventListener(&quot;keyup&quot;,function(e){
+    newObj.text = e.target.value
+  })
+&lt;/script&gt;</code></pre>

@@ -1,0 +1,43 @@
+<p>这题考察的是对象的键名的转换。</p>
+<p>对象的键名只能是字符串和 Symbol 类型。
+其他类型的键名会被转换成字符串类型。
+对象转字符串默认会调用 toString 方法。</p>
+<pre><code class="language-js">// example 1
+var a = {},
+  b = &quot;123&quot;,
+  c = 123;
+a[b] = &quot;b&quot;;
+
+// c 的键名会被转换成字符串&#39;123&#39;，这里会把 b 覆盖掉。
+a[c] = &quot;c&quot;;
+
+// 输出 c
+console.log(a[b]);
+// example 2
+var a = {},
+  b = Symbol(&quot;123&quot;),
+  c = Symbol(&quot;123&quot;);
+
+// b 是 Symbol 类型，不需要转换。
+a[b] = &quot;b&quot;;
+
+// c 是 Symbol 类型，不需要转换。任何一个 Symbol 类型的值都是不相等的，所以不会覆盖掉 b。
+a[c] = &quot;c&quot;;
+
+// 输出 b
+console.log(a[b]);
+// example 3
+var a = {},
+  b = { key: &quot;123&quot; },
+  c = { key: &quot;456&quot; };
+
+// b 不是字符串也不是 Symbol 类型，需要转换成字符串。
+// 对象类型会调用 toString 方法转换成字符串 [object Object]。
+a[b] = &quot;b&quot;;
+
+// c 不是字符串也不是 Symbol 类型，需要转换成字符串。
+// 对象类型会调用 toString 方法转换成字符串 [object Object]。这里会把 b 覆盖掉。
+a[c] = &quot;c&quot;;
+
+// 输出 c
+console.log(a[b]);</code></pre>

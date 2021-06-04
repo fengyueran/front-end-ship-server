@@ -1,0 +1,24 @@
+<pre><code class="language-js">add(1);             // 1
+add(1)(2);      // 3
+add(1)(2)(3)；// 6
+add(1)(2, 3); // 6
+add(1, 2)(3); // 6
+add(1, 2, 3); // 6</code></pre>
+<pre><code class="language-js">// 参考自 segmentfault 的@大笑平
+const currying = (fn) =&gt;
+  (judge = (...args) =&gt;
+    args.length &gt;= fn.length
+      ? fn(...args)
+      : (...arg) =&gt; judge(...args, ...arg));
+
+// Test
+const fn = currying(function(a, b, c) {
+  console.log([a, b, c]);
+});
+
+function add(x, y, z) {
+  return x + y + z;
+}
+
+var add1 = currying(add);
+console.log(add1(1)(2)(3));</code></pre>

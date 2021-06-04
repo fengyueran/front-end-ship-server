@@ -99,7 +99,22 @@
       "e146dbe8b105a58764dc08148ccf67d6",
       "b472281de2022613a59d3df17af24cc8",
       "fc3deac04cd49a104503bb4e24445bac",
-      "a28a8af0e6e47a70614453b311a10721"
+      "a28a8af0e6e47a70614453b311a10721",
+      "d60f14757d63c85c2377e305458c1dcc",
+      "e23d66a0515a775ace2b87bad86c7617",
+      "deb3b9111b7e90563f2cd34745bc3793",
+      "de7fd4a72f717434fca931f8d048283b",
+      "e05d00143599f13d64ed2bdfadae6c26",
+      "7f7f26652994b51826aa2b78f4d8a02f",
+      "7519395193cf0912f7487e8e408c8aae",
+      "cef9828fcbee43df7566912e346ad6fc",
+      "4cba80faf2d2892a42a1bbc8cda9d01f",
+      "d24d4ceb8dbc0b36143b4a4a6f08cccc",
+      "0f7b81d1a11d6cacaefde88b1cc09db3",
+      "3367c6a1b51817030bfb89fd4916d9bf",
+      "22e1946f8884e31a1963c57afeb1a149",
+      "7984ebcbbe81c313dde20056826fb6d3",
+      "8ebd3ec4dd1e6b92728b7a71a802367e"
     ],
     "byId": {
       "f5838f1d65f228e08e8fdb013c7cf0d6": {
@@ -1312,6 +1327,160 @@
         "tags": [
           "JavaScript"
         ],
+        "type": "SHORT_ANSWER",
+        "date": "2020-05-06T18:10:20.000Z"
+      },
+      "d60f14757d63c85c2377e305458c1dcc": {
+        "id": "d60f14757d63c85c2377e305458c1dcc",
+        "title": "要求设计 LazyMan 类，实现以下功能",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "6e25c57d62444af0b63d7fd227c5389c",
+        "tags": [
+          "JavaScript"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2020-05-06T18:10:20.000Z"
+      },
+      "e23d66a0515a775ace2b87bad86c7617": {
+        "id": "e23d66a0515a775ace2b87bad86c7617",
+        "title": "箭头函数与普通函数（function）的区别是什么？构造函数（function）可以使用 new 生成实例，那么箭头函数可以吗？为什么？",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "6c03c84ddccc456fe5aa5246f93eaf9f",
+        "tags": [
+          "JavaScript"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2020-05-06T18:10:20.000Z"
+      },
+      "deb3b9111b7e90563f2cd34745bc3793": {
+        "id": "deb3b9111b7e90563f2cd34745bc3793",
+        "title": "已知如下代码，如何修改才能让图片宽度为 300px ？注意下面代码不可修改。",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "8083c7095ef3392cadffbe347f5f645a",
+        "tags": [],
+        "type": "SHORT_ANSWER",
+        "date": "2020-05-06T18:10:20.000Z"
+      },
+      "de7fd4a72f717434fca931f8d048283b": {
+        "id": "de7fd4a72f717434fca931f8d048283b",
+        "title": "介绍下如何实现 token 加密",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "79e7360d6445cdd41ea5081982074764",
+        "tags": [],
+        "type": "SHORT_ANSWER",
+        "date": "2020-05-06T18:10:20.000Z"
+      },
+      "e05d00143599f13d64ed2bdfadae6c26": {
+        "id": "e05d00143599f13d64ed2bdfadae6c26",
+        "title": "ES6 代码转成 ES5 代码的实现思路是什么",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "2fddc20f536c7d59c12eb55484919d23",
+        "tags": [],
+        "type": "SHORT_ANSWER",
+        "date": "2020-05-06T18:10:20.000Z"
+      },
+      "7f7f26652994b51826aa2b78f4d8a02f": {
+        "id": "7f7f26652994b51826aa2b78f4d8a02f",
+        "title": "AST抽象语法树",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "0eee4cc7c86bc4ba0f68c330907bd6cd",
+        "tags": [],
+        "type": "SHORT_ANSWER",
+        "date": "2020-05-06T18:10:20.000Z"
+      },
+      "7519395193cf0912f7487e8e408c8aae": {
+        "id": "7519395193cf0912f7487e8e408c8aae",
+        "title": "随机生成一个长度为 10 的整数类型的数组，例如 [2, 10, 3, 4, 5, 11, 10, 11, 20]，将其排列成一个新数组，要求新数组形式如下，例如 [[2, 3, 4, 5], [10, 11], [20]]。",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "fe50a8b7c1e58188a0468d00218c32f7",
+        "tags": [],
+        "type": "SHORT_ANSWER",
+        "date": "2020-05-06T18:10:20.000Z"
+      },
+      "cef9828fcbee43df7566912e346ad6fc": {
+        "id": "cef9828fcbee43df7566912e346ad6fc",
+        "title": "浅谈移动Web开发",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "a06b8ddd60efdb38344d7c3c857e00db",
+        "tags": [],
+        "type": "SHORT_ANSWER",
+        "date": "2020-05-06T18:10:20.000Z"
+      },
+      "4cba80faf2d2892a42a1bbc8cda9d01f": {
+        "id": "4cba80faf2d2892a42a1bbc8cda9d01f",
+        "title": "介绍下 webpack 热更新原理，是如何做到在不刷新浏览器的前提下更新页面的",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "8ecca6ef604333a0637c1d3ec3034716",
+        "tags": [],
+        "type": "SHORT_ANSWER",
+        "date": "2020-05-06T18:10:20.000Z"
+      },
+      "d24d4ceb8dbc0b36143b4a4a6f08cccc": {
+        "id": "d24d4ceb8dbc0b36143b4a4a6f08cccc",
+        "title": "介绍下 BFC、IFC、GFC 和 FFC",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "a7509d73d6f5ed677078bb08733b05ce",
+        "tags": [],
+        "type": "SHORT_ANSWER",
+        "date": "2020-05-06T18:10:20.000Z"
+      },
+      "0f7b81d1a11d6cacaefde88b1cc09db3": {
+        "id": "0f7b81d1a11d6cacaefde88b1cc09db3",
+        "title": "使用 JavaScript Proxy 实现简单的数据绑定",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "fde9aa336ce323050667af6f8ee28779",
+        "tags": [],
+        "type": "SHORT_ANSWER",
+        "date": "2020-05-06T18:10:20.000Z"
+      },
+      "3367c6a1b51817030bfb89fd4916d9bf": {
+        "id": "3367c6a1b51817030bfb89fd4916d9bf",
+        "title": "对象的键名的转换",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "7d17cb33c2e0d83cd5dc64380d3a6bbf",
+        "tags": [],
+        "type": "SHORT_ANSWER",
+        "date": "2020-05-06T18:10:20.000Z"
+      },
+      "22e1946f8884e31a1963c57afeb1a149": {
+        "id": "22e1946f8884e31a1963c57afeb1a149",
+        "title": "请实现一个 add 函数，满足以下功能",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "ee387c01a80fe222b44cbc03bc8852c5",
+        "tags": [],
+        "type": "SHORT_ANSWER",
+        "date": "2020-05-06T18:10:20.000Z"
+      },
+      "7984ebcbbe81c313dde20056826fb6d3": {
+        "id": "7984ebcbbe81c313dde20056826fb6d3",
+        "title": "react-router 里的 <Link> 标签和 <a> 标签有什么区别",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "465a697116fc804868636daee8643dbe",
+        "tags": [],
+        "type": "SHORT_ANSWER",
+        "date": "2020-05-06T18:10:20.000Z"
+      },
+      "8ebd3ec4dd1e6b92728b7a71a802367e": {
+        "id": "8ebd3ec4dd1e6b92728b7a71a802367e",
+        "title": "实现 convert 方法，把原始 list 转换成树形结构，要求尽可能降低时间复杂度",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "3986c615c7c9420692448a866286cb11",
+        "tags": [],
         "type": "SHORT_ANSWER",
         "date": "2020-05-06T18:10:20.000Z"
       }
