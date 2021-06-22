@@ -1,0 +1,117 @@
+<h3 id="单向数据流">单向数据流</h3>
+<p>单向数据流这种模式十分适合跟 React 搭配使用。它的主要思想是组件不会改变接收的数据。它们只会监听数据的变化，当数据发生变化时它们会使用接收到的新值，而不是去修改已有的值。当组件的更新机制触发后，它们只是使用新值进行重新渲染而已。</p>
+<p>假设说有一个简单的 Switcher 组件，它包含一个按钮。当点击按钮时，我们需要在组件中使用一个标识来保存组件的开关状态。</p>
+<pre><code class="language-js">class Switcher extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { flag: false };
+    this.\_onButtonClick = (e) =&gt;
+      this.setState({
+        flag: !this.state.flag,
+      });
+  }
+  render() {
+    return (
+      &lt;button onClick={this.\_onButtonClick}&gt;
+        {this.state.flag ? &quot;lights on&quot; : &quot;lights off&quot;}
+      &lt;/button&gt;
+    );
+  }
+}
+
+// ... 渲染组件
+function App() {
+  return &lt;Switcher /&gt;;
+}</code></pre>
+<p>此时，我们将数据保存在了组件内部。或者换句话说，知道 flag 存在的只有 Switcher 组件。我们来将 flag 提取到 store 中:</p>
+<pre><code class="language-js">var Store = {
+  \_flag: false,
+  set: function(value) {
+    this.\_flag = value;
+  },
+  get: function() {
+    return this.\_flag;
+  },
+};
+
+class Switcher extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { flag: false };
+    this.\_onButtonClick = (e) =&gt; {
+      this.setState({ flag: !this.state.flag }, () =&gt; {
+        this.props.onChange(this.state.flag);
+      });
+    };
+  }
+  render() {
+    return (
+      &lt;button onClick={this.\_onButtonClick}&gt;
+        {this.state.flag ? &quot;lights on&quot; : &quot;lights off&quot;}
+      &lt;/button&gt;
+    );
+  }
+}
+
+function App() {
+  return &lt;Switcher onChange={Store.set.bind(Store)} /&gt;;
+}</code></pre>
+<p>Store 对象是一个 单例，它提供辅助函数 ( getter 和 setter ) 来读取/设置 _flag 属性。通过将 setter 传给 Switcher 组件，我们能够更新外部数据。目前我们应用的工作流程大致如下:</p>
+<p><img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/122.%E5%8D%95%E5%90%91%E6%95%B0%E6%8D%AE%E6%B5%81/one-direction-1.jpeg" alt="/one-direction"></p>
+<p>假设我们可以通过 Store 将 flag 值保存至服务端。当用户再使用时我们可以为其提供一个适当的初始值。如果用户上次离开时 flag 为 true ，那么我们应该显示 &quot;lights on&quot;，而不是默认值 &quot;lights off&quot; 。现在变得有一些麻烦，因为数据存在于两个地方。UI 和 Store 中都有自身的状态。我们需要进行双向通讯，Store 到组件和组件到 Store 。</p>
+<pre><code class="language-js">// ... 在 App 组件中
+&lt;Switcher
+value={ Store.get() }
+onChange={ Store.set.bind(Store) } /&gt;
+
+// ... 在 Switcher 组件中
+constructor(props) {
+super(props);
+this.state = { flag: this.props.value };
+...</code></pre>
+<p>工作流程改变后如下所示:</p>
+<p><img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/122.%E5%8D%95%E5%90%91%E6%95%B0%E6%8D%AE%E6%B5%81/one-direction-2.jpeg" alt="one-direction"></p>
+<p>以上这些导致了需要在两处管理状态。如果 Store 可以再根据系统中的其他操作更改其值，将演变成怎样一种情况？我们必须将这种变化传播给 Switcher 组件，这样就会增加应用的复杂度。</p>
+<p>单向数据流正是用来解决此类问题。它消除了在多个地方同时管理状态的情况，它只会在一个地方 (通常就是 store) 进行状态管理。要实现单向数据流的话，我们需要改造一下 Store 对象。我们需要允许我们订阅数据变化的逻辑：</p>
+<pre><code class="language-js">var Store = {
+  \_handlers: [],
+  \_flag: &quot;&quot;,
+  subscribe: function(handler) {
+    this.\_handlers.push(handler);
+  },
+  set: function(value) {
+    this.\_flag = value;
+    this.\_handlers.forEach((handler) =&gt; handler(value));
+  },
+  get: function() {
+    return this.\_flag;
+  },
+};</code></pre>
+<p>然后我们将其与 App 组件联系起来，每次 Store 中的值产生变化时，都将重新渲染组件:</p>
+<pre><code class="language-js">class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = { value: Store.get() };
+    Store.subscribe((value) =&gt; this.setState({ value }));
+  }
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;Switcher value={this.state.value} onChange={Store.set.bind(Store)} /&gt;
+      &lt;/div&gt;
+    );
+  }
+}</code></pre>
+<p>做出改变后，Switcher 将变得相当简单。我们不需要内部状态，所以组件可以使用无状态函数。</p>
+<pre><code class="language-js">function Switcher({ value, onChange }) {
+  return (
+    &lt;button onClick={(e) =&gt; onChange(!value)}&gt;
+      {value ? &quot;lights on&quot; : &quot;lights off&quot;}
+    &lt;/button&gt;
+  );
+}
+
+&lt;Switcher value={Store.get()} onChange={Store.set.bind(Store)} /&gt;;</code></pre>
+<h3 id="结语">结语</h3>
+<p>这种模式的好处是组件只负责展示 store 的数据即可。而唯一的数据源将使得开发更加简单。如果只能从本书中掌握一个知识点的话，我会选这一章节。单向数据流彻底地改变了我设计功能时的思维方式，所以我相信对你也同样有效。</p>

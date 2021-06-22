@@ -4,30 +4,38 @@
 <p>Cross-site scripting 的英文首字母缩写本应为 CSS，但因为 CSS 在网页设计领域已经被广泛指层叠样式表（Cascading Style Sheets），所以将 Cross（意为“交叉”）改以交叉形的 X 做为缩写。但早期的文件还是会使用 CSS 表示 Cross-site scripting。</p>
 <p>实例：</p>
 <pre><code>//通过引诱用户点击一个链接
-http://xxx/search?keyword=&quot;&gt;&lt;script&gt;alert(&#39;XSS&#39;);&lt;/script&gt;</code></pre><p>漏洞总结
-小明的例子讲完了，下面我们来系统的看下 XSS 有哪些注入的方法：</p>
-<p>在 HTML 中内嵌的文本中，恶意内容以 script 标签形成注入。
-在内联的 JavaScript 中，拼接的数据突破了原本的限制（字符串，变量，方法名等）。
-在标签属性中，恶意内容包含引号，从而突破属性值的限制，注入其他属性或者标签。
-在标签的 href、src 等属性中，包含 javascript: 等可执行代码。
-在 onload、onerror、onclick 等事件中，注入不受控制代码。
-在 style 属性和标签中，包含类似 background-image:url(&quot;javascript:...&quot;); 的代码（新版本浏览器已经可以防范）。
-在 style 属性和标签中，包含类似 expression(...) 的 CSS 表达式代码（新版本浏览器已经可以防范）。
-总之，如果开发者没有将用户输入的文本进行合适的过滤，就贸然插入到 HTML 中，这很容易造成注入漏洞。攻击者可以利用漏洞，构造出恶意的代码指令，进而利用恶意代码危害数据安全。</p>
-<p>XSS 攻击的总结
-我们回到最开始提出的问题，相信同学们已经有了答案：</p>
-<p>XSS 防范是后端 RD 的责任，后端 RD 应该在所有用户提交数据的接口，对敏感字符进行转义，才能进行下一步操作。
-不正确。因为： _ 防范存储型和反射型 XSS 是后端 RD 的责任。而 DOM 型 XSS 攻击不发生在后端，是前端 RD 的责任。防范 XSS 是需要后端 RD 和前端 RD 共同参与的系统工程。 _ 转义应该在输出 HTML 时进行，而不是在提交用户输入时。</p>
-<p>所有要插入到页面上的数据，都要通过一个敏感字符过滤函数的转义，过滤掉通用的敏感字符后，就可以插入到页面中。
-不正确。 不同的上下文，如 HTML 属性、HTML 文字内容、HTML 注释、跳转链接、内联 JavaScript 字符串、内联 CSS 样式表等，所需要的转义规则不一致。 业务 RD 需要选取合适的转义库，并针对不同的上下文调用不同的转义规则。</p>
-<p>整体的 XSS 防范是非常复杂和繁琐的，我们不仅需要在全部需要转义的位置，对数据进行对应的转义。而且要防止多余和错误的转义，避免正常的用户输入出现乱码。</p>
+http://xxx/search?keyword=&quot;&gt;&lt;script&gt;alert(&#39;XSS&#39;);&lt;/script&gt;</code></pre><p>下面我们来系统的看下 XSS 有哪些注入的方法：</p>
+<ul>
+<li>在 HTML 中内嵌的文本中，恶意内容以 script 标签形成注入。</li>
+<li>在内联的 JavaScript 中，拼接的数据突破了原本的限制（字符串，变量，方法名等）。</li>
+<li>在标签属性中，恶意内容包含引号，从而突破属性值的限制，注入其他属性或者标签。</li>
+<li>在标签的 href、src 等属性中，包含 javascript: 等可执行代码。</li>
+<li>在 onload、onerror、onclick 等事件中，注入不受控制代码。</li>
+<li>在 style 属性和标签中，包含类似 background-image:url(&quot;javascript:...&quot;); 的代码（新版本浏览器已经可以防范）。</li>
+<li>在 style 属性和标签中，包含类似 expression(...) 的 CSS 表达式代码（新版本浏览器已经可以防范）。</li>
+</ul>
+<p>总之，如果开发者没有将用户输入的文本进行合适的过滤，就贸然插入到 HTML 中，这很容易造成注入漏洞。攻击者可以利用漏洞，构造出恶意的代码指令，进而利用恶意代码危害数据安全。</p>
 <p>虽然很难通过技术手段完全避免 XSS，但我们可以总结以下原则减少漏洞的产生：</p>
-<p>利用模板引擎 开启模板引擎自带的 HTML 转义功能。例如： 在 ejs 中，尽量使用 &lt;%= data %&gt; 而不是 &lt;%- data %&gt;； 在 doT.js 中，尽量使用 {{! data } 而不是 {{= data }； 在 FreeMarker 中，确保引擎版本高于 2.3.24，并且选择正确的 freemarker.core.OutputFormat。
-避免内联事件 尽量不要使用 onLoad=&quot;onload(&#39;{{data}}&#39;)&quot;、onClick=&quot;go(&#39;{{action}}&#39;)&quot; 这种拼接内联事件的写法。在 JavaScript 中通过 .addEventlistener() 事件绑定会更安全。
-避免拼接 HTML 前端采用拼接 HTML 的方法比较危险，如果框架允许，使用 createElement、setAttribute 之类的方法实现。或者采用比较成熟的渲染框架，如 Vue/React 等。
-时刻保持警惕 在插入位置为 DOM 属性、链接等位置时，要打起精神，严加防范。
-增加攻击难度，降低攻击后果 通过 CSP、输入长度配置、接口安全措施等方法，增加攻击的难度，降低攻击的后果。
-主动检测和发现 可使用 XSS 攻击字符串和自动扫描工具寻找潜在的 XSS 漏洞。</p>
+<ul>
+<li><p>利用模板引擎
+开启模板引擎自带的 HTML 转义功能。例如： 在 ejs 中，尽量使用 &lt;%= data %&gt; 而不是 &lt;%- data %&gt;； 在 doT.js 中，尽量使用 {{! data } 而不是 {{= data }； 在 FreeMarker 中，确保引擎版本高于 2.3.24，并且选择正确的 freemarker.core.OutputFormat。</p>
+</li>
+<li><p>避免内联事件
+尽量不要使用 onLoad=&quot;onload(&#39;{{data}}&#39;)&quot;、onClick=&quot;go(&#39;{{action}}&#39;)&quot; 这种拼接内联事件的写法。在 JavaScript 中通过 .addEventlistener() 事件绑定会更安全。</p>
+</li>
+<li><p>避免拼接
+HTML 前端采用拼接 HTML 的方法比较危险，如果框架允许，使用 createElement、setAttribute 之类的方法实现。或者采用比较成熟的渲染框架，如 Vue/React 等。</p>
+</li>
+<li><p>时刻保持警惕
+在插入位置为 DOM 属性、链接等位置时，要打起精神，严加防范。</p>
+</li>
+<li><p>增加攻击难度，降低攻击后果</p>
+<p>通过 CSP、输入长度配置、接口安全措施等方法，增加攻击的难度，降低攻击的后果。</p>
+</li>
+<li><p>主动检测和发现
+可使用 XSS 攻击字符串和自动扫描工具寻找潜在的 XSS 漏洞。</p>
+</li>
+</ul>
 <h3 id="csrf">CSRF</h3>
 <p>跨站请求伪造（英语：Cross-site request forgery），也被称为 one-click attack 或者 session riding，通常缩写为 CSRF 或者 XSRF， 是一种挟制用户在当前已登录的 Web 应用程序上执行非本意的操作的攻击方法。[1] 跟跨网站脚本（XSS）相比，XSS 利用的是用户对指定网站的信任，CSRF 利用的是网站对用户网页浏览器的信任。</p>
 <p>一个典型的 CSRF 攻击有着如下的流程：</p>
@@ -70,3 +78,5 @@ CSRF 攻击者不能获取到 Cookie 等信息，只是使用。
 <li><p>双重 Cookie 验证</p>
 </li>
 </ul>
+<p><a href="https://tech.meituan.com/2018/09/27/fe-security.html">https://tech.meituan.com/2018/09/27/fe-security.html</a>
+<a href="https://tech.meituan.com/2018/10/11/fe-security-csrf.html">https://tech.meituan.com/2018/10/11/fe-security-csrf.html</a></p>

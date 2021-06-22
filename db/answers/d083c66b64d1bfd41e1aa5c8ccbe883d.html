@@ -1,0 +1,628 @@
+<p>在软件工程中，设计模式（Design Pattern）是对软件设计中普遍存在（反复出现）的各种问题，所提出的解决方案。根据模式的目的来划分的话，GoF（Gang of Four）设计模式可以分为以下 3 种类型：</p>
+<p><img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/119.%E5%9B%BE%E8%A7%A39%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/designpattern.jpeg" alt="Design Pattern"></p>
+<p>1、创建型模式：用来描述 “如何创建对象”，它的主要特点是 “将对象的创建和使用分离”。包括单例、原型、工厂方法、抽象工厂和建造者 5 种模式。</p>
+<p>2、结构型模式：用来描述如何将类或对象按照某种布局组成更大的结构。包括代理、适配器、桥接、装饰、外观、享元和组合 7 种模式。</p>
+<p>3、行为型模式：用来识别对象之间的常用交流模式以及如何分配职责。包括模板方法、策略、命令、职责链、状态、观察者、中介者、迭代器、访问者、备忘录和解释器 11 种模式。</p>
+<p>接下来阿宝哥将结合一些生活中的场景并通过精美的配图，来向大家介绍 9 种常用的设计模式。</p>
+<h3 id="一、建造者模式">一、建造者模式</h3>
+<p>建造者模式（Builder Pattern）将一个复杂对象分解成多个相对简单的部分，然后根据不同需要分别创建它们，最后构建成该复杂对象。</p>
+<p>一辆小汽车 🚗 通常由 发动机、底盘、车身和电气设备 四大部分组成。汽车电气设备的内部构造很复杂，简单起见，我们只考虑三个部分：引擎、底盘和车身。</p>
+<p><img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/119.%E5%9B%BE%E8%A7%A39%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/builderpattern.jpeg" alt="builderpattern"></p>
+<p>在现实生活中，小汽车也是由不同的零部件组装而成，比如上图中我们把小汽车分成引擎、底盘和车身三大部分。下面我们来看一下如何使用建造者模式来造车子。</p>
+<h4 id="11-实现代码">1.1 实现代码</h4>
+<pre><code class="language-js">class Car {
+constructor(
+public engine: string,
+public chassis: string,
+public body: string
+) {}
+}
+
+class CarBuilder {
+    engine!: string; // 引擎
+    chassis!: string; // 底盘
+    body!: string; // 车身
+
+    addChassis(chassis: string) {
+        this.chassis = chassis;
+        return this;
+    }
+
+    addEngine(engine: string) {
+        this.engine = engine;
+        return this;
+    }
+
+    addBody(body: string) {
+        this.body = body;
+        return this;
+    }
+
+    build() {
+    return new Car(this.engine, this.chassis, this.body);
+    }
+}</code></pre>
+<p>在以上代码中，我们定义一个 CarBuilder 类，并提供了 addChassis、addEngine 和 addBody 3 个方法用于组装车子的不同部位，当车子的 3 个部分都组装完成后，调用 build 方法就可以开始造车。</p>
+<h4 id="12-使用示例">1.2 使用示例</h4>
+<pre><code class="language-js">const car = new CarBuilder()
+  .addEngine(&quot;v12&quot;)
+  .addBody(&quot;镁合金&quot;)
+  .addChassis(&quot;复合材料&quot;)
+  .build();</code></pre>
+<h4 id="13-应用场景及案例">1.3 应用场景及案例</h4>
+<ul>
+<li>需要生成的产品对象有复杂的内部结构，这些产品对象通常包含多个成员属性。</li>
+<li>需要生成的产品对象的属性相互依赖，需要指定其生成顺序。</li>
+<li>隔离复杂对象的创建和使用，并使得相同的创建过程可以创建不同的产品。</li>
+<li>Github - node-sql-query：<a href="https://github.com/dresende/n">https://github.com/dresende/n</a>...</li>
+</ul>
+<h3 id="二、工厂模式">二、工厂模式</h3>
+<p>在现实生活中，工厂是负责生产产品的，比如牛奶、面包或礼物等，这些产品满足了我们日常的生理需求。</p>
+<p><img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/119.%E5%9B%BE%E8%A7%A39%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/factory1.jpeg" alt="factory"></p>
+<p>在众多设计模式当中，有一种被称为工厂模式的设计模式，它提供了创建对象的最佳方式。工厂模式可以分为：简单工厂模式、工厂方法模式和抽象工厂模式。</p>
+<h4 id="21-简单工厂">2.1 简单工厂</h4>
+<p>简单工厂模式又叫 静态方法模式，因为工厂类中定义了一个静态方法用于创建对象。简单工厂让使用者不用知道具体的参数就可以创建出所需的 ”产品“ 类，即使用者可以直接消费产品而不需要知道产品的具体生产细节。</p>
+<p><img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/119.%E5%9B%BE%E8%A7%A39%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/factory2.jpeg" alt="factory"></p>
+<p>在上图中，阿宝哥模拟了用户购车的流程，小王和小秦分别向 BMW 工厂订购了 BMW730 和 BMW840 型号的车型，接着工厂会先判断用户选择的车型，然后按照对应的模型进行生产并在生产完成后交付给用户。</p>
+<p>下面我们来看一下如何使用简单工厂来描述 BMW 工厂生产指定型号车子的过程。</p>
+<p><strong>2.1.1 实现代码</strong></p>
+<pre><code class="language-js">abstract class BMW {
+  abstract run(): void;
+}
+
+class BMW730 extends BMW {
+  run(): void {
+    console.log(&quot;BMW730 发动咯&quot;);
+  }
+}
+
+class BMW840 extends BMW {
+  run(): void {
+  console.log(&quot;BMW840 发动咯&quot;);
+  }
+}
+
+class BMWFactory {
+  public static produceBMW(model: &quot;730&quot; | &quot;840&quot;): BMW {
+    if (model === &quot;730&quot;) {
+        return new BMW730();
+    } else {
+      return new BMW840();
+    }
+  }
+}</code></pre>
+<p>在以上代码中，我们定义一个 BMWFactory 类，该类提供了一个静态的 produceBMW() 方法，用于根据不同的模型参数来创建不同型号的车子。</p>
+<p><strong>2.1.2 使用示例</strong></p>
+<pre><code class="language-js">const bmw730 = BMWFactory.produceBMW(&quot;730&quot;);
+const bmw840 = BMWFactory.produceBMW(&quot;840&quot;);
+
+bmw730.run();
+bmw840.run();</code></pre>
+<p><strong>2.1.3 应用场景</strong>
+工厂类负责创建的对象比较少：由于创建的对象比较少，不会造成工厂方法中业务逻辑过于复杂。
+客户端只需知道传入工厂类静态方法的参数，而不需要关心创建对象的细节。</p>
+<h4 id="22-工厂方法">2.2 工厂方法</h4>
+<p>工厂方法模式（Factory Method Pattern）又称为工厂模式，也叫多态工厂（Polymorphic Factory）模式，它属于类创建型模式。</p>
+<p>在工厂方法模式中，工厂父类负责定义创建产品对象的公共接口，而工厂子类则负责生成具体的产品对象， 这样做的目的是将产品类的实例化操作延迟到工厂子类中完成，即通过工厂子类来确定究竟应该实例化哪一个具体产品类。</p>
+<p><img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/119.%E5%9B%BE%E8%A7%A39%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/factory3.jpeg" alt="factory"></p>
+<p>在上图中，阿宝哥模拟了用户购车的流程，小王和小秦分别向 BMW 730 和 BMW 840 工厂订购了 BMW730 和 BMW840 型号的车子，接着工厂按照对应的模型进行生产并在生产完成后交付给用户。</p>
+<p>同样，我们来看一下如何使用工厂方法来描述 BMW 工厂生产指定型号车子的过程。</p>
+<p><strong>2.2.1 实现代码</strong></p>
+<pre><code class="language-js">abstract class BMWFactory {
+abstract produceBMW(): BMW;
+}
+
+class BMW730Factory extends BMWFactory {
+produceBMW(): BMW {
+return new BMW730();
+}
+}
+
+class BMW840Factory extends BMWFactory {
+produceBMW(): BMW {
+return new BMW840();
+}
+}</code></pre>
+<p>在以上代码中，我们分别创建了 BMW730Factory 和 BMW840Factory 两个工厂类，然后使用这两个类的实例来生产不同型号的车子。</p>
+<p><strong>2.2.2 使用示例</strong></p>
+<pre><code class="language-js">const bmw730Factory = new BMW730Factory();
+const bmw840Factory = new BMW840Factory();
+
+const bmw730 = bmw730Factory.produceBMW();
+const bmw840 = bmw840Factory.produceBMW();
+
+bmw730.run();
+bmw840.run();</code></pre>
+<p><strong>2.2.3 应用场景</strong></p>
+<ul>
+<li>一个类不知道它所需要的对象的类：在工厂方法模式中，客户端不需要知道具体产品类的类名，只需要知道所对应的工厂即可，具体的产品对象由具体工厂类创建；客户端需要知道创建具体产品的工厂类。</li>
+<li>一个类通过其子类来指定创建哪个对象：在工厂方法模式中，对于抽象工厂类只需要提供一个创建产品的接口，而由其子类来确定具体要创建的对象，利用面向对象的多态性和里氏代换原则，在程序运行时，子类对象将覆盖父类对象，从而使得系统更容易扩展。</li>
+</ul>
+<p>继续阅读：<a href="https://mp.weixin.qq.com/s/ODSjqmsb1cnjQwwjhS5AOg">Typescript 设计模式之工厂方法</a></p>
+<h4 id="23-抽象工厂">2.3 抽象工厂</h4>
+<p>抽象工厂模式（Abstract Factory Pattern），提供一个创建一系列相关或相互依赖对象的接口，而无须指定它们具体的类。</p>
+<p>在工厂方法模式中具体工厂负责生产具体的产品，每一个具体工厂对应一种具体产品，工厂方法也具有唯一性，一般情况下，一个具体工厂中只有一个工厂方法或者一组重载的工厂方法。 但是有时候我们需要一个工厂可以提供多个产品对象，而不是单一的产品对象。</p>
+<p><img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/119.%E5%9B%BE%E8%A7%A39%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/factory4.jpeg" alt="factory"></p>
+<p>在上图中，阿宝哥模拟了用户购车的流程，小王向 BMW 工厂订购了 BMW730，工厂按照 730 对应的模型进行生产并在生产完成后交付给小王。而小秦向同一个 BMW 工厂订购了 BMW840，工厂按照 840 对应的模型进行生产并在生产完成后交付给小秦。</p>
+<p>下面我们来看一下如何使用抽象工厂来描述上述的购车过程。</p>
+<p><strong>2.3.1 实现代码</strong></p>
+<pre><code class="language-js">abstract class BMWFactory {
+abstract produce730BMW(): BMW730;
+abstract produce840BMW(): BMW840;
+}
+
+class ConcreteBMWFactory extends BMWFactory {
+produce730BMW(): BMW730 {
+return new BMW730();
+}
+
+produce840BMW(): BMW840 {
+return new BMW840();
+}
+}</code></pre>
+<p><strong>2.3.2 使用示例</strong></p>
+<pre><code class="language-js">const bmwFactory = new ConcreteBMWFactory();
+
+const bmw730 = bmwFactory.produce730BMW();
+const bmw840 = bmwFactory.produce840BMW();
+
+bmw730.run();
+bmw840.run();</code></pre>
+<p><strong>2.3.3 应用场景</strong></p>
+<ul>
+<li>一个系统不应当依赖于产品类实例如何被创建、组合和表达的细节，这对于所有类型的工厂模式都是重要的。</li>
+<li>系统中有多于一个的产品族，而每次只使用其中某一产品族。</li>
+<li>系统提供一个产品类的库，所有的产品以同样的接口出现，从而使客户端不依赖于具体实现。</li>
+</ul>
+<blockquote>
+<p>继续阅读：<a href="https://mp.weixin.qq.com/s/ppxWe3ML9TrOCe_ympXdIQ">创建对象的最佳方式是什么</a>？</p>
+</blockquote>
+<h3 id="三、单例模式">三、单例模式</h3>
+<p>单例模式（Singleton Pattern）是一种常用的模式，有一些对象我们往往只需要一个，比如全局缓存、浏览器中的 window 对象等。单例模式用于保证一个类仅有一个实例，并提供一个访问它的全局访问点。</p>
+<p><img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/119.%E5%9B%BE%E8%A7%A39%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/singleton.jpeg" alt="factory"></p>
+<p>在上图中，阿宝哥模拟了借车的流程，小王临时有急事找阿宝哥借车子，阿宝哥家的车子刚好没用，就借给小王了。当天，小秦也需要用车子，也找阿宝哥借车，因为阿宝哥家里只有一辆车子，所以就没有车可借了。</p>
+<p>对于车子来说，它虽然给生活带来了很大的便利，但养车也需要一笔不小的费用（车位费、油费和保养费等），所以阿宝哥家里只有一辆车子。在开发软件系统时，如果遇到创建对象时耗时过多或耗资源过多，但又经常用到的对象，我们就可以考虑使用单例模式。</p>
+<p>下面我们来看一下如何使用 TypeScript 来实现单例模式。</p>
+<p><strong>3.1 实现代码</strong></p>
+<pre><code class="language-js">class Singleton {
+// 定义私有的静态属性，来保存对象实例
+private static singleton: Singleton;
+private constructor() {}
+
+// 提供一个静态的方法来获取对象实例
+public static getInstance(): Singleton {
+if (!Singleton.singleton) {
+Singleton.singleton = new Singleton();
+}
+return Singleton.singleton;
+}
+}</code></pre>
+<p><strong>3.2 使用示例</strong></p>
+<pre><code class="language-js">let instance1 = Singleton.getInstance();
+let instance2 = Singleton.getInstance();
+
+console.log(instance1 === instance2); // true</code></pre>
+<p><strong>3.3 应用场景</strong></p>
+<ul>
+<li>需要频繁实例化然后销毁的对象。</li>
+<li>创建对象时耗时过多或耗资源过多，但又经常用到的对象。</li>
+<li>系统只需要一个实例对象，如系统要求提供一个唯一的序列号生成器或资源管理器，或者需要考虑资源消耗太大而只允许创建一个对象。</li>
+</ul>
+<blockquote>
+<p>继续阅读：TypeScript <a href="https://mp.weixin.qq.com/s/nr20pZzRPSph42mK8F_zHQ">设计模式之单例模式</a></p>
+</blockquote>
+<h3 id="四、适配器模式">四、适配器模式</h3>
+<p>在实际生活中，也存在适配器的使用场景，比如：港式插头转换器、电源适配器和 USB 转接口。而在软件工程中，适配器模式的作用是解决两个软件实体间的接口不兼容的问题。 使用适配器模式之后，原本由于接口不兼容而不能工作的两个软件实体就可以一起工作。</p>
+<p><img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/119.%E5%9B%BE%E8%A7%A39%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/adapter.jpeg" alt="adapter"></p>
+<p><strong>4.1 实现代码</strong></p>
+<pre><code class="language-js">interface Logger {
+info(message: string): Promise&lt;void&gt;;
+}
+
+interface CloudLogger {
+sendToServer(message: string, type: string): Promise&lt;void&gt;;
+}
+
+class AliLogger implements CloudLogger {
+public async sendToServer(message: string, type: string): Promise&lt;void&gt; {
+console.info(message);
+console.info(&#39;This Message was saved with AliLogger&#39;);
+}
+}
+
+class CloudLoggerAdapter implements Logger {
+protected cloudLogger: CloudLogger;
+
+constructor (cloudLogger: CloudLogger) {
+this.cloudLogger = cloudLogger;
+}
+
+public async info(message: string): Promise&lt;void&gt; {
+await this.cloudLogger.sendToServer(message, &#39;info&#39;);
+}
+}
+
+class NotificationService {
+protected logger: Logger;
+
+constructor (logger: Logger) {
+ this.logger = logger;
+}
+
+public async send(message: string): Promise&lt;void&gt; {
+await this.logger.info(`Notification sended: ${message}`);
+}
+}</code></pre>
+<p>在以上代码中，因为 Logger 和 CloudLogger 这两个接口不匹配，所以我们引入了 CloudLoggerAdapter 适配器来解决兼容性问题。</p>
+<h4 id="42-使用示例">4.2 使用示例</h4>
+<pre><code class="language-js">(async () =&gt; {
+  const aliLogger = new AliLogger();
+  const cloudLoggerAdapter = new CloudLoggerAdapter(aliLogger);
+  const notificationService = new NotificationService(cloudLoggerAdapter);
+  await notificationService.send(&quot;Hello semlinker, To Cloud&quot;);
+})();</code></pre>
+<h4 id="43-应用场景及案例">4.3 应用场景及案例</h4>
+<ul>
+<li>以前开发的系统存在满足新系统功能需求的类，但其接口同新系统的接口不一致。</li>
+<li>使用第三方提供的组件，但组件接口定义和自己要求的接口定义不同。</li>
+<li><a href="https://github.com/ctimmerm/axios-mock-adapter">Github - axios-mock-adapter：https://github.com/ctimmerm/a...</a></li>
+</ul>
+<blockquote>
+<p>继续阅读：<a href="https://mp.weixin.qq.com/s/sxPtZrJQyObkblCOXTjxug">TypeScript 设计模式之适配器模式</a></p>
+</blockquote>
+<h3 id="五、观察者模式--发布订阅模式">五、观察者模式 &amp; 发布订阅模式</h3>
+<h4 id="51-观察者模式">5.1 观察者模式</h4>
+<p>观察者模式，它定义了一种一对多的关系，让多个观察者对象同时监听某一个主题对象，这个主题对象的状态发生变化时就会通知所有的观察者对象，使得它们能够自动更新自己。</p>
+<p>在观察者模式中有两个主要角色：Subject（主题）和 Observer（观察者）。</p>
+<p><img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/119.%E5%9B%BE%E8%A7%A39%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/observer.jpeg" alt="observer"></p>
+<p>在上图中，Subject（主题）就是阿宝哥的 TS 专题文章，而观察者就是小秦和小王。由于观察者模式支持简单的广播通信，当消息更新时，会自动通知所有的观察者。</p>
+<p>下面我们来看一下如何使用 TypeScript 来实现观察者模式。</p>
+<p><strong>5.1.1 实现代码</strong></p>
+<pre><code class="language-js">interface Observer {
+notify: Function;
+}
+
+class ConcreteObserver implements Observer{
+constructor(private name: string) {}
+
+notify() {
+console.log(`${this.name} has been notified.`);
+}
+}
+
+class Subject {
+private observers: Observer[] = [];
+
+public addObserver(observer: Observer): void {
+console.log(observer, &quot;is pushed!&quot;);
+this.observers.push(observer);
+}
+
+public deleteObserver(observer: Observer): void {
+console.log(&quot;remove&quot;, observer);
+const n: number = this.observers.indexOf(observer);
+n != -1 &amp;&amp; this.observers.splice(n, 1);
+}
+
+public notifyObservers(): void {
+console.log(&quot;notify all the observers&quot;, this.observers);
+this.observers.forEach(observer =&gt; observer.notify());
+}
+}</code></pre>
+<p><strong>5.1.2 使用示例</strong></p>
+<pre><code class="language-js">const subject: Subject = new Subject();
+const xiaoQin = new ConcreteObserver(&quot;小秦&quot;);
+const xiaoWang = new ConcreteObserver(&quot;小王&quot;);
+subject.addObserver(xiaoQin);
+subject.addObserver(xiaoWang);
+subject.notifyObservers();
+
+subject.deleteObserver(xiaoQin);
+subject.notifyObservers();</code></pre>
+<p><strong>5.1.3 应用场景及案例</strong></p>
+<ul>
+<li>一个对象的行为依赖于另一个对象的状态。或者换一种说法，当被观察对象（目标对象）的状态发生改变时 ，会直接影响到观察对象的行为。</li>
+<li><a href="https://github.com/ReactiveX/rxjs/blob/master/src/internal/Subject.ts">RxJS Subject：https://github.com/ReactiveX/...</a></li>
+<li><a href="https://rxjs.dev/guide/subject">RxJS Subject 文档：https://rxjs.dev/guide/subject</a></li>
+</ul>
+<blockquote>
+<p>继续阅读：<a href="https://mp.weixin.qq.com/s/XZVNfkuydrHQbkaOo-wxtw">TypeScript 设计模式之观察者模式</a></p>
+</blockquote>
+<h4 id="52-发布订阅模式">5.2 发布订阅模式</h4>
+<p>在软件架构中，发布/订阅是一种消息范式，消息的发送者（称为发布者）不会将消息直接发送给特定的接收者（称为订阅者）。而是将发布的消息分为不同的类别，然后分别发送给不同的订阅者。 同样的，订阅者可以表达对一个或多个类别的兴趣，只接收感兴趣的消息，无需了解哪些发布者存在。</p>
+<p>在发布订阅模式中有三个主要角色：Publisher（发布者）、 Channels（通道）和 Subscriber（订阅者）。</p>
+<p>image</p>
+<p>在上图中，Publisher（发布者）是阿宝哥，Channels（通道）中 Topic A 和 Topic B 分别对应于 TS 专题和 Deno 专题，而 Subscriber（订阅者）就是小秦、小王和小池。</p>
+<p>下面我们来看一下如何使用 TypeScript 来实现发布订阅模式。</p>
+<p><strong>5.2.1 实现代码</strong></p>
+<pre><code class="language-js">type EventHandler = (...args: any[]) =&gt; any;
+
+class EventEmitter {
+private c = new Map&lt;string, EventHandler[]&gt;();
+
+// 订阅指定的主题
+subscribe(topic: string, ...handlers: EventHandler[]) {
+let topics = this.c.get(topic);
+if (!topics) {
+this.c.set(topic, topics = []);
+}
+topics.push(...handlers);
+}
+
+// 取消订阅指定的主题
+unsubscribe(topic: string, handler?: EventHandler): boolean {
+if (!handler) {
+return this.c.delete(topic);
+}
+
+    const topics = this.c.get(topic);
+    if (!topics) {
+      return false;
+    }
+
+    const index = topics.indexOf(handler);
+
+    if (index &lt; 0) {
+      return false;
+    }
+    topics.splice(index, 1);
+    if (topics.length === 0) {
+      this.c.delete(topic);
+    }
+    return true;
+
+}
+
+// 为指定的主题发布消息
+publish(topic: string, ...args: any[]): any[] | null {
+const topics = this.c.get(topic);
+if (!topics) {
+return null;
+}
+return topics.map(handler =&gt; {
+try {
+return handler(...args);
+} catch (e) {
+console.error(e);
+return null;
+}
+});
+}
+}</code></pre>
+<p><strong>5.2.2 使用示例</strong></p>
+<pre><code class="language-js">const eventEmitter = new EventEmitter();
+eventEmitter.subscribe(&quot;ts&quot;, (msg) =&gt; console.log(`收到订阅的消息：${msg}`));
+
+eventEmitter.publish(&quot;ts&quot;, &quot;TypeScript 发布订阅模式&quot;);
+eventEmitter.unsubscribe(&quot;ts&quot;);
+eventEmitter.publish(&quot;ts&quot;, &quot;TypeScript 发布订阅模式&quot;);</code></pre>
+<p><strong>5.2.3 应用场景</strong></p>
+<ul>
+<li>对象间存在一对多关系，一个对象的状态发生改变会影响其他对象。</li>
+<li>作为事件总线，来实现不同组件间或模块间的通信。</li>
+<li><a href="https://github.com/ustbhuangyi/better-scroll/blob/dev/packages/shared-utils/src/events.ts">BetterScroll - EventEmitter：https://github.com/ustbhuangy...</a></li>
+<li><a href="https://mp.weixin.qq.com/s/N4iw3bi0bxJ57J8EAp5ctQ">EventEmitter 在插件化架构的应用：https://mp.weixin.qq.com/s/N4...</a></li>
+</ul>
+<p>继续阅读：<a href="https://mp.weixin.qq.com/s/NGrkTBIidrcxX-FvH0mSng">如何优雅的实现消息通信？</a></p>
+<h3 id="六、策略模式">六、策略模式</h3>
+<p>策略模式（Strategy Pattern）定义了一系列的算法，把它们一个个封装起来，并且使它们可以互相替换。策略模式的重心不是如何实现算法，而是如何组织、调用这些算法，从而让程序结构更灵活、可维护、可扩展。</p>
+<p><img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/119.%E5%9B%BE%E8%A7%A39%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/strategy1.jpeg" alt="Strategy"></p>
+<p>目前在一些主流的 Web 站点中，都提供了多种不同的登录方式。比如账号密码登录、手机验证码登录和第三方登录。为了方便维护不同的登录方式，我们可以把不同的登录方式封装成不同的登录策略。</p>
+<p>下面我们来看一下如何使用策略模式来封装不同的登录方式。</p>
+<h4 id="61-实现代码">6.1 实现代码</h4>
+<p>为了更好地理解以下代码，我们先来看一下对应的 UML 类图：</p>
+<p><img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/119.%E5%9B%BE%E8%A7%A39%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/strategy2.jpeg" alt="Strategy"></p>
+<pre><code class="language-js">interface Strategy {
+  authenticate(...args: any): any;
+}
+
+class Authenticator {
+  strategy: any;
+  constructor() {
+    this.strategy = null;
+  }
+
+  setStrategy(strategy: any) {
+    this.strategy = strategy;
+  }
+
+  authenticate(...args: any) {
+    if (!this.strategy) {
+      console.log(&quot;尚未设置认证策略&quot;);
+      return;
+    }
+    return this.strategy.authenticate(...args);
+  }
+}
+
+class WechatStrategy implements Strategy {
+  authenticate(wechatToken: string) {
+    if (wechatToken !== &quot;123&quot;) {
+      console.log(&quot;无效的微信用户&quot;);
+      return;
+    }
+    console.log(&quot;微信认证成功&quot;);
+  }
+}
+
+class LocalStrategy implements Strategy {
+  authenticate(username: string, password: string) {
+    if (username !== &quot;abao&quot; &amp;&amp; password !== &quot;123&quot;) {
+      console.log(&quot;账号或密码错误&quot;);
+      return;
+    }
+    console.log(&quot;账号和密码认证成功&quot;);
+  }
+}</code></pre>
+<p><strong>6.2 使用示例</strong></p>
+<pre><code class="language-js">const auth = new Authenticator();
+
+auth.setStrategy(new WechatStrategy());
+auth.authenticate(&quot;123456&quot;);
+
+auth.setStrategy(new LocalStrategy());
+auth.authenticate(&quot;abao&quot;, &quot;123&quot;);</code></pre>
+<p><strong>6.3 应用场景及案例</strong></p>
+<ul>
+<li>一个系统需要动态地在几种算法中选择一种时，可将每个算法封装到策略类中。</li>
+<li>多个类只区别在表现行为不同，可以使用策略模式，在运行时动态选择具体要执行的行为。</li>
+<li>一个类定义了多种行为，并且这些行为在这个类的操作中以多个条件语句的形式出现，可将每个条件分支移入它们各自的策略类中以代替这些条件语句。</li>
+<li><a href="https://github.com/jaredhanson/passport-local">Github - passport-local：https://github.com/jaredhanso...</a></li>
+<li><a href="https://github.com/jaredhanson/passport-oauth2">Github - passport-oauth2：https://github.com/jaredhanso...</a></li>
+<li><a href="https://github.com/vriad/zod/blob/master/src/types/string.ts">Github - zod：https://github.com/vriad/zod/...</a></li>
+</ul>
+<h3 id="七、责任链模式">七、责任链模式</h3>
+<p>责任链模式是使多个对象都有机会处理请求，从而避免请求的发送者和接受者之间的耦合关系。在职责链模式里，很多对象由每一个对象对其下家的引用而连接起来形成一条链。请求在这个链上传递，直到链上的某一个对象决定处理此请求。</p>
+<p><img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/119.%E5%9B%BE%E8%A7%A39%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/responsibility1.jpeg" alt="responsibility">
+在公司中不同的岗位拥有不同的职责与权限。以上述的请假流程为例，当阿宝哥请 1 天假时，只要组长审批就可以了，不需要流转到主管和总监。如果职责链上的某个环节无法处理当前的请求，若含有下个环节，则会把请求转交给下个环节来处理。</p>
+<p>在日常的软件开发过程中，对于职责链来说，一种常见的应用场景是中间件，下面我们来看一下如何利用职责链来处理请求。</p>
+<h4 id="71-实现代码">7.1 实现代码</h4>
+<p>为了更好地理解以下代码，我们先来看一下对应的 UML 类图：</p>
+<p><img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/119.%E5%9B%BE%E8%A7%A39%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/responsibility2.jpeg" alt="responsibility"></p>
+<pre><code class="language-js">
+class Request {
+  // private type: string;
+  // private data: any;
+  constructor(private type: string, private data: any) {
+    this.type = type;
+    this.data = data;
+  }
+
+  getType() {
+    return this.type;
+  }
+
+  getData() {
+    return this.data;
+  }
+}
+
+interface Handler {
+  // 返回Boolean.TRUE = 成功
+  // 返回Boolean.FALSE = 拒绝
+  // 返回null = 交下一个处理
+  process: (request: Request) =&gt; boolean | null;
+}
+
+class PngLoader implements Handler {
+  process(request: Request) {
+    if (request.getType() === &quot;png&quot;) {
+      console.log(&quot;this is png&quot;);
+      return true;
+    }
+    return null;
+  }
+}
+
+class JsonLoader implements Handler {
+  process(request: Request) {
+    if (request.getType() === &quot;png&quot;) {
+      console.log(&quot;this is json&quot;);
+      return true;
+    }
+    return null;
+  }
+}
+class PdfLoader implements Handler {
+  process(request: Request) {
+    if (request.getType() === &quot;png&quot;) {
+      if (request.getData()) {
+        console.log(&quot;this is pdf&quot;);
+        return true;
+      }
+
+      return false;
+    }
+    return null;
+  }
+}
+
+class HandlerChain {
+  private handlers: Handler[] = [];
+
+  addHandler(handler: Handler) {
+    this.handlers.push(handler);
+  }
+
+  process(request: Request) {
+    this.handlers.forEach((handler) =&gt; {
+      handler.process(request);
+    });
+  }
+}
+
+const handlerChain = new HandlerChain();
+handlerChain.addHandler(new PngLoader());
+handlerChain.addHandler(new JsonLoader());
+handlerChain.addHandler(new PdfLoader());
+handlerChain.process(new Request(&quot;png&quot;, &quot;test&quot;));
+handlerChain.process(new Request(&quot;json&quot;, &quot;test&quot;));
+handlerChain.process(new Request(&quot;pdf&quot;, &quot;test&quot;));
+</code></pre>
+<h4 id="72-应用场景">7.2 应用场景</h4>
+<ul>
+<li>可处理一个请求的对象集合应被动态指定。</li>
+<li>想在不明确指定接收者的情况下，向多个对象中的一个提交一个请求。</li>
+<li>有多个对象可以处理一个请求，哪个对象处理该请求运行时自动确定，客户端只需要把请求提交到链上即可。</li>
+</ul>
+<h3 id="八、模板方法模式">八、模板方法模式</h3>
+<p>模板方法模式由两部分结构组成：抽象父类和具体的实现子类。通常在抽象父类中封装了子类的算法框架，也包括实现一些公共方法以及封装子类中所有方法的执行顺序。子类通过继承这个抽象类，也继承了整个算法结构，并且可以选择重写父类的方法。</p>
+<p><img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/119.%E5%9B%BE%E8%A7%A39%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/template1.jpeg" alt="template">
+在上图中，阿宝哥通过使用不同的解析器来分别解析 CSV 和 Markup 文件。虽然解析的是不同的类型的文件，但文件的处理流程是一样的。这里主要包含读取文件、解析文件和打印数据三个步骤。针对这个场景，我们就可以引入模板方法来封装以上三个步骤的处理顺序。</p>
+<p>下面我们来看一下如何使用模板方法来实现上述的解析流程。</p>
+<h4 id="81-实现代码">8.1 实现代码</h4>
+<p>为了更好地理解以下代码，我们先来看一下对应的 UML 类图：</p>
+<p><img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/119.%E5%9B%BE%E8%A7%A39%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/template2.jpeg" alt="template"></p>
+<pre><code class="language-js">import fs from &#39;fs&#39;;
+
+abstract class DataParser {
+data: string = &#39;&#39;;
+out: any = null;
+
+// 这就是所谓的模板方法
+parse(pathUrl: string) {
+this.readFile(pathUrl);
+this.doParsing();
+this.printData();
+}
+
+readFile(pathUrl: string) {
+this.data = fs.readFileSync(pathUrl, &#39;utf8&#39;);
+}
+
+abstract doParsing(): void;
+
+printData() {
+console.log(this.out);
+}
+}
+
+class CSVParser extends DataParser {
+doParsing() {
+this.out = this.data.split(&#39;,&#39;);
+}
+}
+
+class MarkupParser extends DataParser {
+doParsing() {
+this.out = this.data.match(/&lt;\w+&gt;.\*&lt;\/\w+&gt;/gim);
+}
+}</code></pre>
+<h4 id="82-使用示例">8.2 使用示例</h4>
+<pre><code class="language-js">const csvPath = &quot;./data.csv&quot;;
+const mdPath = &quot;./design-pattern.md&quot;;
+
+new CSVParser().parse(csvPath);
+new MarkupParser().parse(mdPath);</code></pre>
+<h4 id="83-应用场景">8.3 应用场景</h4>
+<ul>
+<li>算法的整体步骤很固定，但其中个别部分易变时，这时候可以使用模板方法模式，将容易变的部分抽象出来，供子类实现。</li>
+<li>当需要控制子类的扩展时，模板方法只在特定点调用钩子操作，这样就只允许在这些点进行扩展。</li>
+</ul>
+<h3 id="九、参考资源">九、参考资源</h3>
+<ul>
+<li><a href="https://zh.wikipedia.org/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F_(%E8%AE%A1%E7%AE%97%E6%9C%BA">设计模式</a></li>
+<li><a href="http://c.biancheng.net/design_pattern/">Java 设计模式：23 种设计模式全面解析</a></li>
+<li><a href="https://dev.to/anuraghazra/design-patterns-everyday-53m0">Design Patterns Everyday</a></li>
+</ul>
+<p><a href="https://segmentfault.com/a/1190000030850326">引自</a></p>

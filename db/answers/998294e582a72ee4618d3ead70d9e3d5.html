@@ -1,0 +1,11 @@
+<p>如何把一个字符串的大小写取反（大写变小写小写变大写），例如 ’AbC&#39; 变成 &#39;aBc&#39; 。</p>
+<pre><code class="language-js">function processString(s) {
+  var arr = s.split(&quot;&quot;);
+  var new_arr = arr.map((item) =&gt; {
+    return item === item.toUpperCase()
+      ? item.toLowerCase()
+      : item.toUpperCase();
+  });
+  return new_arr.join(&quot;&quot;);
+}
+console.log(processString(&quot;AbC&quot;));</code></pre>

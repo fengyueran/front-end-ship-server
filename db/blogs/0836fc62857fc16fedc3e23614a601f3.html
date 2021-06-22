@@ -37,13 +37,17 @@ console.log(girl1.age); // -&gt; 18
 console.log(girl2.age); // -&gt; 20</code></pre><h3 id="深拷贝"><strong>深拷贝</strong></h3>
 <p>深拷贝，其关键字就是深，原有对象在进行深拷贝时会将各层属性拷贝到新的内存，新实例的每一层属性都都不和原对象属性共享内存，也就是说新的实例和旧的实例是互不影响的。
 深拷贝简单实现:</p>
-<pre><code>function deepCopy(target){
-  if (typeof target === &#39;object&#39;) {
-    var copyTarget = target.constructor === &#39;Array&#39; ? [] : {};
-    for (key in target) {
+<pre><code class="language-js">function deepCopy(target) {
+  if (typeof target === &quot;object&quot;) {
+    var copyTarget = target.constructor === &quot;Array&quot; ? [] : {};
+    const keys = [
+      ...Object.getOwnPropertyNames(target),
+      ...Object.getOwnPropertySymbols(target), //symbol为key
+    ];
+    for (key of keys) {
       copyTarget[key] = target[key];
-      if (typeof target[key] === &#39;object&#39;) {
-         copyTarget[key] = deepCopy(target[key]);
+      if (typeof target[key] === &quot;object&quot;) {
+        copyTarget[key] = deepCopy(target[key]);
       } else {
         copyTarget[key] = target[key];
       }
@@ -52,13 +56,14 @@ console.log(girl2.age); // -&gt; 20</code></pre><h3 id="深拷贝"><strong>深�
   }
 }
 
-var obj = { a: 1, b: { c: 2, d: 3 }};
+var obj = { a: 1, b: { c: 2, d: 3 } };
 var copyObj = deepCopy(obj);
 obj.b.c = 6;
 console.log(obj.b.c); // 6
 console.log(copyObj.b.c); // 2
 console.log(obj === copyObj); // false
-console.log(obj.b === copyObj.b); // false</code></pre><h3 id="浅拷贝"><strong>浅拷贝</strong></h3>
+console.log(obj.b === copyObj.b); // false</code></pre>
+<h3 id="浅拷贝"><strong>浅拷贝</strong></h3>
 <p>浅拷贝只拷贝对象的地址，通过地址来指向原对象。前述的引用传递就是一种浅拷贝，此外在对对象进行拷贝时只对第一层进行深拷贝，其他层级对对象仍然采用拷贝地址的方式进行复制，这也称为浅拷贝。</p>
 <p>浅拷贝简单实现:</p>
 <pre><code>function shallowCopy(target){

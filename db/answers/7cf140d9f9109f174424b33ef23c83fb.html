@@ -1,14 +1,209 @@
-<blockquote>
-<p>观察者模式 在软件设计中是一个对象，维护一个依赖列表，当任何状态发生改变自动通知它们。</p>
-</blockquote>
-<blockquote>
-<p>在发布-订阅模式，是一种消息传播模式，消息的发送方，叫做发布者（publishers），消息不会直接发送给特定的接收者(订阅者)。而是将发布的消息按特征分类，无需对订阅者（如果有的话）有所了解。同样的，订阅者可以表达对一个或多个类别的兴趣，只接收感兴趣的消息，无需对发布者（如果有的话）有所了解。</p>
-</blockquote>
-<p>观察者模式中主体(Subject)和观察者(Observer)是互相感知的，发布-订阅模式是借助第三方来实现调度的，发布者和订阅者之间互不感知。观察者模式大多数时候是同步的，比如当事件触发，Subject 就会去调用观察者的方法。而发布-订阅模式大多数时候是异步的（使用消息队列）。</p>
- <center><img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/77.%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F%E5%92%8C%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85/%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85vs%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F.png" /></center>
-
+<p>观察者模式和发布订阅模式在实际项目中非常常见，很多优秀的三方库也是借鉴了这两种设计模式的思想 —— 比如 RxJS，Redux 等</p>
+<p>不少公司也喜欢让候选人手撸代码写一个观察者模式或发布订阅模式。</p>
+<p>假如面试官问你：“观察者模式和发布订阅模式是同一个设计模式吗？”</p>
+<p>你会怎么回答？</p>
+<p>本文主要内容分为：</p>
 <ul>
-<li><p>在观察者模式中，观察者是知道 Subject 的，Subject 一直保持对观察者进行记录。然而，在发布订阅模式中，发布者和订阅者不知道对方的存在。它们只有通过消息代理进行通信。</p>
+<li>形象的例子阐释什么是观察者模式和发布订阅模式</li>
+<li>使用 JavaScript 实现简单的观察者模式和发布订阅模式</li>
+<li>进一步描述观察者模式和发布订阅模式的特点和差异</li>
+</ul>
+<h3 id="什么是观察者模式？">什么是观察者模式？</h3>
+<p>在观察者模式中，有两个角色：1. Subject 2. Observer（观察者）</p>
+<p><strong>一个例子：</strong></p>
+<p>Tony 是个非常向往 X 公司 的程序员，但是 X 公司 的 HR 跟你说：“非常抱歉，我们公司最近的 HC(名额) 不足。”</p>
+<p>于是，Tony 真诚地跟 HR 说“假如贵司有合适岗位，务必及时通知我！”</p>
+<p>一个月后，HR 打电话通知 Tony：“我们公司现在有合适你的岗位了，欢迎来面试！”</p>
+<p>上面这个场景中，HR 就是 Subject 而 Tony 是 Observer；当 Tony 跟 HR 说有岗位就通知他，作为 Observer Tony 正在向 Subject 订阅（subscribe）；而 HR 打电话通知 Tony，就是 Subject 在 notify Observer</p>
+<p>当然可能有不止一个候选人在等 X 公司的 HC，即 Observer 可以有很多个。
+<img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/77.%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F%E5%92%8C%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85/observer.jpeg" alt="observer"></p>
+<h3 id="什么是发布订阅模式">什么是发布订阅模式</h3>
+<p>发布订阅模式中，有三种角色：1. publisher （发布者） 2. subscriber （订阅者）3. broker</p>
+<p>通常还有另一个概念：topic</p>
+<p><strong>一个例子：</strong></p>
+<p>Lucy 最近想跳槽，她想去 A, B, C 三个公司中的任意一个。她发现这三家公司都在平台 Y 上发布岗位。于是她购买了平台 Y 的会员，只要这三个公司的任意一个公司发布了合适岗位，平台 Y 就会发短信通知她。一周后，平台 Y 给 Lucy 发了短信说公司 A 发了新岗位。又两天后，平台 Y 又通知 Lucy 公司 B 发了新岗位。</p>
+<p>其实除了 A、B、C 公司，D、E、F 公司也在平台 Y 上发布岗位，但是 Lucy 不感兴趣。</p>
+<p>除了 Lucy 还有很多人购买了平台 Y 的会员，平台 Y 会针对他们感兴趣的公司岗位分别通知他们。</p>
+<p>在上面这个场景中：</p>
+<p>Lucy 是 subscriber （订阅者）; A、B、C 公司是 publisher （发布者）；而 平台 Y 是 broker 。</p>
+<p>Lucy 购买平台 Y 的会员就是向 broker 订阅，且她只对 A、B、C 公司的岗位感兴趣 —— A、B、C 公司的岗位 就是 topic</p>
+<p>A、B、C 公司在平台 Y 上发布岗位时，就是向 broker 发布消息。</p>
+<p>平台 Y 通知 Lucy 时，就是 broker 向 subscriber 通知。</p>
+<p>即 publisher （发布者）在发布消息时通常会带上 topic，而 subscriber （订阅者）会订阅感兴趣的 topic。</p>
+<p>当 broker 收到发布者的消息时，会根据 topic 发给感兴趣的订阅者，其他订阅者则不会被通知到。
+<img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/77.%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F%E5%92%8C%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85/publish.jpeg" alt="publish">
+到这里，相信读者已经能分清 观察者模式 和 发布订阅模式 的主要差异了。</p>
+<h3 id="简单代码实现">简单代码实现</h3>
+<p><strong>观察者模式</strong></p>
+<pre><code class="language-js">const subject = (function() {
+  const observers = [];
+
+  function subscribe(callback) {
+    console.log(&quot;New subscription coming!&quot;);
+    observers.push(callback);
+  }
+
+  function notify(params) {
+    for (let i = 0; i &lt; observers.length; i++) {
+      try {
+        observers[i] &amp;&amp; observers[i](params);
+      } catch (error) {
+        console.error(error);
+        // 避免影响其他 observer
+      }
+    }
+  }
+
+  function fire(params) {
+    console.log(&quot;Fire!&quot;);
+    notify(params);
+  }
+
+  return {
+    subscribe,
+    fire,
+  };
+})();
+
+const observer1 = (args) =&gt; {
+  console.log(&quot;This is Observer1, Let me process the event&quot;);
+  console.log(JSON.stringify(args, null, 4));
+};
+
+const observer2 = (args) =&gt; {
+  console.log(&quot;This is Observer2, Let me process the event&quot;);
+  console.log(JSON.stringify(args, null, 4));
+};
+
+subject.subscribe(observer1);
+subject.subscribe(observer2);
+
+subject.fire({ message: &quot;hello world&quot; });
+subject.fire({ value: 2021 });</code></pre>
+<p>跑一下上面的代码，可以看到以下输出</p>
+<pre><code>New subscription coming!
+New subscription coming!
+Fire!
+This is Observer1, Let me process the event
+{
+&quot;message&quot;: &quot;hello world&quot;
+}
+This is Observer2, Let me process the event
+{
+&quot;message&quot;: &quot;hello world&quot;
+}
+Fire!
+This is Observer1, Let me process the event
+{
+&quot;value&quot;: 2021
+}
+This is Observer2, Let me process the event
+{
+&quot;value&quot;: 2021
+}</code></pre><p>发布订阅模式</p>
+<pre><code class="language-js">const broker = (function() {
+  const topicSubscribers = {};
+
+  function subscribe(topic, callback) {
+    console.log(`New subscription for topic [${topic}] coming!`);
+    if (topicSubscribers[topic]) {
+      topicSubscribers[topic].push(callback);
+    } else {
+      topicSubscribers[topic] = [callback];
+    }
+  }
+
+  function notify(topic, params) {
+    if (topicSubscribers[topic]) {
+      const subscribers = topicSubscribers[topic];
+
+      for (let i = 0; i &lt; subscribers.length; i++) {
+        try {
+          subscribers[i] &amp;&amp; subscribers[i](params);
+        } catch (error) {
+          console.error(error);
+          // 避免影响其他subscriber
+        }
+      }
+    }
+  }
+
+  function fire(topic, params) {
+    console.log(`Fire for topic [${topic}]!`);
+    notify(topic, params);
+  }
+
+  return {
+    subscribe,
+    fire,
+  };
+})();
+
+const subscriber1 = (args) =&gt; {
+  console.log(&quot;This is Subscriber1, Let me process the event&quot;);
+  console.log(JSON.stringify(args, null, 4));
+};
+broker.subscribe(&quot;topic1&quot;, subscriber1);
+
+const subscriber2 = (args) =&gt; {
+  console.log(&quot;This is Subscriber2, Let me process the event&quot;);
+  console.log(JSON.stringify(args, null, 4));
+};
+broker.subscribe(&quot;topic2&quot;, subscriber2);
+
+const publisher1 = (function() {
+  return {
+    publishTopic1: function() {
+      broker.fire(&quot;topic1&quot;, { message: &quot;Hello World&quot; });
+    },
+    publishTopic2: function() {
+      broker.fire(&quot;topic2&quot;, { value: 2021 });
+    },
+  };
+})();
+
+const publisher2 = (function() {
+  return {
+    publishTopic1: function() {
+      broker.fire(&quot;topic1&quot;, { message: &quot;Hello FreewheelLee&quot; });
+    },
+    publishTopic2: function() {
+      broker.fire(&quot;topic2&quot;, { value: 955 });
+    },
+  };
+})();
+
+publisher1.publishTopic1();
+publisher1.publishTopic2();
+
+publisher2.publishTopic1();
+publisher2.publishTopic2();</code></pre>
+<p>上面代码的输出如下：</p>
+<pre><code>New subscription for topic [topic1] coming!
+New subscription for topic [topic2] coming!
+Fire for topic [topic1]!
+This is Subscriber1, Let me process the event
+{
+&quot;message&quot;: &quot;Hello World&quot;
+}
+Fire for topic [topic2]!
+This is Subscriber2, Let me process the event
+{
+&quot;value&quot;: 2021
+}
+Fire for topic [topic1]!
+This is Subscriber1, Let me process the event
+{
+&quot;message&quot;: &quot;Hello FreewheelLee&quot;
+}
+Fire for topic [topic2]!
+This is Subscriber2, Let me process the event
+{
+&quot;value&quot;: 955
+}</code></pre><h3 id="观察者模式和发布订阅模式的特点和差异">观察者模式和发布订阅模式的特点和差异</h3>
+<p><img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/77.%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F%E5%92%8C%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85/%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85vs%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F.png" alt="difference"></p>
+<ul>
+<li><p>在观察者模式中，观察者是知道 Subject 的，Subject 一直保持对观察者进行记录。然而，在发布订阅模式中，发布者和订阅者不知道对方的存在。他们只是通过消息和 broker 进行沟通。</p>
 </li>
 <li><p>在发布订阅模式中，组件是松散耦合的，正好和观察者模式相反。</p>
 </li>
@@ -17,3 +212,9 @@
 <li><p>观察者模式需要在单个应用程序地址空间中实现，而发布-订阅更像交叉应用模式</p>
 </li>
 </ul>
+<h3 id="参考">参考</h3>
+<p><a href="https://link.zhihu.com/?target=https%3A//en.wikipedia.org/wiki/Observer_pattern">https://en.wikipedia.org/wiki/Observer_pattern</a></p>
+<p><a href="https://link.zhihu.com/?target=https%3A//medium.com/better-programming/observer-vs-pub-sub-pattern-50d3b27f838c%23%3A~%3Atext%3DIn%2520the%2520observer%2520pattern%252C%2520the%2Cmessage%2520queues%2520or%2520a%2520broker">https://medium.com</a></p>
+<p><a href="https://link.zhihu.com/?target=http%3A//developers-club.com/posts/270339/">http://developers-club.com/posts/270339/</a></p>
+<p><a href="https://link.zhihu.com/?target=https%3A//en.wikipedia.org/wiki/Publish%25E2%2580%2593subscribe_pattern%23Message_filtering">https://en.wikipedia.org/wiki/</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/351750593">引自</a></p>

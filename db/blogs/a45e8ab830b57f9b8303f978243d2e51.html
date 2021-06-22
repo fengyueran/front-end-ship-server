@@ -76,7 +76,7 @@ boy.getName();
   // 1.
   var newObj, returnObj, proto;
 
-  // 2.
+  // 2. Object(f.prototype) === f.prototype 判断是不是原始的Object类型
   proto = Object(f.prototype) === f.prototype ? f.prototype : Object.prototype;
 
   // 3.

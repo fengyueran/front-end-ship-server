@@ -114,7 +114,15 @@
       "3367c6a1b51817030bfb89fd4916d9bf",
       "22e1946f8884e31a1963c57afeb1a149",
       "7984ebcbbe81c313dde20056826fb6d3",
-      "8ebd3ec4dd1e6b92728b7a71a802367e"
+      "8ebd3ec4dd1e6b92728b7a71a802367e",
+      "bbfc23e9b02794c489b8238458e9d039",
+      "998294e582a72ee4618d3ead70d9e3d5",
+      "3b962bd0429b8eb2d42748c1e2767e2a",
+      "abc3e89a84d77b6c06ece12d0f44df08",
+      "694ebf245da46b48b3aa7ec97b415014",
+      "d083c66b64d1bfd41e1aa5c8ccbe883d",
+      "5086c825c7f605817a10730caad5cd27",
+      "7dde6149179f6bf52b3a56a97516afeb"
     ],
     "byId": {
       "f5838f1d65f228e08e8fdb013c7cf0d6": {
@@ -399,7 +407,7 @@
         "title": "JS 模块化分哪些阶段",
         "exerciseTimes": 0,
         "passRate": "--",
-        "md5": "a0338a8708b2ab443d43ced440c53412",
+        "md5": "9951e9ce4ae7de27c25a5fb1fb6092b6",
         "tags": [
           "JavaScript"
         ],
@@ -973,7 +981,7 @@
         "title": "实现promise的基本功能",
         "exerciseTimes": 0,
         "passRate": "--",
-        "md5": "b80c55a509a16a74653a752dfd9d02f5",
+        "md5": "551b8c490648b17c0ba608a607d24f6d",
         "tags": [
           "JavaScript"
         ],
@@ -1045,7 +1053,7 @@
         "title": "介绍下观察者模式和订阅-发布模式的区别，各自适用于什么场景",
         "exerciseTimes": 0,
         "passRate": "--",
-        "md5": "b51c1f17edd3d23963bdb18e1279beae",
+        "md5": "9795b4919c1a85727a773ab0ed38dad0",
         "tags": [
           "JavaScript"
         ],
@@ -1057,7 +1065,7 @@
         "title": "redux设计思想",
         "exerciseTimes": 0,
         "passRate": "--",
-        "md5": "4cd1fbf9515fa76caec6bb492e1a2ec5",
+        "md5": "86eb2b5513b3b113254f340830690061",
         "tags": [
           "JavaScript"
         ],
@@ -1093,7 +1101,7 @@
         "title": "XSS、CSRF是什么",
         "exerciseTimes": 0,
         "passRate": "--",
-        "md5": "9e5445de03f734ceb5e01360bfffbf72",
+        "md5": "d2b9b5c995b18d378715ca1abc720eb3",
         "tags": [
           "JavaScript"
         ],
@@ -1155,7 +1163,7 @@
         "title": "谈谈你对TCP三次握手和四次挥手的理解",
         "exerciseTimes": 0,
         "passRate": "--",
-        "md5": "8bef515103643499bda6881ea41b349c",
+        "md5": "4aadba5655f56960460048d3f7ec8b1a",
         "tags": [
           "Http"
         ],
@@ -1239,7 +1247,7 @@
         "title": "：变量作用域与闭包",
         "exerciseTimes": 0,
         "passRate": "--",
-        "md5": "8506546129595cf126134ebabefdb380",
+        "md5": "4e06aa32a1a1e392f9970c59fcf23156",
         "tags": [
           "JavaScript"
         ],
@@ -1483,6 +1491,88 @@
         "tags": [],
         "type": "SHORT_ANSWER",
         "date": "2020-05-06T18:10:20.000Z"
+      },
+      "bbfc23e9b02794c489b8238458e9d039": {
+        "id": "bbfc23e9b02794c489b8238458e9d039",
+        "title": "有以下 3 个判断数组的方法，请分别介绍它们之间的区别和优劣",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "3f525d90089241c39e2bd709c987a814",
+        "tags": [
+          "JavaScript"
+        ],
+        "type": "SHORT_ANSWER",
+        "date": "2020-05-06T18:10:20.000Z"
+      },
+      "998294e582a72ee4618d3ead70d9e3d5": {
+        "id": "998294e582a72ee4618d3ead70d9e3d5",
+        "title": "如何把一个字符串的大小写取反",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "00f5bdfbb6043c00bc94eca2d1657881",
+        "tags": [],
+        "type": "SHORT_ANSWER",
+        "date": "2020-05-06T18:10:20.000Z"
+      },
+      "3b962bd0429b8eb2d42748c1e2767e2a": {
+        "id": "3b962bd0429b8eb2d42748c1e2767e2a",
+        "title": "介绍下 HTTPS 中间人攻击",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "4d7b2ef699f85bf058da6120ce7ad54f",
+        "tags": [],
+        "type": "SHORT_ANSWER",
+        "date": "2020-05-06T18:10:20.000Z"
+      },
+      "abc3e89a84d77b6c06ece12d0f44df08": {
+        "id": "abc3e89a84d77b6c06ece12d0f44df08",
+        "title": "介绍下前端加密的常见场景和方法",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "94d88c5a9bcf1e478035961bfdf5e833",
+        "tags": [],
+        "type": "SHORT_ANSWER",
+        "date": "2020-05-06T18:10:20.000Z"
+      },
+      "694ebf245da46b48b3aa7ec97b415014": {
+        "id": "694ebf245da46b48b3aa7ec97b415014",
+        "title": "MVC，MVP 和 MVVM 模式如何选择",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "933bb42abc2d447d720b71724d8d4548",
+        "tags": [],
+        "type": "SHORT_ANSWER",
+        "date": "2020-05-06T18:10:20.000Z"
+      },
+      "d083c66b64d1bfd41e1aa5c8ccbe883d": {
+        "id": "d083c66b64d1bfd41e1aa5c8ccbe883d",
+        "title": "图解9种设计模式",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "7ee868dcb0cb70540f937a6f6549b088",
+        "tags": [],
+        "type": "SHORT_ANSWER",
+        "date": "2020-05-06T18:10:20.000Z"
+      },
+      "5086c825c7f605817a10730caad5cd27": {
+        "id": "5086c825c7f605817a10730caad5cd27",
+        "title": "Vuex、Flux、Redux、Redux-saga、Dva、MobX",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "9f702b452d4bf45cbb13baa7bf891c1f",
+        "tags": [],
+        "type": "SHORT_ANSWER",
+        "date": "2020-05-06T18:10:20.000Z"
+      },
+      "7dde6149179f6bf52b3a56a97516afeb": {
+        "id": "7dde6149179f6bf52b3a56a97516afeb",
+        "title": "单向数据流",
+        "exerciseTimes": 0,
+        "passRate": "--",
+        "md5": "4571b3c172a558c21e2d02f3e2577953",
+        "tags": [],
+        "type": "SHORT_ANSWER",
+        "date": "2020-05-06T18:10:20.000Z"
       }
     }
   },
@@ -1576,7 +1666,7 @@
         "id": "e24789e50b3862ca5294d69d32e569bb",
         "title": "JS常用方法",
         "date": "2016-06-05T18:10:20.000Z",
-        "md5": "5ea2f585accdc7242d998bf2acefa36d",
+        "md5": "8d4dfaf18d36901c3dabfb4d8176dc47",
         "tags": [
           "js"
         ],
@@ -1615,7 +1705,7 @@
         "id": "a45e8ab830b57f9b8303f978243d2e51",
         "title": "JavaScript中的this",
         "date": "2016-01-02T16:17:25.000Z",
-        "md5": "f2e59b43a4b73b6dfdc22fa73f4efdac",
+        "md5": "9580a972f4b12b53239a0e0aa8fd8134",
         "tags": [
           "js"
         ],
@@ -1706,7 +1796,7 @@
         "id": "0836fc62857fc16fedc3e23614a601f3",
         "title": "JavaScript中的值传递、引用传递及深浅拷贝",
         "date": "2017-05-01T18:10:20.000Z",
-        "md5": "3787fe12c7bc7631ea29f8905ffb9f91",
+        "md5": "f2a8171100d648e83d87670bf8f84333",
         "tags": [
           "JS"
         ],

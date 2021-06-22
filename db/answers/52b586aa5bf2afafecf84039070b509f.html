@@ -13,11 +13,12 @@
 </ul>
 <h3 id="iife">IIFE</h3>
 <p>使用自执行函数来编写模块化，特点：在一个单独的函数作用域中执行代码，避免变量冲突。</p>
-<pre><code>(function(){
+<pre><code class="language-js">(function() {
   return {
-    data:[]
-  }
-})()</code></pre><h3 id="commonjs-规范">CommonJS 规范</h3>
+    data: [],
+  };
+})();</code></pre>
+<h3 id="commonjs-规范">CommonJS 规范</h3>
 <p>CommonJS 是一个 JavaScript 模块化规范，最初用于服务端的 node。根据这个规范一个文件就是一个模块，其内部定义的变量函数只属于这个模块而不对外暴露。CommonJS 通过 exports(输出多个) 或 module.exports(输出一个) 来导出需要对外提供的接口，通过 require 方法来同步加载所要依赖的模块。</p>
 <ul>
 <li><p>模块定义</p>
@@ -138,7 +139,8 @@ setTimeout(() =&gt; {
 }, 2000);
 
 //main.js
-console.log(&quot;user&quot;, user); //lucy
+import { user } from &#39;./user&#39;;
+console.l og(&quot;user&quot;, user); //lucy
 setTimeout(() =&gt; {
   console.log(&quot;user&quot;, user); //lily
 }, 3000);</code></pre>

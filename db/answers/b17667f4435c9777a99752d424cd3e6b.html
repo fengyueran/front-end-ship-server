@@ -578,7 +578,7 @@ class MyPromise {
 
   static resolve = (value) =&gt; {
     if (value instanceof MyPromise) return value;
-    return new Promise((resolve) =&gt; resolve(value));
+    return new MyPromise((resolve) =&gt; resolve(value));
   };
 
   static reject(value) {

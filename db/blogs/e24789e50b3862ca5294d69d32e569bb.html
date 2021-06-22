@@ -86,7 +86,7 @@ arr.push(element1, ..., elementN)
 elementN
 被添加到数组末尾的元素。
 返回值:
-当调用该方法时，新的 length 属性值将被返回。</code></pre><p>push 方法具有通用性。该方法和 call() 或 apply() 一起使用时，可应用在类似数组的对象上。push 方法根据 length 属性来决定从哪里开始插入给定的值。如果 length 不能被转成一个数值，则插入的元素索引为 0，包括 length 不存在时。当 length 不存在时，将会创建它。</p>
+当调用该方法时，新的 length 属性值将被返回。</code></pre><p>push 方法具有通用性。该方法和 call() 或 apply() 一起使用时，可应用在类似数组的对象上。push 方法<strong>根据 length</strong> 属性来决定从哪里开始插入给定的值。如果 length 不能被转成一个数值，则插入的元素索引为 0，包括 length 不存在时。当 length 不存在时，将会创建它。</p>
 <p>唯一的原生类数组（array-like）对象是 Strings，尽管如此，它们并不适用该方法，因为字符串是不可改变的。</p>
 <pre><code class="language-js">var obj = {
   &quot;2&quot;: 3,
@@ -124,7 +124,7 @@ const v = arr.pop();
 console.log(v); // 2
 console.log(arr); // [1]</code></pre></li>
 <li><p>slice</p>
-<p>该方法返回一个新的数组对象，这个对象由一个 begin 和 end(不包括 end)决定的原数组的浅拷贝，原数组不会被改变。</p>
+<p>该方法返回一个新的数组对象，这个对象由一个 begin 和 end(不包括 end)决定的原数组的浅拷贝，<strong>原数组不会被改变</strong>。</p>
 <p><strong>语法:</strong></p>
 <pre><code>arr.slice(begin, end);</code></pre><p><strong>参数:</strong></p>
 <pre><code>begin(可选): 拷贝元素的开始位置(包含开始位置)，默认为0，如果为负数，则表示从原数组的倒数第几个元素开始拷贝。
@@ -134,7 +134,7 @@ var b = a.slice(1, 3);// [2, 3]
 var c = a.slice(1);// [2, 3, 4]
 var d = a.slice();// [1, 2, 3, 4]</code></pre></li>
 <li><p>splice</p>
-<p>该方法通过删除或替换现有元素或者原地添加新的元素来修改数组，并以数组的形式返回被修改的内容，此方法会改变原数组。</p>
+<p>该方法通过删除或替换现有元素或者原地添加新的元素来修改数组，并以数组的形式返回被修改的内容，此方法<strong>会改变原数组</strong>。</p>
 <p><strong>语法:</strong></p>
 <pre><code>array.splice(start, deleteCount, item1, item2, ...)</code></pre><p><strong>参数:</strong></p>
 <pre><code>start:
@@ -222,11 +222,11 @@ console.log(newArr);//[1, 2, 3, 4]</code></pre></li>
 函数累计处理的结果</p>
 <p><strong>实例:</strong></p>
 <pre><code class="language-js">
-const new arr = [1, 2].filter((e, index, arr)=&gt; e &gt; 1); //[2]
+const new arr = [1, 2, 3].reduce((accumulator, current)=&gt; return accumulator + current, 0); //6
 </code></pre>
 </li>
 <li><p>reverse
-该方法将数组中的元素位置颠倒，并返回颠倒后的数组，该方法会改变原数组。</p>
+该方法将数组中的元素位置颠倒，并返回颠倒后的数组，该方法会<strong>改变原数组</strong>。</p>
 <pre><code class="language-js">var a = [1, 2, 3];
 var b = a.reverse(); //[3, 2, 1];
 console.log(a); //[3, 2, 1];</code></pre>
