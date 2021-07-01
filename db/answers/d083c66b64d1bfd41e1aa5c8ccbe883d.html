@@ -216,42 +216,42 @@ console.log(instance1 === instance2); // true</code></pre>
 <p><img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/119.%E5%9B%BE%E8%A7%A39%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/adapter.jpeg" alt="adapter"></p>
 <p><strong>4.1 实现代码</strong></p>
 <pre><code class="language-js">interface Logger {
-info(message: string): Promise&lt;void&gt;;
+  info(message: string): Promise&lt;void&gt;;
 }
 
 interface CloudLogger {
-sendToServer(message: string, type: string): Promise&lt;void&gt;;
+  sendToServer(message: string, type: string): Promise&lt;void&gt;;
 }
 
 class AliLogger implements CloudLogger {
-public async sendToServer(message: string, type: string): Promise&lt;void&gt; {
-console.info(message);
-console.info(&#39;This Message was saved with AliLogger&#39;);
-}
+  public async sendToServer(message: string, type: string): Promise&lt;void&gt; {
+    console.info(message);
+    console.info(&#39;This Message was saved with AliLogger&#39;);
+  }
 }
 
 class CloudLoggerAdapter implements Logger {
-protected cloudLogger: CloudLogger;
+  protected cloudLogger: CloudLogger;
 
-constructor (cloudLogger: CloudLogger) {
-this.cloudLogger = cloudLogger;
-}
+  constructor (cloudLogger: CloudLogger) {
+    this.cloudLogger = cloudLogger;
+  }
 
-public async info(message: string): Promise&lt;void&gt; {
-await this.cloudLogger.sendToServer(message, &#39;info&#39;);
-}
+  public async info(message: string): Promise&lt;void&gt; {
+    await this.cloudLogger.sendToServer(message, &#39;info&#39;);
+  }
 }
 
 class NotificationService {
-protected logger: Logger;
+  protected logger: Logger;
 
-constructor (logger: Logger) {
- this.logger = logger;
-}
+  constructor (logger: Logger) {
+    this.logger = logger;
+  }
 
-public async send(message: string): Promise&lt;void&gt; {
-await this.logger.info(`Notification sended: ${message}`);
-}
+  public async send(message: string): Promise&lt;void&gt; {
+    await this.logger.info(`Notification sended: ${message}`);
+  }
 }</code></pre>
 <p>在以上代码中，因为 Logger 和 CloudLogger 这两个接口不匹配，所以我们引入了 CloudLoggerAdapter 适配器来解决兼容性问题。</p>
 <h4 id="42-使用示例">4.2 使用示例</h4>
@@ -331,63 +331,63 @@ subject.notifyObservers();</code></pre>
 <h4 id="52-发布订阅模式">5.2 发布订阅模式</h4>
 <p>在软件架构中，发布/订阅是一种消息范式，消息的发送者（称为发布者）不会将消息直接发送给特定的接收者（称为订阅者）。而是将发布的消息分为不同的类别，然后分别发送给不同的订阅者。 同样的，订阅者可以表达对一个或多个类别的兴趣，只接收感兴趣的消息，无需了解哪些发布者存在。</p>
 <p>在发布订阅模式中有三个主要角色：Publisher（发布者）、 Channels（通道）和 Subscriber（订阅者）。</p>
-<p>image</p>
+<p><img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/119.%E5%9B%BE%E8%A7%A39%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/publish.jpeg" alt="image"></p>
 <p>在上图中，Publisher（发布者）是阿宝哥，Channels（通道）中 Topic A 和 Topic B 分别对应于 TS 专题和 Deno 专题，而 Subscriber（订阅者）就是小秦、小王和小池。</p>
 <p>下面我们来看一下如何使用 TypeScript 来实现发布订阅模式。</p>
 <p><strong>5.2.1 实现代码</strong></p>
 <pre><code class="language-js">type EventHandler = (...args: any[]) =&gt; any;
 
 class EventEmitter {
-private c = new Map&lt;string, EventHandler[]&gt;();
+  private c = new Map&lt;string, EventHandler[]&gt;();
 
-// 订阅指定的主题
-subscribe(topic: string, ...handlers: EventHandler[]) {
-let topics = this.c.get(topic);
-if (!topics) {
-this.c.set(topic, topics = []);
-}
-topics.push(...handlers);
-}
+  // 订阅指定的主题
+  subscribe(topic: string, ...handlers: EventHandler[]) {
+    let topics = this.c.get(topic);
+    if (!topics) {
+      this.c.set(topic, topics = []);
+    }
+    topics.push(...handlers);
+  }
 
-// 取消订阅指定的主题
-unsubscribe(topic: string, handler?: EventHandler): boolean {
-if (!handler) {
-return this.c.delete(topic);
-}
+  // 取消订阅指定的主题
+  unsubscribe(topic: string, handler?: EventHandler): boolean {
+    if (!handler) {
+      return this.c.delete(topic);
+    }
 
+      const topics = this.c.get(topic);
+      if (!topics) {
+        return false;
+      }
+
+      const index = topics.indexOf(handler);
+
+      if (index &lt; 0) {
+        return false;
+      }
+      topics.splice(index, 1);
+      if (topics.length === 0) {
+        this.c.delete(topic);
+      }
+      return true;
+
+  }
+
+  // 为指定的主题发布消息
+  publish(topic: string, ...args: any[]): any[] | null {
     const topics = this.c.get(topic);
     if (!topics) {
-      return false;
+      return null;
     }
-
-    const index = topics.indexOf(handler);
-
-    if (index &lt; 0) {
-      return false;
-    }
-    topics.splice(index, 1);
-    if (topics.length === 0) {
-      this.c.delete(topic);
-    }
-    return true;
-
-}
-
-// 为指定的主题发布消息
-publish(topic: string, ...args: any[]): any[] | null {
-const topics = this.c.get(topic);
-if (!topics) {
-return null;
-}
-return topics.map(handler =&gt; {
-try {
-return handler(...args);
-} catch (e) {
-console.error(e);
-return null;
-}
-});
-}
+    return topics.map(handler =&gt; {
+      try {
+        return handler(...args);
+      } catch (e) {
+        console.error(e);
+        return null;
+      }
+    });
+  }
 }</code></pre>
 <p><strong>5.2.2 使用示例</strong></p>
 <pre><code class="language-js">const eventEmitter = new EventEmitter();
@@ -576,38 +576,38 @@ handlerChain.process(new Request(&quot;pdf&quot;, &quot;test&quot;));
 <pre><code class="language-js">import fs from &#39;fs&#39;;
 
 abstract class DataParser {
-data: string = &#39;&#39;;
-out: any = null;
+    data: string = &#39;&#39;;
+    out: any = null;
 
-// 这就是所谓的模板方法
-parse(pathUrl: string) {
-this.readFile(pathUrl);
-this.doParsing();
-this.printData();
-}
+    // 这就是所谓的模板方法
+    parse(pathUrl: string) {
+      this.readFile(pathUrl);
+      this.doParsing();
+      this.printData();
+    }
 
-readFile(pathUrl: string) {
-this.data = fs.readFileSync(pathUrl, &#39;utf8&#39;);
-}
+    readFile(pathUrl: string) {
+      this.data = fs.readFileSync(pathUrl, &#39;utf8&#39;);
+    }
 
-abstract doParsing(): void;
+    abstract doParsing(): void;
 
-printData() {
-console.log(this.out);
-}
-}
+    printData() {
+      console.log(this.out);
+    }
+  }
 
-class CSVParser extends DataParser {
-doParsing() {
-this.out = this.data.split(&#39;,&#39;);
-}
-}
+  class CSVParser extends DataParser {
+    doParsing() {
+      this.out = this.data.split(&#39;,&#39;);
+    }
+  }
 
-class MarkupParser extends DataParser {
-doParsing() {
-this.out = this.data.match(/&lt;\w+&gt;.\*&lt;\/\w+&gt;/gim);
-}
-}</code></pre>
+  class MarkupParser extends DataParser {
+    doParsing() {
+      this.out = this.data.match(/&lt;\w+&gt;.\*&lt;\/\w+&gt;/gim);
+    }
+  }</code></pre>
 <h4 id="82-使用示例">8.2 使用示例</h4>
 <pre><code class="language-js">const csvPath = &quot;./data.csv&quot;;
 const mdPath = &quot;./design-pattern.md&quot;;

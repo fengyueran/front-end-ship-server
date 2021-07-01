@@ -116,12 +116,12 @@ if (options.hotOnly) {
 <pre><code class="language-js">// node*modules/webpack-dev-server/lib/Server.js
 // 绑定监听事件
 setupHooks() {
-    const {done} = compiler.hooks;
-    // 监听 webpack 的 done 钩子，tapable 提供的监听方法
-    done.tap(&#39;webpack-dev-server&#39;, (stats) =&gt; {
-    this.\_sendStats(this.sockets, this.getStats(stats));
-    this.\_stats = stats;
-    });
+  const { done } = compiler.hooks;
+  // 监听 webpack 的 done 钩子，tapable 提供的监听方法
+  done.tap(&#39;webpack-dev-server&#39;, (stats) =&gt; {
+    this._sendStats(this.sockets, this.getStats(stats));
+    this._stats = stats;
+  });
 };</code></pre>
 <p>当监听到一次 webpack 编译结束，就会调用_sendStats 方法通过 websocket 给浏览器发送通知，ok 和 hash 事件，这样浏览器就可以拿到最新的 hash 值了，做检查更新逻辑。
 // 通过 websoket 给客户端发消息</p>

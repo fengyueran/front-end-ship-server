@@ -13,5 +13,5 @@
 <li>根据处理后的 AST 再生成代码字符串</li>
 </ul>
 <p>基于此，其实我们自己就可以实现一个简单的“编译器”，用于把 ES6 代码转成 ES5。</p>
-<p>比如，可以使用 @babel/parser 的 parse 方法，将代码字符串解析成 AST；使用 @babel/core 的 transformFromAstSync 方法，对 AST 进行处理，将其转成 ES5 并生成相应的代码字符串；过程中，可能还需要使用 @babel/traverse 来获取依赖文件等。对此感兴趣的可以看看这个。</p>
+<p>比如，可以使用 @babel/parser 的 parse 方法，将代码字符串解析成 AST；使用 @babel/core 的 transformFromAstSync 方法，对 AST 进行处理，将其转成 ES5 并生成相应的代码字符串；过程中，可能还需要使用 @babel/traverse 来获取依赖文件等。对此感兴趣的可以看看<a href="https://github.com/FishPlusOrange/easy-webpack">这个</a>。</p>
 <p>如果有误，希望可以帮忙指出来，多谢。</p>
