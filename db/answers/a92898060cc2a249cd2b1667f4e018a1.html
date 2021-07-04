@@ -47,12 +47,12 @@
 </ol>
 <p>自然我们就能想到，把 state 提取出来，存在 useState 外面。</p>
 <p>demo3：<a href="https://codesandbox.io/s/q9wq6w5k3w">https://codesandbox.io/s/q9wq6w5k3w</a></p>
-<pre><code class="language-js">var \_state; // 把 state 存储在外面
+<pre><code class="language-js">var _state; // 把 state 存储在外面
 
 function useState(initialValue) {
-  \_state = \_state || initialValue; // 如果没有 \_state，说明是第一次执行，把 initialValue 复制给它
+  _state = _state || initialValue; // 如果没有 _state，说明是第一次执行，把 initialValue 复制给它
   function setState(newState) {
-    \_state = newState;
+    _state = newState;
     render();
   }
   return [_state, setState];
@@ -71,14 +71,14 @@ function useState(initialValue) {
 如果 dependencies 存在，只有当它发生了变化， callback 才会执行
 我们来实现一个 useEffect</p>
 <p>demo5：<a href="https://codesandbox.io/s/3kv3zlvzl1">https://codesandbox.io/s/3kv3zlvzl1</a></p>
-<pre><code class="language-js">let _deps; // \_deps 记录 useEffect 上一次的 依赖
+<pre><code class="language-js">let _deps; // _deps 记录 useEffect 上一次的 依赖
 
 function useEffect(callback, depArray) {
   const hasNoDeps = !depArray; // 如果 dependencies 不存在
   const hasChangedDeps = _deps
-    ? !depArray.every((el, i) =&gt; el === \_deps[i]) // 两次的 dependencies 是否完全相等
+    ? !depArray.every((el, i) =&gt; el === _deps[i]) // 两次的 dependencies 是否完全相等
     : true;
-  /_ 如果 dependencies 不存在，或者 dependencies 有变化_/;
+  // 如果 dependencies 不存在，或者 dependencies 有变化;
   if (hasNoDeps || hasChangedDeps) {
     callback();
     _deps = depArray;
@@ -127,16 +127,16 @@ function useEffect(callback, depArray) {
 <p>我们用图来描述 memoizedState 及 cursor 变化的过程。</p>
 <ol>
 <li><p>初始化
-​ <img src="%5Bhttp://blog-bed.oss-cn-beijing.aliyuncs.com/94.reacthook%E5%8E%9F%E7%90%86/useeffect1.png" alt="useEffect"></p>
+​ <img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/94.reacthook%E5%8E%9F%E7%90%86/useeffect1.png" alt="useEffect"></p>
 </li>
 <li><p>初次渲染
-<img src="%5Bhttp://blog-bed.oss-cn-beijing.aliyuncs.com/94.reacthook%E5%8E%9F%E7%90%86/useeffect2.png" alt="useEffect"></p>
+<img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/94.reacthook%E5%8E%9F%E7%90%86/useeffect2.png" alt="useEffect"></p>
 </li>
 <li><p>事件触发
-<img src="%5Bhttp://blog-bed.oss-cn-beijing.aliyuncs.com/94.reacthook%E5%8E%9F%E7%90%86/useeffect3.png" alt="useEffect"></p>
+<img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/94.reacthook%E5%8E%9F%E7%90%86/useeffect3.png" alt="useEffect"></p>
 </li>
 <li><p>Re Render
-<img src="%5Bhttp://blog-bed.oss-cn-beijing.aliyuncs.com/94.reacthook%E5%8E%9F%E7%90%86/useeffect4.png" alt="useEffect"></p>
+<img src="http://blog-bed.oss-cn-beijing.aliyuncs.com/94.reacthook%E5%8E%9F%E7%90%86/useeffect4.png" alt="useEffect"></p>
 </li>
 </ol>
 <p>到这里，我们实现了一个可以任意复用的 useState 和 useEffect。</p>

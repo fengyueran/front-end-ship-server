@@ -5,14 +5,14 @@
   constructor(props) {
     super(props);
     this.state = { flag: false };
-    this.\_onButtonClick = (e) =&gt;
+    this._onButtonClick = (e) =&gt;
       this.setState({
         flag: !this.state.flag,
       });
   }
   render() {
     return (
-      &lt;button onClick={this.\_onButtonClick}&gt;
+      &lt;button onClick={this._onButtonClick}&gt;
         {this.state.flag ? &quot;lights on&quot; : &quot;lights off&quot;}
       &lt;/button&gt;
     );
@@ -25,12 +25,12 @@ function App() {
 }</code></pre>
 <p>此时，我们将数据保存在了组件内部。或者换句话说，知道 flag 存在的只有 Switcher 组件。我们来将 flag 提取到 store 中:</p>
 <pre><code class="language-js">var Store = {
-  \_flag: false,
+  _flag: false,
   set: function(value) {
-    this.\_flag = value;
+    this._flag = value;
   },
   get: function() {
-    return this.\_flag;
+    return this._flag;
   },
 };
 
@@ -38,7 +38,7 @@ class Switcher extends React.Component {
   constructor(props) {
     super(props);
     this.state = { flag: false };
-    this.\_onButtonClick = (e) =&gt; {
+    this._onButtonClick = (e) =&gt; {
       this.setState({ flag: !this.state.flag }, () =&gt; {
         this.props.onChange(this.state.flag);
       });
@@ -46,7 +46,7 @@ class Switcher extends React.Component {
   }
   render() {
     return (
-      &lt;button onClick={this.\_onButtonClick}&gt;
+      &lt;button onClick={this._onButtonClick}&gt;
         {this.state.flag ? &quot;lights on&quot; : &quot;lights off&quot;}
       &lt;/button&gt;
     );
@@ -74,17 +74,17 @@ this.state = { flag: this.props.value };
 <p>以上这些导致了需要在两处管理状态。如果 Store 可以再根据系统中的其他操作更改其值，将演变成怎样一种情况？我们必须将这种变化传播给 Switcher 组件，这样就会增加应用的复杂度。</p>
 <p>单向数据流正是用来解决此类问题。它消除了在多个地方同时管理状态的情况，它只会在一个地方 (通常就是 store) 进行状态管理。要实现单向数据流的话，我们需要改造一下 Store 对象。我们需要允许我们订阅数据变化的逻辑：</p>
 <pre><code class="language-js">var Store = {
-  \_handlers: [],
-  \_flag: &quot;&quot;,
+  _handlers: [],
+  _flag: &quot;&quot;,
   subscribe: function(handler) {
-    this.\_handlers.push(handler);
+    this._handlers.push(handler);
   },
   set: function(value) {
-    this.\_flag = value;
-    this.\_handlers.forEach((handler) =&gt; handler(value));
+    this._flag = value;
+    this._handlers.forEach((handler) =&gt; handler(value));
   },
   get: function() {
-    return this.\_flag;
+    return this._flag;
   },
 };</code></pre>
 <p>然后我们将其与 App 组件联系起来，每次 Store 中的值产生变化时，都将重新渲染组件:</p>
