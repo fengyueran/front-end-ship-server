@@ -5,7 +5,9 @@ front-end-ship-server
 ### vps 更换
 
 - 修改 ip
-  脚本 deploy.sh 的 ip 需要更换。
+
+  1. 脚本 deploy.sh 的 ip 需要更换。
+  2. front-end-ship config-overrides.js、 deploy.sh ip 需要修改
 
 - nginx 配置需要修改
 
@@ -15,6 +17,13 @@ front-end-ship-server
   $ nginx -s stop
   $ service nginx start
 
+  ```
+
+- 启动 server.js
+
+  ```
+  $ cd /root/server/front-end-ship-server
+  $ pm2 start server.js
   ```
 
 - 修改 dns
