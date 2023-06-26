@@ -3,6 +3,10 @@
 https://zh.javascript.info/currying-partials
 https://juejin.cn/post/6844903882208837645
 
+根据定义，柯里化应该将 sum(a, b, c) 转换为 sum(a)(b)(c)。
+
+但是，如前所述，JavaScript 中大多数的柯里化实现都是高级版的：它们使得函数可以被多参数变体调用。
+
 ```js
 function curry(fn) {
   return function curried(...args) {

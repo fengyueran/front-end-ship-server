@@ -2,10 +2,12 @@
 
 ### 观察者模式
 
+观察者模式，它定义了一种一对多的关系，让多个观察者对象同时监听某一个主题对象，这个主题对象的状态发生变化时就会通知所有的观察者对象，使得它们能够自动更新自己。
+
 ```ts
 class Observer {
   update = (data: any) => {
-    console.log('update', data);
+    console.log("update", data);
   };
 }
 
@@ -58,10 +60,10 @@ class BuyerObserver extends Observer {
 
 const saler = new SalesPublisher();
 
-const buyer1 = new BuyerObserver('lily');
+const buyer1 = new BuyerObserver("lily");
 saler.addObserver(buyer1);
 
-const buyer2 = new BuyerObserver('lucy');
+const buyer2 = new BuyerObserver("lucy");
 saler.addObserver(buyer2);
 
 saler.changePrice(10000);
@@ -77,6 +79,8 @@ lily update, price:20000
 ```
 
 ### 发布订阅者模式
+
+与观察者模式相比，发布订阅核心基于一个消息中心来建立整个体系。其中发布者和订阅者不直接进行通信，而是发布者将要发布的消息交由中心管理，消息中心将消息发送给相应的订阅者。订阅者也是根据自己的情况，按需订阅中心中的消息。
 
 ```ts
 type Handler = (...args: any) => void;
@@ -122,16 +126,16 @@ class EventEmitter {
 
 const emitter = new EventEmitter();
 
-emitter.on('ts', (data: string) => {
-  console.log('ts change:', data);
+emitter.on("ts", (data: string) => {
+  console.log("ts change:", data);
 });
 
-emitter.on('js', (data: string) => {
-  console.log('js change:', data);
+emitter.on("js", (data: string) => {
+  console.log("js change:", data);
 });
 
-emitter.emit('js', 'javacript');
-emitter.emit('ts', 'typescript');
+emitter.emit("js", "javacript");
+emitter.emit("ts", "typescript");
 
 /*
 输出：
@@ -153,14 +157,14 @@ class SalesPublisher {
 
   changePrice = (price: number) => {
     this.price = price;
-    this.emitter.emit('priceChange', price);
+    this.emitter.emit("priceChange", price);
   };
 }
 
 const saler = new SalesPublisher();
 
-saler.emitter.on('priceChange', (priceChange: number) => {
-  console.log('priceChange:', priceChange);
+saler.emitter.on("priceChange", (priceChange: number) => {
+  console.log("priceChange:", priceChange);
 });
 
 saler.changePrice(10000);
@@ -174,12 +178,12 @@ priceChange: 10000
 
 - 观察者模式：
 
-  角色很明确，没有事件调度中心作为中间者，目标对象 Subject 和观察者 Observer 都要实现约定的成员方法。
+  角色很明确，没有消息调度中心作为中间者，目标对象 Subject 和观察者 Observer 都要实现约定的成员方法。
   双方联系更紧密，目标对象的主动性很强，自己收集和维护观察者，并在状态变化时主动通知观察者更新。
 
 - 发布订阅者模式：
 
   发布订阅模式中，发布者不直接触及到订阅者、而是由统一的第三方来完成实际的通信的操作，互不关心对方是谁。
-  松散耦合，灵活度高，常用作事件总线
+  松散耦合，灵活度高，常用作事件总线。
 
 看的出来，发布订阅者模式更加高级，因为它更加松散，没有耦合，那是不是现实中发布订阅者模式用的更多呢？实际上不是的。因为在实际开发中，我们的模块解耦诉求并不是要求它们完全解耦，如果两个模块之间本身存在关联，且这种关联是稳定的、必要的，那这时就应该用观察者模式即可。
