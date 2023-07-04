@@ -8,7 +8,7 @@ APP_NAME="front-end-ship-server"
 SCRIPT_NAME="deploy.sh"
 BASE_DIR="/tmp"
 SHELL_LOG="$BASE_DIR/$APP_NAME.log"
-REMOTE="root@45.77.197.209"
+REMOTE="root@207.246.67.83"
 SERVER_DIR_ON_REMOTE="/root/server/front-end-ship-server"
 
 log(){
