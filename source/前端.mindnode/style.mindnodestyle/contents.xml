@@ -140,6 +140,11 @@
 	<key>subnodeColors</key>
 	<array>
 		<dict>
+			<key>colorInheritence</key>
+			<dict>
+				<key>mapping</key>
+				<array/>
+			</dict>
 			<key>shapeStyle</key>
 			<dict>
 				<key>borderStrokeStyle</key>
@@ -162,6 +167,11 @@
 			</dict>
 		</dict>
 		<dict>
+			<key>colorInheritence</key>
+			<dict>
+				<key>mapping</key>
+				<array/>
+			</dict>
 			<key>shapeStyle</key>
 			<dict>
 				<key>borderStrokeStyle</key>
@@ -184,6 +194,11 @@
 			</dict>
 		</dict>
 		<dict>
+			<key>colorInheritence</key>
+			<dict>
+				<key>mapping</key>
+				<array/>
+			</dict>
 			<key>shapeStyle</key>
 			<dict>
 				<key>borderStrokeStyle</key>
@@ -206,6 +221,11 @@
 			</dict>
 		</dict>
 		<dict>
+			<key>colorInheritence</key>
+			<dict>
+				<key>mapping</key>
+				<array/>
+			</dict>
 			<key>shapeStyle</key>
 			<dict>
 				<key>borderStrokeStyle</key>
@@ -228,6 +248,11 @@
 			</dict>
 		</dict>
 		<dict>
+			<key>colorInheritence</key>
+			<dict>
+				<key>mapping</key>
+				<array/>
+			</dict>
 			<key>shapeStyle</key>
 			<dict>
 				<key>borderStrokeStyle</key>
@@ -250,6 +275,11 @@
 			</dict>
 		</dict>
 		<dict>
+			<key>colorInheritence</key>
+			<dict>
+				<key>mapping</key>
+				<array/>
+			</dict>
 			<key>shapeStyle</key>
 			<dict>
 				<key>borderStrokeStyle</key>
